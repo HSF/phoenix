@@ -648,7 +648,7 @@ export class EventDisplay {
    * @returns Unsubscribe function to remove the callback.
    */
   public onObjectSelected(
-    callback: (object: any, data: any) => void,
+    callback: (object: any, data?: any) => void,
   ): () => void {
     this.onObjectSelectedCallbacks.push(callback);
     return () => {
@@ -680,7 +680,7 @@ export class EventDisplay {
    * @returns Unsubscribe function to remove the callback.
    */
   public onObjectHovered(
-    callback: (object: any, data: any) => void,
+    callback: (object: any, data?: any) => void,
   ): () => void {
     this.onObjectHoveredCallbacks.push(callback);
     return () => {
@@ -712,7 +712,7 @@ export class EventDisplay {
    * @returns Unsubscribe function to remove the callback.
    */
   public onSelectionChanged(
-    callback: (selectedObjects: any[], selectionData: any) => void,
+    callback: (selectedObjects: any[], selectionData?: any) => void,
   ): () => void {
     this.onSelectionChangedCallbacks.push(callback);
     return () => {
@@ -728,7 +728,7 @@ export class EventDisplay {
    * Called by the SelectionManager when an object is selected.
    * @internal
    */
-  public fireObjectSelectedCallback(object: any, data?: any) {
+  private fireObjectSelectedCallback(object: any, data?: any) {
     this.onObjectSelectedCallbacks.forEach((callback) =>
       callback(object, data),
     );
@@ -739,7 +739,7 @@ export class EventDisplay {
    * Called by the SelectionManager when an object is deselected.
    * @internal
    */
-  public fireObjectDeselectedCallback(object: any) {
+  private fireObjectDeselectedCallback(object: any, data?: any) {
     this.onObjectDeselectedCallbacks.forEach((callback) => callback(object));
   }
 
@@ -748,7 +748,7 @@ export class EventDisplay {
    * Called by the SelectionManager when an object is hovered.
    * @internal
    */
-  public fireObjectHoveredCallback(object: any, data?: any) {
+  private fireObjectHoveredCallback(object: any, data?: any) {
     this.onObjectHoveredCallbacks.forEach((callback) => callback(object, data));
   }
 
@@ -757,7 +757,7 @@ export class EventDisplay {
    * Called by the SelectionManager when hover ends.
    * @internal
    */
-  public fireObjectHoverEndCallback(object: any) {
+  private fireObjectHoverEndCallback(object: any, data?: any) {
     this.onObjectHoverEndCallbacks.forEach((callback) => callback(object));
   }
 
@@ -766,7 +766,7 @@ export class EventDisplay {
    * Called by the SelectionManager when selection state changes.
    * @internal
    */
-  public fireSelectionChangedCallback(
+  private fireSelectionChangedCallback(
     selectedObjects: any[],
     selectionData?: any,
   ) {
@@ -782,12 +782,15 @@ export class EventDisplay {
    */
   private setupSelectionCallbacks(): void {
     this.graphicsLibrary.setSelectionCallbacks(
-      (object: any) => this.fireObjectSelectedCallback(object),
-      (object: any) => this.fireObjectDeselectedCallback(object),
-      (object: any) => this.fireObjectHoveredCallback(object),
-      (object: any) => this.fireObjectHoverEndCallback(object),
-      (selectedObjects: any[]) =>
-        this.fireSelectionChangedCallback(selectedObjects),
+      (object: any, data?: any) =>
+        this.fireObjectSelectedCallback(object, data),
+      (object: any, data?: any) =>
+        this.fireObjectDeselectedCallback(object, data),
+      (object: any, data?: any) => this.fireObjectHoveredCallback(object, data),
+      (object: any, data?: any) =>
+        this.fireObjectHoverEndCallback(object, data),
+      (selectedObjects: any[], data?: any) =>
+        this.fireSelectionChangedCallback(selectedObjects, data),
     );
   }
 

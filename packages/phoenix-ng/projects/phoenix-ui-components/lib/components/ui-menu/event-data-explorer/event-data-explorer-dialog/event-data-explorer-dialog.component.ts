@@ -6,9 +6,12 @@ import {
   FileEvent,
 } from '../../../file-explorer/file-explorer.component';
 import { FileLoaderService } from '../../../../services/file-loader.service';
-import { type EventDataExplorerDialogData } from '../event-data-explorer.component';
 
 const supportFileTypes = ['json', 'xml'];
+
+type EventDataExplorerDialogData = {
+  apiURL: string;
+};
 
 export type FileResponse = {
   name: string;

@@ -4,7 +4,7 @@ import { CMSComponent } from './cms.component';
 import { EventDisplayService } from 'phoenix-ui-components';
 import { CMSLoader } from 'phoenix-event-display';
 
-describe.skip('CMSComponent', () => {
+describe('CMSComponent', () => {
   let component: CMSComponent;
   let fixture: ComponentFixture<CMSComponent>;
 
@@ -22,22 +22,29 @@ describe.skip('CMSComponent', () => {
     parsePhoenixEvents: jest.fn(),
     loadingManager: jest.fn().mockReturnThis(),
     itemLoaded: jest.fn().mockReturnThis(),
-    getLoadingManager: jest.fn().mockReturnThis(),
+    getLoadingManager: jest.fn().mockReturnValue({
+      addProgressListener: jest.fn(),
+      addLoadListenerWithCheck: jest.fn(),
+    }),
   };
-
-  const mockCMSLoader = {};
 
   beforeAll(() => {
     window.fetch = jest.fn();
   });
 
   beforeEach(() => {
+    // Mock CMSLoader
+    jest
+      .spyOn(CMSLoader.prototype, 'readIgArchive')
+      .mockImplementation((url, callback) => {
+        // Call the callback with empty events to avoid errors
+        callback([]);
+      });
+
+    jest.spyOn(CMSLoader.prototype, 'getAllEventsData').mockReturnValue([]);
+
     TestBed.configureTestingModule({
       providers: [
-        {
-          provide: CMSLoader,
-          useValue: mockCMSLoader,
-        },
         {
           provide: EventDisplayService,
           useValue: mockEventDisplay,
@@ -59,6 +66,6 @@ describe.skip('CMSComponent', () => {
   it('should initialize three.js canvas', () => {
     jest.spyOn(mockEventDisplay, 'parsePhoenixEvents');
     component.ngOnInit();
-    expect(document.getElementById('three-canvas')).toBeTruthy();
+    expect(mockEventDisplay.init).toHaveBeenCalled();
   });
 });

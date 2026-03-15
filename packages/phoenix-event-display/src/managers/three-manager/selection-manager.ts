@@ -113,12 +113,16 @@ export class SelectionManager {
     | ((object: Mesh, data?: any) => void)
     | null = null;
   /** Callback function called when an object is deselected */
-  private onObjectDeselectedCallback: ((object: Mesh) => void) | null = null;
+  private onObjectDeselectedCallback:
+    | ((object: Mesh, data?: any) => void)
+    | null = null;
   /** Callback function called when an object is hovered */
   private onObjectHoveredCallback: ((object: Mesh, data?: any) => void) | null =
     null;
   /** Callback function called when hover ends */
-  private onObjectHoverEndCallback: ((object: Mesh) => void) | null = null;
+  private onObjectHoverEndCallback:
+    | ((object: Mesh, data?: any) => void)
+    | null = null;
   /** Callback function called when selection changes */
   private onSelectionChangedCallback:
     | ((selectedObjects: Set<Mesh>, selectedObjectsArray: Mesh[]) => void)
@@ -1066,7 +1070,8 @@ export class SelectionManager {
 
     // Fire callbacks
     if (this.onObjectSelectedCallback) {
-      this.onObjectSelectedCallback(object);
+      const objectData = { uuid: object.uuid, name: object.name };
+      this.onObjectSelectedCallback(object, objectData);
     }
     if (this.onSelectionChangedCallback) {
       this.onSelectionChangedCallback(
@@ -1094,7 +1099,8 @@ export class SelectionManager {
 
     // Fire callbacks
     if (this.onObjectDeselectedCallback) {
-      this.onObjectDeselectedCallback(object);
+      const objectData = { uuid: object.uuid, name: object.name };
+      this.onObjectDeselectedCallback(object, objectData);
     }
     if (this.onSelectionChangedCallback) {
       this.onSelectionChangedCallback(
@@ -1118,6 +1124,36 @@ export class SelectionManager {
     } else {
       this.selectObject(object);
       return true;
+    }
+  }
+
+  /**
+   * Apply intersection result and fire callbacks for hover state.
+   * This is called when hover state changes.
+   * @param hoveredObject The newly hovered object, or null if hover ends
+   */
+  public setHoveredObject(hoveredObject: Mesh | null): void {
+    const previouslyHovered = this.hoveredObject;
+
+    // Update hover state
+    this.hoveredObject = hoveredObject;
+
+    // Fire hover end callback if we were hovering before
+    if (previouslyHovered && previouslyHovered !== hoveredObject) {
+      if (this.onObjectHoverEndCallback) {
+        this.onObjectHoverEndCallback(previouslyHovered);
+      }
+    }
+
+    // Fire hover start callback if we're now hovering
+    if (hoveredObject && hoveredObject !== previouslyHovered) {
+      if (this.onObjectHoveredCallback) {
+        const objectData = {
+          uuid: hoveredObject.uuid,
+          name: hoveredObject.name,
+        };
+        this.onObjectHoveredCallback(hoveredObject, objectData);
+      }
     }
   }
 
@@ -1196,6 +1232,15 @@ export class SelectionManager {
     callback: ((object: Mesh, data?: any) => void) | null,
   ): void {
     this.onObjectSelectedCallback = callback;
+
+    // If a selection callback is registered while objects are already selected,
+    // immediately notify the callback of the current selection state.
+    if (callback && this.selectedObjects.size > 0) {
+      this.selectedObjects.forEach((obj) => {
+        const objectData = { uuid: obj.uuid, name: obj.name };
+        callback(obj, objectData);
+      });
+    }
   }
 
   /**
@@ -1204,7 +1249,7 @@ export class SelectionManager {
    * @internal Used by EventDisplay to integrate selection callbacks
    */
   public setOnObjectDeselectedCallback(
-    callback: ((object: Mesh) => void) | null,
+    callback: ((object: Mesh, data?: any) => void) | null,
   ): void {
     this.onObjectDeselectedCallback = callback;
   }
@@ -1218,6 +1263,12 @@ export class SelectionManager {
     callback: ((object: Mesh, data?: any) => void) | null,
   ): void {
     this.onObjectHoveredCallback = callback;
+
+    // If a hover callback is registered while an object is already hovered,
+    // immediately notify the callback of the current hover state.
+    if (callback && this.hoveredObject) {
+      callback(this.hoveredObject);
+    }
   }
 
   /**
@@ -1226,7 +1277,7 @@ export class SelectionManager {
    * @internal Used by EventDisplay to integrate hover callbacks
    */
   public setOnObjectHoverEndCallback(
-    callback: ((object: Mesh) => void) | null,
+    callback: ((object: Mesh, data?: any) => void) | null,
   ): void {
     this.onObjectHoverEndCallback = callback;
   }
@@ -1242,6 +1293,12 @@ export class SelectionManager {
       | null,
   ): void {
     this.onSelectionChangedCallback = callback;
+
+    // If a selection changed callback is registered while objects are already selected,
+    // immediately notify the callback of the current selection state.
+    if (callback && this.selectedObjects.size > 0) {
+      callback(this.selectedObjects, Array.from(this.selectedObjects));
+    }
   }
 
   // =====================================

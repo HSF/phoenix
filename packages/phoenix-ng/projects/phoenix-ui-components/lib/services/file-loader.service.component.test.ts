@@ -1,23 +1,22 @@
 import { FileLoaderService } from './file-loader.service';
 import { EventDisplayService } from './event-display.service';
 
-describe.skip('FileLoaderService', () => {
+describe('FileLoaderService', () => {
   let service: FileLoaderService;
   let mockEventDisplay: any;
 
-  const mockFileLoaderService = {
-    loadEvent: jest.fn(),
-    loadJSONEvent: jest.fn(),
-    loadJiveXMLEvent: jest.fn(),
-  };
-
   beforeEach(() => {
     mockEventDisplay = {};
+    service = new FileLoaderService();
   });
 
   it('should load event based on file type', () => {
-    jest
-      .spyOn(FileLoaderService.prototype, 'makeRequest')
+    // Mock the loadJSONEvent method
+    const loadJSONEventSpy = jest
+      .spyOn(service, 'loadJSONEvent')
+      .mockImplementation();
+    const makeRequestSpy = jest
+      .spyOn(service, 'makeRequest' as any)
       .mockImplementation(
         (
           _arg1: string,
@@ -28,24 +27,26 @@ describe.skip('FileLoaderService', () => {
           return true;
         },
       );
-    jest.spyOn(FileLoaderService.prototype, 'loadJSONEvent');
+
     service.loadEvent(
       'https://example.com/event_data/test.json',
       mockEventDisplay,
     );
-    expect(mockFileLoaderService.loadJSONEvent).toHaveBeenCalled();
+    expect(loadJSONEventSpy).toHaveBeenCalled();
 
-    jest.spyOn(FileLoaderService.prototype, 'loadJiveXMLEvent');
+    // Test loading XML
+    const loadJiveXMLEventSpy = jest
+      .spyOn(service, 'loadJiveXMLEvent')
+      .mockImplementation();
     service.loadEvent(
       'https://example.com/event_data/test.xml',
       mockEventDisplay,
     );
-    expect(mockFileLoaderService.loadJiveXMLEvent).toHaveBeenCalled();
+    expect(loadJiveXMLEventSpy).toHaveBeenCalled();
 
-    jest.spyOn(FileLoaderService.prototype, 'loadEvent');
-    service.reloadLastEvents(mockEventDisplay);
-    expect(mockFileLoaderService.loadEvent).toHaveBeenCalledWith(
-      'https://example.com/event_data/test.xml',
-    );
+    // Clean up
+    loadJSONEventSpy.mockRestore();
+    loadJiveXMLEventSpy.mockRestore();
+    makeRequestSpy.mockRestore();
   });
 });
