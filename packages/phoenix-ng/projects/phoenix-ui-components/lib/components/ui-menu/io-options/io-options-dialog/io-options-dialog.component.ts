@@ -4,6 +4,7 @@ import {
   JiveXMLLoader,
   readZipFile,
   Edm4hepJsonLoader,
+  PHYSLITELoader,
 } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -49,6 +50,12 @@ export class IOOptionsDialogComponent implements OnInit {
       '.zip',
       this.handleZipEventDataInput.bind(this),
       '.zip',
+    ),
+    new ImportOption(
+      EventDataFormat.PHYSLITE,
+      '.root',
+      this.handlePHYSLITEInput.bind(this),
+      '.root',
     ),
     new ImportOption(
       EventDataFormat.IG,
@@ -192,6 +199,41 @@ export class IOOptionsDialogComponent implements OnInit {
       URL.createObjectURL(files[0]),
       name,
     );
+
+    this.onClose();
+  }
+
+  async handlePHYSLITEInput(files: FileList) {
+    if (!this.isFileOfExtension(files[0].name, 'root')) {
+      return;
+    }
+
+    const loader = new PHYSLITELoader();
+
+    try {
+      const eventsData = await loader.getEventData(files[0] as any);
+      const eventKeys = Object.keys(eventsData);
+      this.eventDisplay.parsePhoenixEvents(eventsData);
+
+      // Find and load the first event with substantial physics data
+      // (the very first event may have no jets/tracks)
+      const richEvent = eventKeys.find((key) => {
+        const evt = eventsData[key];
+        return (
+          (evt['Jets'] &&
+            Object.keys(evt['Jets']).some((c) => evt['Jets'][c].length > 0)) ||
+          (evt['Tracks'] &&
+            Object.keys(evt['Tracks']).some((c) => evt['Tracks'][c].length > 0))
+        );
+      });
+      if (richEvent && richEvent !== eventKeys[0]) {
+        this.eventDisplay.loadEvent(richEvent);
+      }
+    } catch (error) {
+      this.eventDisplay
+        .getInfoLogger()
+        .add('Failed to load PHYSLITE file: ' + error.message, 'Error');
+    }
 
     this.onClose();
   }

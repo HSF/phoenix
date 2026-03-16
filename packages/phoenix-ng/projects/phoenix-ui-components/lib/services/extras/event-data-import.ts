@@ -2,6 +2,7 @@ export enum EventDataFormat {
   JSON = 'JSON',
   EDM4HEPJSON = 'EDM4HEPJSON',
   JIVEXML = 'JIVEXML',
+  PHYSLITE = 'PHYSLITE',
   IG = 'IG',
   ZIP = 'ZIP',
 }

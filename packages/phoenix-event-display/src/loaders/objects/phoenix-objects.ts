@@ -52,8 +52,14 @@ export class PhoenixObjects {
         track.extended = true;
       }
 
+      // Filter out positions with NaN from RK extrapolation
+      if (track.pos) {
+        track.pos = track.pos.filter((p: number[]) =>
+          p.every((v: number) => isFinite(v)),
+        );
+      }
+
       if (!track.pos || track.pos.length < 2) {
-        console.log('Track too short, and extrapolation failed.');
         continue;
       }
 
@@ -110,12 +116,15 @@ export class PhoenixObjects {
       trackParams.extended = true;
     }
 
-    const positions = trackParams.pos;
+    // Filter out any positions containing NaN from RK extrapolation
+    const positions = trackParams.pos?.filter((p: number[]) =>
+      p.every((v: number) => isFinite(v)),
+    );
+    trackParams.pos = positions;
     const trackObject = new Group();
 
     // Check again, in case there was an issue with the extrapolation.
     if (!positions || positions.length < 2) {
-      console.log('Track too short, and extrapolation failed.');
       return trackObject;
     }
 
@@ -551,6 +560,15 @@ export class PhoenixObjects {
 
     cube.position.copy(position);
 
+    // Skip clusters with NaN positions to avoid THREE.js warnings
+    if (
+      !isFinite(position.x) ||
+      !isFinite(position.y) ||
+      !isFinite(position.z)
+    ) {
+      return new Group();
+    }
+
     cube.lookAt(new Vector3(0, 0, 0));
     cube.userData = Object.assign({}, clusterParams);
     cube.name = 'Cluster';
@@ -635,8 +653,12 @@ export class PhoenixObjects {
     defaultCellWidth: number = 30,
     defaultCellLength: number = 30,
   ) {
-    const cellWidth = clusterParams.side ?? defaultCellWidth;
+    let cellWidth = clusterParams.side ?? defaultCellWidth;
     let cellLength = clusterParams.length ?? defaultCellLength;
+
+    // Guard against NaN dimensions
+    if (!isFinite(cellWidth)) cellWidth = defaultCellWidth;
+    if (!isFinite(cellLength)) cellLength = defaultCellLength;
 
     if (cellLength < cellWidth) {
       cellLength = cellWidth;
@@ -691,6 +713,15 @@ export class PhoenixObjects {
       defaultZ,
     );
     cube.position.copy(position);
+
+    // Skip cells with NaN positions to avoid THREE.js warnings
+    if (
+      !isFinite(position.x) ||
+      !isFinite(position.y) ||
+      !isFinite(position.z)
+    ) {
+      return new Group();
+    }
 
     if (!caloCellParams.radius && !caloCellParams.z) {
       cube.lookAt(new Vector3(0, 0, 0));

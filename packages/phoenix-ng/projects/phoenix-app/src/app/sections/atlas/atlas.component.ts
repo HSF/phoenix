@@ -28,6 +28,7 @@ export class AtlasComponent implements OnInit, OnDestroy {
   eventDataImportOptions: EventDataImportOption[] = [
     EventDataFormat.JSON,
     EventDataFormat.JIVEXML,
+    EventDataFormat.PHYSLITE,
     EventDataFormat.ZIP,
   ];
   loaded = false;
