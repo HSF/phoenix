@@ -65,70 +65,26 @@ export class EffectsManager {
     }
   `;
 
-  /** Shared rainbow color function for reuse across shaders. */
-  private static readonly RAINBOW_FUNCTION = `
-    // Enhanced rainbow function - reused from main outline material
-    vec3 rainbow(float t) {
-      t = fract(t);
-      vec3 c = vec3(0.0);
-      
-      if (t < 0.16667) {
-        c = mix(vec3(1.0, 0.0, 1.0), vec3(1.0, 0.0, 0.0), t * 6.0);
-      } else if (t < 0.33333) {
-        c = mix(vec3(1.0, 0.0, 0.0), vec3(1.0, 1.0, 0.0), (t - 0.16667) * 6.0);
-      } else if (t < 0.5) {
-        c = mix(vec3(1.0, 1.0, 0.0), vec3(0.0, 1.0, 0.0), (t - 0.33333) * 6.0);
-      } else if (t < 0.66667) {
-        c = mix(vec3(0.0, 1.0, 0.0), vec3(0.0, 1.0, 1.0), (t - 0.5) * 6.0);
-      } else if (t < 0.83333) {
-        c = mix(vec3(0.0, 1.0, 1.0), vec3(0.0, 0.0, 1.0), (t - 0.66667) * 6.0);
-      } else {
-        c = mix(vec3(0.0, 0.0, 1.0), vec3(1.0, 0.0, 1.0), (t - 0.83333) * 6.0);
-      }
-      
-      return c;
-    }
-  `;
-
   /** Fragment shader for hover outline effects (clean blue outline). */
   private static readonly HOVER_FRAGMENT_SHADER = `
-    // Hover outline shader - clean blue outline
     uniform float time;
     uniform float opacity;
-
     void main() {
-      // Clean blue color - no animation for simplicity
-      vec3 color = vec3(0.2, 0.6, 1.0); // Nice blue
-      
-      gl_FragColor = vec4(color, opacity);
+      float pulse = 0.7 + 0.3 * sin(time * 3.0);
+      vec3 color = vec3(0.3, 0.7, 1.0);
+      gl_FragColor = vec4(color, opacity * pulse);
     }
   `;
 
   /** Fragment shader for selection outline effects (animated rainbow outline). */
   private static readonly SELECTION_FRAGMENT_SHADER = `
-    // Selection outline shader - reuses rainbow function
     uniform float time;
     uniform float opacity;
-    varying vec3 vWorldPosition;
-
-    ${EffectsManager.RAINBOW_FUNCTION}
-
     void main() {
-      // Enhanced gradient calculation for more vibrant colors
-      float t = (vWorldPosition.x * 0.5 + vWorldPosition.y * 1.0 - vWorldPosition.z * 0.3) / 20000.0;
-
-      // Faster animation for more dynamic effect
-      t += time * 0.35;
-
-      // Use the shared rainbow function
-      vec3 color = rainbow(t);
-      
-
-      gl_FragColor = vec4(color, opacity);
+      float pulse = 0.6 + 0.4 * sin(time * 2.5);
+      vec3 color = vec3(1.0, 0.85, 0.3);
+      gl_FragColor = vec4(color, opacity * pulse);
     }
-
-    
-
   `;
 
   /**
@@ -385,7 +341,7 @@ export class EffectsManager {
     // For selection outlines, use more sensitive edge detection to show more edges
     // For hover outlines, use default edge detection for cleaner look
     // Lower threshold = more edges detected (0.1 for selection vs 1.0 for hover)
-    const edges = new EdgesGeometry(object.geometry, isHover ? 1 : 0.1);
+    const edges = new EdgesGeometry(object.geometry, 1);
 
     const lineMaterial = new ShaderMaterial({
       vertexShader: EffectsManager.VERTEX_SHADER,
