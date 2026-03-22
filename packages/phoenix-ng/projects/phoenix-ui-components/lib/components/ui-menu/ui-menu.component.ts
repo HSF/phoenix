@@ -4,6 +4,7 @@ import {
   type EventDataImportOption,
 } from '../../services/extras/event-data-import';
 import { defaultAnimationPresets } from './animate-camera/animate-camera.component';
+import type { MasterclassConfig } from 'phoenix-event-display';
 
 export interface UIMenuConfig {
   showVRToggle?: boolean;
@@ -53,4 +54,7 @@ export class UiMenuComponent {
 
   @Input()
   uiConfig: UIMenuConfig = { ...defaultUIMenuConfig };
+
+  @Input()
+  masterclassConfig?: MasterclassConfig;
 }
