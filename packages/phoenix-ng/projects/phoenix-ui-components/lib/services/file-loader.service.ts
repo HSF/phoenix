@@ -41,15 +41,17 @@ export class FileLoaderService {
     try {
       const res = await fetch(urlPath, options);
       if (!res.ok) {
-        console.error(`Request failed: ${res.status} ${res.statusText}`);
+        console.error(
+          `Request failed for ${urlPath}: ${res.status} ${res.statusText}`,
+        );
         return true;
       }
-      const data = await res[responseType]();
       if (responseType === 'blob') {
-        const buf = await (data as Blob).arrayBuffer();
+        const buf = await res.arrayBuffer();
         const unzipped = await this.unzip(buf);
         onData(unzipped);
       } else {
+        const data = await res[responseType]();
         onData(data);
       }
       return false;
