@@ -32,29 +32,31 @@ export class FileLoaderService {
   }
 
   // returns whether an error was found
-  makeRequest(
+  async makeRequest(
     urlPath: string,
     responseType: 'json' | 'text' | 'blob',
     onData: (data: any) => void,
     options: any = {},
-  ) {
-    fetch(urlPath, options)
-      .then((res) => res[responseType]())
-      .then((data) => {
-        if (responseType === 'blob') {
-          data
-            .arrayBuffer()
-            .then((buf) => this.unzip(buf))
-            .then((d) => onData(d));
-        } else {
-          onData(data);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
+  ): Promise<boolean> {
+    try {
+      const res = await fetch(urlPath, options);
+      if (!res.ok) {
+        console.error(`Request failed: ${res.status} ${res.statusText}`);
         return true;
-      });
-    return false;
+      }
+      const data = await res[responseType]();
+      if (responseType === 'blob') {
+        const buf = await (data as Blob).arrayBuffer();
+        const unzipped = await this.unzip(buf);
+        onData(unzipped);
+      } else {
+        onData(data);
+      }
+      return false;
+    } catch (error) {
+      console.error(error);
+      return true;
+    }
   }
 
   loadJSONEvent(eventData: string, eventDisplay: EventDisplayService) {
@@ -76,11 +78,11 @@ export class FileLoaderService {
     eventDisplay.buildEventDataFromJSON(processedEventData);
   }
 
-  loadEvent(
+  async loadEvent(
     file: string,
     eventDisplay: EventDisplayService,
     options: any = {},
-  ) {
+  ): Promise<boolean> {
     this.lastEventsURL = file;
     this.lastEventsOptions = options;
     const isZip = file.split('.').pop() === 'zip';
