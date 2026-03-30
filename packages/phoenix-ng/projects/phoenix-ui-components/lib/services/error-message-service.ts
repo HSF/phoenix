@@ -11,6 +11,7 @@ export class ErrorMessageService {
   /**
    * Subscribe to when an error occurs.
    * @param callback A function called when an error occurs.
+   * @returns A function that can be called to unsubscribe from error notifications.
    */
   subscribeToError(callback: (error: Error) => void): () => void {
     return this.error.onUpdate(callback);
