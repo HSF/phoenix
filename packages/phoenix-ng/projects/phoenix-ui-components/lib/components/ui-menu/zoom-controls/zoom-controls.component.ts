@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, type OnDestroy } from '@angular/core';
 import { EventDisplayService } from '../../../services/event-display.service';
 
 /**
@@ -10,7 +10,7 @@ import { EventDisplayService } from '../../../services/event-display.service';
   templateUrl: './zoom-controls.component.html',
   styleUrls: ['./zoom-controls.component.scss'],
 })
-export class ZoomControlsComponent {
+export class ZoomControlsComponent implements OnDestroy {
   /** All camera being used by the scene. */
   allCameras: any[];
   /** Factor to zoom by. */
@@ -65,6 +65,10 @@ export class ZoomControlsComponent {
    */
   clearZoom() {
     this.zoomTime = 200;
+    clearTimeout(this.zoomTimeout);
+  }
+
+  ngOnDestroy() {
     clearTimeout(this.zoomTimeout);
   }
 }

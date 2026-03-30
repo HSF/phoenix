@@ -1,4 +1,4 @@
-import { Component, Inject, type OnInit } from '@angular/core';
+import { Component, Inject, type OnDestroy, type OnInit } from '@angular/core';
 import { Vector3 } from 'three';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './cartesian-grid-config.component.html',
   styleUrls: ['./cartesian-grid-config.component.scss'],
 })
-export class CartesianGridConfigComponent implements OnInit {
+export class CartesianGridConfigComponent implements OnInit, OnDestroy {
   cartesianPos = new Vector3();
   originChangedSub: Subscription = null;
   stopShiftingSub: Subscription = null;
@@ -149,5 +149,10 @@ export class CartesianGridConfigComponent implements OnInit {
       0,
       1 + 2 * Math.floor((dis * 10) / (this.scale * this.gridConfig.sparsity)),
     );
+  }
+
+  ngOnDestroy() {
+    this.originChangedSub?.unsubscribe();
+    this.stopShiftingSub?.unsubscribe();
   }
 }

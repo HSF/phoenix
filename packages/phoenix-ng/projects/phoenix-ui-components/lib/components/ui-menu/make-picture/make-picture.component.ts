@@ -1,6 +1,7 @@
 import {
   Component,
   Input,
+  type OnDestroy,
   type OnInit,
   ViewEncapsulation,
 } from '@angular/core';
@@ -13,7 +14,7 @@ import { EventDisplayService } from '../../../services/event-display.service';
   styleUrls: ['./make-picture.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class MakePictureComponent implements OnInit {
+export class MakePictureComponent implements OnInit, OnDestroy {
   fittings: string[] = ['Crop', 'Stretch'];
   fitting: string = 'Crop';
   width: number = 3840;
@@ -64,4 +65,15 @@ export class MakePictureComponent implements OnInit {
   private onDocumentClick = () => {
     document.exitFullscreen?.();
   };
+
+  ngOnDestroy() {
+    document.onfullscreenchange = null;
+    document.removeEventListener('click', this.onDocumentClick);
+    document.removeEventListener('touchstart', this.onDocumentClick);
+    if (document.fullscreenElement || this.ssMode) {
+      document.exitFullscreen?.();
+    }
+    document.body.classList.remove('ss-mode');
+    this.ssMode = false;
+  }
 }
