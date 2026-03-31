@@ -1,5 +1,6 @@
 import { PhoenixLoader } from './phoenix-loader';
 import { CoordinateHelper } from '../helpers/coordinate-helper';
+import { EventDataParserWorker } from '../workers/event-data-parser';
 
 /**
  * PhoenixLoader for processing and loading an event from the JiveXML data format.
@@ -9,6 +10,8 @@ export class JiveXMLLoader extends PhoenixLoader {
   private data: any;
   /** List of tracks to draw with thicker tubes */
   thickTrackCollections: string[];
+  /** Worker for off-main-thread XML parsing */
+  private parserWorker: EventDataParserWorker;
 
   /**
    * Constructor for the JiveXMLLoader.
@@ -18,6 +21,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     super();
     this.data = {};
     this.thickTrackCollections = thickTrackCollections;
+    this.parserWorker = new EventDataParserWorker();
   }
 
   /**
@@ -30,22 +34,27 @@ export class JiveXMLLoader extends PhoenixLoader {
   }
 
   /**
-   * Get the event data from the JiveXML data format.
-   * @returns An object containing all the event data.
+   * Get the event data from the JiveXML data format asynchronously.
+   * XML parsing is offloaded to a Web Worker to avoid blocking the main thread.
+   * @returns Promise resolving to an object containing all the event data.
    */
-  public getEventData(): any {
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(this.data, 'text/xml');
+  public async getEventData(): Promise<any> {
+    const parsed = await this.parserWorker.parseJiveXML(this.data);
+    return this.buildEventDataFromParsed(parsed);
+  }
 
-    // Handle multiple events later (if JiveXML even supports this?)
-    const firstEvent = xmlDoc.getElementsByTagName('Event')[0];
-
-    const eventData = {
-      eventNumber: firstEvent.getAttribute('eventNumber'),
-      runNumber: firstEvent.getAttribute('runNumber'),
-      lumiBlock: firstEvent.getAttribute('lumiBlock'),
-      time: firstEvent.getAttribute('dateTime'),
-      Hits: undefined,
+  /**
+   * Build the structured event data object from the pre-parsed worker result.
+   * @param parsed Plain-data result from the Web Worker.
+   * @returns Structured event data ready for Phoenix rendering.
+   */
+  private buildEventDataFromParsed(parsed: any): any {
+    const eventData: any = {
+      eventNumber: parsed.eventNumber,
+      runNumber: parsed.runNumber,
+      lumiBlock: parsed.lumiBlock,
+      time: parsed.time,
+      Hits: {},
       Tracks: {},
       Jets: {},
       CaloClusters: {},
@@ -58,46 +67,260 @@ export class JiveXMLLoader extends PhoenixLoader {
       MissingEnergy: {},
     };
 
-    // Hits
-    this.getPixelClusters(firstEvent, eventData);
-    this.getSCTClusters(firstEvent, eventData);
-    this.getTRT_DriftCircles(firstEvent, eventData);
-    this.getMuonPRD(firstEvent, 'MDT', eventData);
-    this.getRPC(firstEvent, eventData);
-    this.getMuonPRD(firstEvent, 'TGC', eventData);
-    this.getMuonPRD(firstEvent, 'CSCD', eventData);
-    this.getMuonPRD(firstEvent, 'MM', eventData);
-    this.getMuonPRD(firstEvent, 'STGC', eventData);
+    this.buildPixelClusters(parsed, eventData);
+    this.buildSCTClusters(parsed, eventData);
+    this.buildTRTDriftCircles(parsed, eventData);
+    this.buildMuonPRDs(parsed, eventData);
+    this.buildTracks(parsed, eventData);
+    this.buildJets(parsed, eventData);
+    this.buildCaloClusters(parsed, eventData);
+    this.buildCaloCells(parsed, eventData);
+    this.buildVertices(parsed, eventData);
+    this.buildMissingEnergy(parsed, eventData);
+    this.buildElectrons(parsed, eventData);
+    this.buildMuons(parsed, eventData);
+    this.buildPhotons(parsed, eventData);
 
-    // Tracks
-    // (must be filled after hits because it might use them)
-    this.getTracks(firstEvent, eventData);
-
-    // Jets
-    this.getJets(firstEvent, eventData);
-
-    // Clusters
-    this.getCaloClusters(firstEvent, eventData);
-
-    // Cells
-    // this.getFCALCaloCells(firstEvent, 'FCAL', eventData);
-    this.getCaloCells(firstEvent, 'LAr', eventData);
-    this.getCaloCells(firstEvent, 'HEC', eventData);
-    this.getCaloCells(firstEvent, 'Tile', eventData);
-
-    // Vertices
-    this.getVertices(firstEvent, eventData);
-
-    // MET
-    this.getMissingEnergy(firstEvent, eventData);
-
-    // Compound objects
-    this.getElectrons(firstEvent, eventData);
-    this.getMuons(firstEvent, eventData);
-    this.getPhotons(firstEvent, eventData);
-
-    // console.log('Got this eventdata', eventData);
     return eventData;
+  }
+
+  private buildPixelClusters(parsed: any, eventData: any) {
+    if (!parsed.pixelClusters) return;
+    const { count, id, x0, y0, z0, eloss } = parsed.pixelClusters;
+    eventData.Hits.Pixel = [];
+    for (let i = 0; i < count; i++) {
+      eventData.Hits.Pixel.push({
+        pos: [x0[i] * 10, y0[i] * 10, z0[i] * 10],
+        id: id[i],
+        energyLoss: eloss[i],
+      });
+    }
+  }
+
+  private buildSCTClusters(parsed: any, eventData: any) {
+    if (!parsed.sctClusters) return;
+    const { count, id, phiModule, side, x0, y0, z0 } = parsed.sctClusters;
+    eventData.Hits.SCT = [];
+    for (let i = 0; i < count; i++) {
+      eventData.Hits.SCT.push({
+        pos: [x0[i] * 10, y0[i] * 10, z0[i] * 10],
+        id: id[i],
+        phiModule: phiModule[i],
+        side: side[i],
+      });
+    }
+  }
+
+  private buildTRTDriftCircles(parsed: any, eventData: any) {
+    if (!parsed.trt) return;
+    const { count, driftR, id, noise, phi, rhoz, sub, threshold, timeOverThreshold } = parsed.trt;
+    eventData.Hits.TRT = [];
+    for (let i = 0; i < count; i++) {
+      let pos: number[];
+      if (sub[i] === 1 || sub[i] === 2) {
+        const z1 = sub[i] === 1 ? -3.5 : 3.5;
+        const z2 = sub[i] === 1 ? -742 : 742;
+        pos = [
+          Math.cos(phi[i]) * rhoz[i] * 10, Math.sin(phi[i]) * rhoz[i] * 10, z1,
+          Math.cos(phi[i]) * rhoz[i] * 10, Math.sin(phi[i]) * rhoz[i] * 10, z2,
+        ];
+      } else {
+        const r1 = Math.abs(rhoz[i]) > 280 ? 480 : 640;
+        pos = [
+          Math.cos(phi[i]) * r1, Math.sin(phi[i]) * r1, rhoz[i] * 10,
+          Math.cos(phi[i]) * 1030, Math.sin(phi[i]) * 1030, rhoz[i] * 10,
+        ];
+      }
+      eventData.Hits.TRT.push({
+        pos, id: id[i], type: 'Line',
+        driftR: driftR[i], noise: noise[i],
+        threshold: threshold[i], timeOverThreshold: timeOverThreshold[i],
+      });
+    }
+  }
+
+  private buildMuonPRDs(parsed: any, eventData: any) {
+    for (const rawName of ['MDT', 'TGC', 'CSCD', 'MM', 'STGC', 'RPC']) {
+      const data = parsed[`muonPRD_${rawName}`];
+      if (!data) continue;
+      const name = rawName === 'CSCD' ? 'CSC' : rawName;
+      const { count, x, y, z, length, width, id, identifier } = data;
+      eventData.Hits[name] = [];
+      for (let i = 0; i < count; i++) {
+        const hit: any = {
+          pos: this.getMuonLinePositions(i, x, y, z, length),
+          id: id[i], type: 'Line', identifier: identifier[i],
+        };
+        if (rawName === 'RPC') hit.width = width[i];
+        eventData.Hits[name].push(hit);
+      }
+    }
+  }
+
+  private buildTracks(parsed: any, eventData: any) {
+    const badTracks: Record<string, number> = {};
+    for (const col of parsed.tracks ?? []) {
+      let name = col.storeGateKey ?? 'Unknown';
+      if (name === 'Tracks') name = 'Tracks_';
+      const thickTracks = this.thickTrackCollections.includes(name);
+      const { count, numPolyline, polylineX, polylineY, polylineZ,
+        chi2, numDoF, pt, d0, z0, phi0, cotTheta, trackAuthor } = col;
+      const jsontracks: any[] = [];
+      let polylineCounter = 0;
+
+      for (let i = 0; i < count; i++) {
+        let storeTrack = true;
+        const track: any = {
+          chi2: chi2[i] ?? 0, dof: numDoF[i] ?? 0,
+          pT: 0, phi: 0, eta: 0,
+          pos: [], dparams: [], hits: {}, author: {},
+          badtrack: [],
+          linewidth: thickTracks ? 20.0 : undefined,
+        };
+        if (trackAuthor?.length > i) track.author = trackAuthor[i];
+
+        let theta = Math.atan(1 / cotTheta[i]);
+        track.pT = Math.abs(pt[i]) * 1000;
+        const momentum = track.pT / Math.sin(theta);
+        track.dparams = [d0[i], z0[i], phi0[i], theta, 1.0 / momentum];
+        track.phi = phi0[i];
+
+        if (theta < 0) theta += Math.PI;
+        if (track.phi > Math.PI) track.phi -= 2 * Math.PI;
+        else if (track.phi < -Math.PI) track.phi += 2 * Math.PI;
+
+        if (!CoordinateHelper.anglesAreSane(theta, track.phi)) {
+          badTracks['Improper angles'] = (badTracks['Improper angles'] ?? 0) + 1;
+          track.badtrack.push('Improper angles');
+          storeTrack = false;
+        }
+
+        track.eta = CoordinateHelper.thetaToEta(theta);
+        if (Number.isNaN(track.eta)) {
+          track.badtrack.push('Invalid eta');
+          storeTrack = false;
+        }
+
+        if (numPolyline?.length) {
+          for (let p = 0; p < numPolyline[i]; p++) {
+            const x = polylineX[polylineCounter + p] * 10;
+            const y = polylineY[polylineCounter + p] * 10;
+            const z = polylineZ[polylineCounter + p] * 10;
+            track.pos.push([x, y, z]);
+          }
+          polylineCounter += numPolyline[i];
+        }
+
+        if (storeTrack) jsontracks.push(track);
+      }
+      eventData.Tracks[name] = jsontracks;
+    }
+    for (const error in badTracks) {
+      if (badTracks[error] > 0)
+        console.log(`${badTracks[error]} tracks had "${error}" and were marked as bad.`);
+    }
+  }
+
+  private buildJets(parsed: any, eventData: any) {
+    for (const col of parsed.jets ?? []) {
+      const { storeGateKey, count, phi, eta, energy, coneR } = col;
+      if (!storeGateKey) continue;
+      eventData.Jets[storeGateKey] = Array.from({ length: count }, (_, i) => ({
+        coneR: coneR[i] ?? 0.4,
+        phi: phi[i], eta: eta[i],
+        energy: energy[i] * 1000,
+      }));
+    }
+  }
+
+  private buildCaloClusters(parsed: any, eventData: any) {
+    for (const col of parsed.caloClusters ?? []) {
+      const { storeGateKey, count, phi, eta, et } = col;
+      if (!storeGateKey) continue;
+      eventData.CaloClusters[storeGateKey] = Array.from({ length: count }, (_, i) => ({
+        phi: phi[i], eta: eta[i], energy: et[i] * 1000,
+      }));
+    }
+  }
+
+  private buildCaloCells(parsed: any, eventData: any) {
+    for (const name of ['LAr', 'HEC', 'Tile']) {
+      const data = parsed[`caloCells_${name}`];
+      if (!data) continue;
+      const { count, eta, phi, channel, energy, id } = data;
+      eventData.CaloCells[name] = Array.from({ length: count }, (_, i) => ({
+        eta: eta[i], phi: phi[i], id: id[i],
+        energy: energy[i], channel: channel[i],
+      }));
+    }
+  }
+
+  private buildVertices(parsed: any, eventData: any) {
+    for (const col of parsed.vertices ?? []) {
+      const { storeGateKey, count, x, y, z, chi2, primVxCand,
+        vertexType, numTracks, sgkey, tracks } = col;
+      if (!storeGateKey) continue;
+      const temp: any[] = [];
+      let trackIndex = 0;
+      for (let i = 0; i < count; i++) {
+        const maxIndex = trackIndex + numTracks[i];
+        const thisTrackIndices: number[] = [];
+        for (; trackIndex < maxIndex; trackIndex++) {
+          thisTrackIndices.push(tracks[trackIndex]);
+        }
+        temp.push({
+          x: x[i], y: y[i], z: z[i],
+          chi2: chi2[i], primVxCand: primVxCand[i],
+          vertexType: vertexType[i],
+          linkedTracks: thisTrackIndices,
+          linkedTrackCollection: sgkey[i],
+        });
+      }
+      eventData.Vertices[storeGateKey] = temp;
+    }
+  }
+
+  private buildMuons(parsed: any, eventData: any) {
+    for (const col of parsed.muons ?? []) {
+      const { storeGateKey, count, chi2, energy, eta, phi, pt, pdgId } = col;
+      if (!storeGateKey) continue;
+      eventData.Muons[storeGateKey] = Array.from({ length: count }, (_, i) => ({
+        chi2: chi2[i], energy: energy[i], eta: eta[i],
+        phi: phi[i], pt: pt[i] * 1000, pdgId: pdgId[i],
+      }));
+    }
+  }
+
+  private buildElectrons(parsed: any, eventData: any) {
+    for (const col of parsed.electrons ?? []) {
+      const { storeGateKey, count, author, energy, eta, phi, pt, pdgId } = col;
+      if (!storeGateKey) continue;
+      eventData.Electrons[storeGateKey] = Array.from({ length: count }, (_, i) => ({
+        author: author[i], energy: energy[i], eta: eta[i],
+        phi: phi[i], pt: pt[i] * 1000, pdgId: pdgId[i],
+      }));
+    }
+  }
+
+  private buildPhotons(parsed: any, eventData: any) {
+    for (const col of parsed.photons ?? []) {
+      const { storeGateKey, count, author, energy, eta, phi, pt } = col;
+      if (!storeGateKey) continue;
+      eventData.Photons[storeGateKey] = Array.from({ length: count }, (_, i) => ({
+        author: author[i], energy: energy[i], eta: eta[i],
+        phi: phi[i], pt: pt[i] * 1000,
+      }));
+    }
+  }
+
+  private buildMissingEnergy(parsed: any, eventData: any) {
+    for (const col of parsed.missingEnergy ?? []) {
+      const { storeGateKey, count, et, etx, ety } = col;
+      if (!storeGateKey) continue;
+      eventData.MissingEnergy[storeGateKey] = Array.from({ length: count }, (_, i) => ({
+        et: et[i], etx: etx[i], ety: ety[i],
+      }));
+    }
   }
 
   /**
@@ -121,21 +344,18 @@ export class JiveXMLLoader extends PhoenixLoader {
   }
 
   /**
-   * Get the string array from a collection in XML DOM.
+   * Get the number array from a collection in XML DOM.
    * @param collection Collection in XML DOM of JiveXML format.
    * @param key Tag name of the string array.
-   * @returns String array, or empty array if tag not found.
+   * @returns String array.
    */
-  private getStringArrayFromHTML(collection: Element, key: any): string[] {
-    const elements = collection.getElementsByTagName(key);
-    if (elements.length) {
-      return elements[0].innerHTML
-        .replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(String);
-    }
-    return [];
+  private getStringArrayFromHTML(collection: Element, key: any) {
+    return collection
+      .getElementsByTagName(key)[0]
+      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+      .trim()
+      .split(' ')
+      .map(String);
   }
   /**
    * Try to get the position of a hit (i.e. linked from a track)
@@ -884,34 +1104,72 @@ export class JiveXMLLoader extends PhoenixLoader {
     for (const vertexColl of vertexCollections) {
       const numOfObjects = Number(vertexColl.getAttribute('count'));
 
-      // Use safe helper methods to extract arrays - returns empty array if tag not found
-      const x = this.getNumberArrayFromHTML(vertexColl, 'x');
-      const y = this.getNumberArrayFromHTML(vertexColl, 'y');
-      const z = this.getNumberArrayFromHTML(vertexColl, 'z');
-      const chi2 = this.getNumberArrayFromHTML(vertexColl, 'chi2');
-      const primVxCand = this.getNumberArrayFromHTML(vertexColl, 'primVxCand');
-      const vertexType = this.getNumberArrayFromHTML(vertexColl, 'vertexType');
-      const numTracks = this.getNumberArrayFromHTML(vertexColl, 'numTracks');
-      const sgkeyOfTracks = this.getStringArrayFromHTML(vertexColl, 'sgkey');
-      const trackIndices = this.getNumberArrayFromHTML(vertexColl, 'tracks');
-
-      // Skip this collection if required vertex position data is missing
-      if (x.length === 0 || y.length === 0 || z.length === 0) {
-        console.warn(
-          `Skipping vertex collection: missing required x/y/z data for ${vertexColl.getAttribute('storeGateKey')}`,
-        );
-        continue;
-      }
-
-      const temp = [];
+      // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
+      // then convert to array of numbers
+      const x = vertexColl
+        .getElementsByTagName('x')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const y = vertexColl
+        .getElementsByTagName('y')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const z = vertexColl
+        .getElementsByTagName('z')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const chi2 = vertexColl
+        .getElementsByTagName('chi2')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const primVxCand = vertexColl
+        .getElementsByTagName('primVxCand')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const vertexType = vertexColl
+        .getElementsByTagName('vertexType')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const numTracks = vertexColl
+        .getElementsByTagName('numTracks')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const sgkeyOfTracks = vertexColl
+        .getElementsByTagName('sgkey')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(String);
+      const trackIndices = vertexColl
+        .getElementsByTagName('tracks')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const temp = []; // Ugh
       let trackIndex = 0;
       for (let i = 0; i < numOfObjects; i++) {
-        const maxIndex = trackIndex + (numTracks[i] || 0);
+        const maxIndex = trackIndex + numTracks[i];
         const thisTrackIndices = [];
         for (; trackIndex < maxIndex; trackIndex++) {
-          if (trackIndex >= trackIndices.length) {
-            console.warn('TrackIndex exceeds maximum number of track indices.');
-            break;
+          if (trackIndex > trackIndices.length) {
+            console.log(
+              'Error! TrackIndex exceeds maximum number of track indices.',
+            );
           }
           thisTrackIndices.push(trackIndices[trackIndex]);
         }

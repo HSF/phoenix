@@ -1,21 +1,18 @@
-import { httpRequest, settings as jsrootSettings, openFile } from 'jsroot';
+import { httpRequest, openFile } from 'jsroot';
+import { settings as jsrootSettings } from 'jsroot';
 import { build } from 'jsroot/geom';
-import { ActiveVariable } from './helpers/active-variable';
-import { InfoLogger } from './helpers/info-logger';
-import { getLabelTitle } from './helpers/labels';
-import type { Configuration } from './lib/types/configuration';
-import { PhoenixLoader } from './loaders/phoenix-loader';
-import { LoadingManager } from './managers/loading-manager';
-import { StateManager } from './managers/state-manager';
-import type { AnimationPreset } from './managers/three-manager/animations-manager';
 import { ThreeManager } from './managers/three-manager/index';
-import { XRSessionType } from './managers/three-manager/xr/xr-manager';
 import { UIManager } from './managers/ui-manager/index';
+import { InfoLogger } from './helpers/info-logger';
+import type { Configuration } from './lib/types/configuration';
+import { StateManager } from './managers/state-manager';
+import { LoadingManager } from './managers/loading-manager';
 import { URLOptionsManager } from './managers/url-options-manager';
-import type {
-  PhoenixEventData,
-  PhoenixEventsData,
-} from './lib/types/event-data';
+import { ActiveVariable } from './helpers/active-variable';
+import type { AnimationPreset } from './managers/three-manager/animations-manager';
+import { XRSessionType } from './managers/three-manager/xr/xr-manager';
+import { getLabelTitle } from './helpers/labels';
+import { PhoenixLoader } from './loaders/phoenix-loader';
 
 declare global {
   /**
@@ -34,7 +31,7 @@ export class EventDisplay {
   /** Configuration for preset views and event data loader. */
   public configuration: Configuration;
   /** An object containing event data. */
-  private eventsData: PhoenixEventsData;
+  private eventsData: any;
   /** Array containing callbacks to be called when events change. */
   private onEventsChange: ((events: any) => void)[] = [];
   /** Array containing callbacks to be called when the displayed event changes. */
@@ -51,8 +48,6 @@ export class EventDisplay {
   private stateManager: StateManager;
   /** URL manager for managing options given through URL. */
   private urlOptionsManager: URLOptionsManager;
-  /** Flag to track if EventDisplay has been initialized. */
-  private isInitialized: boolean = false;
 
   /**
    * Create the Phoenix event display and intitialize all the elements.
@@ -73,10 +68,6 @@ export class EventDisplay {
    * @param configuration Configuration used to customize different aspects.
    */
   public init(configuration: Configuration) {
-    if (this.isInitialized) {
-      this.cleanup();
-    }
-    this.isInitialized = true;
     this.configuration = configuration;
 
     // Initialize the three manager with configuration
@@ -105,24 +96,6 @@ export class EventDisplay {
   }
 
   /**
-   * Cleanup event listeners and resources before re-initialization.
-   */
-  public cleanup() {
-    if (this.graphicsLibrary) {
-      this.graphicsLibrary.cleanup();
-    }
-    if (this.ui) {
-      this.ui.cleanup();
-    }
-    // Clear accumulated callbacks
-    this.onEventsChange = [];
-    this.onDisplayedEventChange = [];
-    // Reset singletons for clean view transition
-    this.loadingManager?.reset();
-    this.stateManager?.resetForViewTransition();
-  }
-
-  /**
    * Initialize XR.
    * @param xrSessionType Type of the XR session. Either AR or VR.
    * @param onSessionEnded Callback when the XR session ends.
@@ -145,7 +118,7 @@ export class EventDisplay {
    * @param eventsData Object containing the event data.
    * @returns Array of strings containing the keys of the eventsData object.
    */
-  public parsePhoenixEvents(eventsData: PhoenixEventsData): string[] {
+  public parsePhoenixEvents(eventsData: any): string[] {
     this.eventsData = eventsData;
     if (typeof this.configuration.eventDataLoader === 'undefined') {
       this.configuration.eventDataLoader = new PhoenixLoader();
@@ -163,7 +136,7 @@ export class EventDisplay {
    * of physics objects.
    * @param eventData Object containing the event data.
    */
-  public buildEventDataFromJSON(eventData: PhoenixEventData) {
+  public async buildEventDataFromJSON(eventData: any) {
     // Reset labels
     this.resetLabels();
     // Creating UI folder
@@ -190,7 +163,7 @@ export class EventDisplay {
    * the event associated with that key.
    * @param eventKey String that represents the event in the eventsData object.
    */
-  public loadEvent(eventKey: string) {
+  public async loadEvent(eventKey: any) {
     const event = this.eventsData[eventKey];
 
     if (event) {
@@ -567,47 +540,29 @@ export class EventDisplay {
    * Get the different collections for the current stored event.
    * @returns List of strings, each representing a collection of the event displayed.
    */
-  public getCollections(): { [key: string]: string[] } {
+  public getCollections(): string[] {
     if (this.configuration.eventDataLoader) {
       return this.configuration.eventDataLoader.getCollections();
     }
-    return {};
+    return [];
   }
 
   /**
    * Add a callback to onDisplayedEventChange array to call
    * the callback on changes to the displayed event.
    * @param callback Callback to be added to the onDisplayedEventChange array.
-   * @returns Unsubscribe function to remove the callback.
    */
-  public listenToDisplayedEventChange(
-    callback: (event: any) => any,
-  ): () => void {
+  public listenToDisplayedEventChange(callback: (event: any) => any) {
     this.onDisplayedEventChange.push(callback);
-    return () => {
-      const index = this.onDisplayedEventChange.indexOf(callback);
-      if (index > -1) {
-        this.onDisplayedEventChange.splice(index, 1);
-      }
-    };
   }
 
   /**
    * Add a callback to onEventsChange array to call
    * the callback on changes to the events.
    * @param callback Callback to be added to the onEventsChange array.
-   * @returns Unsubscribe function to remove the callback.
    */
-  public listenToLoadedEventsChange(
-    callback: (events: any) => any,
-  ): () => void {
+  public listenToLoadedEventsChange(callback: (events: any) => any) {
     this.onEventsChange.push(callback);
-    return () => {
-      const index = this.onEventsChange.indexOf(callback);
-      if (index > -1) {
-        this.onEventsChange.splice(index, 1);
-      }
-    };
   }
 
   /**
