@@ -49,6 +49,7 @@ ENV npm_config_python=/usr/bin/python3
 # CI environment variables
 ENV CI=1
 ENV CYPRESS_INSTALL_BINARY=0
+ENV HUSKY=0
 
 # Install dependencies (verbose so you can see if python errors occur)
 RUN yarn install --silent
