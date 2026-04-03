@@ -654,7 +654,7 @@ export class SelectionManager {
 
         if (this.onObjectDeselectedCallback) {
           previouslySelected.forEach((obj) => {
-            const objectData = { uuid: obj.uuid, name: obj.name };
+            const objectData = { uuid: obj.uuid, name: obj.name, userData: obj.userData };
             this.onObjectDeselectedCallback(obj, objectData);
           });
         }
@@ -1073,7 +1073,7 @@ export class SelectionManager {
 
     // Fire callbacks
     if (this.onObjectSelectedCallback) {
-      const objectData = { uuid: object.uuid, name: object.name };
+      const objectData = { uuid: object.uuid, name: object.name, userData: object.userData };
       this.onObjectSelectedCallback(object, objectData);
     }
     if (this.onSelectionChangedCallback) {
@@ -1102,7 +1102,7 @@ export class SelectionManager {
 
     // Fire callbacks
     if (this.onObjectDeselectedCallback) {
-      const objectData = { uuid: object.uuid, name: object.name };
+      const objectData = { uuid: object.uuid, name: object.name, userData: object.userData };
       this.onObjectDeselectedCallback(object, objectData);
     }
     if (this.onSelectionChangedCallback) {
@@ -1154,6 +1154,7 @@ export class SelectionManager {
         const objectData = {
           uuid: hoveredObject.uuid,
           name: hoveredObject.name,
+          userData: hoveredObject.userData,
         };
         this.onObjectHoveredCallback(hoveredObject, objectData);
       }
@@ -1240,7 +1241,7 @@ export class SelectionManager {
     // immediately notify the callback of the current selection state.
     if (callback && this.selectedObjects.size > 0) {
       this.selectedObjects.forEach((obj) => {
-        const objectData = { uuid: obj.uuid, name: obj.name };
+        const objectData = { uuid: obj.uuid, name: obj.name, userData: obj.userData };
         callback(obj, objectData);
       });
     }
@@ -1273,6 +1274,7 @@ export class SelectionManager {
       const hoverData = {
         uuid: this.hoveredObject.uuid,
         name: this.hoveredObject.name,
+        userData: this.hoveredObject.userData,
       };
       callback(this.hoveredObject, hoverData);
     }

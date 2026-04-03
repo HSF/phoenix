@@ -159,7 +159,7 @@ describe('SelectionManager', () => {
 
     expect(hoveredCallback).toHaveBeenCalledWith(
       mesh,
-      expect.objectContaining({ uuid: mesh.uuid, name: mesh.name }),
+      expect.objectContaining({ uuid: mesh.uuid, name: mesh.name, userData: mesh.userData }),
     );
 
     selectionManager.applyIntersectionResult(null);
@@ -189,7 +189,7 @@ describe('SelectionManager', () => {
 
     expect(selectedCallback).toHaveBeenCalledWith(
       mesh,
-      expect.objectContaining({ uuid: mesh.uuid, name: mesh.name }),
+      expect.objectContaining({ uuid: mesh.uuid, name: mesh.name, userData: mesh.userData }),
     );
     expect(selectionChangedCallback).toHaveBeenCalledWith(expect.any(Set), [
       mesh,
@@ -200,7 +200,7 @@ describe('SelectionManager', () => {
 
     expect(deselectedCallback).toHaveBeenCalledWith(
       mesh,
-      expect.objectContaining({ uuid: mesh.uuid, name: mesh.name }),
+      expect.objectContaining({ uuid: mesh.uuid, name: mesh.name, userData: mesh.userData }),
     );
     expect(selectionChangedCallback).toHaveBeenLastCalledWith(
       expect.any(Set),
@@ -217,7 +217,7 @@ describe('SelectionManager', () => {
 
     expect(hoveredCallback).toHaveBeenCalledWith(
       mesh,
-      expect.objectContaining({ uuid: mesh.uuid, name: mesh.name }),
+      expect.objectContaining({ uuid: mesh.uuid, name: mesh.name, userData: mesh.userData }),
     );
   });
 });
