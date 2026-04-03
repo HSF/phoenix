@@ -167,9 +167,9 @@ export class RendererManager {
 
   /**
    * Remove a renderer from the available renderers list.
-   * @param renderer Three,js WebGLRenderer to be removed.
+   * @param renderer Three.js WebGLRenderer to be removed.
    */
-  public removeControls(renderer: WebGLRenderer) {
+  public removeRenderer(renderer: WebGLRenderer) {
     const index: number = this.renderers.indexOf(renderer);
     if (index > -1) {
       this.renderers.splice(index, 1);
@@ -177,14 +177,33 @@ export class RendererManager {
   }
 
   /**
-   * Swap any two renderers.
+   * Swap any two renderers in the renderers list.
    * @param rendererA Renderer A to be swapped with renderer B.
    * @param rendererB Renderer B to be swapped with renderer A.
    */
   public swapRenderers(rendererA: WebGLRenderer, rendererB: WebGLRenderer) {
-    const temp: WebGLRenderer = rendererA;
-    rendererA = rendererB;
-    rendererB = temp;
+    const indexA = this.renderers.indexOf(rendererA);
+    const indexB = this.renderers.indexOf(rendererB);
+
+    if (indexA === -1 || indexB === -1) {
+      return;
+    }
+
+    this.renderers[indexA] = rendererB;
+    this.renderers[indexB] = rendererA;
+
+    // Update mainRenderer and overlayRenderer references if involved in the swap
+    if (this.mainRenderer === rendererA) {
+      this.mainRenderer = rendererB;
+    } else if (this.mainRenderer === rendererB) {
+      this.mainRenderer = rendererA;
+    }
+
+    if (this.overlayRenderer === rendererA) {
+      this.overlayRenderer = rendererB;
+    } else if (this.overlayRenderer === rendererB) {
+      this.overlayRenderer = rendererA;
+    }
   }
 
   /**
@@ -239,12 +258,29 @@ export class RendererManager {
   }
 
   /**
-   * Cleanup event listeners before re-initialization.
+   * Cleanup event listeners and dispose renderers before re-initialization.
+   * The main renderer is kept alive because `init()` reuses it via
+   * `getMainRenderer()`. Only the overlay renderer (and any other
+   * secondary renderers) are disposed.
    */
   public cleanup() {
     if (this.resizeHandler) {
       window.removeEventListener('resize', this.resizeHandler);
       this.resizeHandler = null;
     }
+
+    for (const renderer of this.renderers) {
+      if (renderer === this.mainRenderer) {
+        // Remove from DOM but keep the renderer alive for reuse in init()
+        renderer.domElement.remove();
+      } else {
+        renderer.domElement.remove();
+        renderer.dispose();
+      }
+    }
+
+    // Reset the list to only contain the main renderer
+    this.renderers = [this.mainRenderer];
+    this.overlayRenderer = null;
   }
 }

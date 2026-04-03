@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/share-link/share-link-dialog/share-link-dialog.component.scss"],
+  "sourcesContent": [".share-box {\n  width: 30rem;\n  max-width: 100%;\n  position: relative;\n  background: var(--phoenix-background-color-tertiary);\n  border: 1px solid var(--phoenix-border);\n  border-radius: 0.5rem;\n  padding: 1.25rem;\n  word-wrap: break-word;\n\n  .share-box-copy {\n    position: absolute;\n    top: -1px;\n    right: -1px;\n    background: transparent;\n    color: inherit;\n    cursor: pointer;\n    padding: 0.25rem 0.5rem;\n    font-size: 0.75rem;\n    border: 1px solid var(--phoenix-border);\n    border-radius: 0.5rem;\n\n    &:hover {\n      background: var(--phoenix-border);\n    }\n  }\n}\n"],
+  "mappings": "AAAA,CAAA,UACE,MAAA,MACA,UAAA,KACA,SAAA,SACA,WAAA,IAAA,qCACA,OAAA,IAAA,MAAA,IAAA,kBALF,cAME,MANF,QAOE,QACA,UAAA,WAEA,CAVF,UAUE,CAAA,eACE,SAAA,SACA,IAAA,KACA,MAAA,KACA,WAAA,YACA,MAAA,QACA,OAAA,QAhBJ,QAiBI,OAAA,MACA,UAAA,OACA,OAAA,IAAA,MAAA,IAAA,kBAnBJ,cAoBI,MAEA,CAtBJ,UAsBI,CAZF,cAYE,OACE,WAAA,IAAA",
+  "names": []
+}

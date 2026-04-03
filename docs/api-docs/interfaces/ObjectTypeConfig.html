@@ -1,0 +1,822 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  ObjectTypeConfig</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/loaders/object-type-registry.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Describes how to load a single physics object type.</p>
+
+            </p>
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#concatonateObjs" 
+>
+                                            concatonateObjs
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#cuts" 
+>
+                                            cuts
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#extendUI" 
+>
+                                            extendUI
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#getObject" 
+>
+                                            getObject
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#preprocessData" 
+>
+                                            preprocessData
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#scaleConfig" 
+>
+                                            scaleConfig
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#typeName" 
+>
+                                            typeName
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="concatonateObjs"></a>
+                                        <span class="name "><b>concatonateObjs</b>
+                                            <a href="#concatonateObjs">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>concatonateObjs:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>If true, pass the whole collection at once instead of per-object.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="cuts"></a>
+                                        <span class="name "><b>cuts</b>
+                                            <a href="#cuts">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>cuts:         <code><a href="../classes/Cut.html" target="_self" >Cut[]</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../classes/Cut.html" target="_self" >Cut[]</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Default cut definitions for this type.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="extendUI"></a>
+                                        <span class="name "><b>extendUI</b>
+                                            <a href="#extendUI">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>extendUI:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Completely custom UI extension (used by MissingEnergy).</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="getObject"></a>
+                                        <span class="name "><b>getObject</b>
+                                            <a href="#getObject">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>getObject:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Builds one Three.js object from params.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="preprocessData"></a>
+                                        <span class="name "><b>preprocessData</b>
+                                            <a href="#preprocessData">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>preprocessData:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Custom pre-processing for event data before addObjectType.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="scaleConfig"></a>
+                                        <span class="name "><b>scaleConfig</b>
+                                            <a href="#scaleConfig">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>scaleConfig:     <code>literal type</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>literal type</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Scale UI config — if set, a scale slider is added.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="typeName"></a>
+                                        <span class="name "><b>typeName</b>
+                                            <a href="#typeName">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>typeName:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Key in eventData (e.g. &#39;Tracks&#39;, &#39;Jets&#39;).</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Object3D, Vector3 } from &#x27;three&#x27;;
+import { GUI } from &#x27;dat.gui&#x27;;
+import { Cut } from &#x27;../lib/models/cut.model&#x27;;
+import { PhoenixMenuNode } from &#x27;../managers/ui-manager/phoenix-menu/phoenix-menu-node&#x27;;
+import { PhoenixObjects } from &#x27;./objects/phoenix-objects&#x27;;
+
+/** Describes how to load a single physics object type. */
+export interface ObjectTypeConfig {
+  /** Key in eventData (e.g. &#x27;Tracks&#x27;, &#x27;Jets&#x27;). */
+  typeName: string;
+  /** Builds one Three.js object from params. */
+  getObject: (params: any, typeName?: string) &#x3D;&gt; Object3D;
+  /** If true, pass the whole collection at once instead of per-object. */
+  concatonateObjs?: boolean;
+  /** Default cut definitions for this type. */
+  cuts?: Cut[];
+  /** Scale UI config — if set, a scale slider is added. */
+  scaleConfig?: {
+    /** Config key for dat.GUI. */
+    key: string;
+    /** Display label. */
+    label: string;
+    /** Scene manager scale method name. */
+    scaleMethod: string;
+    /** Axis to scale along. */
+    scaleAxis?: string;
+  };
+  /** Completely custom UI extension (used by MissingEnergy). */
+  extendUI?: (
+    typeFolder: GUI,
+    typeFolderPM: PhoenixMenuNode,
+    scaleChildObjects: (typeName: string, value: number) &#x3D;&gt; void,
+  ) &#x3D;&gt; void;
+  /** Custom pre-processing for event data before addObjectType. */
+  preprocessData?: (data: any) &#x3D;&gt; any;
+}
+
+/** Returns default configs for all built-in Phoenix object types. */
+export function getDefaultObjectTypeConfigs(): ObjectTypeConfig[] {
+  const pi &#x3D; parseFloat(Math.PI.toFixed(2));
+
+  return [
+    {
+      typeName: &#x27;Tracks&#x27;,
+      getObject: PhoenixObjects.getTrack,
+      cuts: [
+        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
+        new Cut(&#x27;eta&#x27;, -4, 4, 0.1),
+        new Cut(&#x27;chi2&#x27;, 0, 100),
+        new Cut(&#x27;dof&#x27;, 0, 100),
+        new Cut(&#x27;pT&#x27;, 0, 50000, 0.1),
+        new Cut(&#x27;z0&#x27;, -30, 30, 0.1),
+        new Cut(&#x27;d0&#x27;, -30, 30, 0.1),
+      ],
+    },
+    {
+      typeName: &#x27;Jets&#x27;,
+      getObject: PhoenixObjects.getJet,
+      cuts: [
+        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
+        new Cut(&#x27;eta&#x27;, -5.0, 5.0, 0.1),
+        new Cut(&#x27;energy&#x27;, 0, 600000, 100),
+      ],
+      scaleConfig: {
+        key: &#x27;jetsScale&#x27;,
+        label: &#x27;Jets Scale&#x27;,
+        scaleMethod: &#x27;scaleJets&#x27;,
+      },
+    },
+    {
+      typeName: &#x27;Hits&#x27;,
+      getObject: PhoenixObjects.getHits,
+      concatonateObjs: true,
+    },
+    {
+      typeName: &#x27;CaloClusters&#x27;,
+      getObject: (params: any) &#x3D;&gt; PhoenixObjects.getCluster(params),
+      cuts: [
+        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
+        new Cut(&#x27;eta&#x27;, -5.0, 5.0, 0.1),
+        new Cut(&#x27;energy&#x27;, 0, 10000),
+      ],
+      scaleConfig: {
+        key: &#x27;caloClustersScale&#x27;,
+        label: &#x27;CaloClusters Scale&#x27;,
+        scaleMethod: &#x27;scaleChildObjects&#x27;,
+        scaleAxis: &#x27;z&#x27;,
+      },
+    },
+    {
+      typeName: &#x27;CaloCells&#x27;,
+      getObject: PhoenixObjects.getCaloCell,
+      cuts: [
+        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
+        new Cut(&#x27;eta&#x27;, -5.0, 5.0, 0.1),
+        new Cut(&#x27;energy&#x27;, 0, 10000),
+      ],
+      scaleConfig: {
+        key: &#x27;caloCellsScale&#x27;,
+        label: &#x27;CaloCells Scale&#x27;,
+        scaleMethod: &#x27;scaleChildObjects&#x27;,
+        scaleAxis: &#x27;z&#x27;,
+      },
+    },
+    {
+      typeName: &#x27;PlanarCaloCells&#x27;,
+      getObject: PhoenixObjects.getPlanarCaloCell,
+      cuts: [new Cut(&#x27;energy&#x27;, 0, 10000)],
+      scaleConfig: {
+        key: &#x27;planarCaloCellsScale&#x27;,
+        label: &#x27;PlanarCaloCells Scale&#x27;,
+        scaleMethod: &#x27;scaleChildObjects&#x27;,
+        scaleAxis: &#x27;z&#x27;,
+      },
+      preprocessData: (data: any) &#x3D;&gt; {
+        // Flatten { collectionName: { plane, cells } } into { collectionName: cells[] }
+        const collections: { [key: string]: any } &#x3D; {};
+        for (const collectionName in data) {
+          const collection &#x3D; data[collectionName];
+          const plane &#x3D; collection[&#x27;plane&#x27;];
+          const unitVector &#x3D; new Vector3(...plane.slice(0, 3)).normalize();
+          collection[&#x27;cells&#x27;].forEach(
+            (cell: any) &#x3D;&gt;
+              (cell[&#x27;plane&#x27;] &#x3D; [...unitVector.toArray(), plane[3]]),
+          );
+          collections[collectionName] &#x3D; collection[&#x27;cells&#x27;];
+        }
+        return collections;
+      },
+    },
+    {
+      typeName: &#x27;IrregularCaloCells&#x27;,
+      getObject: PhoenixObjects.getIrregularCaloCell,
+      cuts: [new Cut(&#x27;layer&#x27;, 0, 10), new Cut(&#x27;energy&#x27;, 0, 10000)],
+      scaleConfig: {
+        key: &#x27;IrregularCaloCellsScale&#x27;,
+        label: &#x27;IrregularCaloCells Scale&#x27;,
+        scaleMethod: &#x27;scaleChildObjects&#x27;,
+        scaleAxis: &#x27;z&#x27;,
+      },
+    },
+    // Compound types — getObject is set to null here; PhoenixLoader
+    // binds its own getCompoundTrack / getCompoundCluster at runtime
+    {
+      typeName: &#x27;Muons&#x27;,
+      getObject: null,
+      cuts: [
+        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
+        new Cut(&#x27;eta&#x27;, -4, 4, 0.1),
+        new Cut(&#x27;energy&#x27;, 0, 10000),
+        new Cut(&#x27;pT&#x27;, 0, 50000),
+      ],
+    },
+    {
+      typeName: &#x27;Photons&#x27;,
+      getObject: null,
+      cuts: [
+        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
+        new Cut(&#x27;eta&#x27;, -4, 4, 0.1),
+        new Cut(&#x27;energy&#x27;, 0, 10000),
+        new Cut(&#x27;pT&#x27;, 0, 50000),
+      ],
+    },
+    {
+      typeName: &#x27;Electrons&#x27;,
+      getObject: null,
+      cuts: [
+        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
+        new Cut(&#x27;eta&#x27;, -4, 4, 0.1),
+        new Cut(&#x27;energy&#x27;, 0, 10000),
+        new Cut(&#x27;pT&#x27;, 0, 50000),
+      ],
+    },
+    {
+      typeName: &#x27;Vertices&#x27;,
+      getObject: PhoenixObjects.getVertex,
+      cuts: [new Cut(&#x27;vertexType&#x27;, 0, 5)],
+      scaleConfig: {
+        key: &#x27;verticesScale&#x27;,
+        label: &#x27;Vertices Scale&#x27;,
+        scaleMethod: &#x27;scaleChildObjects&#x27;,
+      },
+    },
+    {
+      typeName: &#x27;MissingEnergy&#x27;,
+      getObject: PhoenixObjects.getMissingEnergy,
+      cuts: [],
+      extendUI: (typeFolder, typeFolderPM, scaleChildObjects) &#x3D;&gt; {
+        const scaleMET &#x3D; (value: number) &#x3D;&gt; {
+          scaleChildObjects(&#x27;MissingEnergy&#x27;, value);
+        };
+        if (typeFolder) {
+          const sizeMenu &#x3D; typeFolder
+            .add({ jetsScale: 100 }, &#x27;jetsScale&#x27;, 1, 200)
+            .name(&#x27;Size (%)&#x27;);
+          sizeMenu.onChange(scaleMET);
+        }
+        if (typeFolderPM) {
+          typeFolderPM.addConfig({
+            type: &#x27;slider&#x27;,
+            label: &#x27;Size (%)&#x27;,
+            value: 100,
+            min: 1,
+            max: 200,
+            allowCustomValue: true,
+            onChange: scaleMET,
+          });
+        }
+      },
+    },
+  ];
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'ObjectTypeConfig.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

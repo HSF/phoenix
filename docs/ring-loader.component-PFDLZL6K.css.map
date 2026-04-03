@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ring-loader/ring-loader.component.scss"],
+  "sourcesContent": [".ring {\n  display: inline-block;\n  position: relative;\n  width: 1.5rem;\n  height: 1.5rem;\n\n  div {\n    box-sizing: border-box;\n    display: block;\n    position: absolute;\n    width: 1.5rem;\n    height: 1.5rem;\n    margin: 0.25rem 0.5rem;\n    border: 0.25rem solid var(--phoenix-text-color);\n    border-radius: 50%;\n    animation: animate-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n    border-color: var(--phoenix-text-color) transparent transparent transparent;\n  }\n}\n\n.ring div:nth-child(1) {\n  animation-delay: -0.45s;\n}\n\n.ring div:nth-child(2) {\n  animation-delay: -0.3s;\n}\n\n.ring div:nth-child(3) {\n  animation-delay: -0.15s;\n}\n\n@keyframes app-ring-loader_animate-ring {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n"],
+  "mappings": "AAAA,CAAA,KACE,QAAA,aACA,SAAA,SACA,MAAA,OACA,OAAA,OAEA,CANF,KAME,IACE,WAAA,WACA,QAAA,MACA,SAAA,SACA,MAAA,OACA,OAAA,OAXJ,OAYI,OAAA,MACA,OAAA,OAAA,MAAA,IAAA,sBAbJ,cAcI,IACA,UAAA,aAAA,KAAA,aAAA,EAAA,CAAA,CAAA,CAAA,EAAA,CAAA,GAAA,SACA,aAAA,IAAA,sBAAA,YAAA,YAAA,YAIJ,CApBA,KAoBA,GAAA,cACE,gBAAA,MAGF,CAxBA,KAwBA,GAAA,cACE,gBAAA,KAGF,CA5BA,KA4BA,GAAA,cACE,gBAAA,MAGF,WAAA,6BACE,GACE,UAAA,OAAA,GAEF,GACE,UAAA,OAAA",
+  "names": []
+}

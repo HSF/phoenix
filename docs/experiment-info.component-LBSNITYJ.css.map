@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/experiment-info/experiment-info.component.scss"],
+  "sourcesContent": [".experimentInfo {\n  position: absolute;\n  top: 5rem;\n  left: 1rem;\n  display: flex;\n  flex-direction: row;\n  justify-items: flex-end;\n  justify-content: flex-end;\n  align-items: center;\n  align-content: center;\n  font-family: 'Courier New', 'Lucida Console', monospace;\n  cursor: move;\n}\n\n.experimentLogoWrapper {\n  width: 6rem;\n\n  .experimentLogo {\n    width: 100%;\n    height: 100%;\n  }\n}\n\n.textInfo {\n  margin-left: 1rem;\n\n  p {\n    color: var(--phoenix-text-color-secondary);\n    font-size: 0.8rem;\n    margin-bottom: 0.5rem;\n    user-select: none;\n  }\n}\n\n@media screen and (max-width: 768px) {\n  .experimentInfo {\n    top: 4rem;\n    max-width: 40%;\n  }\n\n  .experimentLogoWrapper {\n    height: 4rem;\n  }\n\n  .textInfo {\n    display: none;\n  }\n}\n"],
+  "mappings": "AAAA,CAAA,eACE,SAAA,SACA,IAAA,KACA,KAAA,KACA,QAAA,KACA,eAAA,IACA,cAAA,SACA,gBAAA,SACA,YAAA,OACA,cAAA,OACA,YAAA,WAAA,CAAA,cAAA,CAAA,UACA,OAAA,KAGF,CAAA,sBACE,MAAA,KAEA,CAHF,sBAGE,CAAA,eACE,MAAA,KACA,OAAA,KAIJ,CAAA,SACE,YAAA,KAEA,CAHF,SAGE,EACE,MAAA,IAAA,gCACA,UAAA,MACA,cAAA,MACA,oBAAA,KAAA,YAAA,KAIJ,OAAA,OAAA,IAAA,CAAA,SAAA,EAAA,OACE,CAnCF,eAoCI,IAAA,KACA,UAAA,IAGF,CA1BF,sBA2BI,OAAA,KAGF,CArBF,SAsBI,QAAA",
+  "names": []
+}

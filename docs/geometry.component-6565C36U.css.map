@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-app/src/app/sections/geometry/geometry.component.scss"],
+  "sourcesContent": [".demo-info {\n  position: absolute;\n  top: 5rem;\n  left: 1rem;\n  font-size: 0.8rem;\n  color: var(--phoenix-text-color-secondary);\n  width: 20rem;\n  max-width: 40%;\n\n  code {\n    color: var(--phoenix-text-color-secondary);\n    cursor: text;\n  }\n\n  .copy-code {\n    cursor: pointer;\n  }\n}\n"],
+  "mappings": "AAAA,CAAA,UACE,SAAA,SACA,IAAA,KACA,KAAA,KACA,UAAA,MACA,MAAA,IAAA,gCACA,MAAA,MACA,UAAA,IAEA,CATF,UASE,KACE,MAAA,IAAA,gCACA,OAAA,KAGF,CAdF,UAcE,CAAA,UACE,OAAA",
+  "names": []
+}

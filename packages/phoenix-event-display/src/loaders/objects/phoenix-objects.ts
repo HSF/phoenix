@@ -22,6 +22,8 @@ import {
   LineSegments,
   LineDashedMaterial,
   CanvasTexture,
+  ShaderMaterial,
+  DoubleSide,
 } from 'three';
 import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry.js';
 import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
@@ -52,8 +54,14 @@ export class PhoenixObjects {
         track.extended = true;
       }
 
+      // Filter out positions with NaN from RK extrapolation
+      if (track.pos) {
+        track.pos = track.pos.filter((p: number[]) =>
+          p.every((v: number) => isFinite(v)),
+        );
+      }
+
       if (!track.pos || track.pos.length < 2) {
-        console.log('Track too short, and extrapolation failed.');
         continue;
       }
 
@@ -110,12 +118,15 @@ export class PhoenixObjects {
       trackParams.extended = true;
     }
 
-    const positions = trackParams.pos;
+    // Filter out any positions containing NaN from RK extrapolation
+    const positions = trackParams.pos?.filter((p: number[]) =>
+      p.every((v: number) => isFinite(v)),
+    );
+    trackParams.pos = positions;
     const trackObject = new Group();
 
     // Check again, in case there was an issue with the extrapolation.
     if (!positions || positions.length < 2) {
-      console.log('Track too short, and extrapolation failed.');
       return trackObject;
     }
 
@@ -239,20 +250,51 @@ export class PhoenixObjects {
     const quaternion = new Quaternion();
     quaternion.setFromUnitVectors(v1, v2);
 
-    const geometry = new CylinderGeometry(width, 10, length, 50, 50, false); // Cone
+    const geometry = new CylinderGeometry(width, 10, length, 50, 50, false);
 
-    const material = new MeshBasicMaterial({
-      color: jetParams.color ?? EVENT_DATA_TYPE_COLORS.Jets,
-      opacity: 0.3,
+    // Fresnel shader: edges facing away from camera are more opaque,
+    // interior facing camera is transparent. This conveys that jets are
+    // regions of energy deposition (particle showers), not solid objects,
+    // while keeping overlapping jets visually distinguishable.
+    const jetColor = new Color(jetParams.color ?? EVENT_DATA_TYPE_COLORS.Jets);
+    const material = new ShaderMaterial({
+      vertexShader: `
+        varying vec3 vNormal;
+        varying vec3 vViewDir;
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
+          vViewDir = normalize(-mvPos.xyz);
+          gl_Position = projectionMatrix * mvPos;
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 jetColor;
+        uniform float baseOpacity;
+        uniform float edgeOpacity;
+        varying vec3 vNormal;
+        varying vec3 vViewDir;
+        void main() {
+          float fresnel = 1.0 - abs(dot(normalize(vNormal), normalize(vViewDir)));
+          float alpha = mix(baseOpacity, edgeOpacity, pow(fresnel, 1.5));
+          gl_FragColor = vec4(jetColor, alpha);
+        }
+      `,
+      uniforms: {
+        jetColor: { value: jetColor },
+        baseOpacity: { value: 0.15 },
+        edgeOpacity: { value: 0.7 },
+      },
       transparent: true,
+      depthWrite: false,
+      side: DoubleSide,
     });
-    material.opacity = 0.5;
+
     const mesh = new Mesh(geometry, material);
     mesh.position.copy(translation);
     mesh.quaternion.copy(quaternion);
     mesh.userData = Object.assign({}, jetParams);
     mesh.name = 'Jet';
-    // Setting uuid for selection from collections info
     jetParams.uuid = mesh.uuid;
 
     return mesh;
@@ -551,6 +593,15 @@ export class PhoenixObjects {
 
     cube.position.copy(position);
 
+    // Skip clusters with NaN positions to avoid THREE.js warnings
+    if (
+      !isFinite(position.x) ||
+      !isFinite(position.y) ||
+      !isFinite(position.z)
+    ) {
+      return new Group();
+    }
+
     cube.lookAt(new Vector3(0, 0, 0));
     cube.userData = Object.assign({}, clusterParams);
     cube.name = 'Cluster';
@@ -635,8 +686,12 @@ export class PhoenixObjects {
     defaultCellWidth: number = 30,
     defaultCellLength: number = 30,
   ) {
-    const cellWidth = clusterParams.side ?? defaultCellWidth;
+    let cellWidth = clusterParams.side ?? defaultCellWidth;
     let cellLength = clusterParams.length ?? defaultCellLength;
+
+    // Guard against NaN dimensions
+    if (!isFinite(cellWidth)) cellWidth = defaultCellWidth;
+    if (!isFinite(cellLength)) cellLength = defaultCellLength;
 
     if (cellLength < cellWidth) {
       cellLength = cellWidth;
@@ -691,6 +746,15 @@ export class PhoenixObjects {
       defaultZ,
     );
     cube.position.copy(position);
+
+    // Skip cells with NaN positions to avoid THREE.js warnings
+    if (
+      !isFinite(position.x) ||
+      !isFinite(position.y) ||
+      !isFinite(position.z)
+    ) {
+      return new Group();
+    }
 
     if (!caloCellParams.radius && !caloCellParams.z) {
       cube.lookAt(new Vector3(0, 0, 0));

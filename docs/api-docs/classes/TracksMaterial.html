@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content class">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -193,7 +211,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="234" class="link-to-prism">src/loaders/objects/tracks.ts:234</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="251" class="link-to-prism">src/loaders/objects/tracks.ts:251</a></div>
                             </td>
                         </tr>
 
@@ -262,7 +280,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="230" class="link-to-prism">src/loaders/objects/tracks.ts:230</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="247" class="link-to-prism">src/loaders/objects/tracks.ts:247</a></div>
                         </td>
                     </tr>
 
@@ -303,7 +321,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="232" class="link-to-prism">src/loaders/objects/tracks.ts:232</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="249" class="link-to-prism">src/loaders/objects/tracks.ts:249</a></div>
                                 </td>
                             </tr>
 
@@ -341,6 +359,8 @@ export class TracksMesh extends BufferGeometry {
   colors: number[];
   /** Counter. */
   counter: number[];
+  /** Linewidths. */
+  linewidths: number[];
   /** Track ID. */
   track_id: any[];
   /** Side. */
@@ -363,6 +383,7 @@ export class TracksMesh extends BufferGeometry {
     this.counter &#x3D; [];
     this.track_id &#x3D; [];
     this.colors &#x3D; [];
+    this.linewidths &#x3D; [];
     this.indices_array &#x3D; [];
     this.next_track_id &#x3D; 0;
   }
@@ -371,9 +392,14 @@ export class TracksMesh extends BufferGeometry {
    * Add a track to the tracks mesh.
    * @param points Points for constructing the track.
    * @param color Color of the track.
+   * @param linewidth Width of the track line.
    * @returns ID of the track.
    */
-  addTrack(points: Vector3[], color: ColorRepresentation) {
+  addTrack(
+    points: Vector3[],
+    color: ColorRepresentation,
+    linewidth: number &#x3D; 1.0,
+  ) {
     const id &#x3D; this.next_track_id++;
 
     const col &#x3D; new Color(color);
@@ -391,6 +417,8 @@ export class TracksMesh extends BufferGeometry {
       this.track_id.push(id, id);
       this.colors.push(col.r, col.g, col.b);
       this.colors.push(col.r, col.g, col.b);
+      this.colors.push(col.r, col.g, col.b);
+      this.linewidths.push(linewidth, linewidth);
       this.counter.push(i / points.length, i / points.length);
 
       if (i &lt; points.length - 1) {
@@ -427,6 +455,7 @@ export class TracksMesh extends BufferGeometry {
         side: new BufferAttribute(new Float32Array(this.side), 1),
         track_id: new BufferAttribute(new Int32Array(this.track_id), 1),
         color: new BufferAttribute(new Float32Array(this.colors), 3),
+        linewidth: new BufferAttribute(new Float32Array(this.linewidths), 1),
         counter: new BufferAttribute(new Float32Array(this.counter), 1),
         index: new BufferAttribute(new Uint32Array(this.indices_array), 1),
       };
@@ -455,6 +484,10 @@ export class TracksMesh extends BufferGeometry {
         new Float32Array(this.colors),
       );
       this._attributes.color.needsUpdate &#x3D; true;
+      (this._attributes.linewidth as BufferAttribute).copyArray(
+        new Float32Array(this.linewidths),
+      );
+      this._attributes.linewidth.needsUpdate &#x3D; true;
       (this._attributes.counter as BufferAttribute).copyArray(
         new Float32Array(this.counter),
       );
@@ -471,6 +504,7 @@ export class TracksMesh extends BufferGeometry {
     this.setAttribute(&#x27;side&#x27;, this._attributes.side);
     this.setAttribute(&#x27;track_id&#x27;, this._attributes.track_id);
     this.setAttribute(&#x27;color&#x27;, this._attributes.color);
+    this.setAttribute(&#x27;linewidth&#x27;, this._attributes.linewidth);
     this.setAttribute(&#x27;counter&#x27;, this._attributes.counter);
 
     this.setIndex(this._attributes.index as BufferAttribute);
@@ -487,6 +521,7 @@ const tracks_vert &#x3D; [
   &#x27;attribute int track_id;&#x27;,
   &#x27;attribute float side;&#x27;,
   &#x27;attribute vec3 color;&#x27;,
+  &#x27;attribute float linewidth;&#x27;,
   &#x27;attribute float counter;&#x27;,
 
   &#x27;varying vec3 v_color;&#x27;,
@@ -494,7 +529,7 @@ const tracks_vert &#x3D; [
   &#x27;flat varying int v_track_id;&#x27;,
 
   &#x27;uniform vec2 resolution;&#x27;,
-  &#x27;uniform float lineWidth;&#x27;,
+  // &#x27;uniform float lineWidth;&#x27;,
   &#x27;void main() {&#x27;,
   &#x27;  vec2 aspect &#x3D; vec2(resolution.x / resolution.y, 1.0);&#x27;,
   &#x27;&#x27;,
@@ -517,7 +552,7 @@ const tracks_vert &#x3D; [
   &#x27;  else dir &#x3D; normalize(curP - prevP);&#x27;,
   &#x27;&#x27;,
   &#x27;  vec2 normal &#x3D; vec2(-dir.y, dir.x);&#x27;,
-  &#x27;  normal.xy *&#x3D; .5 * lineWidth;&#x27;,
+  &#x27;  normal.xy *&#x3D; .5 * linewidth;&#x27;,
   &#x27;  normal.x /&#x3D; aspect.x;&#x27;,
   &#x27;  normal.xy *&#x3D; finalPosition.w * 0.001;&#x27;,
 
@@ -558,7 +593,7 @@ export class TracksMaterial extends ShaderMaterial {
       uniforms: Object.assign(
         {},
         {
-          lineWidth: { value: 1 },
+          // lineWidth: { value: 1 },
           resolution: { value: new Vector2(1, 1) },
           progress: { value: 1 },
         },
@@ -569,15 +604,15 @@ export class TracksMaterial extends ShaderMaterial {
     this.isTracksMaterial &#x3D; true;
 
     Object.defineProperties(this, {
-      lineWidth: {
-        enumerable: true,
-        get: function () {
-          return this.uniforms.lineWidth.value;
-        },
-        set: function (value) {
-          this.uniforms.lineWidth.value &#x3D; value;
-        },
-      },
+      // lineWidth: {
+      //   enumerable: true,
+      //   get: function () {
+      //     return this.uniforms.lineWidth.value;
+      //   },
+      //   set: function (value) {
+      //     this.uniforms.lineWidth.value &#x3D; value;
+      //   },
+      // },
       resolution: {
         enumerable: true,
         get: function () {

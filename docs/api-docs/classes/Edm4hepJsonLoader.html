@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content class">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -237,6 +255,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#getPDG" >getPDG</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#getRunNumber" >getRunNumber</a>
                             </li>
                             <li>
@@ -319,6 +341,10 @@
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#getObjectTypeCollections" >getObjectTypeCollections</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getObjectTypeConfigs" >getObjectTypeConfigs</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
@@ -413,7 +439,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <i>Type : </i>        <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
 
                     </td>
                 </tr>
@@ -425,7 +451,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:27</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:35</a></code>
 </div>
                         </td>
                     </tr>
@@ -465,7 +491,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:23</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:31</a></code>
 </div>
                         </td>
                     </tr>
@@ -510,7 +536,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:33</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:41</a></code>
 </div>
                         </td>
                     </tr>
@@ -550,7 +576,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:29</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:37</a></code>
 </div>
                         </td>
                     </tr>
@@ -590,7 +616,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:31</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:39</a></code>
 </div>
                         </td>
                     </tr>
@@ -630,7 +656,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:25</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:33</a></code>
 </div>
                         </td>
                     </tr>
@@ -673,8 +699,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="93"
-                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:93</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="120"
+                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:120</a></div>
                         </td>
                     </tr>
 
@@ -744,8 +770,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="635"
-                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:635</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="786"
+                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:786</a></div>
                         </td>
                     </tr>
 
@@ -839,8 +865,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="452"
-                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:452</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="603"
+                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:603</a></div>
                         </td>
                     </tr>
 
@@ -910,8 +936,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="360"
-                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:360</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="511"
+                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:511</a></div>
                         </td>
                     </tr>
 
@@ -981,8 +1007,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="676"
-                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:676</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="827"
+                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:827</a></div>
                         </td>
                     </tr>
 
@@ -1174,15 +1200,15 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="306"
-                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:306</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="339"
+                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:339</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Not implemented</p>
+                        <div class="io-description"><p>Return tracker hits</p>
 </div>
 
                             <div class="io-description">
@@ -1245,8 +1271,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="504"
-                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:504</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="655"
+                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:655</a></div>
                         </td>
                     </tr>
 
@@ -1316,8 +1342,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="564"
-                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:564</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="715"
+                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:715</a></div>
                         </td>
                     </tr>
 
@@ -1402,6 +1428,101 @@
                             <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPDG"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getPDG</b></span>
+                        <a href="#getPDG"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getPDG(event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, collectionID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="93"
+                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:93</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Find PDG of the particle associated with the hit</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>collectionID</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1499,8 +1620,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="205"
-                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:205</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="238"
+                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:238</a></div>
                         </td>
                     </tr>
 
@@ -1570,8 +1691,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="156"
-                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:156</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="189"
+                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:189</a></div>
                         </td>
                     </tr>
 
@@ -1680,8 +1801,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="627"
-                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:627</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="778"
+                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:778</a></div>
                         </td>
                     </tr>
 
@@ -1790,8 +1911,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="650"
-                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:650</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="801"
+                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:801</a></div>
                         </td>
                     </tr>
 
@@ -1885,8 +2006,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="663"
-                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:663</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="814"
+                                    class="link-to-prism">src/loaders/edm4hep-json-loader.ts:814</a></div>
                         </td>
                     </tr>
 
@@ -1986,7 +2107,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:516</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:315</a></code>
 </div>
                         </td>
                     </tr>
@@ -2146,7 +2267,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:733</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:532</a></code>
 </div>
                         </td>
                     </tr>
@@ -2261,7 +2382,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:448</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:234</a></code>
 </div>
                         </td>
                     </tr>
@@ -2437,7 +2558,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:770</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:569</a></code>
 </div>
                         </td>
                     </tr>
@@ -2539,7 +2660,7 @@
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>buildEventData(eventData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, graphicsLibrary: <a href="../classes/ThreeManager.html" target="_self">ThreeManager</a>, ui: <a href="../classes/UIManager.html" target="_self">UIManager</a>, infoLogger: <a href="../classes/InfoLogger.html" target="_self">InfoLogger</a>)</code>
+                    <code>buildEventData(eventData: <a href="../interfaces/PhoenixEventData.html" target="_self">PhoenixEventData</a>, graphicsLibrary: <a href="../classes/ThreeManager.html" target="_self">ThreeManager</a>, ui: <a href="../classes/UIManager.html" target="_self">UIManager</a>, infoLogger: <a href="../classes/InfoLogger.html" target="_self">InfoLogger</a>)</code>
                 </td>
             </tr>
 
@@ -2552,7 +2673,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:51</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:59</a></code>
 </div>
                         </td>
                     </tr>
@@ -2580,7 +2701,7 @@ the different objects to the graphics library and the UI controls.</p>
                                         <tr>
                                                 <td>eventData</td>
                                             <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                            <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
                                             </td>
 
                                             <td>
@@ -2683,7 +2804,7 @@ the different objects to the graphics library and the UI controls.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:127</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:132</a></code>
 </div>
                         </td>
                     </tr>
@@ -2766,7 +2887,7 @@ the different objects to the graphics library and the UI controls.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:103</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:111</a></code>
 </div>
                         </td>
                     </tr>
@@ -2778,7 +2899,7 @@ the different objects to the graphics library and the UI controls.</p>
 </div>
 
                         <div class="io-description">
-                            <b>Returns : </b>    <code>string[]</code>
+                            <b>Returns : </b>    <code>literal type</code>
 
                         </div>
                             <div class="io-description">
@@ -2817,7 +2938,7 @@ the different objects to the graphics library and the UI controls.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:581</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:380</a></code>
 </div>
                         </td>
                     </tr>
@@ -2955,7 +3076,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:571</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:370</a></code>
 </div>
                         </td>
                     </tr>
@@ -3050,7 +3171,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:565</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:364</a></code>
 </div>
                         </td>
                     </tr>
@@ -3143,7 +3264,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:679</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:478</a></code>
 </div>
                         </td>
                     </tr>
@@ -3181,7 +3302,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getEventsList(eventsData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>getEventsList(eventsData: <a href="../interfaces/PhoenixEventsData.html" target="_self">PhoenixEventsData</a>)</code>
                 </td>
             </tr>
 
@@ -3194,7 +3315,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:87</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:95</a></code>
 </div>
                         </td>
                     </tr>
@@ -3221,7 +3342,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                                         <tr>
                                                 <td>eventsData</td>
                                             <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                            <code><a href="../interfaces/PhoenixEventsData.html" target="_self" >PhoenixEventsData</a></code>
                                             </td>
 
                                             <td>
@@ -3277,7 +3398,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:759</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:558</a></code>
 </div>
                         </td>
                     </tr>
@@ -3328,7 +3449,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:551</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:350</a></code>
 </div>
                         </td>
                     </tr>
@@ -3387,18 +3508,18 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="loadObjectTypes"></a>
+                    <a name="getObjectTypeConfigs"></a>
                     <span class="name">
                             <span class="modifier">Protected</span>
-                        <span ><b>loadObjectTypes</b></span>
-                        <a href="#loadObjectTypes"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>getObjectTypeConfigs</b></span>
+                        <a href="#getObjectTypeConfigs"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadObjectTypes(eventData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>getObjectTypeConfigs()</code>
                 </td>
             </tr>
 
@@ -3411,7 +3532,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:148</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:154</a></code>
 </div>
                         </td>
                     </tr>
@@ -3419,8 +3540,55 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Receives an object containing the data from an event and parses it
-to reconstruct the different collections of physics objects.</p>
+                        <div class="io-description"><p>Get the object type configs for this loader. Override in subclasses
+to add experiment-specific types or modify defaults.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/ObjectTypeConfig.html" target="_self" >ObjectTypeConfig[]</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadObjectTypes"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>loadObjectTypes</b></span>
+                        <a href="#loadObjectTypes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadObjectTypes(eventData: <a href="../interfaces/PhoenixEventData.html" target="_self">PhoenixEventData</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:162</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Load all object types from event data using the registry configs.</p>
 </div>
 
                             <div class="io-description">
@@ -3439,7 +3607,7 @@ to reconstruct the different collections of physics objects.</p>
                                         <tr>
                                                 <td>eventData</td>
                                             <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                            <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
                                             </td>
 
                                             <td>
@@ -3448,7 +3616,7 @@ to reconstruct the different collections of physics objects.</p>
 
 
                                             <td>
-                                                    <p>Representing ONE event (expressed in the Phoenix format).</p>
+                                                    <p>One event in Phoenix format.</p>
 
                                             </td>
                                         </tr>
@@ -3545,7 +3713,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
     const eventHeader &#x3D; event[&#x27;EventHeader&#x27;][&#x27;collection&#x27;];
 
-    if (!(&#x27;runNumber&#x27; in eventHeader)) {
+    if (&#x27;runNumber&#x27; in eventHeader[0]) {
       return eventHeader[0][&#x27;runNumber&#x27;];
     }
 
@@ -3560,14 +3728,41 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
     const eventHeader &#x3D; event[&#x27;EventHeader&#x27;][&#x27;collection&#x27;];
 
-    if (!(&#x27;eventNumber&#x27; in eventHeader)) {
+    if (&#x27;eventNumber&#x27; in eventHeader[0]) {
       return eventHeader[0][&#x27;eventNumber&#x27;];
     }
 
     return 0;
   }
 
-  /** Assign default color to Tracks*/
+  /** Find PDG of the particle associated with the hit */
+  private getPDG(event: any, collectionID: number, index: number) {
+    for (const collName in event) {
+      if (event[collName].constructor !&#x3D; Object) {
+        continue;
+      }
+
+      const collDict &#x3D; event[collName];
+
+      if (!(&#x27;collID&#x27; in collDict)) {
+        continue;
+      }
+
+      if (collDict[&#x27;collID&#x27;] !&#x3D;&#x3D; collectionID) {
+        continue;
+      }
+
+      if (collDict[&#x27;collection&#x27;].length &lt;&#x3D; index) {
+        continue;
+      }
+
+      return collDict[&#x27;collection&#x27;][index][&#x27;PDG&#x27;];
+    }
+
+    return 0;
+  }
+
+  /** Assign default color to Tracks */
   private colorTracks(event: any) {
     let recoParticles: any[];
     if (&#x27;ReconstructedParticles&#x27; in event) {
@@ -3598,8 +3793,14 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     }
 
     mcRecoAssocs.forEach((mcRecoAssoc: any) &#x3D;&gt; {
-      const recoIndex &#x3D; mcRecoAssoc[&#x27;rec&#x27;][&#x27;index&#x27;];
-      const mcIndex &#x3D; mcRecoAssoc[&#x27;sim&#x27;][&#x27;index&#x27;];
+      const recoIndex &#x3D;
+        typeof mcRecoAssoc[&#x27;rec&#x27;] !&#x3D;&#x3D; &#x27;undefined&#x27;
+          ? mcRecoAssoc[&#x27;rec&#x27;][&#x27;index&#x27;]
+          : mcRecoAssoc[&#x27;from&#x27;][&#x27;index&#x27;];
+      const mcIndex &#x3D;
+        typeof mcRecoAssoc[&#x27;sim&#x27;] !&#x3D;&#x3D; &#x27;undefined&#x27;
+          ? mcRecoAssoc[&#x27;sim&#x27;][&#x27;index&#x27;]
+          : mcRecoAssoc[&#x27;to&#x27;][&#x27;index&#x27;];
 
       const pdgid &#x3D; mcParticles[mcIndex][&#x27;PDG&#x27;];
       const trackRefs &#x3D; recoParticles[recoIndex][&#x27;tracks&#x27;];
@@ -3780,7 +3981,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return allTracks;
   }
 
-  /** Not implemented */
+  /** Return tracker hits */
   private getHits(event: any) {
     const allHits: { [key: string]: any[] } &#x3D; {};
 
@@ -3790,6 +3991,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       }
 
       const collDict &#x3D; event[collName];
+      // console.log(collDict);
 
       if (!(&#x27;collType&#x27; in collDict)) {
         continue;
@@ -3809,7 +4011,21 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
       const rawHits &#x3D; collDict[&#x27;collection&#x27;];
       const hits: any[] &#x3D; [];
+      const hitsOverlay: any[] &#x3D; [];
+      const hitsProdBySecondary: any[] &#x3D; [];
+      const hitsElectron: any[] &#x3D; [];
+      const hitsMuon: any[] &#x3D; [];
+      const hitsPion: any[] &#x3D; [];
+      const hitsKaon: any[] &#x3D; [];
+      const hitsProton: any[] &#x3D; [];
       const hitColor &#x3D; this.randomColor();
+      const hitColorOverlay &#x3D; this.randomColor();
+      const hitColorProdBySecondary &#x3D; this.randomColor();
+      const hitColorElectron &#x3D; this.randomColor();
+      const hitColorMuon &#x3D; this.randomColor();
+      const hitColorPion &#x3D; this.randomColor();
+      const hitColorKaon &#x3D; this.randomColor();
+      const hitColorProton &#x3D; this.randomColor();
 
       rawHits.forEach((rawHit: any) &#x3D;&gt; {
         const position: any[] &#x3D; [];
@@ -3819,16 +4035,119 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
           position.push(rawHit[&#x27;position&#x27;][&#x27;z&#x27;] * 0.1);
         }
 
-        const hit &#x3D; {
-          type: &#x27;CircularPoint&#x27;,
-          pos: position,
-          color: &#x27;#&#x27; + hitColor,
-          size: 2,
-        };
-        hits.push(hit);
+        /* BITOverlay &#x3D; 31
+         * https://github.com/key4hep/EDM4hep/blob/fe5a54046a91a7e648d0b588960db7841aebc670/edm4hep.yaml#L349
+         */
+        if ((rawHit[&#x27;quality&#x27;] &amp; (1 &lt;&lt; 31)) !&#x3D;&#x3D; 0) {
+          const hit &#x3D; {
+            type: &#x27;CircularPoint&#x27;,
+            pos: position,
+            color: &#x27;#&#x27; + hitColorOverlay,
+            size: 2,
+          };
+          hitsOverlay.push(hit);
+          /* BITProducedBySecondary &#x3D; 30
+           * https://github.com/key4hep/EDM4hep/blob/fe5a54046a91a7e648d0b588960db7841aebc670/edm4hep.yaml#L350
+           */
+        } else if ((rawHit[&#x27;quality&#x27;] &amp; (1 &lt;&lt; 30)) !&#x3D;&#x3D; 0) {
+          const hit &#x3D; {
+            type: &#x27;CircularPoint&#x27;,
+            pos: position,
+            color: &#x27;#&#x27; + hitColorProdBySecondary,
+            size: 2,
+          };
+          hitsProdBySecondary.push(hit);
+        } else {
+          let other &#x3D; true;
+          if (rawHit[&#x27;particle&#x27;].length &gt; 0) {
+            const pdg &#x3D; this.getPDG(
+              event,
+              rawHit[&#x27;particle&#x27;][0][&#x27;collectionID&#x27;],
+              rawHit[&#x27;particle&#x27;][0][&#x27;index&#x27;],
+            );
+            if (Math.abs(pdg) &#x3D;&#x3D;&#x3D; 11) {
+              const hit &#x3D; {
+                type: &#x27;CircularPoint&#x27;,
+                pos: position,
+                color: &#x27;#&#x27; + hitColorElectron,
+                size: 2,
+              };
+              hitsElectron.push(hit);
+              other &#x3D; false;
+            } else if (Math.abs(pdg) &#x3D;&#x3D;&#x3D; 13) {
+              const hit &#x3D; {
+                type: &#x27;CircularPoint&#x27;,
+                pos: position,
+                color: &#x27;#&#x27; + hitColorMuon,
+                size: 2,
+              };
+              hitsMuon.push(hit);
+              other &#x3D; false;
+            } else if (Math.abs(pdg) &#x3D;&#x3D;&#x3D; 211) {
+              const hit &#x3D; {
+                type: &#x27;CircularPoint&#x27;,
+                pos: position,
+                color: &#x27;#&#x27; + hitColorPion,
+                size: 2,
+              };
+              hitsPion.push(hit);
+              other &#x3D; false;
+            } else if (Math.abs(pdg) &#x3D;&#x3D;&#x3D; 321) {
+              const hit &#x3D; {
+                type: &#x27;CircularPoint&#x27;,
+                pos: position,
+                color: &#x27;#&#x27; + hitColorKaon,
+                size: 2,
+              };
+              hitsKaon.push(hit);
+              other &#x3D; false;
+            } else if (Math.abs(pdg) &#x3D;&#x3D;&#x3D; 2212) {
+              const hit &#x3D; {
+                type: &#x27;CircularPoint&#x27;,
+                pos: position,
+                color: &#x27;#&#x27; + hitColorProton,
+                size: 2,
+              };
+              hitsProton.push(hit);
+              other &#x3D; false;
+            }
+          }
+          if (other) {
+            const hit &#x3D; {
+              type: &#x27;CircularPoint&#x27;,
+              pos: position,
+              color: &#x27;#&#x27; + hitColor,
+              size: 2,
+            };
+            hits.push(hit);
+          }
+        }
       });
 
-      allHits[collName] &#x3D; hits;
+      if (hits.length &gt; 0) {
+        allHits[collName + &#x27; | Other&#x27;] &#x3D; hits;
+      }
+      if (hitsOverlay.length &gt; 0) {
+        allHits[collName + &#x27; | Overlay&#x27;] &#x3D; hitsOverlay;
+      }
+      if (hitsProdBySecondary.length &gt; 0) {
+        allHits[collName + &#x27; | Secondary&#x27;] &#x3D; hitsProdBySecondary;
+      }
+      if (hitsElectron.length &gt; 0) {
+        allHits[collName + &#x27; | Electron&#x27;] &#x3D; hitsElectron;
+      }
+      if (hitsMuon.length &gt; 0) {
+        allHits[collName + &#x27; | Muon&#x27;] &#x3D; hitsMuon;
+      }
+      if (hitsPion.length &gt; 0) {
+        allHits[collName + &#x27; | Pion&#x27;] &#x3D; hitsPion;
+      }
+      if (hitsKaon.length &gt; 0) {
+        allHits[collName + &#x27; | Kaon&#x27;] &#x3D; hitsKaon;
+      }
+      if (hitsProton.length &gt; 0) {
+        allHits[collName + &#x27; | Proton&#x27;] &#x3D; hitsProton;
+      }
     }
 
     return allHits;

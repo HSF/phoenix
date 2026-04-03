@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content class">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -1060,8 +1078,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="402"
-                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:402</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="421"
+                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:421</a></div>
                         </td>
                     </tr>
 
@@ -1152,8 +1170,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="350"
-                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:350</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="369"
+                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:369</a></div>
                         </td>
                     </tr>
 
@@ -1269,8 +1287,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="458"
-                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:458</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="477"
+                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:477</a></div>
                         </td>
                     </tr>
 
@@ -1346,8 +1364,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="443"
-                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:443</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="462"
+                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:462</a></div>
                         </td>
                     </tr>
 
@@ -1773,6 +1791,8 @@ export class DatGUIMenuUI implements PhoenixUI&lt;GUI&gt; {
     this.guiParameters[collectionName] &#x3D; {
       show: true,
       color: 0x000000,
+      extendTracks: false,
+      extendRadius: 1500,
       randomColor: () &#x3D;&gt;
         this.three.getColorManager().collectionColorRandom(collectionName),
       resetCut: () &#x3D;&gt;
@@ -1805,6 +1825,23 @@ export class DatGUIMenuUI implements PhoenixUI&lt;GUI&gt; {
       this.three.getColorManager().collectionColor(collectionName, value),
     );
     colorMenu.setValue(collectionColor?.getHex());
+    // Option to optionally extend measured tracks to a radius
+    collFolder
+      .add(this.guiParameters[collectionName], &#x27;extendTracks&#x27;)
+      .name(&#x27;Extend to radius&#x27;)
+      .onChange((value: boolean) &#x3D;&gt; {
+        const radius &#x3D; this.guiParameters[collectionName].extendRadius;
+        this.three.extendCollectionTracks(collectionName, radius, value);
+      });
+    collFolder
+      .add(this.guiParameters[collectionName], &#x27;extendRadius&#x27;, 100, 5000)
+      .name(&#x27;Radius&#x27;)
+      .onFinishChange((value: number) &#x3D;&gt; {
+        const enabled &#x3D; this.guiParameters[collectionName].extendTracks;
+        if (enabled) {
+          this.three.extendCollectionTracks(collectionName, value, true);
+        }
+      });
     collFolder
       .add(this.guiParameters[collectionName], &#x27;randomColor&#x27;)
       .name(&#x27;Random Color&#x27;);

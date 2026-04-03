@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content interface">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -221,15 +239,15 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="57"
-                                    class="link-to-prism">src/loaders/event-data-loader.ts:57</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="34"
+                                    class="link-to-prism">src/loaders/event-data-loader.ts:34</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Add label of event object to the labels object.</p>
+                        <div class="io-description"><p>Add a label to an event object. Returns a unique label ID.</p>
 </div>
 
                             <div class="io-description">
@@ -241,7 +259,6 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
-                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -256,10 +273,6 @@
                                             </td>
 
 
-                                            <td>
-                                                    <p>Label to add to the event object.</p>
-
-                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>collection</td>
@@ -272,10 +285,6 @@
                                             </td>
 
 
-                                            <td>
-                                                    <p>Collection the event object is a part of.</p>
-
-                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>indexInCollection</td>
@@ -288,10 +297,6 @@
                                             </td>
 
 
-                                            <td>
-                                                    <p>Event object&#39;s index in collection.</p>
-
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -301,8 +306,7 @@
 
                         </div>
                             <div class="io-description">
-                                <p>A unique label ID string.</p>
-
+                                
                             </div>
                 </td>
             </tr>
@@ -321,23 +325,22 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>buildEventData(eventData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, graphicsLibrary: <a href="../classes/ThreeManager.html" target="_self">ThreeManager</a>, ui: <a href="../classes/UIManager.html" target="_self">UIManager</a>, infoLogger: <a href="../classes/InfoLogger.html" target="_self">InfoLogger</a>)</code>
+<code>buildEventData(eventData: <a href="../interfaces/PhoenixEventData.html" target="_self">PhoenixEventData</a>, graphicsLibrary: <a href="../classes/ThreeManager.html" target="_self">ThreeManager</a>, ui: <a href="../classes/UIManager.html" target="_self">UIManager</a>, infoLogger: <a href="../classes/InfoLogger.html" target="_self">InfoLogger</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="17"
-                                    class="link-to-prism">src/loaders/event-data-loader.ts:17</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="14"
+                                    class="link-to-prism">src/loaders/event-data-loader.ts:14</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Takes an object that represents ONE event and takes care of adding
-the different objects to the graphic library and the UI controls.</p>
+                        <div class="io-description"><p>Load one event into the graphics library and UI.</p>
 </div>
 
                             <div class="io-description">
@@ -349,14 +352,13 @@ the different objects to the graphic library and the UI controls.</p>
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
-                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>eventData</td>
                                             <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                            <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
                                             </td>
 
                                             <td>
@@ -364,10 +366,6 @@ the different objects to the graphic library and the UI controls.</p>
                                             </td>
 
 
-                                            <td>
-                                                    <p>Object representing the event.</p>
-
-                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>graphicsLibrary</td>
@@ -380,10 +378,6 @@ the different objects to the graphic library and the UI controls.</p>
                                             </td>
 
 
-                                            <td>
-                                                    <p>Manager containing functionality to draw the 3D objects.</p>
-
-                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>ui</td>
@@ -396,10 +390,6 @@ the different objects to the graphic library and the UI controls.</p>
                                             </td>
 
 
-                                            <td>
-                                                    <p>Manager for showing menus and controls to manipulate the geometries.</p>
-
-                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>infoLogger</td>
@@ -412,10 +402,6 @@ the different objects to the graphic library and the UI controls.</p>
                                             </td>
 
 
-                                            <td>
-                                                    <p>Logger for logging event display data..</p>
-
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -451,15 +437,15 @@ the different objects to the graphic library and the UI controls.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="42"
-                                    class="link-to-prism">src/loaders/event-data-loader.ts:42</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="28"
+                                    class="link-to-prism">src/loaders/event-data-loader.ts:28</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get all the objects inside a collection.</p>
+                        <div class="io-description"><p>Get all objects in a collection by name.</p>
 </div>
 
                             <div class="io-description">
@@ -471,7 +457,6 @@ the different objects to the graphic library and the UI controls.</p>
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
-                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -486,10 +471,6 @@ the different objects to the graphic library and the UI controls.</p>
                                             </td>
 
 
-                                            <td>
-                                                    <p>Key of the collection that will be retrieved.</p>
-
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -499,8 +480,7 @@ the different objects to the graphic library and the UI controls.</p>
 
                         </div>
                             <div class="io-description">
-                                <p>Object containing all physics objects from the desired collection.</p>
-
+                                
                             </div>
                 </td>
             </tr>
@@ -526,25 +506,21 @@ the different objects to the graphic library and the UI controls.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="35"
-                                    class="link-to-prism">src/loaders/event-data-loader.ts:35</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="25"
+                                    class="link-to-prism">src/loaders/event-data-loader.ts:25</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get the different collections for the current stored event.</p>
+                        <div class="io-description"><p>Get collection names grouped by object type.</p>
 </div>
 
                         <div class="io-description">
-                            <b>Returns : </b>    <code>string[]</code>
+                            <b>Returns : </b>    <code>literal type</code>
 
                         </div>
-                            <div class="io-description">
-                                <p>List of strings, each representing a collection of the event displayed.</p>
-
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -569,25 +545,21 @@ the different objects to the graphic library and the UI controls.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="48"
-                                    class="link-to-prism">src/loaders/event-data-loader.ts:48</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="31"
+                                    class="link-to-prism">src/loaders/event-data-loader.ts:31</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get metadata associated to the displayed event (experiment info, time, run, event...).</p>
+                        <div class="io-description"><p>Get metadata for the current event.</p>
 </div>
 
                         <div class="io-description">
                             <b>Returns : </b>    <code>any[]</code>
 
                         </div>
-                            <div class="io-description">
-                                <p>Metadata of the displayed event.</p>
-
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -605,22 +577,22 @@ the different objects to the graphic library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getEventsList(eventsData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>getEventsList(eventsData: <a href="../interfaces/PhoenixEventsData.html" target="_self">PhoenixEventsData</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="29"
-                                    class="link-to-prism">src/loaders/event-data-loader.ts:29</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="22"
+                                    class="link-to-prism">src/loaders/event-data-loader.ts:22</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Takes an object containing multiple events and returns the keys of these events.</p>
+                        <div class="io-description"><p>Get keys of all events in the container.</p>
 </div>
 
                             <div class="io-description">
@@ -632,14 +604,13 @@ the different objects to the graphic library and the UI controls.</p>
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
-                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>eventsData</td>
                                             <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                            <code><a href="../interfaces/PhoenixEventsData.html" target="_self" >PhoenixEventsData</a></code>
                                             </td>
 
                                             <td>
@@ -647,10 +618,6 @@ the different objects to the graphic library and the UI controls.</p>
                                             </td>
 
 
-                                            <td>
-                                                    <p>Object that contains the different events.</p>
-
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -660,8 +627,7 @@ the different objects to the graphic library and the UI controls.</p>
 
                         </div>
                             <div class="io-description">
-                                <p>List of keys of the different events.</p>
-
+                                
                             </div>
                 </td>
             </tr>
@@ -687,25 +653,21 @@ the different objects to the graphic library and the UI controls.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="67"
-                                    class="link-to-prism">src/loaders/event-data-loader.ts:67</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="41"
+                                    class="link-to-prism">src/loaders/event-data-loader.ts:41</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get the object containing labels.</p>
+                        <div class="io-description"><p>Get the labels object.</p>
 </div>
 
                         <div class="io-description">
                             <b>Returns : </b>    <code>literal type</code>
 
                         </div>
-                            <div class="io-description">
-                                <p>The labels object.</p>
-
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -716,72 +678,46 @@ the different objects to the graphic library and the UI controls.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ThreeManager } from &#x27;../managers/three-manager/index&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { InfoLogger } from &#x27;../helpers/info-logger&#x27;;
+import { ThreeManager } from &#x27;../managers/three-manager/index&#x27;;
 import { UIManager } from &#x27;../managers/ui-manager/index&#x27;;
-import { InfoLogger } from &#x27;../helpers/info-logger&#x27;;
+import type {
+  PhoenixEventData,
+  PhoenixEventsData,
+} from &#x27;../lib/types/event-data&#x27;;
 
 /**
  * Event data loader for implementing different event data loaders.
  */
 export interface EventDataLoader {
-  /**
-   * Takes an object that represents ONE event and takes care of adding
-   * the different objects to the graphic library and the UI controls.
-   * @param eventData Object representing the event.
-   * @param graphicsLibrary Manager containing functionality to draw the 3D objects.
-   * @param ui Manager for showing menus and controls to manipulate the geometries.
-   * @param infoLogger Logger for logging event display data..
-   */
+  /** Load one event into the graphics library and UI. */
   buildEventData(
-    eventData: any,
+    eventData: PhoenixEventData,
     graphicsLibrary: ThreeManager,
     ui: UIManager,
     infoLogger: InfoLogger,
   ): void;
 
-  /**
-   * Takes an object containing multiple events and returns the keys of these events.
-   * @param eventsData Object that contains the different events.
-   * @returns List of keys of the different events.
-   */
-  getEventsList(eventsData: any): string[];
+  /** Get keys of all events in the container. */
+  getEventsList(eventsData: PhoenixEventsData): string[];
 
-  /**
-   * Get the different collections for the current stored event.
-   * @returns List of strings, each representing a collection of the event displayed.
-   */
-  getCollections(): string[];
+  /** Get collection names grouped by object type. */
+  getCollections(): { [key: string]: string[] };
 
-  /**
-   * Get all the objects inside a collection.
-   * @param collectionName Key of the collection that will be retrieved.
-   * @returns Object containing all physics objects from the desired collection.
-   */
+  /** Get all objects in a collection by name. */
   getCollection(collectionName: string): any;
 
-  /**
-   * Get metadata associated to the displayed event (experiment info, time, run, event...).
-   * @returns Metadata of the displayed event.
-   */
+  /** Get metadata for the current event. */
   getEventMetadata(): any[];
 
-  /**
-   * Add label of event object to the labels object.
-   * @param label Label to add to the event object.
-   * @param collection Collection the event object is a part of.
-   * @param indexInCollection Event object&#x27;s index in collection.
-   * @returns A unique label ID string.
-   */
+  /** Add a label to an event object. Returns a unique label ID. */
   addLabelToEventObject(
     label: string,
     collection: string,
     indexInCollection: number,
   ): string;
 
-  /**
-   * Get the object containing labels.
-   * @returns The labels object.
-   */
+  /** Get the labels object. */
   getLabelsObject(): { [key: string]: any };
 }
 </code></pre>

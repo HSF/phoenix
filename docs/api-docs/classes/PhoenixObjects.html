@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content class">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -262,8 +280,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="652"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:652</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="719"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:719</a></div>
                         </td>
                     </tr>
 
@@ -335,8 +353,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="616"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:616</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="679"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:679</a></div>
                         </td>
                     </tr>
 
@@ -454,8 +472,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="559"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:559</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="622"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:622</a></div>
                         </td>
                     </tr>
 
@@ -591,8 +609,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="508"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:508</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="562"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:562</a></div>
                         </td>
                     </tr>
 
@@ -728,8 +746,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="260"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:260</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="310"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:310</a></div>
                         </td>
                     </tr>
 
@@ -809,8 +827,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="872"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:872</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="951"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:951</a></div>
                         </td>
                     </tr>
 
@@ -886,8 +904,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="201"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:201</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="212"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:212</a></div>
                         </td>
                     </tr>
 
@@ -963,8 +981,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="838"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:838</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="917"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:917</a></div>
                         </td>
                     </tr>
 
@@ -1040,8 +1058,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="751"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:751</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="830"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:830</a></div>
                         </td>
                     </tr>
 
@@ -1117,8 +1135,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="705"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:705</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="781"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:781</a></div>
                         </td>
                     </tr>
 
@@ -1194,8 +1212,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="104"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:104</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="112"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:112</a></div>
                         </td>
                     </tr>
 
@@ -1271,8 +1289,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="43"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:43</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="45"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -1348,8 +1366,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="807"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:807</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="886"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:886</a></div>
                         </td>
                     </tr>
 
@@ -1426,8 +1444,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="465"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:465</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="515"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:515</a></div>
                         </td>
                     </tr>
 
@@ -1534,8 +1552,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="384"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:384</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="434"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:434</a></div>
                         </td>
                     </tr>
 
@@ -1642,8 +1660,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="432"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:432</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="482"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:482</a></div>
                         </td>
                     </tr>
 
@@ -1750,8 +1768,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="351"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:351</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="401"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:401</a></div>
                         </td>
                     </tr>
 
@@ -1869,6 +1887,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
   LineSegments,
   LineDashedMaterial,
   CanvasTexture,
+  ShaderMaterial,
+  DoubleSide,
 } from &#x27;three&#x27;;
 import { ConvexGeometry } from &#x27;three/examples/jsm/geometries/ConvexGeometry.js&#x27;;
 import { EVENT_DATA_TYPE_COLORS } from &#x27;../../helpers/constants&#x27;;
@@ -1899,8 +1919,14 @@ export class PhoenixObjects {
         track.extended &#x3D; true;
       }
 
-      if (track.pos.length &lt; 2) {
-        console.log(&#x27;Track too short, and extrapolation failed.&#x27;);
+      // Filter out positions with NaN from RK extrapolation
+      if (track.pos) {
+        track.pos &#x3D; track.pos.filter((p: number[]) &#x3D;&gt;
+          p.every((v: number) &#x3D;&gt; isFinite(v)),
+        );
+      }
+
+      if (!track.pos || track.pos.length &lt; 2) {
         continue;
       }
 
@@ -1930,7 +1956,7 @@ export class PhoenixObjects {
         ? parseInt(track.color, 16)
         : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
-      track.tid &#x3D; tracksMesh.addTrack(vertices, color);
+      track.tid &#x3D; tracksMesh.addTrack(vertices, color, track.linewidth);
       track.material &#x3D; tracksMaterial;
     }
     tracksMesh.process();
@@ -1957,12 +1983,15 @@ export class PhoenixObjects {
       trackParams.extended &#x3D; true;
     }
 
-    const positions &#x3D; trackParams.pos;
+    // Filter out any positions containing NaN from RK extrapolation
+    const positions &#x3D; trackParams.pos?.filter((p: number[]) &#x3D;&gt;
+      p.every((v: number) &#x3D;&gt; isFinite(v)),
+    );
+    trackParams.pos &#x3D; positions;
     const trackObject &#x3D; new Group();
 
     // Check again, in case there was an issue with the extrapolation.
-    if (positions.length &lt; 2) {
-      console.log(&#x27;Track too short, and extrapolation failed.&#x27;);
+    if (!positions || positions.length &lt; 2) {
       return trackObject;
     }
 
@@ -2055,15 +2084,23 @@ export class PhoenixObjects {
     // Jet energy parameter can either be &#x27;energy&#x27; or &#x27;et&#x27;
     const length &#x3D; (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
 
+    // Add displacement of the origin of the jet
+    // If x is given else jet is at origin
+    const origin_X &#x3D; jetParams.origin_X ? jetParams.origin_X : 0;
+    // If y is given else jet is at origin
+    const origin_Y &#x3D; jetParams.origin_Y ? jetParams.origin_Y : 0;
+    // If z is given else jet is at origin
+    const origin_Z &#x3D; jetParams.origin_Z ? jetParams.origin_Z : 0;
+
     const sphi &#x3D; Math.sin(phi);
     const cphi &#x3D; Math.cos(phi);
     const stheta &#x3D; Math.sin(theta);
     const ctheta &#x3D; Math.cos(theta);
     //
     const translation &#x3D; new Vector3(
-      0.5 * length * cphi * stheta,
-      0.5 * length * sphi * stheta,
-      0.5 * length * ctheta,
+      0.5 * length * cphi * stheta + origin_X,
+      0.5 * length * sphi * stheta + origin_Y,
+      0.5 * length * ctheta + origin_Z,
     );
 
     const width &#x3D; jetParams.coneR
@@ -2078,20 +2115,51 @@ export class PhoenixObjects {
     const quaternion &#x3D; new Quaternion();
     quaternion.setFromUnitVectors(v1, v2);
 
-    const geometry &#x3D; new CylinderGeometry(width, 10, length, 50, 50, false); // Cone
+    const geometry &#x3D; new CylinderGeometry(width, 10, length, 50, 50, false);
 
-    const material &#x3D; new MeshBasicMaterial({
-      color: jetParams.color ?? EVENT_DATA_TYPE_COLORS.Jets,
-      opacity: 0.3,
+    // Fresnel shader: edges facing away from camera are more opaque,
+    // interior facing camera is transparent. This conveys that jets are
+    // regions of energy deposition (particle showers), not solid objects,
+    // while keeping overlapping jets visually distinguishable.
+    const jetColor &#x3D; new Color(jetParams.color ?? EVENT_DATA_TYPE_COLORS.Jets);
+    const material &#x3D; new ShaderMaterial({
+      vertexShader: &#x60;
+        varying vec3 vNormal;
+        varying vec3 vViewDir;
+        void main() {
+          vNormal &#x3D; normalize(normalMatrix * normal);
+          vec4 mvPos &#x3D; modelViewMatrix * vec4(position, 1.0);
+          vViewDir &#x3D; normalize(-mvPos.xyz);
+          gl_Position &#x3D; projectionMatrix * mvPos;
+        }
+      &#x60;,
+      fragmentShader: &#x60;
+        uniform vec3 jetColor;
+        uniform float baseOpacity;
+        uniform float edgeOpacity;
+        varying vec3 vNormal;
+        varying vec3 vViewDir;
+        void main() {
+          float fresnel &#x3D; 1.0 - abs(dot(normalize(vNormal), normalize(vViewDir)));
+          float alpha &#x3D; mix(baseOpacity, edgeOpacity, pow(fresnel, 1.5));
+          gl_FragColor &#x3D; vec4(jetColor, alpha);
+        }
+      &#x60;,
+      uniforms: {
+        jetColor: { value: jetColor },
+        baseOpacity: { value: 0.15 },
+        edgeOpacity: { value: 0.7 },
+      },
       transparent: true,
+      depthWrite: false,
+      side: DoubleSide,
     });
-    material.opacity &#x3D; 0.5;
+
     const mesh &#x3D; new Mesh(geometry, material);
     mesh.position.copy(translation);
     mesh.quaternion.copy(quaternion);
     mesh.userData &#x3D; Object.assign({}, jetParams);
     mesh.name &#x3D; &#x27;Jet&#x27;;
-    // Setting uuid for selection from collections info
     jetParams.uuid &#x3D; mesh.uuid;
 
     return mesh;
@@ -2326,6 +2394,10 @@ export class PhoenixObjects {
       geometries.push(boxGeometry);
     }
     const geometry &#x3D; mergeGeometries(geometries);
+    // Dispose intermediate geometries to free GPU memory
+    for (const geom of geometries) {
+      geom.dispose();
+    }
     geometry.computeBoundingSphere();
     // material
     const material &#x3D; new MeshPhongMaterial({
@@ -2385,6 +2457,15 @@ export class PhoenixObjects {
     );
 
     cube.position.copy(position);
+
+    // Skip clusters with NaN positions to avoid THREE.js warnings
+    if (
+      !isFinite(position.x) ||
+      !isFinite(position.y) ||
+      !isFinite(position.z)
+    ) {
+      return new Group();
+    }
 
     cube.lookAt(new Vector3(0, 0, 0));
     cube.userData &#x3D; Object.assign({}, clusterParams);
@@ -2470,8 +2551,12 @@ export class PhoenixObjects {
     defaultCellWidth: number &#x3D; 30,
     defaultCellLength: number &#x3D; 30,
   ) {
-    const cellWidth &#x3D; clusterParams.side ?? defaultCellWidth;
+    let cellWidth &#x3D; clusterParams.side ?? defaultCellWidth;
     let cellLength &#x3D; clusterParams.length ?? defaultCellLength;
+
+    // Guard against NaN dimensions
+    if (!isFinite(cellWidth)) cellWidth &#x3D; defaultCellWidth;
+    if (!isFinite(cellLength)) cellLength &#x3D; defaultCellLength;
 
     if (cellLength &lt; cellWidth) {
       cellLength &#x3D; cellWidth;
@@ -2527,6 +2612,15 @@ export class PhoenixObjects {
     );
     cube.position.copy(position);
 
+    // Skip cells with NaN positions to avoid THREE.js warnings
+    if (
+      !isFinite(position.x) ||
+      !isFinite(position.y) ||
+      !isFinite(position.z)
+    ) {
+      return new Group();
+    }
+
     if (!caloCellParams.radius &amp;&amp; !caloCellParams.z) {
       cube.lookAt(new Vector3(0, 0, 0));
     } else if (caloCellParams.z &amp;&amp; !caloCellParams.radius) {
@@ -2577,10 +2671,13 @@ export class PhoenixObjects {
       color: caloCells[0].color ?? EVENT_DATA_TYPE_COLORS.PlanarCaloCells,
     });
 
-    const outerBox &#x3D; new Mesh(
-      BufferGeometryUtils.mergeGeometries(geoms),
-      material,
-    );
+    const mergedGeometry &#x3D; BufferGeometryUtils.mergeGeometries(geoms);
+    // Dispose intermediate geometries to free GPU memory
+    for (const geom of geoms) {
+      geom.dispose();
+    }
+
+    const outerBox &#x3D; new Mesh(mergedGeometry, material);
 
     outerBox.userData &#x3D; Object.assign({}, caloCells[0]);
     outerBox.name &#x3D; &#x27;PlanarCaloCell&#x27;;

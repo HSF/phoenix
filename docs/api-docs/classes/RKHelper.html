@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content class">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -149,6 +167,10 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Static</span>
+                                <a href="#extrapolateFromLastPosition" >extrapolateFromLastPosition</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
                                 <a href="#extrapolateTrackPositions" >extrapolateTrackPositions</a>
                             </li>
                             <li>
@@ -178,6 +200,99 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="extrapolateFromLastPosition"></a>
+                    <span class="name">
+                            <span class="modifier">Static</span>
+                        <span ><b>extrapolateFromLastPosition</b></span>
+                        <a href="#extrapolateFromLastPosition"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>extrapolateFromLastPosition(track: literal type, radius: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="104"
+                                    class="link-to-prism">src/helpers/rk-helper.ts:104</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Extrapolate track from its last measured position out to a given transverse radius.
+Returns only the appended positions (does not include the last measured point).</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>track</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Track which is to be extrapolated (should have <code>pos</code> and <code>dparams</code>)</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>radius</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>transverse radius in mm to extrapolate to</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>[][]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -537,6 +652,82 @@ export class RKHelper {
     ]);
 
     return positions.concat(extrapolatedPos);
+  }
+
+  /**
+   * Extrapolate track from its last measured position out to a given transverse radius.
+   * Returns only the appended positions (does not include the last measured point).
+   * @param track Track which is to be extrapolated (should have &#x60;pos&#x60; and &#x60;dparams&#x60;)
+   * @param radius transverse radius in mm to extrapolate to
+   */
+  public static extrapolateFromLastPosition(
+    track: { pos?: number[][]; dparams?: any },
+    radius: number,
+  ): number[][] {
+    if (!track?.dparams) return [];
+
+    const lastPosArr &#x3D;
+      track.pos &amp;&amp; track.pos.length ? track.pos[track.pos.length - 1] : null;
+    if (!lastPosArr) return [];
+
+    const lastPos &#x3D; new Vector3(lastPosArr[0], lastPosArr[1], lastPosArr[2]);
+
+    // Infer start direction using last two measured points if available
+    let startDir: Vector3 | null &#x3D; null;
+    if (track.pos &amp;&amp; track.pos.length &gt; 1) {
+      const prev &#x3D; track.pos[track.pos.length - 2];
+      const prevV &#x3D; new Vector3(prev[0], prev[1], prev[2]);
+      startDir &#x3D; lastPos.clone().sub(prevV).normalize();
+    }
+
+    const dparams &#x3D; track.dparams;
+    const d0 &#x3D; dparams[0];
+    const z0 &#x3D; dparams[1];
+    const phi &#x3D; dparams[2];
+    let theta &#x3D; dparams[3];
+    const qop &#x3D; dparams[4];
+
+    if (theta &lt; 0) theta +&#x3D; Math.PI;
+
+    let p: number;
+    if (qop !&#x3D;&#x3D; 0) p &#x3D; Math.abs(1 / qop);
+    else p &#x3D; Number.MAX_VALUE;
+    const q &#x3D; Math.round(p * qop);
+
+    if (!startDir)
+      startDir &#x3D; CoordinateHelper.sphericalToCartesian(
+        p,
+        theta,
+        phi,
+      ).normalize();
+
+    const inbounds &#x3D; (pos: Vector3) &#x3D;&gt;
+      Math.sqrt(pos.x * pos.x + pos.y * pos.y) &lt;&#x3D; radius;
+
+    const traj &#x3D; RungeKutta.propagate(
+      lastPos,
+      startDir,
+      p,
+      q,
+      5,
+      1500,
+      inbounds,
+    );
+
+    const extrapolatedPos &#x3D; traj.map((val) &#x3D;&gt; [
+      val.pos.x,
+      val.pos.y,
+      val.pos.z,
+    ]);
+
+    // Remove any point equal to lastPos (first point of traj may be identical)
+    const eps &#x3D; 1e-6;
+    return extrapolatedPos.filter((pArr) &#x3D;&gt; {
+      const dx &#x3D; pArr[0] - lastPos.x;
+      const dy &#x3D; pArr[1] - lastPos.y;
+      const dz &#x3D; pArr[2] - lastPos.z;
+      return Math.abs(dx) &gt; eps || Math.abs(dy) &gt; eps || Math.abs(dz) &gt; eps;
+    });
   }
 }
 </code></pre>

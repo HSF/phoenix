@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/phoenix-menu/config/config-slider/config-slider.component.scss"],
+  "sourcesContent": [".config-slider-input {\n  background: transparent;\n  color: var(--phoenix-text-color);\n  border: none;\n  border-bottom: 1px solid var(--phoenix-text-color);\n  width: 25%;\n  -moz-appearance: textfield;\n}\n\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n  -webkit-appearance: none;\n}\n"],
+  "mappings": "AAAA,CAAA,oBACE,WAAA,YACA,MAAA,IAAA,sBACA,OAAA,KACA,cAAA,IAAA,MAAA,IAAA,sBACA,MAAA,IACA,gBAAA,UAGF,KAAA,4BAAA,KAAA,4BAEE,mBAAA",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.scss"],
+  "sourcesContent": [".view-icon {\n  width: 1.2rem;\n  height: 1.2rem;\n  margin-right: 0.5rem;\n}\n\n.icon-wrapper {\n  display: inline-block;\n  width: 1.5rem;\n  height: 1.5rem;\n  padding: 0.23rem;\n  transition: all 0.4s;\n  transform: translateY(27%);\n\n  &.icon-button:hover {\n    background: var(--phoenix-options-icon-bg);\n    border-radius: 40%;\n    cursor: pointer;\n  }\n\n  svg {\n    width: 100%;\n    height: 100%;\n    vertical-align: top;\n  }\n}\n\n.item-settings {\n  margin-right: 0.2rem;\n  margin-left: 0.5rem;\n}\n"],
+  "mappings": "AAAA,CAAA,UACE,MAAA,OACA,OAAA,OACA,aAAA,MAGF,CAAA,aACE,QAAA,aACA,MAAA,OACA,OAAA,OATF,QAUE,OACA,WAAA,IAAA,IACA,UAAA,WAAA,KAEA,CARF,YAQE,CAAA,WAAA,OACE,WAAA,IAAA,2BAfJ,cAgBI,IACA,OAAA,QAGF,CAdF,aAcE,IACE,MAAA,KACA,OAAA,KACA,eAAA,IAIJ,CAAA,cACE,aAAA,MACA,YAAA",
+  "names": []
+}

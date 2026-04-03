@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content interface">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -208,21 +226,24 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { httpRequest, openFile } from &#x27;jsroot&#x27;;
-import { settings as jsrootSettings } from &#x27;jsroot&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { httpRequest, settings as jsrootSettings, openFile } from &#x27;jsroot&#x27;;
 import { build } from &#x27;jsroot/geom&#x27;;
-import { ThreeManager } from &#x27;./managers/three-manager/index&#x27;;
-import { UIManager } from &#x27;./managers/ui-manager/index&#x27;;
-import { InfoLogger } from &#x27;./helpers/info-logger&#x27;;
-import type { Configuration } from &#x27;./lib/types/configuration&#x27;;
-import { StateManager } from &#x27;./managers/state-manager&#x27;;
-import { LoadingManager } from &#x27;./managers/loading-manager&#x27;;
-import { URLOptionsManager } from &#x27;./managers/url-options-manager&#x27;;
 import { ActiveVariable } from &#x27;./helpers/active-variable&#x27;;
-import type { AnimationPreset } from &#x27;./managers/three-manager/animations-manager&#x27;;
-import { XRSessionType } from &#x27;./managers/three-manager/xr/xr-manager&#x27;;
+import { InfoLogger } from &#x27;./helpers/info-logger&#x27;;
 import { getLabelTitle } from &#x27;./helpers/labels&#x27;;
+import type { Configuration } from &#x27;./lib/types/configuration&#x27;;
 import { PhoenixLoader } from &#x27;./loaders/phoenix-loader&#x27;;
+import { LoadingManager } from &#x27;./managers/loading-manager&#x27;;
+import { StateManager } from &#x27;./managers/state-manager&#x27;;
+import type { AnimationPreset } from &#x27;./managers/three-manager/animations-manager&#x27;;
+import { ThreeManager } from &#x27;./managers/three-manager/index&#x27;;
+import { XRSessionType } from &#x27;./managers/three-manager/xr/xr-manager&#x27;;
+import { UIManager } from &#x27;./managers/ui-manager/index&#x27;;
+import { URLOptionsManager } from &#x27;./managers/url-options-manager&#x27;;
+import type {
+  PhoenixEventData,
+  PhoenixEventsData,
+} from &#x27;./lib/types/event-data&#x27;;
 
 declare global {
   /**
@@ -241,7 +262,7 @@ export class EventDisplay {
   /** Configuration for preset views and event data loader. */
   public configuration: Configuration;
   /** An object containing event data. */
-  private eventsData: any;
+  private eventsData: PhoenixEventsData;
   /** Array containing callbacks to be called when events change. */
   private onEventsChange: ((events: any) &#x3D;&gt; void)[] &#x3D; [];
   /** Array containing callbacks to be called when the displayed event changes. */
@@ -258,6 +279,8 @@ export class EventDisplay {
   private stateManager: StateManager;
   /** URL manager for managing options given through URL. */
   private urlOptionsManager: URLOptionsManager;
+  /** Flag to track if EventDisplay has been initialized. */
+  private isInitialized: boolean &#x3D; false;
 
   /**
    * Create the Phoenix event display and intitialize all the elements.
@@ -278,6 +301,10 @@ export class EventDisplay {
    * @param configuration Configuration used to customize different aspects.
    */
   public init(configuration: Configuration) {
+    if (this.isInitialized) {
+      this.cleanup();
+    }
+    this.isInitialized &#x3D; true;
     this.configuration &#x3D; configuration;
 
     // Initialize the three manager with configuration
@@ -306,6 +333,24 @@ export class EventDisplay {
   }
 
   /**
+   * Cleanup event listeners and resources before re-initialization.
+   */
+  public cleanup() {
+    if (this.graphicsLibrary) {
+      this.graphicsLibrary.cleanup();
+    }
+    if (this.ui) {
+      this.ui.cleanup();
+    }
+    // Clear accumulated callbacks
+    this.onEventsChange &#x3D; [];
+    this.onDisplayedEventChange &#x3D; [];
+    // Reset singletons for clean view transition
+    this.loadingManager?.reset();
+    this.stateManager?.resetForViewTransition();
+  }
+
+  /**
    * Initialize XR.
    * @param xrSessionType Type of the XR session. Either AR or VR.
    * @param onSessionEnded Callback when the XR session ends.
@@ -328,7 +373,7 @@ export class EventDisplay {
    * @param eventsData Object containing the event data.
    * @returns Array of strings containing the keys of the eventsData object.
    */
-  public parsePhoenixEvents(eventsData: any): string[] {
+  public parsePhoenixEvents(eventsData: PhoenixEventsData): string[] {
     this.eventsData &#x3D; eventsData;
     if (typeof this.configuration.eventDataLoader &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
       this.configuration.eventDataLoader &#x3D; new PhoenixLoader();
@@ -346,7 +391,7 @@ export class EventDisplay {
    * of physics objects.
    * @param eventData Object containing the event data.
    */
-  public buildEventDataFromJSON(eventData: any) {
+  public buildEventDataFromJSON(eventData: PhoenixEventData) {
     // Reset labels
     this.resetLabels();
     // Creating UI folder
@@ -373,7 +418,7 @@ export class EventDisplay {
    * the event associated with that key.
    * @param eventKey String that represents the event in the eventsData object.
    */
-  public loadEvent(eventKey: any) {
+  public loadEvent(eventKey: string) {
     const event &#x3D; this.eventsData[eventKey];
 
     if (event) {
@@ -569,7 +614,7 @@ export class EventDisplay {
   public async loadGLTFGeometry(
     url: any,
     name: string,
-    menuNodeName: string &#x3D; &#x27;&#x27;,
+    menuNodeName?: string | undefined,
     scale: number &#x3D; 1.0,
     initiallyVisible: boolean &#x3D; true,
   ): Promise&lt;void&gt; {
@@ -750,29 +795,47 @@ export class EventDisplay {
    * Get the different collections for the current stored event.
    * @returns List of strings, each representing a collection of the event displayed.
    */
-  public getCollections(): string[] {
+  public getCollections(): { [key: string]: string[] } {
     if (this.configuration.eventDataLoader) {
       return this.configuration.eventDataLoader.getCollections();
     }
-    return [];
+    return {};
   }
 
   /**
    * Add a callback to onDisplayedEventChange array to call
    * the callback on changes to the displayed event.
    * @param callback Callback to be added to the onDisplayedEventChange array.
+   * @returns Unsubscribe function to remove the callback.
    */
-  public listenToDisplayedEventChange(callback: (event: any) &#x3D;&gt; any) {
+  public listenToDisplayedEventChange(
+    callback: (event: any) &#x3D;&gt; any,
+  ): () &#x3D;&gt; void {
     this.onDisplayedEventChange.push(callback);
+    return () &#x3D;&gt; {
+      const index &#x3D; this.onDisplayedEventChange.indexOf(callback);
+      if (index &gt; -1) {
+        this.onDisplayedEventChange.splice(index, 1);
+      }
+    };
   }
 
   /**
    * Add a callback to onEventsChange array to call
    * the callback on changes to the events.
    * @param callback Callback to be added to the onEventsChange array.
+   * @returns Unsubscribe function to remove the callback.
    */
-  public listenToLoadedEventsChange(callback: (events: any) &#x3D;&gt; any) {
+  public listenToLoadedEventsChange(
+    callback: (events: any) &#x3D;&gt; any,
+  ): () &#x3D;&gt; void {
     this.onEventsChange.push(callback);
+    return () &#x3D;&gt; {
+      const index &#x3D; this.onEventsChange.indexOf(callback);
+      if (index &gt; -1) {
+        this.onEventsChange.splice(index, 1);
+      }
+    };
   }
 
   /**

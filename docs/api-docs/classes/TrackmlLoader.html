@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content class">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -273,6 +291,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
+                                <a href="#getObjectTypeConfigs" >getObjectTypeConfigs</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
                                 <a href="#loadObjectTypes" >loadObjectTypes</a>
                             </li>
                         </ul>
@@ -430,7 +452,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <i>Type : </i>        <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
 
                     </td>
                 </tr>
@@ -442,7 +464,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:27</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:35</a></code>
 </div>
                         </td>
                     </tr>
@@ -482,7 +504,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:23</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:31</a></code>
 </div>
                         </td>
                     </tr>
@@ -527,7 +549,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:33</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:41</a></code>
 </div>
                         </td>
                     </tr>
@@ -567,7 +589,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:29</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:37</a></code>
 </div>
                         </td>
                     </tr>
@@ -607,7 +629,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:31</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:39</a></code>
 </div>
                         </td>
                     </tr>
@@ -647,7 +669,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:25</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:33</a></code>
 </div>
                         </td>
                     </tr>
@@ -1000,7 +1022,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:516</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:315</a></code>
 </div>
                         </td>
                     </tr>
@@ -1160,7 +1182,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:733</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:532</a></code>
 </div>
                         </td>
                     </tr>
@@ -1275,7 +1297,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:448</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:234</a></code>
 </div>
                         </td>
                     </tr>
@@ -1451,7 +1473,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:770</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:569</a></code>
 </div>
                         </td>
                     </tr>
@@ -1553,7 +1575,7 @@
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>buildEventData(eventData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, graphicsLibrary: <a href="../classes/ThreeManager.html" target="_self">ThreeManager</a>, ui: <a href="../classes/UIManager.html" target="_self">UIManager</a>, infoLogger: <a href="../classes/InfoLogger.html" target="_self">InfoLogger</a>)</code>
+                    <code>buildEventData(eventData: <a href="../interfaces/PhoenixEventData.html" target="_self">PhoenixEventData</a>, graphicsLibrary: <a href="../classes/ThreeManager.html" target="_self">ThreeManager</a>, ui: <a href="../classes/UIManager.html" target="_self">UIManager</a>, infoLogger: <a href="../classes/InfoLogger.html" target="_self">InfoLogger</a>)</code>
                 </td>
             </tr>
 
@@ -1566,7 +1588,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:51</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:59</a></code>
 </div>
                         </td>
                     </tr>
@@ -1594,7 +1616,7 @@ the different objects to the graphics library and the UI controls.</p>
                                         <tr>
                                                 <td>eventData</td>
                                             <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                            <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
                                             </td>
 
                                             <td>
@@ -1697,7 +1719,7 @@ the different objects to the graphics library and the UI controls.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:127</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:132</a></code>
 </div>
                         </td>
                     </tr>
@@ -1780,7 +1802,7 @@ the different objects to the graphics library and the UI controls.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:103</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:111</a></code>
 </div>
                         </td>
                     </tr>
@@ -1792,7 +1814,7 @@ the different objects to the graphics library and the UI controls.</p>
 </div>
 
                         <div class="io-description">
-                            <b>Returns : </b>    <code>string[]</code>
+                            <b>Returns : </b>    <code>literal type</code>
 
                         </div>
                             <div class="io-description">
@@ -1831,7 +1853,7 @@ the different objects to the graphics library and the UI controls.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:581</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:380</a></code>
 </div>
                         </td>
                     </tr>
@@ -1969,7 +1991,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:571</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:370</a></code>
 </div>
                         </td>
                     </tr>
@@ -2064,7 +2086,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:565</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:364</a></code>
 </div>
                         </td>
                     </tr>
@@ -2157,7 +2179,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:679</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:478</a></code>
 </div>
                         </td>
                     </tr>
@@ -2195,7 +2217,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getEventsList(eventsData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>getEventsList(eventsData: <a href="../interfaces/PhoenixEventsData.html" target="_self">PhoenixEventsData</a>)</code>
                 </td>
             </tr>
 
@@ -2208,7 +2230,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:87</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:95</a></code>
 </div>
                         </td>
                     </tr>
@@ -2235,7 +2257,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                                         <tr>
                                                 <td>eventsData</td>
                                             <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                            <code><a href="../interfaces/PhoenixEventsData.html" target="_self" >PhoenixEventsData</a></code>
                                             </td>
 
                                             <td>
@@ -2291,7 +2313,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:759</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:558</a></code>
 </div>
                         </td>
                     </tr>
@@ -2342,7 +2364,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:551</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:350</a></code>
 </div>
                         </td>
                     </tr>
@@ -2401,18 +2423,18 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="loadObjectTypes"></a>
+                    <a name="getObjectTypeConfigs"></a>
                     <span class="name">
                             <span class="modifier">Protected</span>
-                        <span ><b>loadObjectTypes</b></span>
-                        <a href="#loadObjectTypes"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>getObjectTypeConfigs</b></span>
+                        <a href="#getObjectTypeConfigs"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadObjectTypes(eventData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>getObjectTypeConfigs()</code>
                 </td>
             </tr>
 
@@ -2425,7 +2447,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:148</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:154</a></code>
 </div>
                         </td>
                     </tr>
@@ -2433,8 +2455,55 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Receives an object containing the data from an event and parses it
-to reconstruct the different collections of physics objects.</p>
+                        <div class="io-description"><p>Get the object type configs for this loader. Override in subclasses
+to add experiment-specific types or modify defaults.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/ObjectTypeConfig.html" target="_self" >ObjectTypeConfig[]</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadObjectTypes"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>loadObjectTypes</b></span>
+                        <a href="#loadObjectTypes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadObjectTypes(eventData: <a href="../interfaces/PhoenixEventData.html" target="_self">PhoenixEventData</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:162</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Load all object types from event data using the registry configs.</p>
 </div>
 
                             <div class="io-description">
@@ -2453,7 +2522,7 @@ to reconstruct the different collections of physics objects.</p>
                                         <tr>
                                                 <td>eventData</td>
                                             <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                            <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
                                             </td>
 
                                             <td>
@@ -2462,7 +2531,7 @@ to reconstruct the different collections of physics objects.</p>
 
 
                                             <td>
-                                                    <p>Representing ONE event (expressed in the Phoenix format).</p>
+                                                    <p>One event in Phoenix format.</p>
 
                                             </td>
                                         </tr>

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/tree-menu/tree-menu-item/tree-menu-item.component.scss"],
+  "sourcesContent": [".header {\n  cursor: pointer;\n  user-select: none; /* supported by Chrome and Opera */\n  -webkit-user-select: none; /* Safari */\n  -khtml-user-select: none; /* Konqueror HTML */\n  -moz-user-select: none; /* Firefox */\n  -ms-user-select: none; /* Internet Explorer/Edge */\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  .node-name,\n  .mat-icon-rtl-mirror {\n    color: var(--phoenix-text-color-secondary);\n  }\n\n  &.visible {\n    .node-name,\n    .mat-icon-rtl-mirror {\n      color: var(--phoenix-accent);\n    }\n  }\n}\n\n.children li {\n  list-style-type: none;\n}\n"],
+  "mappings": "AAAA,CAAA,OACE,OAAA,QACA,YAAA,KACA,oBAAA,KACA,mBAAA,KACA,iBAAA,KACA,gBAAA,KACA,QAAA,KACA,eAAA,IACA,YAAA,OACA,CAVF,OAUE,CAAA,UAAA,CAVF,OAUE,CAAA,oBAEE,MAAA,IAAA,gCAIA,CAhBJ,MAgBI,CAAA,QAAA,CANF,UAME,CAhBJ,MAgBI,CAAA,QAAA,CANF,oBAQI,MAAA,IAAA,kBAKN,CAAA,SAAA,GACE,gBAAA",
+  "names": []
+}

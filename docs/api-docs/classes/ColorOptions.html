@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content class">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -313,6 +331,8 @@
                                                     </td>
                                                     
                                                         <td>
+                                                                <p>Initial collection color.</p>
+
                                                         </td>
                                                 </tr>
                                                 <tr>
@@ -651,8 +671,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="186"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:186</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="190"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:190</a></div>
                         </td>
                     </tr>
 
@@ -692,8 +712,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="261"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:261</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="265"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:265</a></div>
                         </td>
                     </tr>
 
@@ -733,8 +753,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="309"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:309</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="313"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:313</a></div>
                         </td>
                     </tr>
 
@@ -774,8 +794,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="271"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:271</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="275"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:275</a></div>
                         </td>
                     </tr>
 
@@ -852,8 +872,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="298"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:298</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="302"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:302</a></div>
                         </td>
                     </tr>
 
@@ -900,7 +920,7 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
                         </div>
                             <div class="io-description">
-                                <p>THe momentum value.</p>
+                                <p>The momentum value.</p>
 
                             </div>
                 </td>
@@ -929,8 +949,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="157"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:157</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="161"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:161</a></div>
                         </td>
                     </tr>
 
@@ -970,8 +990,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="129"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:129</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="133"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:133</a></div>
                         </td>
                     </tr>
 
@@ -1011,8 +1031,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="220"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:220</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="224"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:224</a></div>
                         </td>
                     </tr>
 
@@ -1052,8 +1072,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="316"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:316</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="320"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:320</a></div>
                         </td>
                     </tr>
 
@@ -1093,8 +1113,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="205"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:205</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="209"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:209</a></div>
                         </td>
                     </tr>
 
@@ -1253,6 +1273,7 @@ export class ColorOptions {
    * Create the color options.
    * @param colorManager Color manager for three.js functions related to coloring of objects.
    * @param collectionFolder Collection folder to add the color by options to.
+   * @param collectionColor Initial collection color.
    * @param colorByOptionsToInclude Options to include for this collection to color event data by.
    */
   constructor(
@@ -1278,7 +1299,10 @@ export class ColorOptions {
       type: &#x27;button&#x27;,
       label: &#x27;Random&#x27;,
       onClick: () &#x3D;&gt;
-        this.colorManager.collectionColorRandom(this.collectionName),
+        this.colorManager.collectionColorRandom(
+          this.collectionName,
+          this.colorOptionsFolder,
+        ),
     });
 
     // Check which color by options are to be included.
@@ -1469,7 +1493,7 @@ export class ColorOptions {
   /**
    * Get momentum from object parameters.
    * @param objectParams Parameters associated to the 3D object.
-   * @returns THe momentum value.
+   * @returns The momentum value.
    */
   private getMomentum(objectParams: any) {
     return objectParams?.dparams?.[4]

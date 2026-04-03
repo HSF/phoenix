@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/object-selection/object-selection-overlay/object-selection-overlay.component.scss"],
+  "sourcesContent": ["#selectedObjectPanelBody {\n  padding: 0 0.8em;\n  overflow: auto;\n  /* Using px because rem gives a buggy right margin */\n  max-width: 300px;\n  max-height: 16rem;\n  min-width: 7rem;\n}\n"],
+  "mappings": "AAAA,CAAA,wBAAA,QACE,EAAA,KACA,SAAA,KAEA,UAAA,MACA,WAAA,MACA,UAAA",
+  "names": []
+}

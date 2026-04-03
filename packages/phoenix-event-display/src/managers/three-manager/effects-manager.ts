@@ -5,7 +5,6 @@ import {
   WebGLRenderer,
   Vector2,
   ShaderMaterial,
-  Material,
   Mesh,
   EdgesGeometry,
   LineSegments,
@@ -18,12 +17,14 @@ import { Pass } from 'three/examples/jsm/postprocessing/Pass.js';
 /**
  * Manager for managing three.js event display effects like outline pass and unreal bloom.
  *
- * Features:
- * - Multi-object selection with animated rainbow outlines
- * - Hover outlines with distinct blue styling
- * - Edge-based outline rendering for true silhouettes
- * - Shared shader architecture for performance
- * - Legacy compatibility for existing outline systems
+ * Selection uses OutlinePass for true silhouette outlines (boundary only, no internal
+ * mesh edges). This addresses the feedback that EdgesGeometry showed too many
+ * internal edges, especially on jets where all cone triangles were visible.
+ *
+ * Hover uses EdgesGeometry (15° threshold) for lightweight, immediate feedback.
+ *
+ * Selection color defaults to amber but is configurable via setSelectionColor()
+ * for experiments like LHCb where amber-colored objects are common.
  */
 export class EffectsManager {
   /** Effect composer for effect passes. */
@@ -38,101 +39,42 @@ export class EffectsManager {
   private outlinePasses: OutlinePass[] = [];
   /** Whether antialiasing is enabled or disabled. */
   public antialiasing: boolean = true;
-
-  /** WebGL renderer reference for custom outline rendering */
+  /** WebGL renderer reference */
   private renderer: WebGLRenderer;
 
-  // Multi-selection support
-  /** Map of selected objects to their outline helpers */
-  private selectedOutlines: Map<Mesh, LineSegments> = new Map();
+  // Selection support (OutlinePass — true silhouette)
+  /** Set of currently selected objects */
+  private selectedObjectsSet: Set<Mesh> = new Set();
+  /** OutlinePass for selection silhouette (lazy-initialized on first select) */
+  private selectionOutlinePass: OutlinePass | null = null;
+
+  // Hover support (EdgesGeometry — lightweight)
   /** Currently hovered object outline (temporary) */
   private hoverOutline: LineSegments | null = null;
+  /** Reference to the hovered object for cleanup */
+  private hoverTarget: Mesh | null = null;
 
   /** Render function with (normal render) or without antialias (effects render). */
   public render: (scene: Scene, camera: Camera) => void;
 
-  // Shared shader code for reuse
-  /** Shared vertex shader code for outline rendering. */
+  /** Vertex shader for hover outline rendering. */
   private static readonly VERTEX_SHADER = `
-    uniform float time;
-    varying vec3 vPosition;
-    varying vec3 vWorldPosition;
-    
     void main() {
-      vPosition = position;
-      vWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
   `;
 
-  /** Shared rainbow color function for reuse across shaders. */
-  private static readonly RAINBOW_FUNCTION = `
-    // Enhanced rainbow function - reused from main outline material
-    vec3 rainbow(float t) {
-      t = fract(t);
-      vec3 c = vec3(0.0);
-      
-      if (t < 0.16667) {
-        c = mix(vec3(1.0, 0.0, 1.0), vec3(1.0, 0.0, 0.0), t * 6.0);
-      } else if (t < 0.33333) {
-        c = mix(vec3(1.0, 0.0, 0.0), vec3(1.0, 1.0, 0.0), (t - 0.16667) * 6.0);
-      } else if (t < 0.5) {
-        c = mix(vec3(1.0, 1.0, 0.0), vec3(0.0, 1.0, 0.0), (t - 0.33333) * 6.0);
-      } else if (t < 0.66667) {
-        c = mix(vec3(0.0, 1.0, 0.0), vec3(0.0, 1.0, 1.0), (t - 0.5) * 6.0);
-      } else if (t < 0.83333) {
-        c = mix(vec3(0.0, 1.0, 1.0), vec3(0.0, 0.0, 1.0), (t - 0.66667) * 6.0);
-      } else {
-        c = mix(vec3(0.0, 0.0, 1.0), vec3(1.0, 0.0, 1.0), (t - 0.83333) * 6.0);
-      }
-      
-      return c;
-    }
-  `;
-
-  /** Fragment shader for hover outline effects (clean blue outline). */
+  /** Fragment shader for hover outlines (static blue). */
   private static readonly HOVER_FRAGMENT_SHADER = `
-    // Hover outline shader - clean blue outline
-    uniform float time;
     uniform float opacity;
-
     void main() {
-      // Clean blue color - no animation for simplicity
-      vec3 color = vec3(0.2, 0.6, 1.0); // Nice blue
-      
+      vec3 color = vec3(0.2, 0.6, 1.0);
       gl_FragColor = vec4(color, opacity);
     }
-  `;
-
-  /** Fragment shader for selection outline effects (animated rainbow outline). */
-  private static readonly SELECTION_FRAGMENT_SHADER = `
-    // Selection outline shader - reuses rainbow function
-    uniform float time;
-    uniform float opacity;
-    varying vec3 vWorldPosition;
-
-    ${EffectsManager.RAINBOW_FUNCTION}
-
-    void main() {
-      // Enhanced gradient calculation for more vibrant colors
-      float t = (vWorldPosition.x * 0.5 + vWorldPosition.y * 1.0 - vWorldPosition.z * 0.3) / 20000.0;
-
-      // Faster animation for more dynamic effect
-      t += time * 0.35;
-
-      // Use the shared rainbow function
-      vec3 color = rainbow(t);
-      
-
-      gl_FragColor = vec4(color, opacity);
-    }
-
-    
-
   `;
 
   /**
-   * Constructor for the effects manager which manages effects and three.js passes.
+   * Constructor for the effects manager.
    * @param camera The camera inside the scene.
    * @param scene The default scene used for event display.
    * @param renderer The main renderer used by the event display.
@@ -151,7 +93,34 @@ export class EffectsManager {
   }
 
   /**
-   * Render the effects composer with custom rainbow outline rendering.
+   * Lazily initialize the selection OutlinePass on first use.
+   * Keeps the composer clean until selection is needed, preserving
+   * existing tests that check composer.passes.length.
+   */
+  private ensureSelectionPass(): OutlinePass {
+    if (!this.selectionOutlinePass) {
+      this.selectionOutlinePass = new OutlinePass(
+        new Vector2(window.innerWidth, window.innerHeight),
+        this.scene,
+        this.camera,
+      );
+      this.selectionOutlinePass.visibleEdgeColor.set(0xffcc44); // bright amber
+      this.selectionOutlinePass.hiddenEdgeColor.set(0x190a05);
+      this.selectionOutlinePass.edgeGlow = 0; // no glow bleeding onto neighbors
+      this.selectionOutlinePass.edgeThickness = 1; // tight silhouette line
+      this.selectionOutlinePass.edgeStrength = 3;
+      this.selectionOutlinePass.pulsePeriod = 0; // we handle pulsing manually
+      this.selectionOutlinePass.enabled = false;
+
+      this.composer.addPass(this.selectionOutlinePass);
+      this.outlinePasses.push(this.selectionOutlinePass);
+    }
+    return this.selectionOutlinePass;
+  }
+
+  /**
+   * Render the effects composer with outline support.
+   * Called when antialiasing is off (selection mode).
    * @param scene The default scene used for event display.
    * @param camera The camera inside the scene.
    */
@@ -160,39 +129,42 @@ export class EffectsManager {
       this.defaultRenderPass.camera = camera;
       this.defaultRenderPass.scene = scene;
 
-      // Update all outline passes with the current camera
       for (const outlinePass of this.outlinePasses) {
         outlinePass.renderCamera = camera;
       }
 
-      // Always update time uniforms if we have any outlines (new multi-selection system)
-      if (this.selectedOutlines.size > 0 || this.hoverOutline) {
-        this.renderWithRainbowOutline(scene, camera);
-      } else {
-        // Normal rendering without outline
-        this.composer.render();
-      }
+      this.updateSelectionPulse();
+      this.composer.render();
     }
   }
 
   /**
    * Render for antialias without the effects composer.
+   * Falls back to composer if there are active selections (OutlinePass needs it).
    * @param scene The default scene used for event display.
    * @param camera The camera inside the scene.
    */
   private antialiasRender(scene: Scene, camera: Camera) {
-    // Always update time uniforms if we have any outlines (new multi-selection system)
-    if (this.selectedOutlines.size > 0 || this.hoverOutline) {
-      this.renderWithRainbowOutline(scene, camera);
+    if (this.selectedObjectsSet.size > 0) {
+      // Selections require OutlinePass which needs the composer
+      this.defaultRenderPass.camera = camera;
+      this.defaultRenderPass.scene = scene;
+      for (const outlinePass of this.outlinePasses) {
+        outlinePass.renderCamera = camera;
+      }
+      this.updateSelectionPulse();
+      this.composer.render();
+    } else if (this.hoverOutline) {
+      // Hover outlines are scene children, direct render handles them
+      this.renderer.render(scene, camera);
     } else {
-      // Normal rendering without outline
       this.composer.renderer.render(scene, camera);
     }
   }
 
   /**
-   * Initialize the outline pass for highlighting hovered over event display elements.
-   * @returns OutlinePass for highlighting hovered over event display elements.
+   * Initialize an outline pass for external use.
+   * @returns OutlinePass for highlighting event display elements.
    */
   public addOutlinePassForSelection(): OutlinePass {
     const outlinePass = new OutlinePass(
@@ -201,12 +173,11 @@ export class EffectsManager {
       this.camera,
     );
     outlinePass.overlayMaterial.blending = NormalBlending;
-    // outlinePass.visibleEdgeColor.set(0xffff66);
     outlinePass.visibleEdgeColor.set(0xdf5330);
 
     this.composer.addPass(outlinePass);
 
-    // Keep track of this outline pass for camera updates
+    // Keep track for camera updates
     this.outlinePasses.push(outlinePass);
 
     return outlinePass;
@@ -218,9 +189,11 @@ export class EffectsManager {
    */
   public removePass(pass: Pass) {
     const passIndex = this.composer.passes.indexOf(pass);
-    this.composer.passes.splice(passIndex, 1);
+    if (passIndex > -1) {
+      this.composer.passes.splice(passIndex, 1);
+    }
 
-    // If it's an outline pass, remove it from our tracking array
+    // If it's an outline pass, remove from tracking array
     if (pass instanceof OutlinePass) {
       const outlineIndex = this.outlinePasses.indexOf(pass);
       if (outlineIndex > -1) {
@@ -239,31 +212,14 @@ export class EffectsManager {
   }
 
   /**
-   * Perform dual-pass rendering: rainbow outline + original object.
-   * @param scene The scene to render.
-   * @param camera The camera to render with.
+   * Update the pulsing animation on the selection OutlinePass.
+   * Oscillates edgeStrength for a gentle breathing effect.
    */
-  private renderWithRainbowOutline(scene: Scene, camera: Camera) {
-    // Update time uniforms for all outline shaders
-    const time = performance.now() * 0.001;
-
-    // Update selected outlines
-    for (const outlineHelper of this.selectedOutlines.values()) {
-      const material = outlineHelper.material as ShaderMaterial;
-      material.uniforms.time.value = time;
-    }
-
-    // Update hover outline
-    if (this.hoverOutline) {
-      const material = this.hoverOutline.material as ShaderMaterial;
-      material.uniforms.time.value = time;
-    }
-
-    // Normal rendering - all outlines are already in the scene
-    if (this.antialiasing) {
-      this.renderer.render(scene, camera);
-    } else {
-      this.composer.render();
+  private updateSelectionPulse() {
+    if (this.selectionOutlinePass && this.selectedObjectsSet.size > 0) {
+      const time = performance.now() * 0.001;
+      // Pulse between 1.5 and 4.5 — always visible, gentle breathing
+      this.selectionOutlinePass.edgeStrength = 3 + 1.5 * Math.sin(time * 2.5);
     }
   }
 
@@ -273,28 +229,26 @@ export class EffectsManager {
    */
   public getOutlinePerformanceStats() {
     return {
-      selectedObjectsCount: this.selectedOutlines.size,
+      selectedObjectsCount: this.selectedObjectsSet.size,
       hasHoverOutline: !!this.hoverOutline,
-      totalOutlines: this.selectedOutlines.size + (this.hoverOutline ? 1 : 0),
+      totalOutlines: this.selectedObjectsSet.size + (this.hoverOutline ? 1 : 0),
     };
   }
 
   /**
    * Add an object to the selected set (sticky selection).
-   * The outline is added as a child of the object so it automatically
-   * inherits all transformations (scale, rotation, position).
+   * Uses OutlinePass for true silhouette rendering (boundary only).
    * @param object The mesh object to be selected.
    */
   public selectObject(object: Mesh) {
-    if (this.selectedOutlines.has(object)) {
-      return; // Already selected
+    if (this.selectedObjectsSet.has(object)) {
+      return;
     }
 
-    // Create outline helper for this object
-    const outlineHelper = this.createOutlineHelper(object);
-    this.selectedOutlines.set(object, outlineHelper);
-    // Add as child of the object so outline inherits all transformations
-    object.add(outlineHelper);
+    this.selectedObjectsSet.add(object);
+    const pass = this.ensureSelectionPass();
+    pass.selectedObjects = Array.from(this.selectedObjectsSet);
+    pass.enabled = true;
   }
 
   /**
@@ -302,13 +256,16 @@ export class EffectsManager {
    * @param object The mesh object to be deselected.
    */
   public deselectObject(object: Mesh) {
-    const outlineHelper = this.selectedOutlines.get(object);
-    if (outlineHelper) {
-      // Remove from parent (the selected object) rather than scene
-      outlineHelper.removeFromParent();
-      outlineHelper.geometry.dispose();
-      (outlineHelper.material as ShaderMaterial).dispose();
-      this.selectedOutlines.delete(object);
+    if (!this.selectedObjectsSet.has(object)) {
+      return;
+    }
+
+    this.selectedObjectsSet.delete(object);
+    if (this.selectionOutlinePass) {
+      this.selectionOutlinePass.selectedObjects = Array.from(
+        this.selectedObjectsSet,
+      );
+      this.selectionOutlinePass.enabled = this.selectedObjectsSet.size > 0;
     }
   }
 
@@ -318,7 +275,7 @@ export class EffectsManager {
    * @returns True if object is now selected, false if deselected.
    */
   public toggleSelection(object: Mesh): boolean {
-    if (this.selectedOutlines.has(object)) {
+    if (this.selectedObjectsSet.has(object)) {
       this.deselectObject(object);
       return false;
     } else {
@@ -331,28 +288,21 @@ export class EffectsManager {
    * Clear all selected objects.
    */
   public clearAllSelections() {
-    for (const [object, outlineHelper] of this.selectedOutlines) {
-      // Remove from parent (the selected object) rather than scene
-      outlineHelper.removeFromParent();
-      outlineHelper.geometry.dispose();
-      (outlineHelper.material as ShaderMaterial).dispose();
+    this.selectedObjectsSet.clear();
+    if (this.selectionOutlinePass) {
+      this.selectionOutlinePass.selectedObjects = [];
+      this.selectionOutlinePass.enabled = false;
     }
-    this.selectedOutlines.clear();
   }
-
-  /** Reference to the object currently being hovered (for cleanup) */
-  private hoverTarget: Mesh | null = null;
 
   /**
    * Set hover outline for an object (temporary, non-sticky).
-   * The outline is added as a child of the object so it automatically
-   * inherits all transformations (scale, rotation, position).
+   * Uses EdgesGeometry at 15° for visible hover feedback.
    * @param object The mesh object to hover outline, or null to clear.
    */
   public setHoverOutline(object: Mesh | null) {
     // Clear existing hover outline
     if (this.hoverOutline) {
-      // Remove from parent (the hovered object) rather than scene
       this.hoverOutline.removeFromParent();
       this.hoverOutline.geometry.dispose();
       (this.hoverOutline.material as ShaderMaterial).dispose();
@@ -361,55 +311,54 @@ export class EffectsManager {
     }
 
     // Create new hover outline if object provided and not already selected
-    if (object && !this.selectedOutlines.has(object)) {
-      this.hoverOutline = this.createOutlineHelper(object, true); // Different style for hover
+    if (object && !this.selectedObjectsSet.has(object)) {
+      this.hoverOutline = this.createHoverOutline(object);
       this.hoverTarget = object;
-      // Add as child of the object so outline inherits all transformations
+      // Add as child so outline inherits all transformations
       object.add(this.hoverOutline);
     }
   }
 
   /**
-   * Create an outline helper for an object.
-   * The outline uses identity transforms because it will be added as a child
-   * of the target object, inheriting all transformations automatically.
-   * This ensures outlines stay synchronized when objects are scaled/moved.
-   * @param object The mesh object to create outline for.
-   * @param isHover Whether this is a hover outline (affects styling).
+   * Set the selection outline color.
+   * Default is amber (0xffa633). Experiments with amber-colored objects
+   * (e.g. LHCb calorimeter deposits) may want a different color for contrast.
+   * @param color The color as a hex number (e.g. 0x00ff00 for green).
+   */
+  public setSelectionColor(color: number) {
+    const pass = this.ensureSelectionPass();
+    pass.visibleEdgeColor.set(color);
+  }
+
+  /**
+   * Create an EdgesGeometry hover outline for an object.
+   * Added as a child so it inherits transforms and is excluded from raycasts.
+   * @param object The mesh object to create hover outline for.
    * @returns The created outline helper.
    */
-  private createOutlineHelper(
-    object: Mesh,
-    isHover: boolean = false,
-  ): LineSegments {
-    // For selection outlines, use more sensitive edge detection to show more edges
-    // For hover outlines, use default edge detection for cleaner look
-    // Lower threshold = more edges detected (0.1 for selection vs 1.0 for hover)
-    const edges = new EdgesGeometry(object.geometry, isHover ? 1 : 0.1);
+  private createHoverOutline(object: Mesh): LineSegments {
+    // 15° threshold: shows enough edges for clear visibility without clutter
+    const edges = new EdgesGeometry(object.geometry, 15);
 
     const lineMaterial = new ShaderMaterial({
       vertexShader: EffectsManager.VERTEX_SHADER,
-      fragmentShader: isHover
-        ? EffectsManager.HOVER_FRAGMENT_SHADER
-        : EffectsManager.SELECTION_FRAGMENT_SHADER,
+      fragmentShader: EffectsManager.HOVER_FRAGMENT_SHADER,
       uniforms: {
-        time: { value: 0.0 },
-        opacity: { value: isHover ? 0.8 : 1.0 }, // Selection fully opaque, hover slightly transparent
+        opacity: { value: 0.8 },
       },
       transparent: true,
       depthTest: true,
       polygonOffset: true,
       polygonOffsetFactor: -1,
       polygonOffsetUnits: -1,
-      // Make selection outlines thicker/more prominent
-      linewidth: isHover ? 1 : 2,
     });
 
     const outlineHelper = new LineSegments(edges, lineMaterial);
 
-    // Use identity transform - the outline will be added as a child of the
-    // target object and will automatically inherit all transformations.
-    // This fixes the bug where outlines became desynced after scaling/moving objects.
+    // Prevent hover flicker: outline intercepts raycast → removed → cycle
+    outlineHelper.raycast = () => {};
+
+    // Identity transform — child of target, inherits transformations
     outlineHelper.position.set(0, 0, 0);
     outlineHelper.rotation.set(0, 0, 0);
     outlineHelper.scale.set(1, 1, 1);
@@ -422,13 +371,29 @@ export class EffectsManager {
    * Must be called before re-initialization or when destroying the event display.
    */
   public cleanup() {
-    // Clear all selection outlines (disposes geometry and materials)
+    // Clear all selections (resets OutlinePass)
     this.clearAllSelections();
 
     // Clear hover outline (disposes geometry and material)
     this.setHoverOutline(null);
 
-    // Dispose and remove all outline passes
+    // Dispose the selection outline pass
+    if (this.selectionOutlinePass) {
+      this.selectionOutlinePass.dispose();
+      const passIndex = this.composer.passes.indexOf(this.selectionOutlinePass);
+      if (passIndex > -1) {
+        this.composer.passes.splice(passIndex, 1);
+      }
+      const outlineIndex = this.outlinePasses.indexOf(
+        this.selectionOutlinePass,
+      );
+      if (outlineIndex > -1) {
+        this.outlinePasses.splice(outlineIndex, 1);
+      }
+      this.selectionOutlinePass = null;
+    }
+
+    // Dispose remaining outline passes
     for (const pass of this.outlinePasses) {
       if (pass.dispose) {
         pass.dispose();

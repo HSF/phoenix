@@ -620,18 +620,6 @@ export class UIManager {
   }
 
   /**
-   * Add JiveXML track extension controls to the UI if available.
-   * @param eventDisplay Reference to the EventDisplay instance for configuration callbacks.
-   */
-  public addJiveXMLTrackExtensionUI(eventDisplay: any) {
-    this.uiMenus.forEach((menu) => {
-      if (menu.addJiveXMLTrackExtension) {
-        menu.addJiveXMLTrackExtension(eventDisplay);
-      }
-    });
-  }
-
-  /**
    * Cleanup event listeners before re-initialization.
    */
   public cleanup() {

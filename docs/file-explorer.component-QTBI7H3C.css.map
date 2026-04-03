@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/file-explorer/file-explorer.component.scss"],
+  "sourcesContent": [".file-tree-invisible {\n  display: none;\n}\n\n.tree-node {\n  display: block;\n  margin: 0.25rem 0;\n\n  .tree-node {\n    padding-left: 1rem;\n  }\n}\n\n.tree-node-button {\n  outline: none;\n  padding: 0 0.75rem;\n}\n\n.node-icon {\n  width: 1rem;\n  height: 1rem;\n  margin-right: 0.25rem;\n  margin-top: -2px;\n\n  &.node-icon-filled {\n    --icon-fill: var(--phoenix-options-icon-path, #fff);\n  }\n}\n"],
+  "mappings": "AAAA,CAAA,oBACE,QAAA,KAGF,CAAA,UACE,QAAA,MALF,OAME,OAAA,EAEA,CAJF,UAIE,CAJF,UAKI,aAAA,KAIJ,CAAA,iBACE,QAAA,KAdF,QAeE,EAAA,OAGF,CAAA,UACE,MAAA,KACA,OAAA,KACA,aAAA,OACA,WAAA,KAEA,CANF,SAME,CAAA,iBACE,aAAA,IAAA,2BAAA,EAAA",
+  "names": []
+}

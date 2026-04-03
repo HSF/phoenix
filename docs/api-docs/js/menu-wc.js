@@ -25,16 +25,18 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                 <li class="chapter">
                     <a data-type="chapter-link" href="index.html"><span class="icon ion-ios-home"></span>Getting started</a>
                     <ul class="links">
-                        <li class="link">
-                            <a href="overview.html" data-type="chapter-link">
-                                <span class="icon ion-ios-keypad"></span>Overview
-                            </a>
-                        </li>
-                        <li class="link">
-                            <a href="index.html" data-type="chapter-link">
-                                <span class="icon ion-ios-paper"></span>README
-                            </a>
-                        </li>
+                                <li class="link">
+                                    <a href="overview.html" data-type="chapter-link">
+                                        <span class="icon ion-ios-keypad"></span>Overview
+                                    </a>
+                                </li>
+
+                            <li class="link">
+                                <a href="index.html" data-type="chapter-link">
+                                    <span class="icon ion-ios-paper"></span>
+                                        README
+                                </a>
+                            </li>
                         <li class="link">
                             <a href="changelog.html"  data-type="chapter-link">
                                 <span class="icon ion-ios-paper"></span>CHANGELOG
@@ -50,6 +52,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <span class="icon ion-ios-apps"></span>Properties
                                     </a>
                                 </li>
+
                     </ul>
                 </li>
                     <li class="chapter">
@@ -136,6 +139,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/PhoenixObjects.html" data-type="entity-link" >PhoenixObjects</a>
                             </li>
                             <li class="link">
+                                <a href="classes/PHYSLITELoader.html" data-type="entity-link" >PHYSLITELoader</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/PresetView.html" data-type="entity-link" >PresetView</a>
                             </li>
                             <li class="link">
@@ -203,13 +209,55 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/AnimationPreset.html" data-type="entity-link" >AnimationPreset</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/CaloCellParams.html" data-type="entity-link" >CaloCellParams</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/CaloClusterParams.html" data-type="entity-link" >CaloClusterParams</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/CompoundObjectParams.html" data-type="entity-link" >CompoundObjectParams</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/Configuration.html" data-type="entity-link" >Configuration</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/EventDataLoader.html" data-type="entity-link" >EventDataLoader</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/HitParams.html" data-type="entity-link" >HitParams</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/IrregularCaloCellParams.html" data-type="entity-link" >IrregularCaloCellParams</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/JetParams.html" data-type="entity-link" >JetParams</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/MissingEnergyParams.html" data-type="entity-link" >MissingEnergyParams</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/ObjectTypeConfig.html" data-type="entity-link" >ObjectTypeConfig</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/PhoenixEventData.html" data-type="entity-link" >PhoenixEventData</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/PhoenixEventsData.html" data-type="entity-link" >PhoenixEventsData</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/PhoenixUI.html" data-type="entity-link" >PhoenixUI</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/PHYSLITECollectionDef.html" data-type="entity-link" >PHYSLITECollectionDef</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/PlanarCaloCellParams.html" data-type="entity-link" >PlanarCaloCellParams</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/TrackParams.html" data-type="entity-link" >TrackParams</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/VertexParams.html" data-type="entity-link" >VertexParams</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/Window.html" data-type="entity-link" >Window</a>
@@ -238,6 +286,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                         </ul>
                     </li>
+                        <li class="chapter">
+                            <a data-type="chapter-link" href="routes.html"><span class="icon ion-ios-git-branch"></span>Routes</a>
+                        </li>
                     <li class="chapter">
                         <a data-type="chapter-link" href="coverage.html"><span class="icon ion-ios-stats"></span>Documentation coverage</a>
                     </li>

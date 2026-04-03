@@ -10889,9 +10889,9 @@ __metadata:
   linkType: hard
 
 "flatted@npm:^3.2.9":
-  version: 3.3.1
-  resolution: "flatted@npm:3.3.1"
-  checksum: 85ae7181650bb728c221e7644cbc9f4bf28bc556f2fc89bb21266962bdf0ce1029cc7acc44bb646cd469d9baac7c317f64e841c4c4c00516afa97320cdac7f94
+  version: 3.4.2
+  resolution: "flatted@npm:3.4.2"
+  checksum: 1b2536fccbbf75d67a823dea67819f764c19266ad5e4aca6b47f6bf84d3b5e1c15eb5862f7dec1fb87129b60741524933192051286de52baddbc97129896380d
   languageName: node
   linkType: hard
 
@@ -11549,9 +11549,9 @@ __metadata:
   linkType: hard
 
 "hono@npm:^4.11.4":
-  version: 4.12.5
-  resolution: "hono@npm:4.12.5"
-  checksum: 37da4f743e34198dccc15ce2635f9d5f1e4d6ca6b19894617e1ae210ff110fa53cd310523a4f8daa0029ddbbab8f4c4e438dd0f21e1eff904cfdb41c4c7521c6
+  version: 4.12.7
+  resolution: "hono@npm:4.12.7"
+  checksum: a1d0681320d8345c03b94e76e7c89a1b06faf7a317feecfb7b9c1f3223486fb43214ae23cf3ee5eb63c3a36ff68f808ddeff75f5506b9c8b27deff2adfbad772
   languageName: node
   linkType: hard
 
@@ -13409,8 +13409,8 @@ __metadata:
   linkType: hard
 
 "jspdf@npm:*":
-  version: 4.2.0
-  resolution: "jspdf@npm:4.2.0"
+  version: 4.2.1
+  resolution: "jspdf@npm:4.2.1"
   dependencies:
     "@babel/runtime": ^7.28.6
     canvg: ^3.0.11
@@ -13428,7 +13428,7 @@ __metadata:
       optional: true
     html2canvas:
       optional: true
-  checksum: 5c34ab24e0d83db3dd6dfa231d038beee73e1119ed3fdd2ef2aba3dd0578dde60a650eca531a2c48472fbe708ca5eb80dc1d3facd77f288541a2f6756d7eab77
+  checksum: 43bee0cdeca23ee256ba4aeef6c96b16558ee280e6b6763f769c9c325688ed76b5306510285a6209138f3ccee2a4ca55c4ff64ec979c04b02043c12a2633efe6
   languageName: node
   linkType: hard
 
@@ -16179,7 +16179,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"phoenix-event-display@^3.0.5, phoenix-event-display@workspace:packages/phoenix-event-display":
+"phoenix-event-display@^3.0.6, phoenix-event-display@workspace:packages/phoenix-event-display":
   version: 0.0.0-use.local
   resolution: "phoenix-event-display@workspace:packages/phoenix-event-display"
   dependencies:
@@ -16235,8 +16235,8 @@ __metadata:
     jest-preset-angular: ^14.6.2
     jszip: ^3.10.1
     ng-packagr: ^20.3.2
-    phoenix-event-display: ^3.0.5
-    phoenix-ui-components: ^3.0.4
+    phoenix-event-display: ^3.0.6
+    phoenix-ui-components: ^3.0.6
     qrcode: 1.5.4
     rxjs: ^7.8.2
     three: ~0.178.0
@@ -16249,7 +16249,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"phoenix-ui-components@^3.0.4, phoenix-ui-components@workspace:packages/phoenix-ng/projects/phoenix-ui-components":
+"phoenix-ui-components@^3.0.6, phoenix-ui-components@workspace:packages/phoenix-ng/projects/phoenix-ui-components":
   version: 0.0.0-use.local
   resolution: "phoenix-ui-components@workspace:packages/phoenix-ng/projects/phoenix-ui-components"
   dependencies:
@@ -19013,13 +19013,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"three@npm:0.162.0":
-  version: 0.162.0
-  resolution: "three@npm:0.162.0"
-  checksum: f3ba4d518f7cb209b6e4f8818177c1230014fc1b3dcd66ab113a9babf8e2b522645a1eb144dfc0900bf194e8890bc5d04f358dd4a7f06ee8aa44db56224f88fc
-  languageName: node
-  linkType: hard
-
 "three@npm:~0.178.0":
   version: 0.178.0
   resolution: "three@npm:0.178.0"
@@ -19580,9 +19573,9 @@ __metadata:
   linkType: hard
 
 "undici@npm:^7.12.0":
-  version: 7.18.2
-  resolution: "undici@npm:7.18.2"
-  checksum: 6bab6fdcea6e3f0b7c5dd01da3f8956147bed90a79cbcaac3c97ccc9eb66abdd739054d45fa224c81e9a6eb6f53b3d0faf1fd4e5f0019ee9c693006de0c9688c
+  version: 7.24.4
+  resolution: "undici@npm:7.24.4"
+  checksum: 36ed640cf4986a2211373fc474429577b674dfbf837ea2e1faa3cc8179662166b0f70e79fa4545823962701358106ffc3f5a3f137bf5c5f9ae8fc38dde9d82b3
   languageName: node
   linkType: hard
 

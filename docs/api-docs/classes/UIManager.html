@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content class">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -160,6 +178,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#keydownHandler" >keydownHandler</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#labelsFolderAdded" >labelsFolderAdded</a>
                             </li>
                             <li>
@@ -213,6 +235,10 @@
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#addLabelsFolder" >addLabelsFolder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cleanup" >cleanup</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -328,10 +354,6 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#toggleOrthographicView" >toggleOrthographicView</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Public</span>
                                 <a href="#translateCartesianGrid" >translateCartesianGrid</a>
                             </li>
                             <li>
@@ -365,7 +387,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/managers/ui-manager/index.ts:89</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/managers/ui-manager/index.ts:91</a></div>
                             </td>
                         </tr>
 
@@ -523,6 +545,44 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="keydownHandler"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>keydownHandler</b></span>
+                        <a href="#keydownHandler"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/managers/ui-manager/index.ts:91</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Stored keydown handler for cleanup.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="labelsFolderAdded"></a>
                     <span class="name">
                             <span class="modifier">Private</span>
@@ -637,7 +697,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../interfaces/PhoenixUI.html" target="_self" >PhoenixUI&lt;&gt;[]</a></code>
+                        <i>Type : </i>        <code><a href="../interfaces/PhoenixUI.html" target="_self" >PhoenixUI&lt;unknown&gt;[]</a></code>
 
                     </td>
                 </tr>
@@ -690,8 +750,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="212"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:212</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="215"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:215</a></div>
                         </td>
                     </tr>
 
@@ -774,6 +834,8 @@
 
 
                                             <td>
+                                                    <p>initial color of the collection.</p>
+
                                             </td>
                                         </tr>
                                     </tbody>
@@ -812,8 +874,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="193"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:193</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="195"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:195</a></div>
                         </td>
                     </tr>
 
@@ -853,8 +915,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="202"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:202</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="204"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:204</a></div>
                         </td>
                     </tr>
 
@@ -930,8 +992,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="182"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:182</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="184"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:184</a></div>
                         </td>
                     </tr>
 
@@ -1022,8 +1084,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="172"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:172</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="174"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:174</a></div>
                         </td>
                     </tr>
 
@@ -1063,8 +1125,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="271"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:271</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="274"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:274</a></div>
                         </td>
                     </tr>
 
@@ -1139,8 +1201,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="226"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:226</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="229"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:229</a></div>
                         </td>
                     </tr>
 
@@ -1148,6 +1210,47 @@
             <tr>
                 <td class="col-md-4">
                         <div class="io-description"><p>Add labels folder to dat.GUI and Phoenix menu.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cleanup"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cleanup</b></span>
+                        <a href="#cleanup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>cleanup()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="625"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:625</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Cleanup event listeners before re-initialization.</p>
 </div>
 
                         <div class="io-description">
@@ -1180,8 +1283,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="162"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:162</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="164"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:164</a></div>
                         </td>
                     </tr>
 
@@ -1221,8 +1324,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="340"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:340</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="343"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:343</a></div>
                         </td>
                     </tr>
 
@@ -1262,8 +1365,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="507"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:507</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="510"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:510</a></div>
                         </td>
                     </tr>
 
@@ -1338,8 +1441,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="535"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:535</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="530"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:530</a></div>
                         </td>
                     </tr>
 
@@ -1379,8 +1482,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="303"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:303</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="306"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:306</a></div>
                         </td>
                     </tr>
 
@@ -1471,8 +1574,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="446"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:446</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="449"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:449</a></div>
                         </td>
                     </tr>
 
@@ -1512,8 +1615,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="375"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:375</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="378"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:378</a></div>
                         </td>
                     </tr>
 
@@ -1557,8 +1660,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="495"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:495</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="498"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:498</a></div>
                         </td>
                     </tr>
 
@@ -1602,8 +1705,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="484"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:484</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="487"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:487</a></div>
                         </td>
                     </tr>
 
@@ -1647,8 +1750,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="616"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:616</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="618"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:618</a></div>
                         </td>
                     </tr>
 
@@ -1692,8 +1795,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="101"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:101</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="103"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:103</a></div>
                         </td>
                     </tr>
 
@@ -1768,8 +1871,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="605"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:605</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="607"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:607</a></div>
                         </td>
                     </tr>
 
@@ -1809,8 +1912,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="564"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:564</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="566"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:566</a></div>
                         </td>
                     </tr>
 
@@ -1850,8 +1953,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="286"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:286</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="289"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:289</a></div>
                         </td>
                     </tr>
 
@@ -1942,8 +2045,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="322"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:322</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="325"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:325</a></div>
                         </td>
                     </tr>
 
@@ -2018,8 +2121,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="312"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:312</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="315"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:315</a></div>
                         </td>
                     </tr>
 
@@ -2094,8 +2197,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="383"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:383</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="386"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:386</a></div>
                         </td>
                     </tr>
 
@@ -2170,8 +2273,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="332"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:332</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="335"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:335</a></div>
                         </td>
                     </tr>
 
@@ -2246,8 +2349,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="364"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:364</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="367"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:367</a></div>
                         </td>
                     </tr>
 
@@ -2322,8 +2425,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="528"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:528</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="523"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:523</a></div>
                         </td>
                     </tr>
 
@@ -2398,8 +2501,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="391"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:391</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="394"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:394</a></div>
                         </td>
                     </tr>
 
@@ -2474,8 +2577,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="423"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:423</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="426"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:426</a></div>
                         </td>
                     </tr>
 
@@ -2582,8 +2685,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="454"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:454</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="457"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:457</a></div>
                         </td>
                     </tr>
 
@@ -2658,8 +2761,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="476"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:476</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="479"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:479</a></div>
                         </td>
                     </tr>
 
@@ -2699,8 +2802,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="469"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:469</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="472"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:472</a></div>
                         </td>
                     </tr>
 
@@ -2770,8 +2873,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="462"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:462</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="465"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:465</a></div>
                         </td>
                     </tr>
 
@@ -2846,8 +2949,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="413"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:413</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="416"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:416</a></div>
                         </td>
                     </tr>
 
@@ -2922,8 +3025,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="138"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:138</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="140"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:140</a></div>
                         </td>
                     </tr>
 
@@ -2984,82 +3087,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="toggleOrthographicView"></a>
-                    <span class="name">
-                            <span class="modifier">Public</span>
-                        <span ><b>toggleOrthographicView</b></span>
-                        <a href="#toggleOrthographicView"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>toggleOrthographicView(orthographic: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="520"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:520</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-description"><p>Toggle orthographic/perspective view.</p>
-</div>
-
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>orthographic</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>If the camera is to be orthographic or perspective.</p>
-
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="translateCartesianGrid"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -3078,8 +3105,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="398"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:398</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="401"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:401</a></div>
                         </td>
                     </tr>
 
@@ -3149,8 +3176,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="405"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:405</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="408"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:408</a></div>
                         </td>
                     </tr>
 
@@ -3220,8 +3247,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="155"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:155</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="157"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:157</a></div>
                         </td>
                     </tr>
 
@@ -3338,6 +3365,8 @@ export class UIManager {
 
   /** State manager for managing the event display&#x27;s state. */
   private stateManager: StateManager;
+  /** Stored keydown handler for cleanup. */
+  private keydownHandler: ((e: KeyboardEvent) &#x3D;&gt; void) | null &#x3D; null;
 
   /**
    * Constructor for the UI manager.
@@ -3459,6 +3488,7 @@ export class UIManager {
    * @param eventDataType Name of the event data type.
    * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
+   * @param collectionColor initial color of the collection.
    */
   public addCollection(
     eventDataType: string,
@@ -3765,14 +3795,6 @@ export class UIManager {
   }
 
   /**
-   * Toggle orthographic/perspective view.
-   * @param orthographic If the camera is to be orthographic or perspective.
-   */
-  public toggleOrthographicView(orthographic: boolean) {
-    this.three.swapCameras(orthographic);
-  }
-
-  /**
    * Set the renderer for the secondary overlay canvas.
    * @param overlayCanvas Canvas for which the overlay renderer is to be set.
    */
@@ -3784,7 +3806,13 @@ export class UIManager {
    * Enable keyboard controls for some UI manager operations.
    */
   public enableKeyboardControls() {
-    document.addEventListener(&#x27;keydown&#x27;, (e: KeyboardEvent) &#x3D;&gt; {
+    // Remove previous keydown listener if exists
+    if (this.keydownHandler) {
+      document.removeEventListener(&#x27;keydown&#x27;, this.keydownHandler);
+    }
+
+    // Store and add new keydown listener
+    this.keydownHandler &#x3D; (e: KeyboardEvent) &#x3D;&gt; {
       const isTyping &#x3D; [&#x27;input&#x27;, &#x27;textarea&#x27;].includes(
         (e.target as HTMLElement)?.tagName.toLowerCase(),
       );
@@ -3806,7 +3834,8 @@ export class UIManager {
           }
         }
       }
-    });
+    };
+    document.addEventListener(&#x27;keydown&#x27;, this.keydownHandler);
   }
 
   /**
@@ -3866,6 +3895,16 @@ export class UIManager {
    */
   public getUIMenus(): PhoenixUI&lt;unknown&gt;[] {
     return this.uiMenus;
+  }
+
+  /**
+   * Cleanup event listeners before re-initialization.
+   */
+  public cleanup() {
+    if (this.keydownHandler) {
+      document.removeEventListener(&#x27;keydown&#x27;, this.keydownHandler);
+      this.keydownHandler &#x3D; null;
+    }
   }
 }
 </code></pre>

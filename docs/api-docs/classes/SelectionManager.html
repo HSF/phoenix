@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content class">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -128,6 +146,14 @@
             </p>
             <p class="comment">
                 <p>Manager for managing event display&#39;s selection related functions.</p>
+<p>Features:</p>
+<ul>
+<li>Multi-object sticky selection with rainbow outlines</li>
+<li>Hover preview with blue outlines</li>
+<li>Click vs drag detection for orbit controls compatibility</li>
+<li>Performance-optimized frame-based intersection processing</li>
+<li>Programmatic selection API</li>
+</ul>
 
             </p>
 
@@ -152,11 +178,61 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#camera" >camera</a>
+                                <a href="#clickThreshold" >clickThreshold</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#currentlyOutlinedObject" >currentlyOutlinedObject</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#doubleClickThreshold" >doubleClickThreshold</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#effectsManager" >effectsManager</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#FPS_SMOOTHING" >FPS_SMOOTHING</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#FPS_THRESHOLDS" >FPS_THRESHOLDS</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#frameCounter" >frameCounter</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#framesToSkip" >framesToSkip</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getControls" >getControls</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getOverlayCanvas" >getOverlayCanvas</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getOverlayControls" >getOverlayControls</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#handleClick" >handleClick</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#handlePassiveDoubleClick" >handlePassiveDoubleClick</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#hoveredObject" >hoveredObject</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -172,7 +248,31 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#onDocumentMouseDown" >onDocumentMouseDown</a>
+                                <a href="#lastClickPosition" >lastClickPosition</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#lastClickTime" >lastClickTime</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#latestMouseEvent" >latestMouseEvent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#onMouseDown" >onMouseDown</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#onMouseUp" >onMouseUp</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#onPassiveMouseDown" >onPassiveMouseDown</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#onPassiveMouseUp" >onPassiveMouseUp</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -184,7 +284,7 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#outlinePass" >outlinePass</a>
+                                <a href="#passiveMouseDownPosition" >passiveMouseDownPosition</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -197,6 +297,26 @@
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#selectedObject" >selectedObject</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#selectedObjects" >selectedObjects</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#selectionIsDragging" >selectionIsDragging</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#selectionMouseDownPosition" >selectionMouseDownPosition</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#smoothedFPS" >smoothedFPS</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#tweenGroup" >tweenGroup</a>
                             </li>
                         </ul>
                     </td>
@@ -211,8 +331,32 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#adjustFrameSkipping" >adjustFrameSkipping</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#applyIntersectionResult" >applyIntersectionResult</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cleanup" >cleanup</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#clearAllSelections" >clearAllSelections</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#deselectObject" >deselectObject</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#disableHighlighting" >disableHighlighting</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#disablePassiveDoubleClick" >disablePassiveDoubleClick</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -224,11 +368,35 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#enablePassiveDoubleClick" >enablePassiveDoubleClick</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#enableSelecting" >enableSelecting</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#getActiveObjectId" >getActiveObjectId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getClickThreshold" >getClickThreshold</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getDetailedIntersection" >getDetailedIntersection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getDoubleClickThreshold" >getDoubleClickThreshold</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getHoveredObject" >getHoveredObject</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getSelectedObjects" >getSelectedObjects</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -243,12 +411,60 @@
                                 <a href="#intersectObject" >intersectObject</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isEventFromOverlayCanvas" >isEventFromOverlayCanvas</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isSelected" >isSelected</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#logSelectionAction" >logSelectionAction</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#processStackedIntersection" >processStackedIntersection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#selectObject" >selectObject</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setClickThreshold" >setClickThreshold</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setDoubleClickThreshold" >setDoubleClickThreshold</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#setSelectedObject" >setSelectedObject</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#setSelecting" >setSelecting</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setupOverlayListeners" >setupOverlayListeners</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#toggleObjectSelection" >toggleObjectSelection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateInfoPanel" >updateInfoPanel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateInfoPanelForHover" >updateInfoPanelForHover</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#updateOverlayListeners" >updateOverlayListeners</a>
                             </li>
                         </ul>
                     </td>
@@ -273,7 +489,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/managers/three-manager/selection-manager.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">src/managers/three-manager/selection-manager.ts:108</a></div>
                             </td>
                         </tr>
 
@@ -306,12 +522,18 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
                         <i>Default value : </i><code>new ActiveVariable&lt;string&gt;(&#x27;&#x27;)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/managers/three-manager/selection-manager.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/managers/three-manager/selection-manager.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -328,29 +550,110 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="camera"></a>
+                    <a name="clickThreshold"></a>
                     <span class="name">
                             <span class="modifier">Private</span>
-                        <span ><b>camera</b></span>
-                        <a href="#camera"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>clickThreshold</b></span>
+                        <a href="#clickThreshold"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Camera</code>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>10</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/managers/three-manager/selection-manager.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/managers/three-manager/selection-manager.ts:73</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>The camera inside the scene.</p>
+                    <div class="io-description"><p>Maximum pixel distance to consider as a click (not drag)</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentlyOutlinedObject"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>currentlyOutlinedObject</b></span>
+                        <a href="#currentlyOutlinedObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Mesh | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/managers/three-manager/selection-manager.ts:61</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Currently outlined object for click detection</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="doubleClickThreshold"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>doubleClickThreshold</b></span>
+                        <a href="#doubleClickThreshold"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>300</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/managers/three-manager/selection-manager.ts:81</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Maximum time between clicks to consider as double-click (ms)</p>
 </div>
                 </td>
             </tr>
@@ -377,13 +680,418 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/managers/three-manager/selection-manager.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/managers/three-manager/selection-manager.ts:50</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Manager for managing three.js event display effects like outline pass and unreal bloom.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="FPS_SMOOTHING"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>FPS_SMOOTHING</b></span>
+                        <a href="#FPS_SMOOTHING"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0.1</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">src/managers/three-manager/selection-manager.ts:94</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>FPS smoothing factor</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="FPS_THRESHOLDS"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>FPS_THRESHOLDS</b></span>
+                        <a href="#FPS_THRESHOLDS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    // Going to more aggressive skipping (when performance drops)
+    TO_HIGH_SKIP: 25, // FPS drops below 25 → skip 8 frames
+    TO_MED_SKIP: 35, // FPS drops below 35 → skip 5 frames
+
+    // Going to less aggressive skipping (when performance improves)
+    TO_LOW_SKIP: 45, // FPS above 45 → skip 3 frames
+    TO_MINIMAL_SKIP: 90, // FPS above 55 → skip 1 frame
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">src/managers/three-manager/selection-manager.ts:100</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Performance thresholds for dynamic frame skipping to maintain stable FPS.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="frameCounter"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>frameCounter</b></span>
+                        <a href="#frameCounter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/managers/three-manager/selection-manager.ts:88</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Frame counter for intersection processing</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="framesToSkip"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>framesToSkip</b></span>
+                        <a href="#framesToSkip"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>3</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/managers/three-manager/selection-manager.ts:90</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Current number of frames to skip (dynamic)</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getControls"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getControls</b></span>
+                        <a href="#getControls"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/managers/three-manager/selection-manager.ts:33</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Function to get the current controls.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getOverlayCanvas"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getOverlayCanvas</b></span>
+                        <a href="#getOverlayCanvas"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown | undefined</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/managers/three-manager/selection-manager.ts:37</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Function to get the overlay canvas DOM element (optional).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getOverlayControls"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getOverlayControls</b></span>
+                        <a href="#getOverlayControls"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown | undefined</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/managers/three-manager/selection-manager.ts:35</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Function to get the current overlay controls (optional).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleClick"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>handleClick</b></span>
+                        <a href="#handleClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="612" class="link-to-prism">src/managers/three-manager/selection-manager.ts:612</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Function to call on mouse click when object selection is enabled.
+Implements sticky multi-selection behavior:</p>
+<ul>
+<li>Click on object: toggle its selection (add if not selected, remove if selected)</li>
+<li>Click on empty space: clear all selections</li>
+</ul>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handlePassiveDoubleClick"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>handlePassiveDoubleClick</b></span>
+                        <a href="#handlePassiveDoubleClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="348" class="link-to-prism">src/managers/three-manager/selection-manager.ts:348</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Handle passive double-click events (works independently of selection state).
+Automatically determines which canvas/controls to use based on the event target.</p>
+</div>
+                </td>
+            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description">
+                                <b>Parameters :</b>
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            <tr>
+                                                    <td>event</td>
+                                                    <td>
+                                                            <code><p>The mouse event for collision detection</p>
+</code>
+                                                    </td>
+                                            </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                    </td>
+                </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hoveredObject"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>hoveredObject</b></span>
+                        <a href="#hoveredObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Mesh | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/managers/three-manager/selection-manager.ts:67</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Currently hovered object (for outline preview)</p>
 </div>
                 </td>
             </tr>
@@ -410,7 +1118,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/managers/three-manager/selection-manager.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/managers/three-manager/selection-manager.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -443,7 +1151,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/managers/three-manager/selection-manager.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/managers/three-manager/selection-manager.ts:53</a></div>
                         </td>
                     </tr>
 
@@ -476,7 +1184,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/managers/three-manager/selection-manager.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/managers/three-manager/selection-manager.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -493,14 +1201,134 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="onDocumentMouseDown"></a>
+                    <a name="lastClickPosition"></a>
                     <span class="name">
                             <span class="modifier">Private</span>
-                        <span ><b>onDocumentMouseDown</b></span>
-                        <a href="#onDocumentMouseDown"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>lastClickPosition</b></span>
+                        <a href="#lastClickPosition"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/managers/three-manager/selection-manager.ts:83</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Position of the last click for double-click validation</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lastClickTime"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>lastClickTime</b></span>
+                        <a href="#lastClickTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/managers/three-manager/selection-manager.ts:79</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Timestamp of the last click for double-click detection</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="latestMouseEvent"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>latestMouseEvent</b></span>
+                        <a href="#latestMouseEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MouseEvent | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/managers/three-manager/selection-manager.ts:59</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Latest mouse event to process</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMouseDown"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>onMouseDown</b></span>
+                        <a href="#onMouseDown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
@@ -508,13 +1336,129 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="155" class="link-to-prism">src/managers/three-manager/selection-manager.ts:155</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="576" class="link-to-prism">src/managers/three-manager/selection-manager.ts:576</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Function to call on mouse click when object selection is enabled.</p>
+                    <div class="io-description"><p>Function to call on mouse down to start drag detection.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMouseUp"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>onMouseUp</b></span>
+                        <a href="#onMouseUp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="586" class="link-to-prism">src/managers/three-manager/selection-manager.ts:586</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Function to call on mouse up to detect clicks vs drags and double-clicks.
+Only triggers selection if the mouse hasn&#39;t moved significantly (not a drag).
+Detects double-clicks for collision coordinate display.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onPassiveMouseDown"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>onPassiveMouseDown</b></span>
+                        <a href="#onPassiveMouseDown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="291" class="link-to-prism">src/managers/three-manager/selection-manager.ts:291</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Passive mouse down handler for double-click detection only.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onPassiveMouseUp"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>onPassiveMouseUp</b></span>
+                        <a href="#onPassiveMouseUp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="300" class="link-to-prism">src/managers/three-manager/selection-manager.ts:300</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Passive mouse up handler for double-click detection only.</p>
 </div>
                 </td>
             </tr>
@@ -535,12 +1479,18 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
                         <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="204" class="link-to-prism">src/managers/three-manager/selection-manager.ts:204</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="769" class="link-to-prism">src/managers/three-manager/selection-manager.ts:769</a></div>
                         </td>
                     </tr>
 
@@ -591,18 +1541,26 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
                         <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">src/managers/three-manager/selection-manager.ts:142</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="515" class="link-to-prism">src/managers/three-manager/selection-manager.ts:515</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Function to call on mouse move when object selection is enabled.</p>
+                    <div class="io-description"><p>Function to call on mouse move when object selection is enabled.
+Stacks events and only processes the latest one every few frames.
+Also tracks dragging for click vs drag detection.</p>
 </div>
                 </td>
             </tr>
@@ -613,29 +1571,34 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="outlinePass"></a>
+                    <a name="passiveMouseDownPosition"></a>
                     <span class="name">
                             <span class="modifier">Private</span>
-                        <span ><b>outlinePass</b></span>
-                        <a href="#outlinePass"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>passiveMouseDownPosition</b></span>
+                        <a href="#passiveMouseDownPosition"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>OutlinePass</code>
+                        <i>Type : </i>    <code>literal type | null</code>
 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/managers/three-manager/selection-manager.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/managers/three-manager/selection-manager.ts:85</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Outline pass for highlighting the hovered over event display elements.</p>
+                    <div class="io-description"><p>Mouse down position for passive double-click detection</p>
 </div>
                 </td>
             </tr>
@@ -662,7 +1625,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/managers/three-manager/selection-manager.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/managers/three-manager/selection-manager.ts:55</a></div>
                         </td>
                     </tr>
 
@@ -695,7 +1658,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/managers/three-manager/selection-manager.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/managers/three-manager/selection-manager.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -728,13 +1691,198 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/managers/three-manager/selection-manager.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/managers/three-manager/selection-manager.ts:42</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Object used to display the information of the selected 3D object.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedObjects"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>selectedObjects</b></span>
+                        <a href="#selectedObjects"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Set&lt;Mesh&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Set()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/managers/three-manager/selection-manager.ts:65</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set of currently selected (sticky) objects</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectionIsDragging"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>selectionIsDragging</b></span>
+                        <a href="#selectionIsDragging"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/managers/three-manager/selection-manager.ts:75</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Whether the user is currently dragging (selection system)</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectionMouseDownPosition"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>selectionMouseDownPosition</b></span>
+                        <a href="#selectionMouseDownPosition"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/managers/three-manager/selection-manager.ts:71</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Mouse down position for drag detection (selection system)</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="smoothedFPS"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>smoothedFPS</b></span>
+                        <a href="#smoothedFPS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>60</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/managers/three-manager/selection-manager.ts:92</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Smoothed FPS for stable decisions</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tweenGroup"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>tweenGroup</b></span>
+                        <a href="#tweenGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>TweenGroup</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">src/managers/three-manager/selection-manager.ts:96</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Shared tween.js group for animations.</p>
 </div>
                 </td>
             </tr>
@@ -748,6 +1896,281 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="adjustFrameSkipping"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>adjustFrameSkipping</b></span>
+                        <a href="#adjustFrameSkipping"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>adjustFrameSkipping()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="987"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:987</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Adjust frame skipping based on FPS with hysteresis to prevent oscillation.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyIntersectionResult"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>applyIntersectionResult</b></span>
+                        <a href="#applyIntersectionResult"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>applyIntersectionResult(intersectedObject: Object3D | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="541"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:541</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Apply intersection result to selection outline using custom outline system.
+Now handles both hover outlines and sticky selections.
+Skips hover updates during drag operations to avoid visual noise.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>intersectedObject</td>
+                                            <td>
+                                                        <code>Object3D | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cleanup"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cleanup</b></span>
+                        <a href="#cleanup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>cleanup()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1173"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:1173</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Cleanup all event listeners and resources before re-initialization.
+Must be called before destroying the SelectionManager or re-initializing.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearAllSelections"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>clearAllSelections</b></span>
+                        <a href="#clearAllSelections"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>clearAllSelections()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1087"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:1087</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Programmatically clear all selections and reset internal state.
+This method is called when event data is cleared to prevent stale references.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deselectObject"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>deselectObject</b></span>
+                        <a href="#deselectObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>deselectObject(object: Mesh)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1057"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:1057</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Programmatically deselect an object (without triggering click events).</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>object</td>
+                                            <td>
+                                                        <code>Mesh</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The object to deselect</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>True if the object was deselected, false if not selected</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -770,8 +2193,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="258"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:258</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="939"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:939</a></div>
                         </td>
                     </tr>
 
@@ -779,6 +2202,47 @@
             <tr>
                 <td class="col-md-4">
                         <div class="io-description"><p>Disable highlighting of objects.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="disablePassiveDoubleClick"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>disablePassiveDoubleClick</b></span>
+                        <a href="#disablePassiveDoubleClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>disablePassiveDoubleClick()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="252"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:252</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Disable passive double-click detection for both canvases.</p>
 </div>
 
                         <div class="io-description">
@@ -811,8 +2275,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="127"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:127</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="481"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:481</a></div>
                         </td>
                     </tr>
 
@@ -852,8 +2316,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="236"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:236</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="913"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:913</a></div>
                         </td>
                     </tr>
 
@@ -861,6 +2325,49 @@
             <tr>
                 <td class="col-md-4">
                         <div class="io-description"><p>Enable highlighting of the objects.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="enablePassiveDoubleClick"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>enablePassiveDoubleClick</b></span>
+                        <a href="#enablePassiveDoubleClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>enablePassiveDoubleClick()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="196"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:196</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Enable passive double-click detection (always active, independent of selection).
+Sets up event listeners for both main and overlay canvases.
+This method can be called multiple times safely due to listener deduplication.</p>
 </div>
 
                         <div class="io-description">
@@ -893,8 +2400,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="112"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:112</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="465"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:465</a></div>
                         </td>
                     </tr>
 
@@ -934,8 +2441,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="94"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:94</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="176"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:176</a></div>
                         </td>
                     </tr>
 
@@ -951,6 +2458,283 @@
                         </div>
                             <div class="io-description">
                                 <p>uuid of the currently selected object.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getClickThreshold"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>getClickThreshold</b></span>
+                        <a href="#getClickThreshold"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getClickThreshold()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1119"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:1119</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Get the current click threshold.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Current click threshold in pixels</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDetailedIntersection"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getDetailedIntersection</b></span>
+                        <a href="#getDetailedIntersection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getDetailedIntersection(event: MouseEvent, useOverlay: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="826"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:826</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Perform detailed intersection calculation with complete collision information.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MouseEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    <p>Mouse event containing coordinates</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>useOverlay</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>false</code>
+                                            </td>
+
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>literal type | null</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Detailed intersection data or null</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDoubleClickThreshold"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>getDoubleClickThreshold</b></span>
+                        <a href="#getDoubleClickThreshold"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getDoubleClickThreshold()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1137"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:1137</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Get the current double-click time threshold.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Current double-click threshold in milliseconds</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getHoveredObject"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>getHoveredObject</b></span>
+                        <a href="#getHoveredObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getHoveredObject()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1023"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:1023</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Get the currently hovered object (if any).</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Mesh | null</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>The hovered mesh object or null</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSelectedObjects"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>getSelectedObjects</b></span>
+                        <a href="#getSelectedObjects"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getSelectedObjects()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1015"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:1015</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Get all currently selected objects.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Set&lt;Mesh&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Set of selected mesh objects</p>
 
                             </div>
                 </td>
@@ -979,15 +2763,15 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="247"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:247</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="924"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:924</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Highlight the object with the given uuid by giving it an outline.
+                        <div class="io-description"><p>Highlight the object with the given uuid by selecting it.
 with the given uuid.</p>
 </div>
 
@@ -1066,23 +2850,30 @@ with the given uuid.</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>init(camera: Camera, scene: Scene, effectsManager: <a href="../classes/EffectsManager.html" target="_self">EffectsManager</a>, infoLogger: <a href="../classes/InfoLogger.html" target="_self">InfoLogger</a>)</code>
+                    <code>init(getControls: () => void, getOverlayControls: unknown | undefined, getOverlayCanvas: unknown | undefined, scene: Scene, effectsManager: <a href="../classes/EffectsManager.html" target="_self">EffectsManager</a>, infoLogger: <a href="../classes/InfoLogger.html" target="_self">InfoLogger</a>, tweenGroup: TweenGroup)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="65"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:65</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="138"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:138</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Initialize the selection manager.
-like outline pass and unreal bloom.</p>
+                        <div class="io-description"><p>Initialize the selection manager.</p>
+<p>Features enabled:</p>
+<ul>
+<li>Passive double-click detection on both main and overlay canvases</li>
+<li>Smooth Tween.js-based orbit target transitions</li>
+<li>Automatic canvas detection and appropriate controls routing</li>
+<li>Detailed collision information logging</li>
+</ul>
+<p>like outline pass and unreal bloom.</p>
 </div>
 
                             <div class="io-description">
@@ -1094,23 +2885,62 @@ like outline pass and unreal bloom.</p>
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Default value</td>
                                                 <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                                <td>camera</td>
+                                                <td>getControls</td>
                                             <td>
-                                                        <code>Camera</code>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
                                             </td>
 
                                             <td>
                                                     No
                                             </td>
 
+                                            <td>
+                                            </td>
 
                                             <td>
-                                                    <p>The camera inside the scene.</p>
+                                                    <p>Function to get the current main controls.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>getOverlayControls</td>
+                                            <td>
+                                                        <code>unknown | undefined</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    <p>Function to get the current overlay controls (optional).</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>getOverlayCanvas</td>
+                                            <td>
+                                                        <code>unknown | undefined</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    <p>Function to get the overlay canvas DOM element (optional).</p>
 
                                             </td>
                                         </tr>
@@ -1124,6 +2954,8 @@ like outline pass and unreal bloom.</p>
                                                     No
                                             </td>
 
+                                            <td>
+                                            </td>
 
                                             <td>
                                                     <p>The scene used for event display.</p>
@@ -1140,6 +2972,8 @@ like outline pass and unreal bloom.</p>
                                                     No
                                             </td>
 
+                                            <td>
+                                            </td>
 
                                             <td>
                                                     <p>Manager for managing three.js event display effects
@@ -1157,10 +2991,29 @@ like outline pass and unreal bloom.</p>
                                                     No
                                             </td>
 
+                                            <td>
+                                            </td>
 
                                             <td>
                                                     <p>Service for logging data to the information panel.</p>
 
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>tweenGroup</td>
+                                            <td>
+                                                        <code>TweenGroup</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>new TweenGroup()</code>
+                                            </td>
+
+                                            <td>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -1192,22 +3045,22 @@ like outline pass and unreal bloom.</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>intersectObject(event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>intersectObject(event: MouseEvent)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="215"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:215</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="781"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:781</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Check if any object intersects on mouse move.</p>
+                        <div class="io-description"><p>Perform intersection calculation with the scene objects.</p>
 </div>
 
                             <div class="io-description">
@@ -1226,7 +3079,7 @@ like outline pass and unreal bloom.</p>
                                         <tr>
                                                 <td>event</td>
                                             <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        <code>MouseEvent</code>
                                             </td>
 
                                             <td>
@@ -1235,7 +3088,7 @@ like outline pass and unreal bloom.</p>
 
 
                                             <td>
-                                                    <p>Event containing data of the mouse move.</p>
+                                                    <p>Mouse event containing coordinates</p>
 
                                             </td>
                                         </tr>
@@ -1243,12 +3096,559 @@ like outline pass and unreal bloom.</p>
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                            <b>Returns : </b>    <code>Object3D | null</code>
 
                         </div>
                             <div class="io-description">
-                                <p>Intersected or hovered over object.</p>
+                                <p>The intersected object or null</p>
 
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isEventFromOverlayCanvas"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>isEventFromOverlayCanvas</b></span>
+                        <a href="#isEventFromOverlayCanvas"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isEventFromOverlayCanvas(event: MouseEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1154"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:1154</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Determine if a mouse event came from the overlay canvas.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MouseEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The mouse event to check</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>true if the event came from the overlay canvas, false if from main canvas</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isSelected"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>isSelected</b></span>
+                        <a href="#isSelected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isSelected(object: Mesh)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1032"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:1032</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Check if a specific object is currently selected.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>object</td>
+                                            <td>
+                                                        <code>Mesh</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The object to check</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>True if the object is selected</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logSelectionAction"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>logSelectionAction</b></span>
+                        <a href="#logSelectionAction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>logSelectionAction(object: Mesh, isSelected: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="686"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:686</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Log a selection/deselection action without updating the info panel.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>object</td>
+                                            <td>
+                                                        <code>Mesh</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The object that was selected/deselected</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>isSelected</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Whether the object is now selected</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processStackedIntersection"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>processStackedIntersection</b></span>
+                        <a href="#processStackedIntersection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>processStackedIntersection(deltaTime: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="954"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:954</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Process intersection only when there&#39;s a new mouse event to process.
+This should be called once per render frame but only processes when mouse moves.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>deltaTime</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectObject"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>selectObject</b></span>
+                        <a href="#selectObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>selectObject(object: Mesh)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1041"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:1041</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Programmatically select an object (without triggering click events).</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>object</td>
+                                            <td>
+                                                        <code>Mesh</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The object to select</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>True if the object was selected, false if already selected</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setClickThreshold"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>setClickThreshold</b></span>
+                        <a href="#setClickThreshold"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setClickThreshold(threshold: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1109"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:1109</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Set the click threshold for drag detection.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>threshold</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Maximum pixel distance to consider as a click (not drag)</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setDoubleClickThreshold"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>setDoubleClickThreshold</b></span>
+                        <a href="#setDoubleClickThreshold"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setDoubleClickThreshold(threshold: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1127"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:1127</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Set the double-click time threshold.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>threshold</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Maximum time between clicks to consider as double-click (ms)</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
                             </div>
                 </td>
             </tr>
@@ -1276,8 +3676,8 @@ like outline pass and unreal bloom.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="83"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:83</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="165"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:165</a></div>
                         </td>
                     </tr>
 
@@ -1352,8 +3752,8 @@ like outline pass and unreal bloom.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="102"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:102</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="184"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:184</a></div>
                         </td>
                     </tr>
 
@@ -1406,6 +3806,335 @@ like outline pass and unreal bloom.</p>
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setupOverlayListeners"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>setupOverlayListeners</b></span>
+                        <a href="#setupOverlayListeners"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setupOverlayListeners()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="221"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:221</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Set up event listeners for overlay canvas if it exists.
+This method can be called multiple times safely.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleObjectSelection"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>toggleObjectSelection</b></span>
+                        <a href="#toggleObjectSelection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>toggleObjectSelection(object: Mesh)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1073"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:1073</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Programmatically toggle selection of an object.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>object</td>
+                                            <td>
+                                                        <code>Mesh</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The object to toggle</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>True if the object is now selected, false if deselected</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateInfoPanel"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>updateInfoPanel</b></span>
+                        <a href="#updateInfoPanel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateInfoPanel(object: Mesh, isSelected: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="713"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:713</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Update the info panel for a selected/deselected object.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>object</td>
+                                            <td>
+                                                        <code>Mesh</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The object that was clicked</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>isSelected</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Whether the object is now selected</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateInfoPanelForHover"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>updateInfoPanelForHover</b></span>
+                        <a href="#updateInfoPanelForHover"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateInfoPanelForHover(object: Mesh | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="652"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:652</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Update the info panel for a hovered object (hover-only info display).</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>object</td>
+                                            <td>
+                                                        <code>Mesh | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The object being hovered, or null to clear</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateOverlayListeners"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>updateOverlayListeners</b></span>
+                        <a href="#updateOverlayListeners"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateOverlayListeners()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1145"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:1145</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Update overlay event listeners when overlay canvas becomes available.
+Called by ThreeManager when setOverlayRenderer is invoked.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
 
@@ -1418,6 +4147,7 @@ like outline pass and unreal bloom.</p>
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   Vector2,
+  Vector3,
   Raycaster,
   Camera,
   Scene,
@@ -1425,8 +4155,9 @@ like outline pass and unreal bloom.</p>
   DirectionalLight,
   AmbientLight,
   AxesHelper,
+  Mesh,
 } from &#x27;three&#x27;;
-import { OutlinePass } from &#x27;three/examples/jsm/postprocessing/OutlinePass.js&#x27;;
+import { Easing, Group as TweenGroup, Tween } from &#x27;@tweenjs/tween.js&#x27;;
 import { InfoLogger } from &#x27;../../helpers/info-logger&#x27;;
 import { EffectsManager } from &#x27;./effects-manager&#x27;;
 import { PrettySymbols } from &#x27;../../helpers/pretty-symbols&#x27;;
@@ -1434,12 +4165,24 @@ import { ActiveVariable } from &#x27;../../helpers/active-variable&#x27;;
 
 /**
  * Manager for managing event display&#x27;s selection related functions.
+ *
+ * Features:
+ * - Multi-object sticky selection with rainbow outlines
+ * - Hover preview with blue outlines
+ * - Click vs drag detection for orbit controls compatibility
+ * - Performance-optimized frame-based intersection processing
+ * - Programmatic selection API
  */
 export class SelectionManager {
   /** Is initialized. */
   private isInit: boolean;
-  /** The camera inside the scene. */
-  private camera: Camera;
+  /** Function to get the current controls. */
+  private getControls: () &#x3D;&gt; any;
+  /** Function to get the current overlay controls (optional). */
+  private getOverlayControls: (() &#x3D;&gt; any) | undefined;
+  /** Function to get the overlay canvas DOM element (optional). */
+  private getOverlayCanvas: (() &#x3D;&gt; HTMLCanvasElement | undefined) | undefined;
+
   /** The scene used for event display. */
   private scene: Scene;
   /** Object used to display the information of the selected 3D object. */
@@ -1449,9 +4192,7 @@ export class SelectionManager {
   /** Objects to be ignored on hovering over the scene. */
   private ignoreList: string[];
 
-  // Post processing
-  /** Outline pass for highlighting the hovered over event display elements. */
-  private outlinePass: OutlinePass;
+  // Post processing - now using custom outline system
   /** Manager for managing three.js event display effects like outline pass and unreal bloom. */
   private effectsManager: EffectsManager;
 
@@ -1460,6 +4201,58 @@ export class SelectionManager {
   /** Performance mode value before enabling selection. */
   private preSelectionAntialias: boolean;
 
+  // Frame-based intersection processing with dynamic adjustment
+  /** Latest mouse event to process */
+  private latestMouseEvent: MouseEvent | null &#x3D; null;
+  /** Currently outlined object for click detection */
+  private currentlyOutlinedObject: Mesh | null &#x3D; null;
+
+  // Multi-selection system
+  /** Set of currently selected (sticky) objects */
+  private selectedObjects: Set&lt;Mesh&gt; &#x3D; new Set();
+  /** Currently hovered object (for outline preview) */
+  private hoveredObject: Mesh | null &#x3D; null;
+
+  // Drag detection to prevent accidental selection during orbit controls
+  /** Mouse down position for drag detection (selection system) */
+  private selectionMouseDownPosition: { x: number; y: number } | null &#x3D; null;
+  /** Maximum pixel distance to consider as a click (not drag) */
+  private clickThreshold &#x3D; 10;
+  /** Whether the user is currently dragging (selection system) */
+  private selectionIsDragging &#x3D; false;
+
+  // Double-click detection for collision coordinates
+  /** Timestamp of the last click for double-click detection */
+  private lastClickTime &#x3D; 0;
+  /** Maximum time between clicks to consider as double-click (ms) */
+  private doubleClickThreshold &#x3D; 300;
+  /** Position of the last click for double-click validation */
+  private lastClickPosition: { x: number; y: number } | null &#x3D; null;
+  /** Mouse down position for passive double-click detection */
+  private passiveMouseDownPosition: { x: number; y: number } | null &#x3D; null;
+
+  /** Frame counter for intersection processing */
+  private frameCounter &#x3D; 0;
+  /** Current number of frames to skip (dynamic) */
+  private framesToSkip &#x3D; 3;
+  /** Smoothed FPS for stable decisions */
+  private smoothedFPS &#x3D; 60;
+  /** FPS smoothing factor */
+  private readonly FPS_SMOOTHING &#x3D; 0.1;
+  /** Shared tween.js group for animations. */
+  private tweenGroup: TweenGroup;
+
+  // Hysteresis thresholds to prevent oscillation
+  /** Performance thresholds for dynamic frame skipping to maintain stable FPS. */
+  private readonly FPS_THRESHOLDS &#x3D; {
+    // Going to more aggressive skipping (when performance drops)
+    TO_HIGH_SKIP: 25, // FPS drops below 25 → skip 8 frames
+    TO_MED_SKIP: 35, // FPS drops below 35 → skip 5 frames
+
+    // Going to less aggressive skipping (when performance improves)
+    TO_LOW_SKIP: 45, // FPS above 45 → skip 3 frames
+    TO_MINIMAL_SKIP: 90, // FPS above 55 → skip 1 frame
+  };
   /**
    * Constructor for the selection manager.
    */
@@ -1474,24 +4267,42 @@ export class SelectionManager {
 
   /**
    * Initialize the selection manager.
-   * @param camera The camera inside the scene.
+   *
+   * Features enabled:
+   * - Passive double-click detection on both main and overlay canvases
+   * - Smooth Tween.js-based orbit target transitions
+   * - Automatic canvas detection and appropriate controls routing
+   * - Detailed collision information logging
+   *
+   * @param getControls Function to get the current main controls.
+   * @param getOverlayControls Function to get the current overlay controls (optional).
+   * @param getOverlayCanvas Function to get the overlay canvas DOM element (optional).
    * @param scene The scene used for event display.
    * @param effectsManager Manager for managing three.js event display effects
    * like outline pass and unreal bloom.
    * @param infoLogger Service for logging data to the information panel.
    */
   public init(
-    camera: Camera,
+    getControls: () &#x3D;&gt; any,
+    getOverlayControls: (() &#x3D;&gt; any) | undefined,
+    getOverlayCanvas: (() &#x3D;&gt; HTMLCanvasElement | undefined) | undefined,
     scene: Scene,
     effectsManager: EffectsManager,
     infoLogger: InfoLogger,
+    tweenGroup: TweenGroup &#x3D; new TweenGroup(),
   ) {
-    this.camera &#x3D; camera;
+    this.getControls &#x3D; getControls;
+    this.getOverlayControls &#x3D; getOverlayControls;
+    this.getOverlayCanvas &#x3D; getOverlayCanvas;
     this.scene &#x3D; scene;
     this.isInit &#x3D; true;
     this.infoLogger &#x3D; infoLogger;
     this.effectsManager &#x3D; effectsManager;
-    this.outlinePass &#x3D; this.effectsManager.addOutlinePassForSelection();
+    this.tweenGroup &#x3D; tweenGroup;
+    // Custom outline system is now used instead of OutlinePass
+
+    // Always enable passive double-click detection for both canvases
+    this.enablePassiveDoubleClick();
   }
 
   /**
@@ -1525,6 +4336,277 @@ export class SelectionManager {
   }
 
   /**
+   * Enable passive double-click detection (always active, independent of selection).
+   * Sets up event listeners for both main and overlay canvases.
+   * This method can be called multiple times safely due to listener deduplication.
+   */
+  private enablePassiveDoubleClick() {
+    // Main canvas (always available)
+    const mainCanvas &#x3D; document.getElementById(&#x27;three-canvas&#x27;);
+    if (mainCanvas) {
+      // Remove existing listeners to avoid duplicates on re-initialization
+      mainCanvas.removeEventListener(
+        &#x27;mousedown&#x27;,
+        this.onPassiveMouseDown,
+        true,
+      );
+      mainCanvas.removeEventListener(&#x27;mouseup&#x27;, this.onPassiveMouseUp, true);
+
+      // Add listeners
+      mainCanvas.addEventListener(&#x27;mousedown&#x27;, this.onPassiveMouseDown, true);
+      mainCanvas.addEventListener(&#x27;mouseup&#x27;, this.onPassiveMouseUp, true);
+    }
+
+    // Overlay canvas (available when overlay is created)
+    this.setupOverlayListeners();
+  }
+
+  /**
+   * Set up event listeners for overlay canvas if it exists.
+   * This method can be called multiple times safely.
+   */
+  private setupOverlayListeners() {
+    if (this.getOverlayCanvas) {
+      const overlayCanvas &#x3D; this.getOverlayCanvas();
+
+      if (overlayCanvas) {
+        // Remove existing listeners to avoid duplicates
+        overlayCanvas.removeEventListener(
+          &#x27;mousedown&#x27;,
+          this.onPassiveMouseDown,
+          true,
+        );
+        overlayCanvas.removeEventListener(
+          &#x27;mouseup&#x27;,
+          this.onPassiveMouseUp,
+          true,
+        );
+
+        // Add new listeners
+        overlayCanvas.addEventListener(
+          &#x27;mousedown&#x27;,
+          this.onPassiveMouseDown,
+          true,
+        );
+        overlayCanvas.addEventListener(&#x27;mouseup&#x27;, this.onPassiveMouseUp, true);
+      }
+    }
+  }
+
+  /**
+   * Disable passive double-click detection for both canvases.
+   */
+  private disablePassiveDoubleClick() {
+    // Main canvas
+    const mainCanvas &#x3D; document.getElementById(&#x27;three-canvas&#x27;);
+    if (mainCanvas) {
+      mainCanvas.removeEventListener(
+        &#x27;mousedown&#x27;,
+        this.onPassiveMouseDown,
+        true,
+      );
+      mainCanvas.removeEventListener(&#x27;mouseup&#x27;, this.onPassiveMouseUp, true);
+    }
+
+    // Overlay canvas
+    if (this.getOverlayCanvas) {
+      const overlayCanvas &#x3D; this.getOverlayCanvas();
+
+      if (overlayCanvas) {
+        overlayCanvas.removeEventListener(
+          &#x27;mousedown&#x27;,
+          this.onPassiveMouseDown,
+          true,
+        );
+        overlayCanvas.removeEventListener(
+          &#x27;mouseup&#x27;,
+          this.onPassiveMouseUp,
+          true,
+        );
+      }
+    }
+
+    // Reset double-click state
+    this.lastClickTime &#x3D; 0;
+    this.lastClickPosition &#x3D; null;
+    this.passiveMouseDownPosition &#x3D; null;
+  }
+
+  /**
+   * Passive mouse down handler for double-click detection only.
+   */
+  private onPassiveMouseDown &#x3D; (event: MouseEvent) &#x3D;&gt; {
+    // Only track for double-click detection, don&#x27;t interfere with selection
+    // Using different variable names to avoid conflicts with selection system
+    this.passiveMouseDownPosition &#x3D; { x: event.clientX, y: event.clientY };
+  };
+
+  /**
+   * Passive mouse up handler for double-click detection only.
+   */
+  private onPassiveMouseUp &#x3D; (event: MouseEvent) &#x3D;&gt; {
+    if (!this.passiveMouseDownPosition) {
+      return;
+    }
+
+    // Calculate distance moved (same logic as selection)
+    const deltaX &#x3D; event.clientX - this.passiveMouseDownPosition.x;
+    const deltaY &#x3D; event.clientY - this.passiveMouseDownPosition.y;
+    const distance &#x3D; Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+    // Only process if it&#x27;s a click (not a drag)
+    if (distance &lt;&#x3D; this.clickThreshold) {
+      // Check for double-click
+      const currentTime &#x3D; Date.now();
+      const timeDelta &#x3D; currentTime - this.lastClickTime;
+      const clickPosition &#x3D; { x: event.clientX, y: event.clientY };
+
+      let isDoubleClick &#x3D; false;
+      if (this.lastClickPosition &amp;&amp; timeDelta &lt;&#x3D; this.doubleClickThreshold) {
+        const positionDelta &#x3D; Math.sqrt(
+          Math.pow(clickPosition.x - this.lastClickPosition.x, 2) +
+            Math.pow(clickPosition.y - this.lastClickPosition.y, 2),
+        );
+
+        if (positionDelta &lt;&#x3D; this.clickThreshold) {
+          isDoubleClick &#x3D; true;
+        }
+      }
+
+      if (isDoubleClick) {
+        // Handle double-click without triggering selection
+        this.handlePassiveDoubleClick(event);
+      }
+
+      // Update last click tracking
+      this.lastClickTime &#x3D; currentTime;
+      this.lastClickPosition &#x3D; clickPosition;
+    }
+
+    // Reset mouse down position
+    this.passiveMouseDownPosition &#x3D; null;
+  };
+
+  /**
+   * Handle passive double-click events (works independently of selection state).
+   * Automatically determines which canvas/controls to use based on the event target.
+   * @param event The mouse event for collision detection
+   */
+  private handlePassiveDoubleClick &#x3D; (event: MouseEvent) &#x3D;&gt; {
+    // Determine which canvas the event came from
+    const isOverlayCanvas &#x3D; this.isEventFromOverlayCanvas(event);
+    const canvasType &#x3D; isOverlayCanvas ? &#x27;Overlay&#x27; : &#x27;Main&#x27;;
+
+    console.log(&#x60;&#x3D;&#x3D;&#x3D; DOUBLE-CLICK ON ${canvasType.toUpperCase()} CANVAS &#x3D;&#x3D;&#x3D;&#x60;);
+
+    const collision &#x3D; this.getDetailedIntersection(event, isOverlayCanvas);
+
+    if (collision) {
+      const { object, point, face, faceIndex, uv } &#x3D; collision;
+
+      // Print detailed collision information
+      console.log(&#x27;&#x3D;&#x3D;&#x3D; DOUBLE-CLICK COLLISION DETECTED &#x3D;&#x3D;&#x3D;&#x27;);
+      console.log(&#x27;Canvas:&#x27;, canvasType);
+      console.log(&#x27;Object:&#x27;, object.name || &#x27;unnamed&#x27;);
+      console.log(&#x27;Object UUID:&#x27;, object.uuid);
+      console.log(&#x27;Collision Point (World):&#x27;, {
+        x: point.x.toFixed(4),
+        y: point.y.toFixed(4),
+        z: point.z.toFixed(4),
+      });
+
+      if (face) {
+        console.log(&#x27;Face Index:&#x27;, faceIndex);
+        console.log(&#x27;Face Normal:&#x27;, {
+          x: face.normal.x.toFixed(4),
+          y: face.normal.y.toFixed(4),
+          z: face.normal.z.toFixed(4),
+        });
+      }
+
+      if (uv) {
+        console.log(&#x27;UV Coordinates:&#x27;, {
+          u: uv.x.toFixed(4),
+          v: uv.y.toFixed(4),
+        });
+      }
+
+      console.log(&#x27;Distance from Camera:&#x27;, collision.distance.toFixed(4));
+      console.log(&#x27;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x27;);
+
+      // Smoothly animate orbit target to the collision point using appropriate controls
+      const controls &#x3D; isOverlayCanvas
+        ? this.getOverlayControls?.()
+        : this.getControls();
+      const controlsType &#x3D; isOverlayCanvas ? &#x27;overlay&#x27; : &#x27;main&#x27;;
+
+      console.log(&#x60;Using ${controlsType} controls for orbit target animation&#x60;);
+      console.log(&#x27;Controls object:&#x27;, controls);
+      console.log(&#x27;Controls.object (camera):&#x27;, controls?.object);
+
+      if (controls &amp;&amp; controls.target) {
+        // Store current target position for animation
+        const currentTarget &#x3D; {
+          x: controls.target.x,
+          y: controls.target.y,
+          z: controls.target.z,
+        };
+
+        // Create tween for smooth transition
+        const targetTween &#x3D; new Tween(currentTarget, this.tweenGroup)
+          .to(
+            {
+              x: point.x,
+              y: point.y,
+              z: point.z,
+            },
+            1000,
+          ) // 1 second duration
+          .easing(Easing.Cubic.Out) // Smooth easing
+          .onUpdate(() &#x3D;&gt; {
+            // Update controls target during animation
+            controls.target.set(
+              currentTarget.x,
+              currentTarget.y,
+              currentTarget.z,
+            );
+            controls.update();
+          })
+          .onComplete(() &#x3D;&gt; {
+            // Ensure final position is exact
+            controls.target.copy(point);
+            controls.update();
+            console.log(
+              &#x60;${controlsType} orbit target smoothly animated to collision point&#x60;,
+            );
+          });
+
+        // Start the animation
+        targetTween.start();
+        console.log(&#x27;Starting smooth orbit target animation&#x27;);
+      } else {
+        console.warn(
+          &#x60;${controlsType} controls or controls.target not available for orbit target update&#x60;,
+        );
+      }
+
+      // Also log to the info logger for UI feedback
+      this.infoLogger.add(
+        &#x60;[${canvasType}] Collision at (${point.x.toFixed(2)}, ${point.y.toFixed(2)}, ${point.z.toFixed(2)}) on ${object.name || &#x27;unnamed&#x27;} - Smoothly animating ${controlsType} orbit target&#x60;,
+        &#x27;Double-Click&#x27;,
+      );
+    } else {
+      console.log(
+        &#x60;Double-click detected on ${canvasType} canvas but no collision found&#x60;,
+      );
+      this.infoLogger.add(
+        &#x60;[${canvasType}] Double-click detected (no collision)&#x60;,
+        &#x27;Double-Click&#x27;,
+      );
+    }
+  };
+
+  /**
    * Enable selecting of event display elements and set mouse move and click events.
    */
   private enableSelecting() {
@@ -1533,7 +4615,8 @@ export class SelectionManager {
       return;
     }
     canvas.addEventListener(&#x27;mousemove&#x27;, this.onTouchMove, true);
-    canvas.addEventListener(&#x27;click&#x27;, this.onDocumentMouseDown, true);
+    canvas.addEventListener(&#x27;mousedown&#x27;, this.onMouseDown, true);
+    canvas.addEventListener(&#x27;mouseup&#x27;, this.onMouseUp, true);
     canvas.addEventListener(&#x27;touchstart&#x27;, this.onTouchDown);
     this.preSelectionAntialias &#x3D; this.effectsManager.antialiasing;
     this.effectsManager.setAntialiasing(false);
@@ -1548,42 +4631,243 @@ export class SelectionManager {
       return;
     }
     canvas.removeEventListener(&#x27;mousemove&#x27;, this.onTouchMove, true);
-    canvas.removeEventListener(&#x27;click&#x27;, this.onDocumentMouseDown, true);
+    canvas.removeEventListener(&#x27;mousedown&#x27;, this.onMouseDown, true);
+    canvas.removeEventListener(&#x27;mouseup&#x27;, this.onMouseUp, true);
     canvas.removeEventListener(&#x27;touchstart&#x27;, this.onTouchDown);
-    this.outlinePass.selectedObjects &#x3D; [];
+
+    // Clean up frame-based processing
+    this.latestMouseEvent &#x3D; null;
+    this.frameCounter &#x3D; 0;
+    this.framesToSkip &#x3D; 3; // Reset to default
+    this.smoothedFPS &#x3D; 60;
+
+    // Clean up drag detection
+    this.selectionMouseDownPosition &#x3D; null;
+    this.selectionIsDragging &#x3D; false;
+
+    // Clear all outlines and selections
+    this.effectsManager.clearAllSelections();
+    this.effectsManager.setHoverOutline(null);
+    this.selectedObjects.clear();
+    this.hoveredObject &#x3D; null;
+    this.currentlyOutlinedObject &#x3D; null;
     this.effectsManager.setAntialiasing(this.preSelectionAntialias);
   }
 
   /**
    * Function to call on mouse move when object selection is enabled.
+   * Stacks events and only processes the latest one every few frames.
+   * Also tracks dragging for click vs drag detection.
    */
   private onTouchMove &#x3D; (event: any) &#x3D;&gt; {
-    const intersectedObject &#x3D; this.intersectObject(event);
-    if (intersectedObject) {
-      if (this.ignoreList.includes(intersectedObject.type)) {
-        return;
+    // Stack the latest mouse event - this will replace any previous unstacked event
+    this.latestMouseEvent &#x3D; event;
+
+    // Check if this is a drag operation
+    if (this.selectionMouseDownPosition &amp;&amp; !this.selectionIsDragging) {
+      const deltaX &#x3D; event.clientX - this.selectionMouseDownPosition.x;
+      const deltaY &#x3D; event.clientY - this.selectionMouseDownPosition.y;
+      const distance &#x3D; Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+      if (distance &gt; this.clickThreshold) {
+        this.selectionIsDragging &#x3D; true;
+
+        // Clear hover outline when drag starts to provide immediate visual feedback
+        this.effectsManager.setHoverOutline(null);
+        this.hoveredObject &#x3D; null;
+        this.currentlyOutlinedObject &#x3D; null;
       }
-      this.outlinePass.selectedObjects &#x3D; [intersectedObject];
+    }
+  };
+
+  /**
+   * Apply intersection result to selection outline using custom outline system.
+   * Now handles both hover outlines and sticky selections.
+   * Skips hover updates during drag operations to avoid visual noise.
+   */
+  public applyIntersectionResult(intersectedObject: Object3D | null) {
+    // Skip hover outline updates during drag operations
+    if (this.selectionIsDragging) {
+      return;
+    }
+
+    let targetObject: Mesh | null &#x3D; null;
+
+    if (intersectedObject) {
+      if (
+        !this.ignoreList.includes(intersectedObject.type) &amp;&amp;
+        intersectedObject instanceof Mesh
+      ) {
+        targetObject &#x3D; intersectedObject;
+      }
+    }
+
+    // Only update hover outline if the target object has changed
+    if (targetObject !&#x3D;&#x3D; this.hoveredObject) {
+      this.hoveredObject &#x3D; targetObject;
+
+      // Set hover outline (this is separate from sticky selections)
+      this.effectsManager.setHoverOutline(targetObject);
+
+      // Update info panel for hovered object (immediate feedback)
+      this.updateInfoPanelForHover(targetObject);
+
+      // Also update the currently outlined object for backwards compatibility
+      this.currentlyOutlinedObject &#x3D; targetObject;
+    }
+  }
+
+  /**
+   * Function to call on mouse down to start drag detection.
+   */
+  private onMouseDown &#x3D; (event: MouseEvent) &#x3D;&gt; {
+    this.selectionMouseDownPosition &#x3D; { x: event.clientX, y: event.clientY };
+    this.selectionIsDragging &#x3D; false;
+  };
+
+  /**
+   * Function to call on mouse up to detect clicks vs drags and double-clicks.
+   * Only triggers selection if the mouse hasn&#x27;t moved significantly (not a drag).
+   * Detects double-clicks for collision coordinate display.
+   */
+  private onMouseUp &#x3D; (event: MouseEvent) &#x3D;&gt; {
+    if (!this.selectionMouseDownPosition) {
+      return; // No mousedown recorded
+    }
+
+    // Calculate distance moved
+    const deltaX &#x3D; event.clientX - this.selectionMouseDownPosition.x;
+    const deltaY &#x3D; event.clientY - this.selectionMouseDownPosition.y;
+    const distance &#x3D; Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+    // Reset drag detection
+    this.selectionMouseDownPosition &#x3D; null;
+    this.selectionIsDragging &#x3D; false;
+
+    // Only process as a click if movement was minimal (not a drag)
+    if (distance &lt;&#x3D; this.clickThreshold) {
+      this.handleClick(event);
     }
   };
 
   /**
    * Function to call on mouse click when object selection is enabled.
+   * Implements sticky multi-selection behavior:
+   * - Click on object: toggle its selection (add if not selected, remove if selected)
+   * - Click on empty space: clear all selections
    */
-  private onDocumentMouseDown &#x3D; () &#x3D;&gt; {
-    const intersectedObject &#x3D; this.outlinePass.selectedObjects[0];
+  private handleClick &#x3D; (event?: MouseEvent) &#x3D;&gt; {
+    // Use pre-computed hover target, or do a fresh raycast if needed
+    let intersectedObject &#x3D; this.currentlyOutlinedObject;
+    if (!intersectedObject &amp;&amp; event) {
+      const result &#x3D; this.intersectObject(event);
+      if (result &amp;&amp; result instanceof Mesh) {
+        intersectedObject &#x3D; result as Mesh;
+      }
+    }
+
     if (intersectedObject) {
-      this.selectedObject.name &#x3D; intersectedObject.name;
+      // Toggle selection of the clicked object
+      const wasSelected &#x3D; this.selectedObjects.has(intersectedObject);
+      const isNowSelected &#x3D;
+        this.effectsManager.toggleSelection(intersectedObject);
+
+      if (isNowSelected) {
+        this.selectedObjects.add(intersectedObject);
+      } else {
+        this.selectedObjects.delete(intersectedObject);
+      }
+
+      // Log the selection/deselection (no info panel update)
+      this.logSelectionAction(intersectedObject, isNowSelected);
+    } else {
+      // Clicked on empty space - clear all selections
+      if (this.selectedObjects.size &gt; 0) {
+        this.effectsManager.clearAllSelections();
+        this.selectedObjects.clear();
+
+        // Log that selections were cleared
+        this.infoLogger.add(&#x27;All selections cleared&#x27;, &#x27;Selection&#x27;);
+      }
+    }
+  };
+
+  /**
+   * Update the info panel for a hovered object (hover-only info display).
+   * @param object The object being hovered, or null to clear
+   */
+  private updateInfoPanelForHover(object: Mesh | null) {
+    if (object) {
+      // Object is being hovered - update info panel
+      this.selectedObject.name &#x3D; object.name;
       this.selectedObject.attributes.splice(
         0,
         this.selectedObject.attributes.length,
       );
+      this.activeObject.update(object.uuid);
 
-      this.activeObject.update(intersectedObject.uuid);
+      const prettyParams &#x3D; PrettySymbols.getPrettyParams(object.userData);
 
-      const prettyParams &#x3D; PrettySymbols.getPrettyParams(
-        intersectedObject.userData,
+      for (const key of Object.keys(prettyParams)) {
+        this.selectedObject.attributes.push({
+          attributeName: key,
+          attributeValue: prettyParams[key],
+        });
+      }
+    } else {
+      // No object being hovered - clear info panel
+      this.selectedObject.name &#x3D; &#x27;&#x27;;
+      this.selectedObject.attributes.splice(
+        0,
+        this.selectedObject.attributes.length,
       );
+      this.activeObject.update(&#x27;&#x27;);
+    }
+  }
+
+  /**
+   * Log a selection/deselection action without updating the info panel.
+   * @param object The object that was selected/deselected
+   * @param isSelected Whether the object is now selected
+   */
+  private logSelectionAction(object: Mesh, isSelected: boolean) {
+    // Process properties of the object for logging
+    const props &#x3D; Object.keys(object.userData)
+      .map((key) &#x3D;&gt; {
+        // Only take properties that are a string or number (no arrays or objects)
+        if ([&#x27;string&#x27;, &#x27;number&#x27;].includes(typeof object.userData[key])) {
+          return key + &#x27;&#x3D;&#x27; + object.userData[key];
+        }
+      })
+      .filter((val) &#x3D;&gt; val);
+
+    // Build the log text and add to the logger
+    const log &#x3D;
+      object.name + (props.length &gt; 0 ? &#x27; with &#x27; + props.join(&#x27;, &#x27;) : &#x27;&#x27;);
+
+    if (isSelected) {
+      this.infoLogger.add(log || &#x27;unnamed object&#x27;, &#x27;Selected&#x27;);
+    } else {
+      this.infoLogger.add(log || &#x27;unnamed object&#x27;, &#x27;Deselected&#x27;);
+    }
+  }
+
+  /**
+   * Update the info panel for a selected/deselected object.
+   * @param object The object that was clicked
+   * @param isSelected Whether the object is now selected
+   */
+  private updateInfoPanel(object: Mesh, isSelected: boolean) {
+    if (isSelected) {
+      // Object was selected - update info panel
+      this.selectedObject.name &#x3D; object.name;
+      this.selectedObject.attributes.splice(
+        0,
+        this.selectedObject.attributes.length,
+      );
+      this.activeObject.update(object.uuid);
+
+      const prettyParams &#x3D; PrettySymbols.getPrettyParams(object.userData);
 
       for (const key of Object.keys(prettyParams)) {
         this.selectedObject.attributes.push({
@@ -1593,27 +4877,37 @@ export class SelectionManager {
       }
 
       // Process properties of the selected object
-      const props &#x3D; Object.keys(intersectedObject.userData)
+      const props &#x3D; Object.keys(object.userData)
         .map((key) &#x3D;&gt; {
           // Only take properties that are a string or number (no arrays or objects)
-          if (
-            [&#x27;string&#x27;, &#x27;number&#x27;].includes(
-              typeof intersectedObject.userData[key],
-            )
-          ) {
-            return key + &#x27;&#x3D;&#x27; + intersectedObject.userData[key];
+          if ([&#x27;string&#x27;, &#x27;number&#x27;].includes(typeof object.userData[key])) {
+            return key + &#x27;&#x3D;&#x27; + object.userData[key];
           }
         })
         .filter((val) &#x3D;&gt; val);
+
       // Build the log text and add to the logger
       const log &#x3D;
-        intersectedObject.name +
-        (props.length &gt; 0 ? &#x27; with &#x27; + props.join(&#x27;, &#x27;) : &#x27;&#x27;);
+        object.name + (props.length &gt; 0 ? &#x27; with &#x27; + props.join(&#x27;, &#x27;) : &#x27;&#x27;);
       if (log) {
-        this.infoLogger.add(log, &#x27;Clicked&#x27;);
+        this.infoLogger.add(log, &#x27;Selected&#x27;);
+      }
+    } else {
+      // Object was deselected
+      const log &#x3D; object.name || &#x27;unnamed object&#x27;;
+      this.infoLogger.add(log, &#x27;Deselected&#x27;);
+
+      // If this was the active object, clear the info panel
+      if (this.activeObject.value &#x3D;&#x3D;&#x3D; object.uuid) {
+        this.selectedObject.name &#x3D; &#x27;&#x27;;
+        this.selectedObject.attributes.splice(
+          0,
+          this.selectedObject.attributes.length,
+        );
+        this.activeObject.update(&#x27;&#x27;);
       }
     }
-  };
+  }
 
   /**
    * Function to call on touch when object selection is enabled.
@@ -1622,30 +4916,142 @@ export class SelectionManager {
   private onTouchDown &#x3D; (event: TouchEvent) &#x3D;&gt; {
     event.preventDefault();
     this.onTouchMove(event.targetTouches[0]);
-    this.onDocumentMouseDown();
+    // For touch, we treat it as an immediate click (no drag detection for now)
+    this.handleClick();
   };
 
   /**
-   * Check if any object intersects on mouse move.
-   * @param event Event containing data of the mouse move.
-   * @returns Intersected or hovered over object.
+   * Perform intersection calculation with the scene objects.
+   * @param event Mouse event containing coordinates
+   * @returns The intersected object or null
    */
-  private intersectObject(event: any): Object3D {
-    event.preventDefault?.();
+  private intersectObject(event: MouseEvent): Object3D | null {
     const mouse &#x3D; new Vector2();
+    const raycaster &#x3D; new Raycaster();
+
+    // Calculate mouse position in normalized device coordinates (-1 to +1)
     const rendererElement &#x3D; this.effectsManager.composer.renderer.domElement;
     mouse.x &#x3D; (event.clientX / rendererElement.clientWidth) * 2 - 1;
     mouse.y &#x3D; -(event.clientY / rendererElement.clientHeight) * 2 + 1;
+
+    // Set up raycaster
+    const controls &#x3D; this.getControls();
+    const camera &#x3D; controls?.object as Camera;
+
+    if (!camera) {
+      console.warn(
+        &#x27;SelectionManager: Camera not available from controls in intersectObject&#x27;,
+      );
+      return null;
+    }
+
+    raycaster.setFromCamera(mouse, camera);
+
+    // Get all intersectable objects from the scene
+    const intersectableObjects: Object3D[] &#x3D; [];
+    this.scene.traverse((obj) &#x3D;&gt; {
+      // Skip objects in ignore list
+      if (this.ignoreList.includes(obj.type)) return;
+
+      // Only include objects with geometry that are visible
+      if ((obj as any).geometry &amp;&amp; obj.visible) {
+        intersectableObjects.push(obj);
+      }
+    });
+
+    // Perform intersection test
+    const intersects &#x3D; raycaster.intersectObjects(intersectableObjects, false);
+
+    return intersects.length &gt; 0 ? intersects[0].object : null;
+  }
+
+  /**
+   * Perform detailed intersection calculation with complete collision information.
+   * @param event Mouse event containing coordinates
+   * @returns Detailed intersection data or null
+   */
+  private getDetailedIntersection(
+    event: MouseEvent,
+    useOverlay: boolean &#x3D; false,
+  ): {
+    object: Mesh;
+    point: Vector3;
+    face: any | null; // Face type varies between Three.js versions
+    faceIndex: number;
+    distance: number;
+    uv?: Vector2;
+  } | null {
+    const mouse &#x3D; new Vector2();
     const raycaster &#x3D; new Raycaster();
-    raycaster.setFromCamera(mouse, this.camera);
-    raycaster.params.Line.threshold &#x3D; 3;
-    const intersects &#x3D; raycaster.intersectObjects(this.scene.children, true);
+
+    // Get the appropriate controls and renderer based on canvas type
+    let controls: any;
+    let rendererElement: HTMLElement;
+
+    if (useOverlay &amp;&amp; this.getOverlayControls) {
+      controls &#x3D; this.getOverlayControls();
+      const overlayCanvas &#x3D; this.getOverlayCanvas?.();
+
+      if (!controls || !overlayCanvas) {
+        console.warn(
+          &#x27;SelectionManager: Overlay controls or canvas not available&#x27;,
+        );
+        return null;
+      }
+
+      rendererElement &#x3D; overlayCanvas;
+    } else {
+      controls &#x3D; this.getControls();
+      rendererElement &#x3D; this.effectsManager.composer.renderer.domElement;
+    }
+
+    // Calculate mouse position in normalized device coordinates (-1 to +1)
+    mouse.x &#x3D; (event.clientX / rendererElement.clientWidth) * 2 - 1;
+    mouse.y &#x3D; -(event.clientY / rendererElement.clientHeight) * 2 + 1;
+
+    // Set up raycaster
+    const camera &#x3D; controls?.object as Camera;
+
+    if (!camera) {
+      const canvasType &#x3D; useOverlay ? &#x27;overlay&#x27; : &#x27;main&#x27;;
+      console.warn(
+        &#x60;SelectionManager: Camera not available from ${canvasType} controls in getDetailedIntersection&#x60;,
+      );
+      return null;
+    }
+
+    raycaster.setFromCamera(mouse, camera);
+
+    // Get all intersectable objects from the scene
+    const intersectableObjects: Object3D[] &#x3D; [];
+    this.scene.traverse((obj) &#x3D;&gt; {
+      // Skip objects in ignore list
+      if (this.ignoreList.includes(obj.type)) return;
+
+      // Only include objects with geometry that are visible
+      if ((obj as any).geometry &amp;&amp; obj.visible) {
+        intersectableObjects.push(obj);
+      }
+    });
+
+    // Perform intersection test with detailed results
+    const intersects &#x3D; raycaster.intersectObjects(intersectableObjects, false);
 
     if (intersects.length &gt; 0) {
-      // We want the closest one
-      return intersects[0].object;
+      const intersection &#x3D; intersects[0];
+
+      // Return detailed collision information
+      return {
+        object: intersection.object as Mesh,
+        point: intersection.point,
+        face: intersection.face || null,
+        faceIndex: intersection.faceIndex || -1,
+        distance: intersection.distance,
+        uv: intersection.uv,
+      };
     }
-    return new Object3D();
+
+    return null;
   }
 
   /**
@@ -1657,16 +5063,20 @@ export class SelectionManager {
   }
 
   /**
-   * Highlight the object with the given uuid by giving it an outline.
+   * Highlight the object with the given uuid by selecting it.
    * @param uuid uuid of the object.
    * @param objectsGroup Group of objects to be traversed for finding the object
    * with the given uuid.
    */
   public highlightObject(uuid: string, objectsGroup: Object3D) {
     const object &#x3D; objectsGroup.getObjectByProperty(&#x27;uuid&#x27;, uuid);
-    if (object) {
-      this.outlinePass.selectedObjects &#x3D; [object];
-      this.activeObject.update(object.uuid);
+    if (object &amp;&amp; object instanceof Mesh) {
+      // Use the modern selection system instead of legacy outline
+      this.effectsManager.selectObject(object);
+      this.selectedObjects.add(object);
+      this.currentlyOutlinedObject &#x3D; object;
+      // Note: No info panel update - info panel is now hover-only
+      this.logSelectionAction(object, true);
     }
   }
 
@@ -1674,8 +5084,257 @@ export class SelectionManager {
    * Disable highlighting of objects.
    */
   public disableHighlighting() {
-    this.outlinePass.selectedObjects &#x3D; [];
+    // Clear all selections instead of just the legacy outline
+    this.effectsManager.clearAllSelections();
+    this.selectedObjects.clear();
+    this.currentlyOutlinedObject &#x3D; null;
     this.effectsManager.setAntialiasing(this.preSelectionAntialias);
+
+    // Note: No info panel clearing - info panel is now hover-controlled
+    this.infoLogger.add(&#x27;All selections cleared&#x27;, &#x27;Selection&#x27;);
+  }
+
+  /**
+   * Process intersection only when there&#x27;s a new mouse event to process.
+   * This should be called once per render frame but only processes when mouse moves.
+   */
+  public processStackedIntersection(deltaTime: number): void {
+    // Only process if we have a new mouse event
+    if (!this.latestMouseEvent) {
+      return; // No mouse event to process
+    }
+
+    // Calculate and smooth FPS
+    const currentFPS &#x3D; 1000 / deltaTime; // deltaTime in ms
+    this.smoothedFPS &#x3D;
+      this.smoothedFPS * (1 - this.FPS_SMOOTHING) +
+      currentFPS * this.FPS_SMOOTHING;
+
+    // Adjust frame skipping based on smoothed FPS using hysteresis
+    this.adjustFrameSkipping();
+
+    this.frameCounter++;
+
+    // Only process intersection every framesToSkip frames
+    if (this.frameCounter &gt;&#x3D; this.framesToSkip) {
+      this.frameCounter &#x3D; 0; // Reset counter
+
+      // Process the latest stacked mouse event
+      const result &#x3D; this.intersectObject(this.latestMouseEvent);
+      this.applyIntersectionResult(result);
+
+      // Clear the processed event to avoid reprocessing
+      this.latestMouseEvent &#x3D; null;
+    }
+  }
+
+  /**
+   * Adjust frame skipping based on FPS with hysteresis to prevent oscillation.
+   */
+  private adjustFrameSkipping(): void {
+    const fps &#x3D; this.smoothedFPS;
+    const currentSkip &#x3D; this.framesToSkip;
+    let newSkip &#x3D; currentSkip;
+
+    // Determine new skip value based on FPS thresholds and current state
+    if (fps &lt; this.FPS_THRESHOLDS.TO_HIGH_SKIP &amp;&amp; currentSkip &lt; 8) {
+      newSkip &#x3D; 8; // Aggressive skipping for very low FPS
+    } else if (fps &lt; this.FPS_THRESHOLDS.TO_MED_SKIP &amp;&amp; currentSkip &lt; 5) {
+      newSkip &#x3D; 5; // Moderate skipping for low FPS
+    } else if (fps &gt; this.FPS_THRESHOLDS.TO_MINIMAL_SKIP &amp;&amp; currentSkip &gt; 1) {
+      newSkip &#x3D; 1; // Minimal skipping for high FPS
+    } else if (fps &gt; this.FPS_THRESHOLDS.TO_LOW_SKIP &amp;&amp; currentSkip &gt; 3) {
+      newSkip &#x3D; 3; // Low skipping for medium-good FPS
+    }
+
+    // Only change if it&#x27;s different and log the decision
+    if (newSkip !&#x3D;&#x3D; currentSkip) {
+      this.framesToSkip &#x3D; newSkip;
+    }
+  }
+
+  // Public methods for programmatic access to selection state
+
+  /**
+   * Get all currently selected objects.
+   * @returns Set of selected mesh objects
+   */
+  public getSelectedObjects(): Set&lt;Mesh&gt; {
+    return new Set(this.selectedObjects); // Return a copy to prevent external modification
+  }
+
+  /**
+   * Get the currently hovered object (if any).
+   * @returns The hovered mesh object or null
+   */
+  public getHoveredObject(): Mesh | null {
+    return this.hoveredObject;
+  }
+
+  /**
+   * Check if a specific object is currently selected.
+   * @param object The object to check
+   * @returns True if the object is selected
+   */
+  public isSelected(object: Mesh): boolean {
+    return this.selectedObjects.has(object);
+  }
+
+  /**
+   * Programmatically select an object (without triggering click events).
+   * @param object The object to select
+   * @returns True if the object was selected, false if already selected
+   */
+  public selectObject(object: Mesh): boolean {
+    if (this.selectedObjects.has(object)) {
+      return false; // Already selected
+    }
+
+    this.effectsManager.selectObject(object);
+    this.selectedObjects.add(object);
+    this.logSelectionAction(object, true);
+    return true;
+  }
+
+  /**
+   * Programmatically deselect an object (without triggering click events).
+   * @param object The object to deselect
+   * @returns True if the object was deselected, false if not selected
+   */
+  public deselectObject(object: Mesh): boolean {
+    if (!this.selectedObjects.has(object)) {
+      return false; // Not selected
+    }
+
+    this.effectsManager.deselectObject(object);
+    this.selectedObjects.delete(object);
+    this.logSelectionAction(object, false);
+    return true;
+  }
+
+  /**
+   * Programmatically toggle selection of an object.
+   * @param object The object to toggle
+   * @returns True if the object is now selected, false if deselected
+   */
+  public toggleObjectSelection(object: Mesh): boolean {
+    if (this.selectedObjects.has(object)) {
+      this.deselectObject(object);
+      return false;
+    } else {
+      this.selectObject(object);
+      return true;
+    }
+  }
+
+  /**
+   * Programmatically clear all selections and reset internal state.
+   * This method is called when event data is cleared to prevent stale references.
+   */
+  public clearAllSelections(): void {
+    const hadSelections &#x3D; this.selectedObjects.size &gt; 0;
+
+    // Clear all selected outlines from the effects manager (if initialized)
+    if (this.effectsManager) {
+      this.effectsManager.clearAllSelections();
+    }
+    this.selectedObjects.clear();
+
+    // Reset internal tracking to prevent stale references to disposed meshes
+    this.hoveredObject &#x3D; null;
+    this.currentlyOutlinedObject &#x3D; null;
+
+    if (hadSelections &amp;&amp; this.infoLogger) {
+      this.infoLogger.add(&#x27;All selections cleared&#x27;, &#x27;Selection&#x27;);
+    }
+  }
+
+  /**
+   * Set the click threshold for drag detection.
+   * @param threshold Maximum pixel distance to consider as a click (not drag)
+   */
+  public setClickThreshold(threshold: number): void {
+    if (threshold &gt; 0) {
+      this.clickThreshold &#x3D; threshold;
+    }
+  }
+
+  /**
+   * Get the current click threshold.
+   * @returns Current click threshold in pixels
+   */
+  public getClickThreshold(): number {
+    return this.clickThreshold;
+  }
+
+  /**
+   * Set the double-click time threshold.
+   * @param threshold Maximum time between clicks to consider as double-click (ms)
+   */
+  public setDoubleClickThreshold(threshold: number): void {
+    if (threshold &gt; 0) {
+      this.doubleClickThreshold &#x3D; threshold;
+    }
+  }
+
+  /**
+   * Get the current double-click time threshold.
+   * @returns Current double-click threshold in milliseconds
+   */
+  public getDoubleClickThreshold(): number {
+    return this.doubleClickThreshold;
+  }
+
+  /**
+   * Update overlay event listeners when overlay canvas becomes available.
+   * Called by ThreeManager when setOverlayRenderer is invoked.
+   */
+  public updateOverlayListeners() {
+    this.setupOverlayListeners();
+  }
+
+  /**
+   * Determine if a mouse event came from the overlay canvas.
+   * @param event The mouse event to check
+   * @returns true if the event came from the overlay canvas, false if from main canvas
+   */
+  private isEventFromOverlayCanvas(event: MouseEvent): boolean {
+    const target &#x3D; event.target as HTMLElement;
+
+    // Check if the target is the overlay canvas
+    if (this.getOverlayCanvas) {
+      const overlayCanvas &#x3D; this.getOverlayCanvas();
+
+      if (overlayCanvas &amp;&amp; target &#x3D;&#x3D;&#x3D; overlayCanvas) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * Cleanup all event listeners and resources before re-initialization.
+   * Must be called before destroying the SelectionManager or re-initializing.
+   */
+  public cleanup() {
+    // Disable selecting (removes selection event listeners)
+    this.disableSelecting();
+
+    // Remove passive double-click listeners from both canvases
+    this.disablePassiveDoubleClick();
+
+    // Clear all selections and outlines
+    if (this.effectsManager) {
+      this.effectsManager.clearAllSelections();
+      this.effectsManager.setHoverOutline(null);
+    }
+    this.selectedObjects.clear();
+    this.hoveredObject &#x3D; null;
+    this.currentlyOutlinedObject &#x3D; null;
+
+    // Reset initialization state
+    this.isInit &#x3D; false;
   }
 }
 </code></pre>

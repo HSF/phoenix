@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/info-panel/info-panel-overlay/info-panel-overlay.component.scss"],
+  "sourcesContent": [".list-group-item {\n  font-size: 0.8rem;\n  padding: 0.5rem 1rem;\n}\n"],
+  "mappings": "AAAA,CAAA,gBACE,UAAA,MADF,QAEE,MAAA",
+  "names": []
+}

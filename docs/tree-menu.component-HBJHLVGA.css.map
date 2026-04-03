@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/tree-menu/tree-menu.component.scss"],
+  "sourcesContent": [".tree-wrapper {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  align-content: center;\n}\n\n.tree-menu {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  align-content: center;\n  max-height: 70vh;\n  overflow-y: scroll;\n}\n\n.example-tree-invisible {\n  display: none;\n}\n\n.example-tree ul,\n.example-tree li {\n  margin-top: 0;\n  margin-bottom: 0;\n  list-style-type: none;\n}\n"],
+  "mappings": "AAAA,CAAA,aACE,SAAA,SACA,IAAA,EACA,OAAA,EACA,KAAA,EACA,QAAA,KACA,eAAA,OACA,gBAAA,OACA,YAAA,OACA,cAAA,OAGF,CAAA,UACE,QAAA,KACA,eAAA,OACA,gBAAA,OACA,YAAA,OACA,cAAA,OACA,WAAA,KACA,WAAA,OAGF,CAAA,uBACE,QAAA,KAGF,CAAA,aAAA,GAAA,CAAA,aAAA,GAEE,WAAA,EACA,cAAA,EACA,gBAAA",
+  "names": []
+}

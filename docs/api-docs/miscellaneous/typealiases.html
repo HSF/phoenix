@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content miscellaneous-typealiases">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -139,7 +157,13 @@
                             <a href="#ConfigSlider" title="src/managers/ui-manager/phoenix-menu/config-types.ts" ><b>ConfigSlider</b>&nbsp;&nbsp;&nbsp;(src/.../config-types.ts)</a>
                         </li>
                         <li>
+                            <a href="#DParams" title="src/lib/types/event-data.ts" ><b>DParams</b>&nbsp;&nbsp;&nbsp;(src/.../event-data.ts)</a>
+                        </li>
+                        <li>
                             <a href="#GeometryUIParameters" title="src/lib/types/geometry-ui-parameters.ts" ><b>GeometryUIParameters</b>&nbsp;&nbsp;&nbsp;(src/.../geometry-ui-parameters.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ObjectCollection" title="src/lib/types/event-data.ts" ><b>ObjectCollection</b>&nbsp;&nbsp;&nbsp;(src/.../event-data.ts)</a>
                         </li>
                         <li>
                             <a href="#PhoenixMenuConfigs" title="src/managers/ui-manager/phoenix-menu/config-types.ts" ><b>PhoenixMenuConfigs</b>&nbsp;&nbsp;&nbsp;(src/.../config-types.ts)</a>
@@ -217,7 +241,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>    <code></code>
+                    <code>    <code>unknown</code>
 </code>
                 </td>
             </tr>
@@ -239,7 +263,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>    <code></code>
+                    <code>    <code>unknown</code>
 </code>
                 </td>
             </tr>
@@ -261,7 +285,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>    <code></code>
+                    <code>    <code>unknown</code>
 </code>
                 </td>
             </tr>
@@ -305,7 +329,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>    <code></code>
+                    <code>    <code>unknown</code>
 </code>
                 </td>
             </tr>
@@ -327,7 +351,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>    <code></code>
+                    <code>    <code>unknown</code>
 </code>
                 </td>
             </tr>
@@ -349,7 +373,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>    <code></code>
+                    <code>    <code>unknown</code>
 </code>
                 </td>
             </tr>
@@ -366,6 +390,52 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Type for all Phoenix menu mode configuration options.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/lib/types/event-data.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DParams"></a>
+                    <span class="name "><b>DParams</b><a href="#DParams"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Type definitions for Phoenix event data structures.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>[number, number, number, number, number]</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ObjectCollection"></a>
+                    <span class="name "><b>ObjectCollection</b><a href="#ObjectCollection"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Named collection of physics objects: { collectionName: objectArray }.</p>
 </div>
                 </td>
             </tr>

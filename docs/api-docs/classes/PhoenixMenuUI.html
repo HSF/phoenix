@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content class">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -152,6 +170,10 @@
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#collectionExtendState" >collectionExtendState</a>
+                            </li>
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#eventFolder" >eventFolder</a>
@@ -259,7 +281,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -325,6 +347,44 @@
     <h3 id="inputs">
         Properties
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collectionExtendState"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>collectionExtendState</b></span>
+                        <a href="#collectionExtendState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:30</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Track per-collection extend-to-radius state for Phoenix menu</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -519,8 +579,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="221"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:221</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="225"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:225</a></div>
                         </td>
                     </tr>
 
@@ -643,8 +703,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="276"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:276</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="280"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:280</a></div>
                         </td>
                     </tr>
 
@@ -749,8 +809,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="319"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:319</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="323"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:323</a></div>
                         </td>
                     </tr>
 
@@ -841,8 +901,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="176"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:176</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="180"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:180</a></div>
                         </td>
                     </tr>
 
@@ -882,8 +942,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="203"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:203</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="207"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:207</a></div>
                         </td>
                     </tr>
 
@@ -958,8 +1018,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="114"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:114</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="118"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:118</a></div>
                         </td>
                     </tr>
 
@@ -1050,8 +1110,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="56"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:56</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="60"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:60</a></div>
                         </td>
                     </tr>
 
@@ -1091,8 +1151,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="419"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:419</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="457"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:457</a></div>
                         </td>
                     </tr>
 
@@ -1183,8 +1243,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="365"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:365</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="403"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:403</a></div>
                         </td>
                     </tr>
 
@@ -1259,8 +1319,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="45"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:45</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="49"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -1300,8 +1360,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="477"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:477</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="515"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:515</a></div>
                         </td>
                     </tr>
 
@@ -1377,8 +1437,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="486"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:486</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="524"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:524</a></div>
                         </td>
                     </tr>
 
@@ -1418,8 +1478,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="462"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:462</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="500"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:500</a></div>
                         </td>
                     </tr>
 
@@ -1524,6 +1584,10 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
   private labelsFolder: PhoenixMenuNode;
   /** Manager for managing functions of the three.js scene. */
   private sceneManager: SceneManager;
+  /** Track per-collection extend-to-radius state for Phoenix menu */
+  private collectionExtendState: {
+    [key: string]: { enabled: boolean; radius: number };
+  } &#x3D; {};
 
   /**
    * Create Phoenix menu UI with different controls related to detector geometry and event data.
@@ -1853,6 +1917,40 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
             ?.getObjectByName(collectionName) as Object3D,
           value,
         ),
+    });
+
+    // Extension controls for tracks: add checkbox and radius slider
+    // Maintain state in this.collectionExtendState
+    if (!this.collectionExtendState[collectionName]) {
+      this.collectionExtendState[collectionName] &#x3D; {
+        enabled: false,
+        radius: 1500,
+      };
+    }
+    drawOptionsNode.addConfig({
+      type: &#x27;checkbox&#x27;,
+      label: &#x27;Extend to radius&#x27;,
+      isChecked: this.collectionExtendState[collectionName].enabled,
+      onChange: (value: boolean) &#x3D;&gt; {
+        this.collectionExtendState[collectionName].enabled &#x3D; value;
+        const radius &#x3D; this.collectionExtendState[collectionName].radius;
+        this.three.extendCollectionTracks(collectionName, radius, value);
+      },
+    });
+
+    drawOptionsNode.addConfig({
+      type: &#x27;slider&#x27;,
+      label: &#x27;Extend radius&#x27;,
+      min: 100,
+      max: 5000,
+      step: 10,
+      allowCustomValue: true,
+      onChange: (value: number) &#x3D;&gt; {
+        this.collectionExtendState[collectionName].radius &#x3D; value;
+        if (this.collectionExtendState[collectionName].enabled) {
+          this.three.extendCollectionTracks(collectionName, value, true);
+        }
+      },
     });
   }
 

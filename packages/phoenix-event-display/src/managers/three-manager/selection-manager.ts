@@ -70,7 +70,7 @@ export class SelectionManager {
   /** Mouse down position for drag detection (selection system) */
   private selectionMouseDownPosition: { x: number; y: number } | null = null;
   /** Maximum pixel distance to consider as a click (not drag) */
-  private clickThreshold = 5;
+  private clickThreshold = 10;
   /** Whether the user is currently dragging (selection system) */
   private selectionIsDragging = false;
 
@@ -621,24 +621,25 @@ export class SelectionManager {
 
     // Only process as a click if movement was minimal (not a drag)
     if (distance <= this.clickThreshold) {
-      // Handle single click for selection
-      this.handleClick();
+      this.handleClick(event);
     }
   };
 
-  /**
-   * Handle double-click events with precise collision detection.
-   * Performs detailed intersection and prints collision coordinates.
-   * @param event The mouse event for collision detection
-   */
   /**
    * Function to call on mouse click when object selection is enabled.
    * Implements sticky multi-selection behavior:
    * - Click on object: toggle its selection (add if not selected, remove if selected)
    * - Click on empty space: clear all selections
    */
-  private handleClick = () => {
-    const intersectedObject = this.currentlyOutlinedObject;
+  private handleClick = (event?: MouseEvent) => {
+    // Use pre-computed hover target, or do a fresh raycast if needed
+    let intersectedObject = this.currentlyOutlinedObject;
+    if (!intersectedObject && event) {
+      const result = this.intersectObject(event);
+      if (result && result instanceof Mesh) {
+        intersectedObject = result as Mesh;
+      }
+    }
 
     if (intersectedObject) {
       // Use unified selection API so normal interactions and programmatic

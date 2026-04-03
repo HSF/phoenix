@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/object-clipping/object-clipping.component.scss"],
+  "sourcesContent": [".slider-btn {\n  overflow: visible;\n}\n\nmat-slider {\n  margin-left: 0.75rem;\n  margin-right: 0.75rem;\n}\n"],
+  "mappings": "AAAA,CAAA,WACE,SAAA,QAGF,WACE,YAAA,OACA,aAAA",
+  "names": []
+}

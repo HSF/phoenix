@@ -1,0 +1,766 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  MissingEnergyParams</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/lib/types/event-data.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Parameters for missing transverse energy.</p>
+
+            </p>
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#color" 
+>
+                                            color
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#etx" 
+>
+                                            etx
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#ety" 
+>
+                                            ety
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#uuid" 
+>
+                                            uuid
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+            <section data-compodoc="block-indexables">
+    <h3 id="inputs">Indexable</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <code>[key: string]:    <code>unknown</code>
+</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="211" class="link-to-prism">src/lib/types/event-data.ts:211</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Extra experiment-specific properties.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="color"></a>
+                                        <span class="name "><b>color</b>
+                                            <a href="#color">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>color:     <code>string | number</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string | number</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Color for rendering.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="etx"></a>
+                                        <span class="name "><b>etx</b>
+                                            <a href="#etx">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>etx:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>X component of missing ET.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="ety"></a>
+                                        <span class="name "><b>ety</b>
+                                            <a href="#ety">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>ety:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Y component of missing ET.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="uuid"></a>
+                                        <span class="name "><b>uuid</b>
+                                            <a href="#uuid">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>uuid:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>UUID assigned after object creation. Set internally.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export type DParams &#x3D; [number, number, number, number, number];
+
+/** Parameters for a single track. */
+export interface TrackParams {
+  /** Array of [x, y, z] positions defining the track path. */
+  pos?: number[][];
+  /** Helix parameters for Runge-Kutta extrapolation. */
+  dparams?: DParams;
+  /** Azimuthal angle. */
+  phi?: number;
+  /** Pseudorapidity. */
+  eta?: number;
+  /** Transverse impact parameter. */
+  d0?: number;
+  /** Longitudinal impact parameter. */
+  z0?: number;
+  /** Transverse momentum. */
+  pT?: number;
+  /** Chi-squared of the track fit. */
+  chi2?: number;
+  /** Degrees of freedom. */
+  dof?: number;
+  /** Color as hex string. */
+  color?: string;
+  /** Line width for rendering. */
+  linewidth?: number;
+  /** Whether the track was extrapolated. Set internally. */
+  extended?: boolean;
+  /** UUID assigned after object creation. Set internally. */
+  uuid?: string;
+  /** Track ID in merged mesh. Set internally. */
+  tid?: number;
+  /** Material reference. Set internally. */
+  material?: unknown;
+  /** Extra experiment-specific properties. */
+  [key: string]: unknown;
+}
+
+/** Parameters for a single jet. */
+export interface JetParams {
+  /** Pseudorapidity. */
+  eta: number;
+  /** Azimuthal angle. */
+  phi: number;
+  /** Polar angle. Derived from eta if absent. */
+  theta?: number;
+  /** Jet energy. */
+  energy?: number;
+  /** Transverse energy — used if energy is absent. */
+  et?: number;
+  /** Cone radius for visualization width. */
+  coneR?: number;
+  /** Jet origin X displacement. */
+  origin_X?: number;
+  /** Jet origin Y displacement. */
+  origin_Y?: number;
+  /** Jet origin Z displacement. */
+  origin_Z?: number;
+  /** Color for rendering. */
+  color?: string | number;
+  /** UUID assigned after object creation. Set internally. */
+  uuid?: string;
+  /** Extra experiment-specific properties. */
+  [key: string]: unknown;
+}
+
+/** Can be a simple [x,y,z] array or an object with pos + metadata. */
+export interface HitParams {
+  /** Position coordinates. */
+  pos: number[];
+  /** Drawing type: &#x27;Point&#x27;, &#x27;CircularPoint&#x27;, &#x27;Line&#x27;, or &#x27;Box&#x27;. */
+  type?: string;
+  /** Color for rendering. */
+  color?: string | number;
+  /** Additional info attached to the hit. */
+  extraInfo?: Record&lt;string, unknown&gt;;
+  /** UUID assigned after object creation. Set internally. */
+  uuid?: string;
+  /** Extra experiment-specific properties. */
+  [key: string]: unknown;
+}
+
+/** Parameters for a single calorimeter cluster. */
+export interface CaloClusterParams {
+  /** Cluster energy. */
+  energy: number;
+  /** Azimuthal angle. */
+  phi: number;
+  /** Pseudorapidity. */
+  eta: number;
+  /** Cylindrical radius override. */
+  radius?: number;
+  /** Z position override. */
+  z?: number;
+  /** Side width of the cluster box. */
+  side?: number;
+  /** Length (depth) of the cluster box. */
+  length?: number;
+  /** Color for rendering. */
+  color?: string;
+  /** Polar angle. Derived from eta if absent. */
+  theta?: number;
+  /** Opacity value. */
+  opacity?: number;
+  /** UUID assigned after object creation. Set internally. */
+  uuid?: string;
+  /** Extra experiment-specific properties. */
+  [key: string]: unknown;
+}
+
+/** Parameters for a single calorimeter cell. */
+export interface CaloCellParams {
+  /** Cell energy. */
+  energy: number;
+  /** Azimuthal angle. */
+  phi: number;
+  /** Pseudorapidity. */
+  eta: number;
+  /** Cylindrical radius override. */
+  radius?: number;
+  /** Z position override. */
+  z?: number;
+  /** Polar angle. Derived from eta if absent. */
+  theta?: number;
+  /** Color for rendering. */
+  color?: string;
+  /** Opacity value. */
+  opacity?: number;
+  /** Side width of the cell box. */
+  side?: number;
+  /** Length (depth) of the cell box. */
+  length?: number;
+  /** UUID assigned after object creation. Set internally. */
+  uuid: string;
+  /** Extra experiment-specific properties. */
+  [key: string]: unknown;
+}
+
+/** Parameters for a single planar calorimeter cell. */
+export interface PlanarCaloCellParams {
+  /** Cell energy. */
+  energy: number;
+  /** Position [x, y]. */
+  pos?: number[];
+  /** Cell size (width). */
+  cellSize?: number;
+  /** Plane definition [nx, ny, nz, d]. */
+  plane?: number[];
+  /** Color for rendering. */
+  color?: string | number;
+  /** UUID assigned after object creation. Set internally. */
+  uuid?: string;
+  /** Extra experiment-specific properties. */
+  [key: string]: unknown;
+}
+
+/** Irregular cell defined by 8 arbitrary vertices (24 floats). */
+export interface IrregularCaloCellParams {
+  /** Drawing type identifier. */
+  type?: string;
+  /** Calorimeter layer. */
+  layer: number;
+  /** Flattened list of 8 vertex coordinates (24 floats). */
+  vtx: number[];
+  /** Color as [R, G, B] integer array or string. */
+  color: string | number[];
+  /** Opacity from 0 to 1. */
+  opacity: number;
+  /** Cell energy. */
+  energy?: number;
+  /** UUID assigned after object creation. Set internally. */
+  uuid?: string;
+  /** Extra experiment-specific properties. */
+  [key: string]: unknown;
+}
+
+/** Parameters for a single vertex. */
+export interface VertexParams {
+  /** Position as [x, y, z]. */
+  pos?: number[];
+  /** X coordinate (alternative to pos). */
+  x?: number;
+  /** Y coordinate (alternative to pos). */
+  y?: number;
+  /** Z coordinate (alternative to pos). */
+  z?: number;
+  /** Sphere size. */
+  size?: number;
+  /** Vertex type for cuts. */
+  vertexType?: number;
+  /** Color for rendering. */
+  color?: string | number;
+  /** UUID assigned after object creation. Set internally. */
+  uuid?: string;
+  /** Extra experiment-specific properties. */
+  [key: string]: unknown;
+}
+
+/** Parameters for missing transverse energy. */
+export interface MissingEnergyParams {
+  /** X component of missing ET. */
+  etx: number;
+  /** Y component of missing ET. */
+  ety: number;
+  /** Color for rendering. */
+  color?: string | number;
+  /** UUID assigned after object creation. Set internally. */
+  uuid?: string;
+  /** Extra experiment-specific properties. */
+  [key: string]: unknown;
+}
+
+/** Compound objects (Muon, Electron, Photon) link tracks and clusters. */
+export interface CompoundObjectParams {
+  /** Linked track parameters. */
+  LinkedTracks?: TrackParams[];
+  /** Linked cluster parameters. */
+  LinkedClusters?: CaloClusterParams[];
+  /** Azimuthal angle. */
+  phi?: number;
+  /** Pseudorapidity. */
+  eta?: number;
+  /** Energy. */
+  energy?: number;
+  /** Transverse momentum. */
+  pT?: number;
+  /** Extra experiment-specific properties. */
+  [key: string]: unknown;
+}
+
+/** Named collection of physics objects: { collectionName: objectArray }. */
+export type ObjectCollection&lt;T &#x3D; Record&lt;string, unknown&gt;&gt; &#x3D; {
+  [collectionName: string]: T[];
+};
+
+/** A single event in Phoenix format. */
+export interface PhoenixEventData {
+  /** Track collections. */
+  Tracks?: ObjectCollection&lt;TrackParams&gt;;
+  /** Jet collections. */
+  Jets?: ObjectCollection&lt;JetParams&gt;;
+  /** Hit collections. */
+  Hits?: ObjectCollection&lt;HitParams | number[]&gt;;
+  /** Calorimeter cluster collections. */
+  CaloClusters?: ObjectCollection&lt;CaloClusterParams&gt;;
+  /** Calorimeter cell collections. */
+  CaloCells?: ObjectCollection&lt;CaloCellParams&gt;;
+  /** Planar calorimeter cell collections. */
+  PlanarCaloCells?: {
+    [collectionName: string]: {
+      /** Plane definition [nx, ny, nz, d]. */
+      plane: number[];
+      /** Array of planar calo cells. */
+      cells: PlanarCaloCellParams[];
+    };
+  };
+  /** Irregular calorimeter cell collections. */
+  IrregularCaloCells?: ObjectCollection&lt;IrregularCaloCellParams&gt;;
+  /** Muon collections. */
+  Muons?: ObjectCollection&lt;CompoundObjectParams&gt;;
+  /** Photon collections. */
+  Photons?: ObjectCollection&lt;CompoundObjectParams&gt;;
+  /** Electron collections. */
+  Electrons?: ObjectCollection&lt;CompoundObjectParams&gt;;
+  /** Vertex collections. */
+  Vertices?: ObjectCollection&lt;VertexParams&gt;;
+  /** Missing energy collections. */
+  MissingEnergy?: ObjectCollection&lt;MissingEnergyParams&gt;;
+  /** Event number. */
+  &#x27;event number&#x27;?: string | number;
+  /** Event number (alt key). */
+  eventNumber?: string | number;
+  /** Run number. */
+  &#x27;run number&#x27;?: string | number;
+  /** Run number (alt key). */
+  runNumber?: string | number;
+  /** Experiment-specific object types. */
+  [key: string]: unknown;
+}
+
+/** Multiple events keyed by event name. */
+export interface PhoenixEventsData {
+  /** Individual event data. */
+  [eventKey: string]: PhoenixEventData;
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'MissingEnergyParams.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

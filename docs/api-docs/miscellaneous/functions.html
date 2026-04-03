@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -99,6 +113,10 @@
 
 
 
+
+
+
+
 <ol class="breadcrumb">
   <li class="breadcrumb-item">Miscellaneous</li>
   <li class="breadcrumb-item">Functions</li>
@@ -112,6 +130,9 @@
                 <td class="col-md-4">
                     <ul class="index-list">
                         <li>
+                            <a href="#getDefaultObjectTypeConfigs" title="src/loaders/object-type-registry.ts" ><b>getDefaultObjectTypeConfigs</b>&nbsp;&nbsp;&nbsp;(src/.../object-type-registry.ts)</a>
+                        </li>
+                        <li>
                             <a href="#setColorForObject" title="src/managers/three-manager/color-manager.ts" ><b>setColorForObject</b>&nbsp;&nbsp;&nbsp;(src/.../color-manager.ts)</a>
                         </li>
                     </ul>
@@ -121,7 +142,42 @@
     </table>
 </section>
 
-    <h3>src/managers/three-manager/color-manager.ts</h3>
+    <h3>src/loaders/object-type-registry.ts</h3>
+    <section data-compodoc="block-methods">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDefaultObjectTypeConfigs"></a>
+                    <span class="name">
+                        <span ><b>getDefaultObjectTypeConfigs</b></span>
+                        <a href="#getDefaultObjectTypeConfigs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDefaultObjectTypeConfigs()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Returns default configs for all built-in Phoenix object types.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/ObjectTypeConfig.html" target="_self" >ObjectTypeConfig[]</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/managers/three-manager/color-manager.ts</h3>
     <section data-compodoc="block-methods">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>

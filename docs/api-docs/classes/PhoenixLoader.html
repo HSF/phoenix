@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content class">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -245,6 +263,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
+                                <a href="#getObjectTypeConfigs" >getObjectTypeConfigs</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
                                 <a href="#loadObjectTypes" >loadObjectTypes</a>
                             </li>
                         </ul>
@@ -270,7 +292,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/loaders/phoenix-loader.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/loaders/phoenix-loader.ts:41</a></div>
                             </td>
                         </tr>
 
@@ -303,13 +325,13 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <i>Type : </i>        <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
 
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/loaders/phoenix-loader.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/loaders/phoenix-loader.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -342,7 +364,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/loaders/phoenix-loader.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/loaders/phoenix-loader.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -380,7 +402,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/loaders/phoenix-loader.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/loaders/phoenix-loader.ts:41</a></div>
                         </td>
                     </tr>
 
@@ -413,7 +435,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/loaders/phoenix-loader.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/loaders/phoenix-loader.ts:37</a></div>
                         </td>
                     </tr>
 
@@ -446,7 +468,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/loaders/phoenix-loader.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/loaders/phoenix-loader.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -479,7 +501,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/loaders/phoenix-loader.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/loaders/phoenix-loader.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -521,8 +543,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="516"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:516</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="315"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:315</a></div>
                         </td>
                     </tr>
 
@@ -675,8 +697,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="733"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:733</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="532"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:532</a></div>
                         </td>
                     </tr>
 
@@ -784,8 +806,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="448"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:448</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="234"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:234</a></div>
                         </td>
                     </tr>
 
@@ -954,8 +976,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="770"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:770</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="569"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:569</a></div>
                         </td>
                     </tr>
 
@@ -1056,15 +1078,15 @@
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>buildEventData(eventData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, graphicsLibrary: <a href="../classes/ThreeManager.html" target="_self">ThreeManager</a>, ui: <a href="../classes/UIManager.html" target="_self">UIManager</a>, infoLogger: <a href="../classes/InfoLogger.html" target="_self">InfoLogger</a>)</code>
+                    <code>buildEventData(eventData: <a href="../interfaces/PhoenixEventData.html" target="_self">PhoenixEventData</a>, graphicsLibrary: <a href="../classes/ThreeManager.html" target="_self">ThreeManager</a>, ui: <a href="../classes/UIManager.html" target="_self">UIManager</a>, infoLogger: <a href="../classes/InfoLogger.html" target="_self">InfoLogger</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="51"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:51</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="59"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:59</a></div>
                         </td>
                     </tr>
 
@@ -1091,7 +1113,7 @@ the different objects to the graphics library and the UI controls.</p>
                                         <tr>
                                                 <td>eventData</td>
                                             <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                            <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
                                             </td>
 
                                             <td>
@@ -1188,8 +1210,8 @@ the different objects to the graphics library and the UI controls.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="127"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:127</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="132"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:132</a></div>
                         </td>
                     </tr>
 
@@ -1265,8 +1287,8 @@ the different objects to the graphics library and the UI controls.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="103"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:103</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="111"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:111</a></div>
                         </td>
                     </tr>
 
@@ -1277,7 +1299,7 @@ the different objects to the graphics library and the UI controls.</p>
 </div>
 
                         <div class="io-description">
-                            <b>Returns : </b>    <code>string[]</code>
+                            <b>Returns : </b>    <code>literal type</code>
 
                         </div>
                             <div class="io-description">
@@ -1310,8 +1332,8 @@ the different objects to the graphics library and the UI controls.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="581"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:581</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="380"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:380</a></div>
                         </td>
                     </tr>
 
@@ -1442,8 +1464,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="571"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:571</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="370"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:370</a></div>
                         </td>
                     </tr>
 
@@ -1531,8 +1553,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="565"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:565</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="364"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:364</a></div>
                         </td>
                     </tr>
 
@@ -1618,8 +1640,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="679"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:679</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="478"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:478</a></div>
                         </td>
                     </tr>
 
@@ -1656,15 +1678,15 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getEventsList(eventsData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>getEventsList(eventsData: <a href="../interfaces/PhoenixEventsData.html" target="_self">PhoenixEventsData</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="87"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:87</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="95"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:95</a></div>
                         </td>
                     </tr>
 
@@ -1690,7 +1712,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                                         <tr>
                                                 <td>eventsData</td>
                                             <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                            <code><a href="../interfaces/PhoenixEventsData.html" target="_self" >PhoenixEventsData</a></code>
                                             </td>
 
                                             <td>
@@ -1740,8 +1762,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="759"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:759</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="558"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:558</a></div>
                         </td>
                     </tr>
 
@@ -1785,8 +1807,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="551"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:551</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="350"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:350</a></div>
                         </td>
                     </tr>
 
@@ -1844,6 +1866,48 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getObjectTypeConfigs"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>getObjectTypeConfigs</b></span>
+                        <a href="#getObjectTypeConfigs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getObjectTypeConfigs()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="154"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:154</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Get the object type configs for this loader. Override in subclasses
+to add experiment-specific types or modify defaults.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/ObjectTypeConfig.html" target="_self" >ObjectTypeConfig[]</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="loadObjectTypes"></a>
                     <span class="name">
                             <span class="modifier">Protected</span>
@@ -1855,23 +1919,22 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadObjectTypes(eventData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>loadObjectTypes(eventData: <a href="../interfaces/PhoenixEventData.html" target="_self">PhoenixEventData</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="148"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:148</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="162"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:162</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Receives an object containing the data from an event and parses it
-to reconstruct the different collections of physics objects.</p>
+                        <div class="io-description"><p>Load all object types from event data using the registry configs.</p>
 </div>
 
                             <div class="io-description">
@@ -1890,7 +1953,7 @@ to reconstruct the different collections of physics objects.</p>
                                         <tr>
                                                 <td>eventData</td>
                                             <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                            <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
                                             </td>
 
                                             <td>
@@ -1899,7 +1962,7 @@ to reconstruct the different collections of physics objects.</p>
 
 
                                             <td>
-                                                    <p>Representing ONE event (expressed in the Phoenix format).</p>
+                                                    <p>One event in Phoenix format.</p>
 
                                             </td>
                                         </tr>
@@ -1927,7 +1990,7 @@ to reconstruct the different collections of physics objects.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Group, Object3D, Vector3 } from &#x27;three&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Group, Object3D, Vector3, Color } from &#x27;three&#x27;;
 import { GUI } from &#x27;dat.gui&#x27;;
 import type { EventDataLoader } from &#x27;./event-data-loader&#x27;;
 import { UIManager } from &#x27;../managers/ui-manager/index&#x27;;
@@ -1942,6 +2005,14 @@ import { CoordinateHelper } from &#x27;../helpers/coordinate-helper&#x27;;
 import { getLabelTitle } from &#x27;../helpers/labels&#x27;;
 import { DatGUIMenuUI } from &#x27;../managers/ui-manager/dat-gui-ui&#x27;;
 import { PhoenixMenuUI } from &#x27;../managers/ui-manager/phoenix-menu/phoenix-menu-ui&#x27;;
+import {
+  getDefaultObjectTypeConfigs,
+  ObjectTypeConfig,
+} from &#x27;./object-type-registry&#x27;;
+import type {
+  PhoenixEventData,
+  PhoenixEventsData,
+} from &#x27;../lib/types/event-data&#x27;;
 import * as _ from &#x27;lodash&#x27;;
 
 /**
@@ -1953,7 +2024,7 @@ export class PhoenixLoader implements EventDataLoader {
   /** UIService to perform UI related functions. */
   private ui: UIManager;
   /** Event data processed by the loader. */
-  protected eventData: any;
+  protected eventData: PhoenixEventData;
   /** Loading manager for loadable resources */
   protected loadingManager: LoadingManager;
   /** Loading manager for loadable resources */
@@ -1978,7 +2049,7 @@ export class PhoenixLoader implements EventDataLoader {
    * @param infoLogger Service for logging data to the information panel.
    */
   public buildEventData(
-    eventData: any,
+    eventData: PhoenixEventData,
     graphicsLibrary: ThreeManager,
     ui: UIManager,
     infoLogger: InfoLogger,
@@ -1994,12 +2065,12 @@ export class PhoenixLoader implements EventDataLoader {
     // initiate load
     this.loadObjectTypes(eventData);
 
-    const eventNumber &#x3D; eventData[&#x27;event number&#x27;]
-      ? eventData[&#x27;event number&#x27;]
-      : eventData[&#x27;eventNumber&#x27;];
-    const runNumber &#x3D; eventData[&#x27;run number&#x27;]
-      ? eventData[&#x27;run number&#x27;]
-      : eventData[&#x27;runNumber&#x27;];
+    const eventNumber &#x3D; String(
+      eventData[&#x27;event number&#x27;] ?? eventData[&#x27;eventNumber&#x27;] ?? &#x27;000&#x27;,
+    );
+    const runNumber &#x3D; String(
+      eventData[&#x27;run number&#x27;] ?? eventData[&#x27;runNumber&#x27;] ?? &#x27;000&#x27;,
+    );
     infoLogger.add(&#x27;Event#&#x27; + eventNumber + &#x27; from run#&#x27; + runNumber, &#x27;Loaded&#x27;);
 
     this.stateManager.eventMetadata &#x3D; {
@@ -2013,7 +2084,7 @@ export class PhoenixLoader implements EventDataLoader {
    * @param eventsData Object containing all event data.
    * @returns List of event names.
    */
-  public getEventsList(eventsData: any): string[] {
+  public getEventsList(eventsData: PhoenixEventsData): string[] {
     const eventsList: string[] &#x3D; [];
 
     for (const eventName in eventsData) {
@@ -2029,23 +2100,20 @@ export class PhoenixLoader implements EventDataLoader {
    * Get list of collections in the event data.
    * @returns List of all collection names.
    */
-  public getCollections(): string[] {
+  public getCollections(): { [key: string]: string[] } {
     if (!this.eventData) {
-      return [];
+      return {};
     }
 
-    const collections &#x3D; [];
-    for (const objectType in this.eventData) {
-      if (
-        this.eventData[objectType] &amp;&amp;
-        typeof this.eventData[objectType] &#x3D;&#x3D;&#x3D; &#x27;object&#x27;
-      ) {
-        for (const collection in this.eventData[objectType]) {
-          collections.push(collection);
-        }
+    const collectionsByType: { [key: string]: string[] } &#x3D; {};
+    const data &#x3D; this.eventData as Record&lt;string, any&gt;;
+
+    for (const objectType in data) {
+      if (data[objectType] &amp;&amp; typeof data[objectType] &#x3D;&#x3D; &#x27;object&#x27;) {
+        collectionsByType[objectType] &#x3D; Object.keys(data[objectType]).sort();
       }
     }
-    return collections;
+    return collectionsByType;
   }
 
   /**
@@ -2058,11 +2126,13 @@ export class PhoenixLoader implements EventDataLoader {
       return null;
     }
 
-    for (const objectType in this.eventData) {
-      if (this.eventData[objectType]) {
-        for (const collection in this.eventData[objectType]) {
+    const data &#x3D; this.eventData as Record&lt;string, any&gt;;
+
+    for (const objectType in data) {
+      if (data[objectType]) {
+        for (const collection in data[objectType]) {
           if (collection &#x3D;&#x3D;&#x3D; collectionName) {
-            return this.eventData[objectType][collection];
+            return data[objectType][collection];
           }
         }
       }
@@ -2070,297 +2140,76 @@ export class PhoenixLoader implements EventDataLoader {
   }
 
   /**
-   * Receives an object containing the data from an event and parses it
-   * to reconstruct the different collections of physics objects.
-   * @param eventData Representing ONE event (expressed in the Phoenix format).
+   * Get the object type configs for this loader. Override in subclasses
+   * to add experiment-specific types or modify defaults.
    */
-  protected loadObjectTypes(eventData: any) {
-    // PI with 2 fraction digits
-    const pi &#x3D; parseFloat(Math.PI.toFixed(2));
+  protected getObjectTypeConfigs(): ObjectTypeConfig[] {
+    return getDefaultObjectTypeConfigs();
+  }
 
-    if (eventData.Tracks) {
-      // (Optional) Cuts can be added to any physics object.
-      const cuts: Cut[] &#x3D; [
-        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
-        new Cut(&#x27;eta&#x27;, -4, 4, 0.1),
-        new Cut(&#x27;chi2&#x27;, 0, 100),
-        new Cut(&#x27;dof&#x27;, 0, 100),
-        new Cut(&#x27;pT&#x27;, 0, 50000, 0.1),
-        new Cut(&#x27;z0&#x27;, -30, 30, 0.1),
-        new Cut(&#x27;d0&#x27;, -30, 30, 0.1),
-      ];
+  /**
+   * Load all object types from event data using the registry configs.
+   * @param eventData One event in Phoenix format.
+   */
+  protected loadObjectTypes(eventData: PhoenixEventData) {
+    const configs &#x3D; this.getObjectTypeConfigs();
 
-      this.addObjectType(
-        eventData.Tracks,
-        PhoenixObjects.getTrack,
-        &#x27;Tracks&#x27;,
-        false,
-        cuts,
-      );
-    }
+    for (const config of configs) {
+      const rawData &#x3D; eventData[config.typeName];
+      if (!rawData) continue;
 
-    if (eventData.Jets) {
-      // (Optional) Cuts can be added to any physics object.
-      const cuts &#x3D; [
-        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
-        new Cut(&#x27;eta&#x27;, -5.0, 5.0, 0.1),
-        new Cut(&#x27;energy&#x27;, 0, 600000, 100),
-      ];
+      // Resolve getObject — compound types bind at runtime
+      let getObject &#x3D; config.getObject;
+      if (!getObject) {
+        if (config.typeName &#x3D;&#x3D;&#x3D; &#x27;Photons&#x27;) {
+          getObject &#x3D; this.getCompoundCluster;
+        } else if (
+          config.typeName &#x3D;&#x3D;&#x3D; &#x27;Muons&#x27; ||
+          config.typeName &#x3D;&#x3D;&#x3D; &#x27;Electrons&#x27;
+        ) {
+          getObject &#x3D; this.getCompoundTrack;
+        } else {
+          continue;
+        }
+      }
 
-      const scaleJets &#x3D; (value: number) &#x3D;&gt; {
-        this.graphicsLibrary.getSceneManager().scaleJets(value);
-      };
-      const addJetsSizeOption &#x3D; this.addScaleOptions(
-        &#x27;jetsScale&#x27;,
-        &#x27;Jets Scale&#x27;,
-        scaleJets,
-      );
+      // Preprocess data if needed (e.g. PlanarCaloCells flattening)
+      const data &#x3D; config.preprocessData
+        ? config.preprocessData(rawData)
+        : rawData;
 
-      this.addObjectType(
-        eventData.Jets,
-        PhoenixObjects.getJet,
-        &#x27;Jets&#x27;,
-        false,
-        cuts,
-        addJetsSizeOption,
-      );
-    }
-
-    if (eventData.Hits) {
-      // Cannot currently cut on just a position array.
-      this.addObjectType(eventData.Hits, PhoenixObjects.getHits, &#x27;Hits&#x27;, true);
-    }
-
-    if (eventData.CaloClusters) {
-      // (Optional) Cuts can be added to any physics object.
-      const cuts &#x3D; [
-        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
-        new Cut(&#x27;eta&#x27;, -5.0, 5.0, 0.1),
-        new Cut(&#x27;energy&#x27;, 0, 10000),
-      ];
-
-      const scaleCaloClusters &#x3D; (value: number) &#x3D;&gt; {
-        this.graphicsLibrary
-          .getSceneManager()
-          .scaleChildObjects(&#x27;CaloClusters&#x27;, value, &#x27;z&#x27;);
-      };
-      const addCaloClusterOptions &#x3D; this.addScaleOptions(
-        &#x27;caloClustersScale&#x27;,
-        &#x27;CaloClusters Scale&#x27;,
-        scaleCaloClusters,
-      );
-
-      this.addObjectType(
-        eventData.CaloClusters,
-        PhoenixObjects.getCluster,
-        &#x27;CaloClusters&#x27;,
-        false,
-        cuts,
-        addCaloClusterOptions,
-      );
-    }
-
-    if (eventData.CaloCells) {
-      // (Optional) Cuts can be added to any physics object.
-      const cuts &#x3D; [
-        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
-        new Cut(&#x27;eta&#x27;, -5.0, 5.0, 0.1),
-        new Cut(&#x27;energy&#x27;, 0, 10000),
-      ];
-
-      const scaleCaloCells &#x3D; (value: number) &#x3D;&gt; {
-        this.graphicsLibrary
-          .getSceneManager()
-          .scaleChildObjects(&#x27;CaloCells&#x27;, value, &#x27;z&#x27;);
-      };
-      const addCaloCellOptions &#x3D; this.addScaleOptions(
-        &#x27;caloCellsScale&#x27;,
-        &#x27;CaloCells Scale&#x27;,
-        scaleCaloCells,
-      );
-
-      // FIXME! Need to pass the radius in.
-      this.addObjectType(
-        eventData.CaloCells,
-        PhoenixObjects.getCaloCell,
-        &#x27;CaloCells&#x27;,
-        false,
-        cuts,
-        addCaloCellOptions,
-      );
-    }
-
-    if (eventData.PlanarCaloCells) {
-      // (Optional) Cuts can be added to any physics object.
-      const cuts &#x3D; [new Cut(&#x27;energy&#x27;, 0, 10000)];
-
-      const scalePlanarCaloCells &#x3D; (value: number) &#x3D;&gt; {
-        this.graphicsLibrary
-          .getSceneManager()
-          .scaleChildObjects(&#x27;PlanarCaloCells&#x27;, value, &#x27;z&#x27;);
-      };
-      const addPlanarCaloCellsOptions &#x3D; this.addScaleOptions(
-        &#x27;planarCaloCellsScale&#x27;,
-        &#x27;PlanarCaloCells Scale&#x27;,
-        scalePlanarCaloCells,
-      );
-
-      const collections: { [key: string]: any } &#x3D; {};
-      for (const collectionName in eventData.PlanarCaloCells) {
-        const collection &#x3D; eventData.PlanarCaloCells[collectionName];
-        const plane &#x3D; collection[&#x27;plane&#x27;];
-        const unitVector &#x3D; new Vector3(...plane.slice(0, 3)).normalize();
-
-        collection[&#x27;cells&#x27;].forEach(
-          (cell: any) &#x3D;&gt; (cell[&#x27;plane&#x27;] &#x3D; [...unitVector.toArray(), plane[3]]),
-        );
-
-        collections[collectionName] &#x3D; collection[&#x27;cells&#x27;];
+      // Build scale UI extension from config
+      let extendUI: ((tf: GUI, pm: PhoenixMenuNode) &#x3D;&gt; void) | undefined;
+      if (config.extendUI) {
+        extendUI &#x3D; (typeFolder: GUI, typeFolderPM: PhoenixMenuNode) &#x3D;&gt; {
+          config.extendUI(typeFolder, typeFolderPM, (typeName, value) &#x3D;&gt; {
+            this.graphicsLibrary
+              .getSceneManager()
+              .scaleChildObjects(typeName, value);
+          });
+        };
+      } else if (config.scaleConfig) {
+        const sc &#x3D; config.scaleConfig;
+        let scaleFn: (value: number) &#x3D;&gt; void;
+        if (sc.scaleMethod &#x3D;&#x3D;&#x3D; &#x27;scaleJets&#x27;) {
+          scaleFn &#x3D; (value) &#x3D;&gt;
+            this.graphicsLibrary.getSceneManager().scaleJets(value);
+        } else {
+          scaleFn &#x3D; (value) &#x3D;&gt;
+            this.graphicsLibrary
+              .getSceneManager()
+              .scaleChildObjects(config.typeName, value, sc.scaleAxis);
+        }
+        extendUI &#x3D; this.addScaleOptions(sc.key, sc.label, scaleFn);
       }
 
       this.addObjectType(
-        collections,
-        PhoenixObjects.getPlanarCaloCell,
-        &#x27;PlanarCaloCells&#x27;,
-        false,
-        cuts,
-        addPlanarCaloCellsOptions,
-      );
-    }
-
-    if (eventData.IrregularCaloCells) {
-      // (Optional) Cuts can be added to any physics object.
-      const cuts &#x3D; [new Cut(&#x27;layer&#x27;, 0, 10), new Cut(&#x27;energy&#x27;, 0, 10000)];
-
-      const scaleIrregularCaloCells &#x3D; (value: number) &#x3D;&gt; {
-        this.graphicsLibrary
-          .getSceneManager()
-          .scaleChildObjects(&#x27;IrregularCaloCells&#x27;, value, &#x27;z&#x27;);
-      };
-      const addIrregularCaloCellOptions &#x3D; this.addScaleOptions(
-        &#x27;IrregularCaloCellsScale&#x27;,
-        &#x27;IrregularCaloCells Scale&#x27;,
-        scaleIrregularCaloCells,
-      );
-
-      this.addObjectType(
-        eventData.IrregularCaloCells,
-        PhoenixObjects.getIrregularCaloCell,
-        &#x27;IrregularCaloCells&#x27;,
-        false,
-        cuts,
-        addIrregularCaloCellOptions,
-      );
-    }
-
-    if (eventData.Muons) {
-      const cuts &#x3D; [
-        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
-        new Cut(&#x27;eta&#x27;, -4, 4, 0.1),
-        new Cut(&#x27;energy&#x27;, 0, 10000),
-        new Cut(&#x27;pT&#x27;, 0, 50000),
-      ];
-      this.addObjectType(
-        eventData.Muons,
-        this.getCompoundTrack,
-        &#x27;Muons&#x27;,
-        false,
-        cuts,
-      );
-    }
-
-    if (eventData.Photons) {
-      const cuts &#x3D; [
-        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
-        new Cut(&#x27;eta&#x27;, -4, 4, 0.1),
-        new Cut(&#x27;energy&#x27;, 0, 10000),
-        new Cut(&#x27;pT&#x27;, 0, 50000),
-      ];
-      this.addObjectType(
-        eventData.Photons,
-        this.getCompoundCluster,
-        &#x27;Photons&#x27;,
-        false,
-        cuts,
-      );
-    }
-
-    if (eventData.Electrons) {
-      const cuts &#x3D; [
-        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
-        new Cut(&#x27;eta&#x27;, -4, 4, 0.1),
-        new Cut(&#x27;energy&#x27;, 0, 10000),
-        new Cut(&#x27;pT&#x27;, 0, 50000),
-      ];
-      this.addObjectType(
-        eventData.Electrons,
-        this.getCompoundTrack,
-        &#x27;Electrons&#x27;,
-        false,
-        cuts,
-      );
-    }
-
-    if (eventData.Vertices) {
-      const cuts &#x3D; [new Cut(&#x27;vertexType&#x27;, 0, 5)];
-
-      const scaleVertices &#x3D; (value: number) &#x3D;&gt; {
-        this.graphicsLibrary
-          .getSceneManager()
-          .scaleChildObjects(&#x27;Vertices&#x27;, value);
-      };
-      const addVerticesOptions &#x3D; this.addScaleOptions(
-        &#x27;verticesScale&#x27;,
-        &#x27;Vertices Scale&#x27;,
-        scaleVertices,
-      );
-
-      this.addObjectType(
-        eventData.Vertices,
-        PhoenixObjects.getVertex,
-        &#x27;Vertices&#x27;,
-        false,
-        cuts,
-        addVerticesOptions,
-      );
-    }
-
-    if (eventData.MissingEnergy) {
-      const addMETSizeOption &#x3D; (
-        typeFolder: GUI,
-        typeFolderPM: PhoenixMenuNode,
-      ) &#x3D;&gt; {
-        const scaleMET &#x3D; (value: number) &#x3D;&gt; {
-          this.graphicsLibrary
-            .getSceneManager()
-            .scaleChildObjects(&#x27;MissingEnergy&#x27;, value);
-        };
-        if (typeFolder) {
-          const sizeMenu &#x3D; typeFolder
-            .add({ jetsScale: 100 }, &#x27;jetsScale&#x27;, 1, 200)
-            .name(&#x27;Size (%)&#x27;);
-          sizeMenu.onChange(scaleMET);
-        }
-        // Phoenix menu
-        if (typeFolderPM) {
-          typeFolderPM.addConfig({
-            type: &#x27;slider&#x27;,
-            label: &#x27;Size (%)&#x27;,
-            value: 100,
-            min: 1,
-            max: 200,
-            allowCustomValue: true,
-            onChange: scaleMET,
-          });
-        }
-      };
-      this.addObjectType(
-        eventData.MissingEnergy,
-        PhoenixObjects.getMissingEnergy,
-        &#x27;MissingEnergy&#x27;,
-        false,
-        [],
-        addMETSizeOption,
+        data,
+        getObject,
+        config.typeName,
+        config.concatonateObjs ?? false,
+        config.cuts,
+        extendUI,
       );
     }
   }
@@ -2399,7 +2248,9 @@ export class PhoenixLoader implements EventDataLoader {
       );
 
       if (objectCollection.length &#x3D;&#x3D; 0) {
-        console.log(&#x27;Skipping&#x27;);
+        console.log(
+          &#x60;Skipping ${typeName} collection ${collectionName} since it is empty.&#x60;,
+        );
         continue;
       }
 
@@ -2416,7 +2267,18 @@ export class PhoenixLoader implements EventDataLoader {
       const collectionCuts &#x3D; newCuts?.filter(
         (cut) &#x3D;&gt; cut.field in objectCollection[0],
       );
-      this.ui.addCollection(typeName, collectionName, collectionCuts);
+
+      const collectionColor &#x3D; new Color(
+        object[collectionName][0].color
+          ? object[collectionName][0].color
+          : 0xffffff,
+      );
+      this.ui.addCollection(
+        typeName,
+        collectionName,
+        collectionCuts,
+        collectionColor,
+      );
     }
 
     const eventDataTypeFolderDatGUI &#x3D; this.ui
@@ -2620,7 +2482,8 @@ export class PhoenixLoader implements EventDataLoader {
       [{ keys: [&#x27;time&#x27;], label: &#x27;Data recorded&#x27; }],
     ];
 
-    const eventDataKeys &#x3D; Object.keys(this.eventData);
+    const data &#x3D; this.eventData as Record&lt;string, any&gt;;
+    const eventDataKeys &#x3D; Object.keys(data);
 
     // Iterating the group
     for (const eventDataPropGroup of eventDataPropGroups) {
@@ -2631,10 +2494,9 @@ export class PhoenixLoader implements EventDataLoader {
         for (const eventDataPropKey of eventDataProp.keys) {
           if (
             eventDataKeys.includes(eventDataPropKey) &amp;&amp;
-            eventDataPropKey in this.eventData
+            eventDataPropKey in data
           ) {
-            combinedProps[eventDataProp.label] &#x3D;
-              this.eventData[eventDataPropKey];
+            combinedProps[eventDataProp.label] &#x3D; data[eventDataPropKey];
             break;
           }
         }
@@ -2664,16 +2526,16 @@ export class PhoenixLoader implements EventDataLoader {
     collection: string,
     indexInCollection: number,
   ): string {
-    for (const eventDataType in this.eventData) {
-      if (this.eventData?.[eventDataType]?.[collection]) {
+    const data &#x3D; this.eventData as Record&lt;string, any&gt;;
+    for (const eventDataType in data) {
+      if (data?.[eventDataType]?.[collection]) {
         this.labelsObject[eventDataType] &#x3D;
           this.labelsObject[eventDataType] || {};
         this.labelsObject[eventDataType][collection] &#x3D;
           this.labelsObject[eventDataType][collection] || {};
 
         this.labelsObject[eventDataType][collection][indexInCollection] &#x3D; label;
-        const tmp &#x3D;
-          this.eventData[eventDataType][collection][indexInCollection];
+        const tmp &#x3D; data[eventDataType][collection][indexInCollection];
         tmp.labelText &#x3D; label;
         return getLabelTitle(eventDataType, collection, indexInCollection);
       }

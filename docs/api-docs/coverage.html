@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content coverage">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -121,19 +139,19 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/EventDisplay.html">src/event-display.ts</a>
+                        <a href="./classes/EventDisplay.html">src/event-display.ts</a>
             </td>
             <td>class</td>
             <td>EventDisplay</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(59/59)</span>
+                <span class="coverage-count">(61/61)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/Window.html">src/event-display.ts</a>
+                        <a href="./interfaces/Window.html">src/event-display.ts</a>
             </td>
             <td>interface</td>
             <td>Window</td>
@@ -145,7 +163,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ActiveVariable.html">src/helpers/active-variable.ts</a>
+                        <a href="./classes/ActiveVariable.html">src/helpers/active-variable.ts</a>
             </td>
             <td>class</td>
             <td>ActiveVariable</td>
@@ -205,7 +223,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/CoordinateHelper.html">src/helpers/coordinate-helper.ts</a>
+                        <a href="./classes/CoordinateHelper.html">src/helpers/coordinate-helper.ts</a>
             </td>
             <td>class</td>
             <td>CoordinateHelper</td>
@@ -241,7 +259,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/InfoLogger.html">src/helpers/info-logger.ts</a>
+                        <a href="./classes/InfoLogger.html">src/helpers/info-logger.ts</a>
             </td>
             <td>class</td>
             <td>InfoLogger</td>
@@ -265,7 +283,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/PrettySymbols.html">src/helpers/pretty-symbols.ts</a>
+                        <a href="./classes/PrettySymbols.html">src/helpers/pretty-symbols.ts</a>
             </td>
             <td>class</td>
             <td>PrettySymbols</td>
@@ -277,19 +295,19 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/RKHelper.html">src/helpers/rk-helper.ts</a>
+                        <a href="./classes/RKHelper.html">src/helpers/rk-helper.ts</a>
             </td>
             <td>class</td>
             <td>RKHelper</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(4/4)</span>
+                <span class="coverage-count">(5/5)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/Field.html">src/helpers/runge-kutta.ts</a>
+                        <a href="./classes/Field.html">src/helpers/runge-kutta.ts</a>
             </td>
             <td>class</td>
             <td>Field</td>
@@ -301,7 +319,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/RungeKutta.html">src/helpers/runge-kutta.ts</a>
+                        <a href="./classes/RungeKutta.html">src/helpers/runge-kutta.ts</a>
             </td>
             <td>class</td>
             <td>RungeKutta</td>
@@ -313,7 +331,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/State.html">src/helpers/runge-kutta.ts</a>
+                        <a href="./classes/State.html">src/helpers/runge-kutta.ts</a>
             </td>
             <td>class</td>
             <td>State</td>
@@ -337,7 +355,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/Cut.html">src/lib/models/cut.model.ts</a>
+                        <a href="./classes/Cut.html">src/lib/models/cut.model.ts</a>
             </td>
             <td>class</td>
             <td>Cut</td>
@@ -349,7 +367,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/PresetView.html">src/lib/models/preset-view.model.ts</a>
+                        <a href="./classes/PresetView.html">src/lib/models/preset-view.model.ts</a>
             </td>
             <td>class</td>
             <td>PresetView</td>
@@ -361,13 +379,181 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/Configuration.html">src/lib/types/configuration.ts</a>
+                        <a href="./interfaces/Configuration.html">src/lib/types/configuration.ts</a>
             </td>
             <td>interface</td>
             <td>Configuration</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(11/11)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./interfaces/CaloCellParams.html">src/lib/types/event-data.ts</a>
+            </td>
+            <td>interface</td>
+            <td>CaloCellParams</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(12/12)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./interfaces/CaloClusterParams.html">src/lib/types/event-data.ts</a>
+            </td>
+            <td>interface</td>
+            <td>CaloClusterParams</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(12/12)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./interfaces/CompoundObjectParams.html">src/lib/types/event-data.ts</a>
+            </td>
+            <td>interface</td>
+            <td>CompoundObjectParams</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(7/7)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./interfaces/HitParams.html">src/lib/types/event-data.ts</a>
+            </td>
+            <td>interface</td>
+            <td>HitParams</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(6/6)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./interfaces/IrregularCaloCellParams.html">src/lib/types/event-data.ts</a>
+            </td>
+            <td>interface</td>
+            <td>IrregularCaloCellParams</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(8/8)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./interfaces/JetParams.html">src/lib/types/event-data.ts</a>
+            </td>
+            <td>interface</td>
+            <td>JetParams</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(12/12)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./interfaces/MissingEnergyParams.html">src/lib/types/event-data.ts</a>
+            </td>
+            <td>interface</td>
+            <td>MissingEnergyParams</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(5/5)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./interfaces/PhoenixEventData.html">src/lib/types/event-data.ts</a>
+            </td>
+            <td>interface</td>
+            <td>PhoenixEventData</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(17/17)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./interfaces/PhoenixEventsData.html">src/lib/types/event-data.ts</a>
+            </td>
+            <td>interface</td>
+            <td>PhoenixEventsData</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./interfaces/PlanarCaloCellParams.html">src/lib/types/event-data.ts</a>
+            </td>
+            <td>interface</td>
+            <td>PlanarCaloCellParams</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(7/7)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./interfaces/TrackParams.html">src/lib/types/event-data.ts</a>
+            </td>
+            <td>interface</td>
+            <td>TrackParams</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(16/16)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./interfaces/VertexParams.html">src/lib/types/event-data.ts</a>
+            </td>
+            <td>interface</td>
+            <td>VertexParams</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(9/9)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#DParams">src/lib/types/event-data.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>DParams</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#ObjectCollection">src/lib/types/event-data.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>ObjectCollection</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -385,31 +571,31 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/CMSLoader.html">src/loaders/cms-loader.ts</a>
+                        <a href="./classes/CMSLoader.html">src/loaders/cms-loader.ts</a>
             </td>
             <td>class</td>
             <td>CMSLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(35/35)</span>
+                <span class="coverage-count">(36/36)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/Edm4hepJsonLoader.html">src/loaders/edm4hep-json-loader.ts</a>
+                        <a href="./classes/Edm4hepJsonLoader.html">src/loaders/edm4hep-json-loader.ts</a>
             </td>
             <td>class</td>
             <td>Edm4hepJsonLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(43/43)</span>
+                <span class="coverage-count">(45/45)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/EventDataLoader.html">src/loaders/event-data-loader.ts</a>
+                        <a href="./interfaces/EventDataLoader.html">src/loaders/event-data-loader.ts</a>
             </td>
             <td>interface</td>
             <td>EventDataLoader</td>
@@ -421,31 +607,55 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/JiveXMLLoader.html">src/loaders/jivexml-loader.ts</a>
+                        <a href="./classes/JiveXMLLoader.html">src/loaders/jivexml-loader.ts</a>
             </td>
             <td>class</td>
             <td>JiveXMLLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(46/46)</span>
+                <span class="coverage-count">(47/47)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/JSRootEventLoader.html">src/loaders/jsroot-event-loader.ts</a>
+                        <a href="./classes/JSRootEventLoader.html">src/loaders/jsroot-event-loader.ts</a>
             </td>
             <td>class</td>
             <td>JSRootEventLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(30/30)</span>
+                <span class="coverage-count">(31/31)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/CMSObjects.html">src/loaders/objects/cms-objects.ts</a>
+                        <a href="./interfaces/ObjectTypeConfig.html">src/loaders/object-type-registry.ts</a>
+            </td>
+            <td>interface</td>
+            <td>ObjectTypeConfig</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(8/8)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/functions.html#getDefaultObjectTypeConfigs">src/loaders/object-type-registry.ts</a>
+            </td>
+            <td>function</td>
+            <td>getDefaultObjectTypeConfigs</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./classes/CMSObjects.html">src/loaders/objects/cms-objects.ts</a>
             </td>
             <td>class</td>
             <td>CMSObjects</td>
@@ -457,7 +667,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/PhoenixObjects.html">src/loaders/objects/phoenix-objects.ts</a>
+                        <a href="./classes/PhoenixObjects.html">src/loaders/objects/phoenix-objects.ts</a>
             </td>
             <td>class</td>
             <td>PhoenixObjects</td>
@@ -469,7 +679,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/TracksMaterial.html">src/loaders/objects/tracks.ts</a>
+                        <a href="./classes/TracksMaterial.html">src/loaders/objects/tracks.ts</a>
             </td>
             <td>class</td>
             <td>TracksMaterial</td>
@@ -481,13 +691,13 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/TracksMesh.html">src/loaders/objects/tracks.ts</a>
+                        <a href="./classes/TracksMesh.html">src/loaders/objects/tracks.ts</a>
             </td>
             <td>class</td>
             <td>TracksMesh</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(14/14)</span>
+                <span class="coverage-count">(15/15)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -517,19 +727,55 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/PhoenixLoader.html">src/loaders/phoenix-loader.ts</a>
+                        <a href="./classes/PhoenixLoader.html">src/loaders/phoenix-loader.ts</a>
             </td>
             <td>class</td>
             <td>PhoenixLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(23/23)</span>
+                <span class="coverage-count">(24/24)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ScriptLoader.html">src/loaders/script-loader.ts</a>
+                        <a href="./classes/PHYSLITELoader.html">src/loaders/physlite-loader.ts</a>
+            </td>
+            <td>class</td>
+            <td>PHYSLITELoader</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(35/35)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./interfaces/PHYSLITECollectionDef.html">src/loaders/physlite-loader.ts</a>
+            </td>
+            <td>interface</td>
+            <td>PHYSLITECollectionDef</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(5/5)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#DEFAULT_COLLECTIONS">src/loaders/physlite-loader.ts</a>
+            </td>
+            <td>variable</td>
+            <td>DEFAULT_COLLECTIONS</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./classes/ScriptLoader.html">src/loaders/script-loader.ts</a>
             </td>
             <td>class</td>
             <td>ScriptLoader</td>
@@ -541,19 +787,19 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/TrackmlLoader.html">src/loaders/trackml-loader.ts</a>
+                        <a href="./classes/TrackmlLoader.html">src/loaders/trackml-loader.ts</a>
             </td>
             <td>class</td>
             <td>TrackmlLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(30/30)</span>
+                <span class="coverage-count">(31/31)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/LoadingManager.html">src/managers/loading-manager.ts</a>
+                        <a href="./classes/LoadingManager.html">src/managers/loading-manager.ts</a>
             </td>
             <td>class</td>
             <td>LoadingManager</td>
@@ -565,19 +811,19 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/StateManager.html">src/managers/state-manager.ts</a>
+                        <a href="./classes/StateManager.html">src/managers/state-manager.ts</a>
             </td>
             <td>class</td>
             <td>StateManager</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(21/21)</span>
+                <span class="coverage-count">(23/23)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/AnimationsManager.html">src/managers/three-manager/animations-manager.ts</a>
+                        <a href="./classes/AnimationsManager.html">src/managers/three-manager/animations-manager.ts</a>
             </td>
             <td>class</td>
             <td>AnimationsManager</td>
@@ -589,7 +835,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/AnimationPreset.html">src/managers/three-manager/animations-manager.ts</a>
+                        <a href="./interfaces/AnimationPreset.html">src/managers/three-manager/animations-manager.ts</a>
             </td>
             <td>interface</td>
             <td>AnimationPreset</td>
@@ -601,7 +847,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ColorManager.html">src/managers/three-manager/color-manager.ts</a>
+                        <a href="./classes/ColorManager.html">src/managers/three-manager/color-manager.ts</a>
             </td>
             <td>class</td>
             <td>ColorManager</td>
@@ -625,31 +871,31 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ControlsManager.html">src/managers/three-manager/controls-manager.ts</a>
+                        <a href="./classes/ControlsManager.html">src/managers/three-manager/controls-manager.ts</a>
             </td>
             <td>class</td>
             <td>ControlsManager</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(34/34)</span>
+                <span class="coverage-count">(43/43)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/EffectsManager.html">src/managers/three-manager/effects-manager.ts</a>
+                        <a href="./classes/EffectsManager.html">src/managers/three-manager/effects-manager.ts</a>
             </td>
             <td>class</td>
             <td>EffectsManager</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(13/13)</span>
+                <span class="coverage-count">(32/32)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ExportManager.html">src/managers/three-manager/export-manager.ts</a>
+                        <a href="./classes/ExportManager.html">src/managers/three-manager/export-manager.ts</a>
             </td>
             <td>class</td>
             <td>ExportManager</td>
@@ -661,7 +907,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ImportManager.html">src/managers/three-manager/import-manager.ts</a>
+                        <a href="./classes/ImportManager.html">src/managers/three-manager/import-manager.ts</a>
             </td>
             <td>class</td>
             <td>ImportManager</td>
@@ -673,46 +919,22 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ThreeManager.html">src/managers/three-manager/index.ts</a>
+                        <a href="./classes/ThreeManager.html">src/managers/three-manager/index.ts</a>
             </td>
             <td>class</td>
             <td>ThreeManager</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(96/96)</span>
+                <span class="coverage-count">(112/112)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/RendererManager.html">src/managers/three-manager/renderer-manager.ts</a>
+                        <a href="./classes/RendererManager.html">src/managers/three-manager/renderer-manager.ts</a>
             </td>
             <td>class</td>
             <td>RendererManager</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(23/23)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./classes/SceneManager.html">src/managers/three-manager/scene-manager.ts</a>
-            </td>
-            <td>class</td>
-            <td>SceneManager</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(54/54)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./classes/SelectionManager.html">src/managers/three-manager/selection-manager.ts</a>
-            </td>
-            <td>class</td>
-            <td>SelectionManager</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(25/25)</span>
@@ -721,7 +943,31 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ARManager.html">src/managers/three-manager/xr/ar-manager.ts</a>
+                        <a href="./classes/SceneManager.html">src/managers/three-manager/scene-manager.ts</a>
+            </td>
+            <td>class</td>
+            <td>SceneManager</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(57/57)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./classes/SelectionManager.html">src/managers/three-manager/selection-manager.ts</a>
+            </td>
+            <td>class</td>
+            <td>SelectionManager</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(72/72)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./classes/ARManager.html">src/managers/three-manager/xr/ar-manager.ts</a>
             </td>
             <td>class</td>
             <td>ARManager</td>
@@ -733,7 +979,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/VRManager.html">src/managers/three-manager/xr/vr-manager.ts</a>
+                        <a href="./classes/VRManager.html">src/managers/three-manager/xr/vr-manager.ts</a>
             </td>
             <td>class</td>
             <td>VRManager</td>
@@ -745,7 +991,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/XRManager.html">src/managers/three-manager/xr/xr-manager.ts</a>
+                        <a href="./classes/XRManager.html">src/managers/three-manager/xr/xr-manager.ts</a>
             </td>
             <td>class</td>
             <td>XRManager</td>
@@ -757,7 +1003,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ColorOptions.html">src/managers/ui-manager/color-options.ts</a>
+                        <a href="./classes/ColorOptions.html">src/managers/ui-manager/color-options.ts</a>
             </td>
             <td>class</td>
             <td>ColorOptions</td>
@@ -781,7 +1027,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/DatGUIMenuUI.html">src/managers/ui-manager/dat-gui-ui.ts</a>
+                        <a href="./classes/DatGUIMenuUI.html">src/managers/ui-manager/dat-gui-ui.ts</a>
             </td>
             <td>class</td>
             <td>DatGUIMenuUI</td>
@@ -793,13 +1039,13 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/UIManager.html">src/managers/ui-manager/index.ts</a>
+                        <a href="./classes/UIManager.html">src/managers/ui-manager/index.ts</a>
             </td>
             <td>class</td>
             <td>UIManager</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(48/48)</span>
+                <span class="coverage-count">(49/49)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -913,7 +1159,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/PhoenixMenuNode.html">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts</a>
+                        <a href="./classes/PhoenixMenuNode.html">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts</a>
             </td>
             <td>class</td>
             <td>PhoenixMenuNode</td>
@@ -925,19 +1171,19 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/PhoenixMenuUI.html">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts</a>
+                        <a href="./classes/PhoenixMenuUI.html">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts</a>
             </td>
             <td>class</td>
             <td>PhoenixMenuUI</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(20/20)</span>
+                <span class="coverage-count">(21/21)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/PhoenixUI.html">src/managers/ui-manager/phoenix-ui.ts</a>
+                        <a href="./interfaces/PhoenixUI.html">src/managers/ui-manager/phoenix-ui.ts</a>
             </td>
             <td>interface</td>
             <td>PhoenixUI</td>
@@ -949,13 +1195,13 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/URLOptionsManager.html">src/managers/url-options-manager.ts</a>
+                        <a href="./classes/URLOptionsManager.html">src/managers/url-options-manager.ts</a>
             </td>
             <td>class</td>
             <td>URLOptionsManager</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(12/12)</span>
+                <span class="coverage-count">(13/13)</span>
             </td>
         </tr>
         <tr class="very-good">

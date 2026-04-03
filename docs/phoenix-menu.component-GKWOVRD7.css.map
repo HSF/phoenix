@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/phoenix-menu/phoenix-menu.component.scss"],
+  "sourcesContent": [":host {\n  width: 15rem;\n  max-width: 45%;\n  position: absolute;\n  /* `.item-config > margin-top` in `phoenix-menu-item.component.scss` has to have the same value but negated. */\n  top: 5rem;\n  right: 1rem;\n}\n\n#phoenixMenu {\n  background: var(--phoenix-background-color-secondary);\n  max-height: 75vh;\n  overflow-y: auto;\n  box-shadow: var(--phoenix-box-shadow);\n  z-index: 100;\n\n  @media screen and (max-width: 768px) {\n    top: 4rem;\n  }\n}\n"],
+  "mappings": "AAAA,MACE,MAAA,MACA,UAAA,IACA,SAAA,SAEA,IAAA,KACA,MAAA,KAGF,CAAA,YACE,WAAA,IAAA,sCACA,WAAA,KACA,WAAA,KACA,WAAA,IAAA,sBACA,QAAA,IAEA,OAAA,OAAA,IAAA,CAAA,SAAA,EAAA,OAPF,CAAA,YAQI,IAAA",
+  "names": []
+}

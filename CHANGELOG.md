@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 3.0.6 (2026-04-01)
+
+**Note:** Version bump only for package root
+
+
+
+
+
 ## [3.0.5](https://github.com/HSF/phoenix/compare/v3.0.4...v3.0.5) (2024-11-30)
 
 **Note:** Version bump only for package root
@@ -13,13 +21,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 	- New helper: `RKHelper.extrapolateFromLastPosition(track, radius)`
 	- UI: dat.GUI and Phoenix menu controls to toggle extension and set radius
 	- Scene update: `SceneManager.extendCollectionTracks(collectionName, radius, enable)`
-- Improve JiveXML extra hits handling with UI controls and RK extrapolation (#268)
-	- New configuration interface: `JiveXMLTrackExtensionConfig` with options for extra hits and RK extrapolation
-	- Improved extra hits filtering algorithm with angular consistency checks (theta/phi within 0.5 radians)
-	- Configurable `minDelta` parameter for hit distance filtering (default 250mm)
-	- Integration with RK extrapolation from #177 for truncated track extension
-	- UI controls in both dat.GUI and Phoenix menu for all configuration options
-	- Methods: `EventDisplay.setJiveXMLTrackExtensionConfig()`, `EventDisplay.getJiveXMLTrackExtensionConfig()`
 
 
 
