@@ -654,7 +654,11 @@ export class SelectionManager {
 
         if (this.onObjectDeselectedCallback) {
           previouslySelected.forEach((obj) => {
-            const objectData = { uuid: obj.uuid, name: obj.name, userData: obj.userData };
+            const objectData = {
+              uuid: obj.uuid,
+              name: obj.name,
+              userData: obj.userData,
+            };
             this.onObjectDeselectedCallback(obj, objectData);
           });
         }
@@ -1073,7 +1077,11 @@ export class SelectionManager {
 
     // Fire callbacks
     if (this.onObjectSelectedCallback) {
-      const objectData = { uuid: object.uuid, name: object.name, userData: object.userData };
+      const objectData = {
+        uuid: object.uuid,
+        name: object.name,
+        userData: object.userData,
+      };
       this.onObjectSelectedCallback(object, objectData);
     }
     if (this.onSelectionChangedCallback) {
@@ -1102,7 +1110,11 @@ export class SelectionManager {
 
     // Fire callbacks
     if (this.onObjectDeselectedCallback) {
-      const objectData = { uuid: object.uuid, name: object.name, userData: object.userData };
+      const objectData = {
+        uuid: object.uuid,
+        name: object.name,
+        userData: object.userData,
+      };
       this.onObjectDeselectedCallback(object, objectData);
     }
     if (this.onSelectionChangedCallback) {
@@ -1241,7 +1253,11 @@ export class SelectionManager {
     // immediately notify the callback of the current selection state.
     if (callback && this.selectedObjects.size > 0) {
       this.selectedObjects.forEach((obj) => {
-        const objectData = { uuid: obj.uuid, name: obj.name, userData: obj.userData };
+        const objectData = {
+          uuid: obj.uuid,
+          name: obj.name,
+          userData: obj.userData,
+        };
         callback(obj, objectData);
       });
     }
