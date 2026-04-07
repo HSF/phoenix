@@ -14,7 +14,7 @@ import {
   FileResponse,
 } from './event-data-explorer-dialog.component';
 
-describe.skip('EventDataExplorerDialogComponent', () => {
+describe('EventDataExplorerDialogComponent', () => {
   let component: EventDataExplorerDialogComponent;
   let fixture: ComponentFixture<EventDataExplorerDialogComponent>;
 
@@ -23,10 +23,13 @@ describe.skip('EventDataExplorerDialogComponent', () => {
   };
 
   const mockFileLoaderService = {
+    makeRequest: jest.fn(),
     loadEvent: jest.fn(),
   };
 
-  const mockEventDisplay = {};
+  const mockEventDisplay = {
+    getStateManager: jest.fn(() => mockStateManager),
+  };
 
   const mockDialogRef = {
     close: jest.fn(),
@@ -54,19 +57,30 @@ describe.skip('EventDataExplorerDialogComponent', () => {
     },
   ];
 
-  beforeAll(() => {
-    const mockResponse = new Response(JSON.stringify(mockFileResponse), {
-      status: 200,
-    });
-    jest.spyOn(mockResponse, 'json').mockResolvedValue(mockFileResponse);
-    jest.spyOn(window, 'fetch').mockResolvedValue(mockResponse);
-  });
-
   beforeEach(() => {
+    jest.clearAllMocks();
+
+    mockFileLoaderService.makeRequest.mockImplementation(
+      (
+        _url: string,
+        type: 'json' | 'blob' | 'text',
+        callback: (data: any) => void,
+      ) => {
+        if (type === 'json') {
+          callback(mockFileResponse);
+        }
+        return false;
+      },
+    );
+
     TestBed.configureTestingModule({
       imports: [BrowserAnimationsModule, PhoenixUIModule],
       declarations: [EventDataExplorerDialogComponent],
       providers: [
+        {
+          provide: FileLoaderService,
+          useValue: mockFileLoaderService,
+        },
         {
           provide: EventDisplayService,
           useValue: mockEventDisplay,
@@ -89,7 +103,7 @@ describe.skip('EventDataExplorerDialogComponent', () => {
     fixture.detectChanges();
   });
 
-  it.only('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
@@ -107,35 +121,39 @@ describe.skip('EventDataExplorerDialogComponent', () => {
   });
 
   it('should load event based on file type', () => {
-    jest
-      .spyOn(FileLoaderService.prototype, 'loadEvent')
-      .mockImplementation(
-        (_arg1: string, eventDisplay: EventDisplayService) => true,
-      );
+    mockFileLoaderService.loadEvent.mockReturnValue(false);
 
-    jest.spyOn(FileLoaderService.prototype, 'loadEvent');
     component.loadEvent(
       new FileEvent('https://example.com/event_data/test.json', false),
     );
-    expect(mockFileLoaderService.loadEvent).toHaveBeenCalled();
+
+    expect(mockFileLoaderService.loadEvent).toHaveBeenCalledWith(
+      'https://example.com/event_data/test.json',
+      mockEventDisplay,
+      {},
+    );
+    expect(mockDialogRef.close).toHaveBeenCalled();
   });
 
   it('should load config', () => {
-    jest
-      .spyOn(FileLoaderService.prototype, 'makeRequest')
-      .mockImplementation(
-        (
-          _arg1: string,
-          _arg2: 'json' | 'blob' | 'text',
-          onData: (data: any) => void,
-        ) => {
-          onData('{}');
-          return true;
-        },
-      );
+    mockFileLoaderService.makeRequest.mockImplementation(
+      (
+        _url: string,
+        type: 'json' | 'blob' | 'text',
+        callback: (data: any) => void,
+      ) => {
+        if (type === 'text') {
+          callback('{}');
+        }
+        return false;
+      },
+    );
+
     component.loadConfig(
       new FileEvent('https://example.com/config_data/test.json', false),
     );
+
     expect(mockStateManager.loadStateFromJSON).toHaveBeenCalledWith({});
+    expect(mockDialogRef.close).toHaveBeenCalled();
   });
 });

@@ -55,6 +55,7 @@ Thumbs.db
 packages/phoenix-ng/projects/phoenix-app/cypress/videos
 packages/phoenix-ng/projects/phoenix-app/cypress/screenshots
 packages/phoenix-ng/projects/phoenix-app/cypress/downloads
+packages/phoenix-event-display/documentation/js/routes/routes_index.js
 
 # Added as per https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
 .pnp.*
