@@ -110,19 +110,41 @@ export class IOOptionsDialogComponent implements OnInit {
 
   handleJSONEventDataInput(files: FileList) {
     const callback = (content: any) => {
-      const json = typeof content === 'string' ? JSON.parse(content) : content;
-      this.eventDisplay.parsePhoenixEvents(json);
+      try {
+        const json =
+          typeof content === 'string' ? JSON.parse(content) : content;
+        this.eventDisplay.parsePhoenixEvents(json);
+      } catch (error) {
+        this.eventDisplay
+          .getInfoLogger()
+          .add(
+            'Could not parse JSON event file. Please ensure it is valid JSON.',
+            'Error',
+          );
+        console.error('Error parsing JSON event file:', error);
+      }
     };
     this.handleFileInput(files[0], 'json', callback);
   }
 
   handleEDM4HEPJSONEventDataInput(files: FileList) {
     const callback = (content: any) => {
-      const json = typeof content === 'string' ? JSON.parse(content) : content;
-      const edm4hepJsonLoader = new Edm4hepJsonLoader();
-      edm4hepJsonLoader.setRawEventData(json);
-      edm4hepJsonLoader.processEventData();
-      this.eventDisplay.parsePhoenixEvents(edm4hepJsonLoader.getEventData());
+      try {
+        const json =
+          typeof content === 'string' ? JSON.parse(content) : content;
+        const edm4hepJsonLoader = new Edm4hepJsonLoader();
+        edm4hepJsonLoader.setRawEventData(json);
+        edm4hepJsonLoader.processEventData();
+        this.eventDisplay.parsePhoenixEvents(edm4hepJsonLoader.getEventData());
+      } catch (error) {
+        this.eventDisplay
+          .getInfoLogger()
+          .add(
+            'Could not parse EDM4HEP JSON file. Please ensure it is valid JSON.',
+            'Error',
+          );
+        console.error('Error parsing EDM4HEP JSON file:', error);
+      }
     };
     this.handleFileInput(files[0], 'edm4hep.json', callback);
   }
