@@ -6,11 +6,17 @@ import { ConfigRangeSlider } from '../../managers/ui-manager/phoenix-menu/config
  * Used by StateManager to persist active cut state across sessions.
  */
 export interface CutJSON {
+  /** The event data attribute field name this cut applies to. */
   field: string;
+  /** The active minimum bound value of the cut. */
   minValue: number;
+  /** The active maximum bound value of the cut. */
   maxValue: number;
+  /** Step size used by the range slider for this cut. */
   step: number;
+  /** Whether the lower bound cut is currently active. */
   minCutActive: boolean;
+  /** Whether the upper bound cut is currently active. */
   maxCutActive: boolean;
 }
 
@@ -32,6 +38,12 @@ export class Cut {
 
   /**
    * Create the cut to filter an event data attribute.
+   * @param field The event data attribute field name to filter on.
+   * @param minValue The minimum allowed value of the attribute.
+   * @param maxValue The maximum allowed value of the attribute.
+   * @param step Step size for the range slider.
+   * @param minCutActive Whether the lower bound cut is active by default.
+   * @param maxCutActive Whether the upper bound cut is active by default.
    */
   constructor(
     public field: string,
