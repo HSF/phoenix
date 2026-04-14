@@ -611,6 +611,16 @@ export class UIManager {
     phoenixMenuUI?.loadEventFolderState();
     phoenixMenuUI?.reapplyCollectionCuts();
   }
+  /**
+   * Get the PhoenixMenuUI instance if one is active.
+   * Used by StateManager to access the cut registry for serialization.
+   * @returns The PhoenixMenuUI instance, or undefined if not initialized.
+   */
+  public getPhoenixMenuUI(): PhoenixMenuUI | undefined {
+    return this.uiMenus.find((uiMenu) => uiMenu instanceof PhoenixMenuUI) as
+      | PhoenixMenuUI
+      | undefined;
+  }
 
   /**
    * Get all the UI menus.
