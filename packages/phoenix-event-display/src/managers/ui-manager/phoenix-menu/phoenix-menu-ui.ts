@@ -254,9 +254,15 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
 
     this.addDrawOptions(collectionNode, collectionName);
 
-    if (cuts && cuts.length > 0) {
+    // Always register cuts for this collection if any were provided.
+    // This ensures the registry has the Cut instances so StateManager
+    // can serialize active cuts (minCutActive / maxCutActive) even if
+    // the initial cuts array was empty or the user only moves sliders later.
+    if (cuts !== undefined) {
       this.collectionCuts[collectionName] = cuts;
-      this.addCutOptions(collectionNode, collectionName, cuts);
+      if (cuts.length > 0) {
+        this.addCutOptions(collectionNode, collectionName, cuts);
+      }
     }
 
     const colorByOptions: ColorByOptionKeys[] = [];
@@ -540,5 +546,24 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     for (const [collectionName, cuts] of Object.entries(this.collectionCuts)) {
       this.sceneManager.collectionFilter(collectionName, cuts);
     }
+  }
+
+  /**
+   * Returns the active cut registry keyed by collection name.
+   * Used by StateManager for cut state serialization on Save State.
+   * @returns A reference to the collectionCuts registry.
+   */
+  public getCollectionCuts(): { [collectionName: string]: Cut[] } {
+    return this.collectionCuts;
+  }
+
+  /**
+   * Set cuts for a specific collection in the registry.
+   * Used by StateManager when restoring cut state from Load State.
+   * @param collectionName Name of the collection.
+   * @param cuts Array of Cut instances to register.
+   */
+  public setCollectionCuts(collectionName: string, cuts: Cut[]): void {
+    this.collectionCuts[collectionName] = cuts;
   }
 }
