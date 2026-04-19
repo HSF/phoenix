@@ -25,7 +25,15 @@ module.exports = {
   // 🔑 CRITICAL: ensures CI uses your setup-jest.ts
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
 
-  moduleNameMapper: pathsToModuleNameMapper(paths, { prefix: '<rootDir>' }),
+  moduleNameMapper: {
+    ...pathsToModuleNameMapper(paths, { prefix: '<rootDir>' }),
+    // Mock the Web Worker wrapper — import.meta.url cannot be parsed by Jest's
+    // CommonJS runtime. Worker behaviour is not under test in unit tests.
+    'phoenix-event-display/dist/workers/event-data-parser':
+      '<rootDir>/projects/phoenix-ui-components/lib/test-helpers/event-data-parser-mock.ts',
+    '(.*)/workers/event-data-parser':
+      '<rootDir>/projects/phoenix-ui-components/lib/test-helpers/event-data-parser-mock.ts',
+  },
 
   transformIgnorePatterns: [
     `/node_modules/(?!.*\\.m?js$|${esModules.join('|')})`,
@@ -48,6 +56,14 @@ module.exports = {
   globals: {
     'ts-jest': {
       isolatedModules: true,
+      astTransformers: {
+        before: [
+          {
+            path: 'ts-jest-mock-import-meta',
+            options: { metaObjectReplacement: { url: '' } },
+          },
+        ],
+      },
     },
   },
 };
