@@ -540,11 +540,11 @@ export class EventDisplay {
    * Get the different collections for the current stored event.
    * @returns List of strings, each representing a collection of the event displayed.
    */
-  public getCollections(): string[] {
+  public getCollections(): { [key: string]: string[] } {
     if (this.configuration.eventDataLoader) {
       return this.configuration.eventDataLoader.getCollections();
     }
-    return [];
+    return {};
   }
 
   /**
