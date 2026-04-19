@@ -113,7 +113,17 @@ export class JiveXMLLoader extends PhoenixLoader {
 
   private buildTRTDriftCircles(parsed: any, eventData: any) {
     if (!parsed.trt) return;
-    const { count, driftR, id, noise, phi, rhoz, sub, threshold, timeOverThreshold } = parsed.trt;
+    const {
+      count,
+      driftR,
+      id,
+      noise,
+      phi,
+      rhoz,
+      sub,
+      threshold,
+      timeOverThreshold,
+    } = parsed.trt;
     eventData.Hits.TRT = [];
     for (let i = 0; i < count; i++) {
       let pos: number[];
@@ -121,20 +131,32 @@ export class JiveXMLLoader extends PhoenixLoader {
         const z1 = sub[i] === 1 ? -3.5 : 3.5;
         const z2 = sub[i] === 1 ? -742 : 742;
         pos = [
-          Math.cos(phi[i]) * rhoz[i] * 10, Math.sin(phi[i]) * rhoz[i] * 10, z1,
-          Math.cos(phi[i]) * rhoz[i] * 10, Math.sin(phi[i]) * rhoz[i] * 10, z2,
+          Math.cos(phi[i]) * rhoz[i] * 10,
+          Math.sin(phi[i]) * rhoz[i] * 10,
+          z1,
+          Math.cos(phi[i]) * rhoz[i] * 10,
+          Math.sin(phi[i]) * rhoz[i] * 10,
+          z2,
         ];
       } else {
         const r1 = Math.abs(rhoz[i]) > 280 ? 480 : 640;
         pos = [
-          Math.cos(phi[i]) * r1, Math.sin(phi[i]) * r1, rhoz[i] * 10,
-          Math.cos(phi[i]) * 1030, Math.sin(phi[i]) * 1030, rhoz[i] * 10,
+          Math.cos(phi[i]) * r1,
+          Math.sin(phi[i]) * r1,
+          rhoz[i] * 10,
+          Math.cos(phi[i]) * 1030,
+          Math.sin(phi[i]) * 1030,
+          rhoz[i] * 10,
         ];
       }
       eventData.Hits.TRT.push({
-        pos, id: id[i], type: 'Line',
-        driftR: driftR[i], noise: noise[i],
-        threshold: threshold[i], timeOverThreshold: timeOverThreshold[i],
+        pos,
+        id: id[i],
+        type: 'Line',
+        driftR: driftR[i],
+        noise: noise[i],
+        threshold: threshold[i],
+        timeOverThreshold: timeOverThreshold[i],
       });
     }
   }
@@ -149,7 +171,9 @@ export class JiveXMLLoader extends PhoenixLoader {
       for (let i = 0; i < count; i++) {
         const hit: any = {
           pos: this.getMuonLinePositions(i, x, y, z, length),
-          id: id[i], type: 'Line', identifier: identifier[i],
+          id: id[i],
+          type: 'Line',
+          identifier: identifier[i],
         };
         if (rawName === 'RPC') hit.width = width[i];
         eventData.Hits[name].push(hit);
@@ -163,17 +187,36 @@ export class JiveXMLLoader extends PhoenixLoader {
       let name = col.storeGateKey ?? 'Unknown';
       if (name === 'Tracks') name = 'Tracks_';
       const thickTracks = this.thickTrackCollections.includes(name);
-      const { count, numPolyline, polylineX, polylineY, polylineZ,
-        chi2, numDoF, pt, d0, z0, phi0, cotTheta, trackAuthor } = col;
+      const {
+        count,
+        numPolyline,
+        polylineX,
+        polylineY,
+        polylineZ,
+        chi2,
+        numDoF,
+        pt,
+        d0,
+        z0,
+        phi0,
+        cotTheta,
+        trackAuthor,
+      } = col;
       const jsontracks: any[] = [];
       let polylineCounter = 0;
 
       for (let i = 0; i < count; i++) {
         let storeTrack = true;
         const track: any = {
-          chi2: chi2[i] ?? 0, dof: numDoF[i] ?? 0,
-          pT: 0, phi: 0, eta: 0,
-          pos: [], dparams: [], hits: {}, author: {},
+          chi2: chi2[i] ?? 0,
+          dof: numDoF[i] ?? 0,
+          pT: 0,
+          phi: 0,
+          eta: 0,
+          pos: [],
+          dparams: [],
+          hits: {},
+          author: {},
           badtrack: [],
           linewidth: thickTracks ? 20.0 : undefined,
         };
@@ -190,7 +233,8 @@ export class JiveXMLLoader extends PhoenixLoader {
         else if (track.phi < -Math.PI) track.phi += 2 * Math.PI;
 
         if (!CoordinateHelper.anglesAreSane(theta, track.phi)) {
-          badTracks['Improper angles'] = (badTracks['Improper angles'] ?? 0) + 1;
+          badTracks['Improper angles'] =
+            (badTracks['Improper angles'] ?? 0) + 1;
           track.badtrack.push('Improper angles');
           storeTrack = false;
         }
@@ -217,7 +261,9 @@ export class JiveXMLLoader extends PhoenixLoader {
     }
     for (const error in badTracks) {
       if (badTracks[error] > 0)
-        console.log(`${badTracks[error]} tracks had "${error}" and were marked as bad.`);
+        console.log(
+          `${badTracks[error]} tracks had "${error}" and were marked as bad.`,
+        );
     }
   }
 
@@ -227,7 +273,8 @@ export class JiveXMLLoader extends PhoenixLoader {
       if (!storeGateKey) continue;
       eventData.Jets[storeGateKey] = Array.from({ length: count }, (_, i) => ({
         coneR: coneR[i] ?? 0.4,
-        phi: phi[i], eta: eta[i],
+        phi: phi[i],
+        eta: eta[i],
         energy: energy[i] * 1000,
       }));
     }
@@ -237,9 +284,14 @@ export class JiveXMLLoader extends PhoenixLoader {
     for (const col of parsed.caloClusters ?? []) {
       const { storeGateKey, count, phi, eta, et } = col;
       if (!storeGateKey) continue;
-      eventData.CaloClusters[storeGateKey] = Array.from({ length: count }, (_, i) => ({
-        phi: phi[i], eta: eta[i], energy: et[i] * 1000,
-      }));
+      eventData.CaloClusters[storeGateKey] = Array.from(
+        { length: count },
+        (_, i) => ({
+          phi: phi[i],
+          eta: eta[i],
+          energy: et[i] * 1000,
+        }),
+      );
     }
   }
 
@@ -249,16 +301,30 @@ export class JiveXMLLoader extends PhoenixLoader {
       if (!data) continue;
       const { count, eta, phi, channel, energy, id } = data;
       eventData.CaloCells[name] = Array.from({ length: count }, (_, i) => ({
-        eta: eta[i], phi: phi[i], id: id[i],
-        energy: energy[i], channel: channel[i],
+        eta: eta[i],
+        phi: phi[i],
+        id: id[i],
+        energy: energy[i],
+        channel: channel[i],
       }));
     }
   }
 
   private buildVertices(parsed: any, eventData: any) {
     for (const col of parsed.vertices ?? []) {
-      const { storeGateKey, count, x, y, z, chi2, primVxCand,
-        vertexType, numTracks, sgkey, tracks } = col;
+      const {
+        storeGateKey,
+        count,
+        x,
+        y,
+        z,
+        chi2,
+        primVxCand,
+        vertexType,
+        numTracks,
+        sgkey,
+        tracks,
+      } = col;
       if (!storeGateKey) continue;
       const temp: any[] = [];
       let trackIndex = 0;
@@ -269,8 +335,11 @@ export class JiveXMLLoader extends PhoenixLoader {
           thisTrackIndices.push(tracks[trackIndex]);
         }
         temp.push({
-          x: x[i], y: y[i], z: z[i],
-          chi2: chi2[i], primVxCand: primVxCand[i],
+          x: x[i],
+          y: y[i],
+          z: z[i],
+          chi2: chi2[i],
+          primVxCand: primVxCand[i],
           vertexType: vertexType[i],
           linkedTracks: thisTrackIndices,
           linkedTrackCollection: sgkey[i],
@@ -285,8 +354,12 @@ export class JiveXMLLoader extends PhoenixLoader {
       const { storeGateKey, count, chi2, energy, eta, phi, pt, pdgId } = col;
       if (!storeGateKey) continue;
       eventData.Muons[storeGateKey] = Array.from({ length: count }, (_, i) => ({
-        chi2: chi2[i], energy: energy[i], eta: eta[i],
-        phi: phi[i], pt: pt[i] * 1000, pdgId: pdgId[i],
+        chi2: chi2[i],
+        energy: energy[i],
+        eta: eta[i],
+        phi: phi[i],
+        pt: pt[i] * 1000,
+        pdgId: pdgId[i],
       }));
     }
   }
@@ -295,10 +368,17 @@ export class JiveXMLLoader extends PhoenixLoader {
     for (const col of parsed.electrons ?? []) {
       const { storeGateKey, count, author, energy, eta, phi, pt, pdgId } = col;
       if (!storeGateKey) continue;
-      eventData.Electrons[storeGateKey] = Array.from({ length: count }, (_, i) => ({
-        author: author[i], energy: energy[i], eta: eta[i],
-        phi: phi[i], pt: pt[i] * 1000, pdgId: pdgId[i],
-      }));
+      eventData.Electrons[storeGateKey] = Array.from(
+        { length: count },
+        (_, i) => ({
+          author: author[i],
+          energy: energy[i],
+          eta: eta[i],
+          phi: phi[i],
+          pt: pt[i] * 1000,
+          pdgId: pdgId[i],
+        }),
+      );
     }
   }
 
@@ -306,10 +386,16 @@ export class JiveXMLLoader extends PhoenixLoader {
     for (const col of parsed.photons ?? []) {
       const { storeGateKey, count, author, energy, eta, phi, pt } = col;
       if (!storeGateKey) continue;
-      eventData.Photons[storeGateKey] = Array.from({ length: count }, (_, i) => ({
-        author: author[i], energy: energy[i], eta: eta[i],
-        phi: phi[i], pt: pt[i] * 1000,
-      }));
+      eventData.Photons[storeGateKey] = Array.from(
+        { length: count },
+        (_, i) => ({
+          author: author[i],
+          energy: energy[i],
+          eta: eta[i],
+          phi: phi[i],
+          pt: pt[i] * 1000,
+        }),
+      );
     }
   }
 
@@ -317,9 +403,14 @@ export class JiveXMLLoader extends PhoenixLoader {
     for (const col of parsed.missingEnergy ?? []) {
       const { storeGateKey, count, et, etx, ety } = col;
       if (!storeGateKey) continue;
-      eventData.MissingEnergy[storeGateKey] = Array.from({ length: count }, (_, i) => ({
-        et: et[i], etx: etx[i], ety: ety[i],
-      }));
+      eventData.MissingEnergy[storeGateKey] = Array.from(
+        { length: count },
+        (_, i) => ({
+          et: et[i],
+          etx: etx[i],
+          ety: ety[i],
+        }),
+      );
     }
   }
 

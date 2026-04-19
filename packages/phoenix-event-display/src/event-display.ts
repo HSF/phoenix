@@ -552,8 +552,15 @@ export class EventDisplay {
    * the callback on changes to the displayed event.
    * @param callback Callback to be added to the onDisplayedEventChange array.
    */
-  public listenToDisplayedEventChange(callback: (event: any) => any) {
+  public listenToDisplayedEventChange(
+    callback: (event: any) => any,
+  ): () => void {
     this.onDisplayedEventChange.push(callback);
+    return () => {
+      this.onDisplayedEventChange = this.onDisplayedEventChange.filter(
+        (cb) => cb !== callback,
+      );
+    };
   }
 
   /**
@@ -561,8 +568,13 @@ export class EventDisplay {
    * the callback on changes to the events.
    * @param callback Callback to be added to the onEventsChange array.
    */
-  public listenToLoadedEventsChange(callback: (events: any) => any) {
+  public listenToLoadedEventsChange(
+    callback: (events: any) => any,
+  ): () => void {
     this.onEventsChange.push(callback);
+    return () => {
+      this.onEventsChange = this.onEventsChange.filter((cb) => cb !== callback);
+    };
   }
 
   /**
