@@ -33,13 +33,21 @@ import { Pass } from 'three/examples/jsm/postprocessing/Pass.js';
  * of implicit boolean checks scattered across the render path.
  */
 export enum EffectsState {
+  /** Default state of the object. */
   DEFAULT = 'DEFAULT',
+  /** State when the object is being hovered over. */
   HOVERED = 'HOVERED',
+  /** State when the object is selected. */
   SELECTED = 'SELECTED',
+  /** State when the object is highlighted. */
   HIGHLIGHTED = 'HIGHLIGHTED',
+  /** State when the object is dimmed/faded out. */
   DIMMED = 'DIMMED',
 }
 
+/**
+ * Manager for managing three.js event display effects.
+ */
 export class EffectsManager {
   /** Effect composer for effect passes. */
   public composer: EffectComposer;
@@ -49,36 +57,64 @@ export class EffectsManager {
   private scene: Scene;
   /** Render pass for rendering the default scene. */
   private defaultRenderPass: RenderPass;
-  /** Array to keep track of outline passes that need camera updates */
-  private outlinePasses: OutlinePass[] = [];
-  /** Whether antialiasing is enabled or disabled. */
-  public antialiasing: boolean = true;
-  /** WebGL renderer reference */
-  private renderer: WebGLRenderer;
 
-  // Selection support (OutlinePass — true silhouette)
-  /** Set of currently selected objects */
+  /**
+   * Array of outline passes that require camera updates during rendering.
+   */
+  private outlinePasses: OutlinePass[] = [];
+
+  /**
+   * Indicates whether antialiasing is enabled for rendering.
+   */
+  public antialiasing: boolean = true;
+
+  /**
+   * WebGL renderer instance used for rendering the scene.
+   */
+  private renderer: WebGLRenderer;
+  /**
+   * Set of currently selected objects.
+   */
   private selectedObjectsSet: Set<Mesh> = new Set();
-  /** OutlinePass for selection silhouette (lazy-initialized on first select) */
+
+  /**
+   * OutlinePass used for selection silhouette rendering.
+   * Lazily initialized on first selection.
+   */
   private selectionOutlinePass: OutlinePass | null = null;
 
-  // Hover support (EdgesGeometry — lightweight)
-  /** Currently hovered object outline (temporary) */
+  /**
+   * Currently active hover outline object.
+   */
   private hoverOutline: LineSegments | null = null;
-  /** Reference to the hovered object for cleanup */
+
+  /**
+   * Reference to the hovered object for cleanup.
+   */
   private hoverTarget: Mesh | null = null;
 
-  /** Render function with (normal render) or without antialias (effects render). */
+  /**
+   * Render function used to draw the scene.
+   * Switches between normal render and effects render based on antialiasing.
+   * @param scene The scene to render.
+   * @param camera The camera used for rendering.
+   */
   public render: (scene: Scene, camera: Camera) => void;
 
-  /** Vertex shader for hover outline rendering. */
+  /**
+   * Vertex shader used for hover outline rendering.
+   * Handles projection transformation of vertices.
+   */
   private static readonly VERTEX_SHADER = `
     void main() {
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
   `;
 
-  /** Fragment shader for hover outlines (static blue). */
+  /**
+   * Fragment shader used for hover outlines.
+   * Produces a blue outline with adjustable opacity.
+   */
   private static readonly HOVER_FRAGMENT_SHADER = `
     uniform float opacity;
     void main() {
@@ -110,6 +146,7 @@ export class EffectsManager {
    * Lazily initialize the selection OutlinePass on first use.
    * Keeps the composer clean until selection is needed, preserving
    * existing tests that check composer.passes.length.
+   * @returns The selection OutlinePass instance.
    */
   private ensureSelectionPass(): OutlinePass {
     if (!this.selectionOutlinePass) {
@@ -239,7 +276,7 @@ export class EffectsManager {
 
   /**
    * Get performance statistics for the outline system.
-   * @returns Object containing performance metrics.
+   * @returns Performance stats including object counts and hover state.
    */
   public getOutlinePerformanceStats() {
     return {
