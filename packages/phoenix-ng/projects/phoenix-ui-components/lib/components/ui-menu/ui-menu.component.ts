@@ -4,6 +4,7 @@ import {
   type EventDataImportOption,
 } from '../../services/extras/event-data-import';
 import { defaultAnimationPresets } from './animate-camera/animate-camera.component';
+import type { HistogramConfig } from 'phoenix-event-display';
 
 export interface UIMenuConfig {
   showVRToggle?: boolean;
@@ -50,6 +51,8 @@ export class UiMenuComponent {
 
   @Input()
   animationPresets = defaultAnimationPresets;
+  @Input()
+  histogramConfig?: HistogramConfig;
 
   @Input()
   uiConfig: UIMenuConfig = { ...defaultUIMenuConfig };

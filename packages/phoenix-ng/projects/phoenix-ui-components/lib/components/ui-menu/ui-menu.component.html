@@ -72,6 +72,9 @@
   <!-- Toggle for shareable link constructor modal-->
   <app-share-link *ngIf="uiConfig.showShareLink"></app-share-link>
 
+  <!-- Histogram panel -->
+  <app-histogram-panel [config]="histogramConfig"></app-histogram-panel>
+
   <!-- Extra options -->
   <ng-content></ng-content>
 </app-ui-menu-wrapper>

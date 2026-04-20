@@ -37,3 +37,5 @@ export * from './event-data-explorer/event-data-explorer.component';
 export * from './event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component';
 export * from './cycle-events/cycle-events.component';
 export * from './ui-menu-wrapper/ui-menu-wrapper.component';
+export * from './histogram-panel/histogram-panel.component';
+export * from './histogram-panel/histogram-panel-overlay/histogram-panel-overlay.component';

@@ -1,0 +1,7 @@
+<svg id="histogram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--phoenix-options-icon-path, currentColor)">
+  <rect x="3" y="14" width="4" height="7" rx="0.5"/>
+  <rect x="8.5" y="8" width="4" height="13" rx="0.5"/>
+  <rect x="14" y="4" width="4" height="17" rx="0.5"/>
+  <rect x="19.5" y="11" width="4" height="10" rx="0.5" opacity="0.7"/>
+  <line x1="2" y1="21.5" x2="24" y2="21.5" stroke="var(--phoenix-options-icon-path, currentColor)" stroke-width="1" opacity="0.4"/>
+</svg>
