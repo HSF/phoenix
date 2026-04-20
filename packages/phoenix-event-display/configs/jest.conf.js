@@ -16,7 +16,8 @@ module.exports = {
     '^(\\.{1,2}/.+)\\.js$': '$1',
     // Mock the Web Worker wrapper — import.meta.url is not valid in Jest's
     // CommonJS/ts-jest environment regardless of tsconfig module setting.
-    '(.*)/workers/event-data-parser$': '<rootDir>/src/tests/helpers/event-data-parser-mock',
+    '(.*)/workers/event-data-parser$':
+      '<rootDir>/src/tests/helpers/event-data-parser-mock',
   },
   transform: {
     '^.+\\.m?[tj]s$': [
