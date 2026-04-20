@@ -26,6 +26,20 @@ import { Pass } from 'three/examples/jsm/postprocessing/Pass.js';
  * Selection color defaults to amber but is configurable via setSelectionColor()
  * for experiments like LHCb where amber-colored objects are common.
  */
+
+/**
+ * Represents the possible visual states of objects managed
+ * by EffectsManager. Provides typed state management instead
+ * of implicit boolean checks scattered across the render path.
+ */
+export enum EffectsState {
+  DEFAULT = 'DEFAULT',
+  HOVERED = 'HOVERED',
+  SELECTED = 'SELECTED',
+  HIGHLIGHTED = 'HIGHLIGHTED',
+  DIMMED = 'DIMMED',
+}
+
 export class EffectsManager {
   /** Effect composer for effect passes. */
   public composer: EffectComposer;
