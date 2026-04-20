@@ -14,6 +14,9 @@ module.exports = {
     '^@angular/core$': '<rootDir>/src/tests/helpers/angular-core-mock',
     // Strip .js extensions from relative TypeScript imports
     '^(\\.{1,2}/.+)\\.js$': '$1',
+    // Mock the Web Worker wrapper — import.meta.url is not valid in Jest's
+    // CommonJS/ts-jest environment regardless of tsconfig module setting.
+    '(.*)/workers/event-data-parser$': '<rootDir>/src/tests/helpers/event-data-parser-mock',
   },
   transform: {
     '^.+\\.m?[tj]s$': [

@@ -27,10 +27,11 @@ module.exports = {
 
   moduleNameMapper: {
     ...pathsToModuleNameMapper(paths, { prefix: '<rootDir>' }),
+    // Resolve phoenix-event-display from source so Jest doesn't need the dist build
+    '^phoenix-event-display$':
+      '<rootDir>/../../packages/phoenix-event-display/src/index.ts',
     // Mock the Web Worker wrapper — import.meta.url cannot be parsed by Jest's
     // CommonJS runtime. Worker behaviour is not under test in unit tests.
-    'phoenix-event-display/dist/workers/event-data-parser':
-      '<rootDir>/projects/phoenix-ui-components/lib/test-helpers/event-data-parser-mock.ts',
     '(.*)/workers/event-data-parser':
       '<rootDir>/projects/phoenix-ui-components/lib/test-helpers/event-data-parser-mock.ts',
   },
