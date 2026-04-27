@@ -15,6 +15,24 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { Pass } from 'three/examples/jsm/postprocessing/Pass.js';
 
 /**
+ * Represents the possible visual states of objects managed
+ * by EffectsManager. Provides typed state management instead
+ * of implicit boolean checks scattered across the render path.
+ */
+export enum EffectsState {
+  /** Default state of the object. */
+  DEFAULT = 'DEFAULT',
+  /** State when the object is being hovered over. */
+  HOVERED = 'HOVERED',
+  /** State when the object is selected. */
+  SELECTED = 'SELECTED',
+  /** State when the object is highlighted. */
+  HIGHLIGHTED = 'HIGHLIGHTED',
+  /** State when the object is dimmed/faded out. */
+  DIMMED = 'DIMMED',
+}
+
+/**
  * Manager for managing three.js event display effects like outline pass and unreal bloom.
  *
  * Selection uses OutlinePass for true silhouette outlines (boundary only, no internal
@@ -25,6 +43,8 @@ import { Pass } from 'three/examples/jsm/postprocessing/Pass.js';
  *
  * Selection color defaults to amber but is configurable via setSelectionColor()
  * for experiments like LHCb where amber-colored objects are common.
+ * Hover color defaults to blue but is configurable via setHoverColor()
+ * for experiments where blue objects are common.
  */
 export class EffectsManager {
   /** Effect composer for effect passes. */
@@ -53,6 +73,13 @@ export class EffectsManager {
   private hoverOutline: LineSegments | null = null;
   /** Reference to the hovered object for cleanup */
   private hoverTarget: Mesh | null = null;
+  /** Current hover color as RGB components (default blue). */
+  private _hoverColor = { r: 0.2, g: 0.6, b: 1.0 };
+  /**
+   * Current visual state of the effects system.
+   * Introduced to provide a typed alternative to implicit state checks.
+   */
+  private currentState: EffectsState = EffectsState.DEFAULT;
 
   /** Render function with (normal render) or without antialias (effects render). */
   public render: (scene: Scene, camera: Camera) => void;
@@ -64,12 +91,14 @@ export class EffectsManager {
     }
   `;
 
-  /** Fragment shader for hover outlines (static blue). */
+  /** Fragment shader for hover outlines. Color controlled via uniforms. */
   private static readonly HOVER_FRAGMENT_SHADER = `
     uniform float opacity;
+    uniform float colorR;
+    uniform float colorG;
+    uniform float colorB;
     void main() {
-      vec3 color = vec3(0.2, 0.6, 1.0);
-      gl_FragColor = vec4(color, opacity);
+      gl_FragColor = vec4(colorR, colorG, colorB, opacity);
     }
   `;
 
@@ -244,7 +273,7 @@ export class EffectsManager {
     if (this.selectedObjectsSet.has(object)) {
       return;
     }
-
+    this.currentState = EffectsState.SELECTED;
     this.selectedObjectsSet.add(object);
     const pass = this.ensureSelectionPass();
     pass.selectedObjects = Array.from(this.selectedObjectsSet);
@@ -259,8 +288,10 @@ export class EffectsManager {
     if (!this.selectedObjectsSet.has(object)) {
       return;
     }
-
     this.selectedObjectsSet.delete(object);
+    if (this.selectedObjectsSet.size === 0) {
+      this.currentState = EffectsState.DEFAULT;
+    }
     if (this.selectionOutlinePass) {
       this.selectionOutlinePass.selectedObjects = Array.from(
         this.selectedObjectsSet,
@@ -289,6 +320,7 @@ export class EffectsManager {
    */
   public clearAllSelections() {
     this.selectedObjectsSet.clear();
+    this.currentState = EffectsState.DEFAULT;
     if (this.selectionOutlinePass) {
       this.selectionOutlinePass.selectedObjects = [];
       this.selectionOutlinePass.enabled = false;
@@ -301,6 +333,7 @@ export class EffectsManager {
    * @param object The mesh object to hover outline, or null to clear.
    */
   public setHoverOutline(object: Mesh | null) {
+    this.currentState = object ? EffectsState.HOVERED : EffectsState.DEFAULT;
     // Clear existing hover outline
     if (this.hoverOutline) {
       this.hoverOutline.removeFromParent();
@@ -321,13 +354,35 @@ export class EffectsManager {
 
   /**
    * Set the selection outline color.
-   * Default is amber (0xffa633). Experiments with amber-colored objects
+   * Default is amber (0xffcc44). Experiments with amber-colored objects
    * (e.g. LHCb calorimeter deposits) may want a different color for contrast.
    * @param color The color as a hex number (e.g. 0x00ff00 for green).
    */
   public setSelectionColor(color: number) {
     const pass = this.ensureSelectionPass();
     pass.visibleEdgeColor.set(color);
+  }
+
+  /**
+   * Set the hover outline color.
+   * Default is blue (0x3399ff). Experiments with blue-colored objects
+   * (e.g. LHCb calorimeter deposits) can override this for contrast
+   * with the selection color. Mirrors setSelectionColor() for hover.
+   * @param color The color as a hex number (e.g. 0xff6600 for orange).
+   */
+  public setHoverColor(color: number): void {
+    this._hoverColor = {
+      r: ((color >> 16) & 255) / 255,
+      g: ((color >> 8) & 255) / 255,
+      b: (color & 255) / 255,
+    };
+    // Update active hover outline immediately if one exists
+    if (this.hoverOutline) {
+      const mat = this.hoverOutline.material as ShaderMaterial;
+      mat.uniforms['colorR'].value = this._hoverColor.r;
+      mat.uniforms['colorG'].value = this._hoverColor.g;
+      mat.uniforms['colorB'].value = this._hoverColor.b;
+    }
   }
 
   /**
@@ -345,6 +400,9 @@ export class EffectsManager {
       fragmentShader: EffectsManager.HOVER_FRAGMENT_SHADER,
       uniforms: {
         opacity: { value: 0.8 },
+        colorR: { value: this._hoverColor.r },
+        colorG: { value: this._hoverColor.g },
+        colorB: { value: this._hoverColor.b },
       },
       transparent: true,
       depthTest: true,
