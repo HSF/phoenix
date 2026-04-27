@@ -19,6 +19,7 @@ export interface UIMenuConfig {
   showMakePicture?: boolean;
   showObjectSelection?: boolean;
   showInfoPanel?: boolean;
+  showEventBrowser?: boolean;
 }
 
 export const defaultUIMenuConfig: UIMenuConfig = {
@@ -35,6 +36,7 @@ export const defaultUIMenuConfig: UIMenuConfig = {
   showMakePicture: true,
   showObjectSelection: true,
   showInfoPanel: true,
+  showEventBrowser: true,
 };
 
 @Component({

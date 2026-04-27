@@ -40,6 +40,9 @@
     [animationPresets]="animationPresets"
   ></app-animate-camera>
 
+  <!-- Toggle for event browser -->
+  <app-event-browser *ngIf="uiConfig.showEventBrowser"></app-event-browser>
+
   <!-- Toggle for collections info -->
   <app-collections-info
     *ngIf="uiConfig.showCollectionsInfo"
