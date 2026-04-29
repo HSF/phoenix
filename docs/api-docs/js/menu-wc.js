@@ -221,7 +221,16 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/Configuration.html" data-type="entity-link" >Configuration</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/CutJSON.html" data-type="entity-link" >CutJSON</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/CutStateJSON.html" data-type="entity-link" >CutStateJSON</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/EventDataLoader.html" data-type="entity-link" >EventDataLoader</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/EventSummary.html" data-type="entity-link" >EventSummary</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/HitParams.html" data-type="entity-link" >HitParams</a>

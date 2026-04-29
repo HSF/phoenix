@@ -270,6 +270,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#getPhoenixMenuUI" >getPhoenixMenuUI</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#getPresetAnimations" >getPresetAnimations</a>
                             </li>
                             <li>
@@ -1242,8 +1246,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="625"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:625</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="636"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:636</a></div>
                         </td>
                     </tr>
 
@@ -1642,6 +1646,52 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getPhoenixMenuUI"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>getPhoenixMenuUI</b></span>
+                        <a href="#getPhoenixMenuUI"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getPhoenixMenuUI()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="619"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:619</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Get the PhoenixMenuUI instance if one is active.
+Used by StateManager to access the cut registry for serialization.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../classes/PhoenixMenuUI.html" target="_self" >PhoenixMenuUI | undefined</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>The PhoenixMenuUI instance, or undefined if not initialized.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getPresetAnimations"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -1750,8 +1800,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="618"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:618</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="629"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:629</a></div>
                         </td>
                     </tr>
 
@@ -3887,6 +3937,17 @@ export class UIManager {
       (uiMenu) &#x3D;&gt; uiMenu instanceof PhoenixMenuUI,
     ) as PhoenixMenuUI;
     phoenixMenuUI?.loadEventFolderState();
+    phoenixMenuUI?.reapplyCollectionCuts();
+  }
+  /**
+   * Get the PhoenixMenuUI instance if one is active.
+   * Used by StateManager to access the cut registry for serialization.
+   * @returns The PhoenixMenuUI instance, or undefined if not initialized.
+   */
+  public getPhoenixMenuUI(): PhoenixMenuUI | undefined {
+    return this.uiMenus.find((uiMenu) &#x3D;&gt; uiMenu instanceof PhoenixMenuUI) as
+      | PhoenixMenuUI
+      | undefined;
   }
 
   /**

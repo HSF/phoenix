@@ -203,6 +203,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getActiveCutsAsJSON" >getActiveCutsAsJSON</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Static</span>
                                 <a href="#getInstance" >getInstance</a>
                             </li>
@@ -220,6 +224,10 @@
                             </li>
                             <li>
                                 <a href="#resetForViewTransition" >resetForViewTransition</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#restoreCutsFromJSON" >restoreCutsFromJSON</a>
                             </li>
                             <li>
                                 <a href="#saveStateAsJSON" >saveStateAsJSON</a>
@@ -265,7 +273,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/managers/state-manager.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/managers/state-manager.ts:34</a></div>
                             </td>
                         </tr>
 
@@ -303,7 +311,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/managers/state-manager.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/managers/state-manager.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -340,7 +348,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/managers/state-manager.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/managers/state-manager.ts:21</a></div>
                         </td>
                     </tr>
 
@@ -372,7 +380,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/managers/state-manager.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/managers/state-manager.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -412,7 +420,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/managers/state-manager.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/managers/state-manager.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -446,7 +454,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/managers/state-manager.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/managers/state-manager.ts:17</a></div>
                         </td>
                     </tr>
 
@@ -483,7 +491,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/managers/state-manager.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/managers/state-manager.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -515,7 +523,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/managers/state-manager.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/managers/state-manager.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -552,7 +560,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/managers/state-manager.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/managers/state-manager.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -576,6 +584,49 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getActiveCutsAsJSON"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getActiveCutsAsJSON</b></span>
+                        <a href="#getActiveCutsAsJSON"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getActiveCutsAsJSON()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="116"
+                                    class="link-to-prism">src/managers/state-manager.ts:116</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Serialize active cuts from PhoenixMenuUI into a plain JSON-safe object.
+Only collections with at least one active cut bound are included.
+Returns an empty object if no cuts are active or UI is unavailable.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/CutStateJSON.html" target="_self" >CutStateJSON</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getInstance"></a>
                     <span class="name">
                             <span class="modifier">Static</span>
@@ -594,8 +645,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="46"
-                                    class="link-to-prism">src/managers/state-manager.ts:46</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="51"
+                                    class="link-to-prism">src/managers/state-manager.ts:51</a></div>
                         </td>
                     </tr>
 
@@ -637,8 +688,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="210"
-                                    class="link-to-prism">src/managers/state-manager.ts:210</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="275"
+                                    class="link-to-prism">src/managers/state-manager.ts:275</a></div>
                         </td>
                     </tr>
 
@@ -680,8 +731,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="194"
-                                    class="link-to-prism">src/managers/state-manager.ts:194</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="259"
+                                    class="link-to-prism">src/managers/state-manager.ts:259</a></div>
                         </td>
                     </tr>
 
@@ -723,15 +774,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="83"
-                                    class="link-to-prism">src/managers/state-manager.ts:83</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="89"
+                                    class="link-to-prism">src/managers/state-manager.ts:89</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get the current state of the event display as a JSON object.</p>
+                        <div class="io-description"><p>Get the current state of the event display as a JSON object.
+Now includes active cut state so Save State preserves filters.</p>
 </div>
 
                         <div class="io-description">
@@ -739,7 +791,7 @@
 
                         </div>
                             <div class="io-description">
-                                <p>The state object with menu, camera, and clipping data.</p>
+                                <p>The state object with menu, camera, clipping, and cut data.</p>
 
                             </div>
                 </td>
@@ -766,8 +818,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="120"
-                                    class="link-to-prism">src/managers/state-manager.ts:120</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="155"
+                                    class="link-to-prism">src/managers/state-manager.ts:155</a></div>
                         </td>
                     </tr>
 
@@ -840,8 +892,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="233"
-                                    class="link-to-prism">src/managers/state-manager.ts:233</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="298"
+                                    class="link-to-prism">src/managers/state-manager.ts:298</a></div>
                         </td>
                     </tr>
 
@@ -855,6 +907,83 @@
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="restoreCutsFromJSON"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>restoreCutsFromJSON</b></span>
+                        <a href="#restoreCutsFromJSON"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>restoreCutsFromJSON(cutsJSON: <a href="../interfaces/CutStateJSON.html" target="_self">CutStateJSON</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="217"
+                                    class="link-to-prism">src/managers/state-manager.ts:217</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Deserialize cut state from a saved JSON file, register the cuts back
+into PhoenixMenuUI, and re-apply them to the currently loaded event.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>cutsJSON</td>
+                                            <td>
+                                                            <code><a href="../interfaces/CutStateJSON.html" target="_self" >CutStateJSON</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The cuts section of a loaded state JSON file.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -879,8 +1008,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="107"
-                                    class="link-to-prism">src/managers/state-manager.ts:107</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="142"
+                                    class="link-to-prism">src/managers/state-manager.ts:142</a></div>
                         </td>
                     </tr>
 
@@ -918,8 +1047,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="218"
-                                    class="link-to-prism">src/managers/state-manager.ts:218</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="283"
+                                    class="link-to-prism">src/managers/state-manager.ts:283</a></div>
                         </td>
                     </tr>
 
@@ -992,8 +1121,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="178"
-                                    class="link-to-prism">src/managers/state-manager.ts:178</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="243"
+                                    class="link-to-prism">src/managers/state-manager.ts:243</a></div>
                         </td>
                     </tr>
 
@@ -1066,8 +1195,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="226"
-                                    class="link-to-prism">src/managers/state-manager.ts:226</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="291"
+                                    class="link-to-prism">src/managers/state-manager.ts:291</a></div>
                         </td>
                     </tr>
 
@@ -1140,8 +1269,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="202"
-                                    class="link-to-prism">src/managers/state-manager.ts:202</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="267"
+                                    class="link-to-prism">src/managers/state-manager.ts:267</a></div>
                         </td>
                     </tr>
 
@@ -1214,8 +1343,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="54"
-                                    class="link-to-prism">src/managers/state-manager.ts:54</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="59"
+                                    class="link-to-prism">src/managers/state-manager.ts:59</a></div>
                         </td>
                     </tr>
 
@@ -1288,8 +1417,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="186"
-                                    class="link-to-prism">src/managers/state-manager.ts:186</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="251"
+                                    class="link-to-prism">src/managers/state-manager.ts:251</a></div>
                         </td>
                     </tr>
 
@@ -1357,7 +1486,12 @@ import { Camera } from &#x27;three&#x27;;
 import { PhoenixMenuNode } from &#x27;./ui-manager/phoenix-menu/phoenix-menu-node&#x27;;
 import { loadFile, saveFile } from &#x27;../helpers/file&#x27;;
 import { ActiveVariable } from &#x27;../helpers/active-variable&#x27;;
+import { Cut, CutJSON } from &#x27;../lib/models/cut.model&#x27;;
 
+/** Map of collection name to array of serialized cuts, for JSON persistence. */
+export interface CutStateJSON {
+  [collectionName: string]: CutJSON[];
+}
 /**
  * A singleton manager for managing the scene&#x27;s state.
  */
@@ -1432,7 +1566,8 @@ export class StateManager {
 
   /**
    * Get the current state of the event display as a JSON object.
-   * @returns The state object with menu, camera, and clipping data.
+   * Now includes active cut state so Save State preserves filters.
+   * @returns The state object with menu, camera, clipping, and cut data.
    */
   getStateAsJSON(): { [key: string]: any } {
     const controls &#x3D; this.eventDisplay
@@ -1452,9 +1587,38 @@ export class StateManager {
           ? this.openingClippingAngle.value
           : null,
       },
+      cuts: this.getActiveCutsAsJSON(),
     };
   }
 
+  /**
+   * Serialize active cuts from PhoenixMenuUI into a plain JSON-safe object.
+   * Only collections with at least one active cut bound are included.
+   * Returns an empty object if no cuts are active or UI is unavailable.
+   */
+  private getActiveCutsAsJSON(): CutStateJSON {
+    const phoenixMenuUI &#x3D; this.eventDisplay
+      ?.getUIManager()
+      ?.getPhoenixMenuUI?.();
+
+    if (!phoenixMenuUI) {
+      return {};
+    }
+
+    const registry &#x3D; phoenixMenuUI.getCollectionCuts(); // This returns object { [name: string]: Cut[] }
+    const result: CutStateJSON &#x3D; {};
+
+    Object.entries(registry).forEach(([collectionName, cuts]) &#x3D;&gt; {
+      const activeCuts &#x3D; cuts.filter(
+        (cut) &#x3D;&gt; cut.minCutActive || cut.maxCutActive,
+      );
+      if (activeCuts.length &gt; 0) {
+        result[collectionName] &#x3D; activeCuts.map((cut) &#x3D;&gt; cut.toJSON());
+      }
+    });
+
+    return result;
+  }
   /**
    * Save the state of the event display as JSON.
    */
@@ -1523,6 +1687,36 @@ export class StateManager {
         }
       }
     }
+    // Restore cut state if present in the saved JSON
+    if (jsonData[&#x27;cuts&#x27;]) {
+      this.restoreCutsFromJSON(jsonData[&#x27;cuts&#x27;] as CutStateJSON);
+    }
+  }
+  /**
+   * Deserialize cut state from a saved JSON file, register the cuts back
+   * into PhoenixMenuUI, and re-apply them to the currently loaded event.
+   * @param cutsJSON The cuts section of a loaded state JSON file.
+   */
+  private restoreCutsFromJSON(cutsJSON: CutStateJSON): void {
+    const phoenixMenuUI &#x3D; this.eventDisplay
+      ?.getUIManager()
+      ?.getPhoenixMenuUI?.();
+
+    if (!phoenixMenuUI) {
+      console.warn(
+        &#x27;StateManager: Cannot restore cuts — PhoenixMenuUI not available.&#x27;,
+      );
+      return;
+    }
+
+    for (const [collectionName, cutJSONArray] of Object.entries(cutsJSON)) {
+      if (Array.isArray(cutJSONArray) &amp;&amp; cutJSONArray.length &gt; 0) {
+        const cuts &#x3D; cutJSONArray.map((c) &#x3D;&gt; Cut.fromJSON(c));
+        phoenixMenuUI.setCollectionCuts(collectionName, cuts);
+      }
+    }
+
+    phoenixMenuUI.reapplyCollectionCuts();
   }
 
   /**
