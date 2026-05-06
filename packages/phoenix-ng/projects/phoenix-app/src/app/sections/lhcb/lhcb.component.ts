@@ -3,6 +3,8 @@ import {
   EventDataFormat,
   type EventDataImportOption,
   EventDisplayService,
+  type UIMenuConfig,
+  defaultUIMenuConfig,
 } from 'phoenix-ui-components';
 import {
   PhoenixMenuNode,
@@ -32,6 +34,12 @@ export class LHCbComponent implements OnInit, OnDestroy {
     EventDataFormat.JSON,
     EventDataFormat.ZIP,
   ];
+
+  /** UI menu config: hide eta-phi panel (LHCb is forward, has no CaloCells/CaloClusters). */
+  uiConfig: UIMenuConfig = {
+    ...defaultUIMenuConfig,
+    showEtaPhiPanel: false,
+  };
 
   /** Prevents callbacks on destroyed component */
   private isDestroyed = false;
