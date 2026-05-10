@@ -38,4 +38,6 @@ export * from './event-data-explorer/event-data-explorer-dialog/event-data-explo
 export * from './cycle-events/cycle-events.component';
 export * from './event-browser/event-browser.component';
 export * from './event-browser/event-browser-overlay/event-browser-overlay.component';
+export * from './eta-phi-panel/eta-phi-panel.component';
+export * from './eta-phi-panel/eta-phi-panel-overlay/eta-phi-panel-overlay.component';
 export * from './ui-menu-wrapper/ui-menu-wrapper.component';

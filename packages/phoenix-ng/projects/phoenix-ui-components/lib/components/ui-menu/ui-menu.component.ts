@@ -20,6 +20,7 @@ export interface UIMenuConfig {
   showObjectSelection?: boolean;
   showInfoPanel?: boolean;
   showEventBrowser?: boolean;
+  showEtaPhiPanel?: boolean;
 }
 
 export const defaultUIMenuConfig: UIMenuConfig = {
@@ -37,6 +38,7 @@ export const defaultUIMenuConfig: UIMenuConfig = {
   showObjectSelection: true,
   showInfoPanel: true,
   showEventBrowser: true,
+  showEtaPhiPanel: true,
 };
 
 @Component({

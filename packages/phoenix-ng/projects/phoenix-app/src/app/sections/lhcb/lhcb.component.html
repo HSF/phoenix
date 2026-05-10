@@ -1,6 +1,9 @@
 <app-loader [loaded]="loaded" [progress]="loadingProgress"></app-loader>
 <app-nav></app-nav>
-<app-ui-menu [eventDataImportOptions]="eventDataImportOptions">
+<app-ui-menu
+  [eventDataImportOptions]="eventDataImportOptions"
+  [uiConfig]="uiConfig"
+>
   <!-- LHCb specific VP toggle -->
   <app-cycle-events [interval]="5000"></app-cycle-events>
   <app-vp-toggle></app-vp-toggle>
