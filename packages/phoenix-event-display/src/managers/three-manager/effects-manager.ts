@@ -169,12 +169,14 @@ export class EffectsManager {
 
   /**
    * Render for antialias without the effects composer.
-   * Falls back to composer if there are active selections (OutlinePass needs it).
+   * Uses currentState enum to determine render path — replacing
+   * implicit boolean checks with typed state transitions.
+   * Falls back to composer when currentState is SELECTED (OutlinePass needs it).
    * @param scene The default scene used for event display.
    * @param camera The camera inside the scene.
    */
   private antialiasRender(scene: Scene, camera: Camera) {
-    if (this.selectedObjectsSet.size > 0) {
+    if (this.currentState === EffectsState.SELECTED) {
       // Selections require OutlinePass which needs the composer
       this.defaultRenderPass.camera = camera;
       this.defaultRenderPass.scene = scene;
@@ -183,7 +185,7 @@ export class EffectsManager {
       }
       this.updateSelectionPulse();
       this.composer.render();
-    } else if (this.hoverOutline) {
+    } else if (this.currentState === EffectsState.HOVERED) {
       // Hover outlines are scene children, direct render handles them
       this.renderer.render(scene, camera);
     } else {
@@ -245,7 +247,10 @@ export class EffectsManager {
    * Oscillates edgeStrength for a gentle breathing effect.
    */
   private updateSelectionPulse() {
-    if (this.selectionOutlinePass && this.selectedObjectsSet.size > 0) {
+    if (
+      this.selectionOutlinePass &&
+      this.currentState === EffectsState.SELECTED
+    ) {
       const time = performance.now() * 0.001;
       // Pulse between 1.5 and 4.5 — always visible, gentle breathing
       this.selectionOutlinePass.edgeStrength = 3 + 1.5 * Math.sin(time * 2.5);
