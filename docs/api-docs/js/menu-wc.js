@@ -227,6 +227,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/CutStateJSON.html" data-type="entity-link" >CutStateJSON</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/EtaPhiConfig.html" data-type="entity-link" >EtaPhiConfig</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/EventDataLoader.html" data-type="entity-link" >EventDataLoader</a>
                             </li>
                             <li class="link">
