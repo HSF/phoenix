@@ -1,8 +1,0 @@
-78 error Error: Command failed with exit code 128: git tag v3.0.5 -m v3.0.5
-78 error fatal: tag 'v3.0.5' already exists
-78 error     at makeError (/home/emoyse/phoenix/node_modules/execa/lib/error.js:59:11)
-78 error     at handlePromise (/home/emoyse/phoenix/node_modules/execa/index.js:114:26)
-78 error     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-78 error     at async VersionCommand.gitCommitAndTagVersion (/home/emoyse/phoenix/node_modules/lerna/dist/index.js:9970:9)
-78 error     at async VersionCommand.commitAndTagUpdates (/home/emoyse/phoenix/node_modules/lerna/dist/index.js:9935:18)
-78 error     at async Promise.all (index 0)
