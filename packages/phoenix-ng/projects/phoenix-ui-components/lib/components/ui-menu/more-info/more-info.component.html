@@ -17,6 +17,11 @@
     #geometryBrowser
     *ngIf="uiConfig?.showGeometryBrowser"
   ></app-geometry-browser>
+  <app-kinematics-panel
+    #kinematicsPanel
+    *ngIf="uiConfig?.showKinematicsPanel"
+    [config]="kinematicsConfig"
+  ></app-kinematics-panel>
 </div>
 
 <mat-menu #moreInfo>
@@ -87,6 +92,20 @@
           <use href="assets/icons/top-cube.svg#top-cube"></use>
         </svg>
         Geometry Browser
+      </span>
+    </mat-checkbox>
+  </button>
+  <button mat-menu-item *ngIf="uiConfig?.showKinematicsPanel">
+    <mat-checkbox
+      [checked]="showKinematicsPanel"
+      (click)="$event.stopPropagation()"
+      (change)="toggleKinematicsPanel()"
+    >
+      <span class="item-content">
+        <svg class="item-icon">
+          <use href="assets/icons/kinematics.svg#kinematics"></use>
+        </svg>
+        Track Kinematics
       </span>
     </mat-checkbox>
   </button>

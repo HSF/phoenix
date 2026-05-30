@@ -38,7 +38,10 @@
   ></app-animate-camera>
 
   <!-- More information panels -->
-  <app-more-info [uiConfig]="uiConfig"></app-more-info>
+  <app-more-info
+    [uiConfig]="uiConfig"
+    [kinematicsConfig]="kinematicsConfig"
+  ></app-more-info>
 
   <!-- Toggle for performance -->
   <app-performance-toggle
@@ -61,9 +64,6 @@
 
   <!-- Toggle for shareable link constructor modal-->
   <app-share-link *ngIf="uiConfig.showShareLink"></app-share-link>
-
-  <!-- Kinematics panel -->
-  <app-kinematics-panel [config]="kinematicsConfig"></app-kinematics-panel>
 
   <!-- Extra options -->
   <ng-content></ng-content>

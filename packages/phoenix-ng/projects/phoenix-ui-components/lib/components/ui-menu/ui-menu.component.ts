@@ -22,6 +22,7 @@ export interface UIMenuConfig {
   showInfoPanel?: boolean;
   showEventBrowser?: boolean;
   showEtaPhiPanel?: boolean;
+  showKinematicsPanel?: boolean;
 }
 
 export const defaultUIMenuConfig: UIMenuConfig = {
@@ -40,6 +41,7 @@ export const defaultUIMenuConfig: UIMenuConfig = {
   showInfoPanel: true,
   showEventBrowser: true,
   showEtaPhiPanel: true,
+  showKinematicsPanel: true,
 };
 
 @Component({

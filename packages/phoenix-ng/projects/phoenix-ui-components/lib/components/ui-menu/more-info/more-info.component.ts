@@ -5,6 +5,8 @@ import { EventBrowserComponent } from '../event-browser/event-browser.component'
 import { CollectionsInfoComponent } from '../collections-info/collections-info.component';
 import { EtaPhiPanelComponent } from '../eta-phi-panel/eta-phi-panel.component';
 import { GeometryBrowserComponent } from '../geometry-browser/geometry-browser.component';
+import { KinematicsPanelComponent } from '../kinematics-panel/kinematics-panel.component';
+import type { KinematicsConfig } from 'phoenix-event-display';
 
 @Component({
   standalone: false,
@@ -14,18 +16,21 @@ import { GeometryBrowserComponent } from '../geometry-browser/geometry-browser.c
 })
 export class MoreInfoComponent {
   @Input() uiConfig: UIMenuConfig = defaultUIMenuConfig;
+  @Input() kinematicsConfig?: KinematicsConfig;
 
   @ViewChild('infoPanel') infoPanel: InfoPanelComponent;
   @ViewChild('eventBrowser') eventBrowser: EventBrowserComponent;
   @ViewChild('collectionsInfo') collectionsInfo: CollectionsInfoComponent;
   @ViewChild('etaPhiPanel') etaPhiPanel: EtaPhiPanelComponent;
   @ViewChild('geometryBrowser') geometryBrowser: GeometryBrowserComponent;
+  @ViewChild('kinematicsPanel') kinematicsPanel!: KinematicsPanelComponent;
 
   showInfoPanel = false;
   showEventBrowser = false;
   showCollectionsInfo = false;
   showEtaPhiPanel = false;
   showGeometryBrowser = false;
+  showKinematicsPanel = false;
 
   toggleInfoPanel() {
     this.showInfoPanel = !this.showInfoPanel;
@@ -50,5 +55,10 @@ export class MoreInfoComponent {
   toggleGeometryBrowser() {
     this.showGeometryBrowser = !this.showGeometryBrowser;
     this.geometryBrowser?.toggleOverlay();
+  }
+
+  toggleKinematicsPanel() {
+    this.showKinematicsPanel = !this.showKinematicsPanel;
+    this.kinematicsPanel?.toggleOverlay();
   }
 }
