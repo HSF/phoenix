@@ -1,0 +1,940 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  PHYSLITECollectionDef</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/loaders/physlite-loader.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Branch mapping for a PHYSLITE collection.
+Each entry describes which ROOT branches to read
+and how to convert them into Phoenix event data.</p>
+
+            </p>
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#collectionName" 
+>
+                                            collectionName
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#fields" 
+>
+                                            fields
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#phoenixType" 
+>
+                                            phoenixType
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#prefix" 
+>
+                                            prefix
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="collectionName"></a>
+                                        <span class="name "><b>collectionName</b>
+                                            <a href="#collectionName">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>collectionName:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Name for the Phoenix collection.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="fields"></a>
+                                        <span class="name "><b>fields</b>
+                                            <a href="#fields">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>fields:     <code>string[]</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string[]</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Branch suffixes to read (e.g. [&#39;pt&#39;, &#39;eta&#39;, &#39;phi&#39;, &#39;m&#39;]).</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="phoenixType"></a>
+                                        <span class="name "><b>phoenixType</b>
+                                            <a href="#phoenixType">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>phoenixType:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Phoenix object type this maps to.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="prefix"></a>
+                                        <span class="name "><b>prefix</b>
+                                            <a href="#prefix">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>prefix:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Branch prefix in the ROOT file (e.g. &#39;AnalysisElectronsAuxDyn&#39;).</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PhoenixLoader } from &#x27;./phoenix-loader&#x27;;
+import { openFile, settings as jsrootSettings } from &#x27;jsroot&#x27;;
+import { TSelector, treeProcess } from &#x27;jsroot/tree&#x27;;
+import { CoordinateHelper } from &#x27;../helpers/coordinate-helper&#x27;;
+
+/**
+ * Branch mapping for a PHYSLITE collection.
+ * Each entry describes which ROOT branches to read
+ * and how to convert them into Phoenix event data.
+ */
+interface PHYSLITECollectionDef {
+  /** Branch prefix in the ROOT file (e.g. &#x27;AnalysisElectronsAuxDyn&#x27;). */
+  prefix: string;
+  /** Branch suffixes to read (e.g. [&#x27;pt&#x27;, &#x27;eta&#x27;, &#x27;phi&#x27;, &#x27;m&#x27;]). */
+  fields: string[];
+  /** Phoenix object type this maps to. */
+  phoenixType: string;
+  /** Name for the Phoenix collection. */
+  collectionName: string;
+}
+
+/**
+ * Default PHYSLITE branch mapping for ATLAS Open Data.
+ * Branch names verified against the official get_json_phoenix.py script.
+ */
+const DEFAULT_COLLECTIONS: PHYSLITECollectionDef[] &#x3D; [
+  {
+    prefix: &#x27;AnalysisElectronsAuxDyn&#x27;,
+    fields: [&#x27;pt&#x27;, &#x27;eta&#x27;, &#x27;phi&#x27;, &#x27;m&#x27;],
+    phoenixType: &#x27;Electrons&#x27;,
+    collectionName: &#x27;AnalysisElectrons&#x27;,
+  },
+  {
+    prefix: &#x27;AnalysisMuonsAuxDyn&#x27;,
+    fields: [&#x27;pt&#x27;, &#x27;eta&#x27;, &#x27;phi&#x27;],
+    phoenixType: &#x27;Muons&#x27;,
+    collectionName: &#x27;AnalysisMuons&#x27;,
+  },
+  {
+    prefix: &#x27;AnalysisPhotonsAuxDyn&#x27;,
+    fields: [&#x27;pt&#x27;, &#x27;eta&#x27;, &#x27;phi&#x27;, &#x27;m&#x27;],
+    phoenixType: &#x27;Photons&#x27;,
+    collectionName: &#x27;AnalysisPhotons&#x27;,
+  },
+  {
+    prefix: &#x27;AnalysisJetsAuxDyn&#x27;,
+    fields: [&#x27;pt&#x27;, &#x27;eta&#x27;, &#x27;phi&#x27;, &#x27;m&#x27;],
+    phoenixType: &#x27;Jets&#x27;,
+    collectionName: &#x27;AnalysisJets&#x27;,
+  },
+  {
+    prefix: &#x27;AnalysisLargeRJetsAuxDyn&#x27;,
+    fields: [&#x27;pt&#x27;, &#x27;eta&#x27;, &#x27;phi&#x27;, &#x27;m&#x27;],
+    phoenixType: &#x27;Jets&#x27;,
+    collectionName: &#x27;AnalysisLargeRJets&#x27;,
+  },
+  {
+    prefix: &#x27;InDetTrackParticlesAuxDyn&#x27;,
+    fields: [&#x27;d0&#x27;, &#x27;z0&#x27;, &#x27;theta&#x27;, &#x27;phi&#x27;, &#x27;qOverP&#x27;],
+    phoenixType: &#x27;Tracks&#x27;,
+    collectionName: &#x27;InDetTrackParticles&#x27;,
+  },
+  {
+    prefix: &#x27;MuonSpectrometerTrackParticlesAuxDyn&#x27;,
+    fields: [&#x27;d0&#x27;, &#x27;z0&#x27;, &#x27;theta&#x27;, &#x27;phi&#x27;, &#x27;qOverP&#x27;],
+    phoenixType: &#x27;Tracks&#x27;,
+    collectionName: &#x27;MuonSpectrometerTrackParticles&#x27;,
+  },
+  {
+    prefix: &#x27;CombinedMuonTrackParticlesAuxDyn&#x27;,
+    fields: [&#x27;d0&#x27;, &#x27;z0&#x27;, &#x27;theta&#x27;, &#x27;phi&#x27;, &#x27;qOverP&#x27;],
+    phoenixType: &#x27;Tracks&#x27;,
+    collectionName: &#x27;CombinedMuonTrackParticles&#x27;,
+  },
+  {
+    prefix: &#x27;ExtrapolatedMuonTrackParticlesAuxDyn&#x27;,
+    fields: [&#x27;d0&#x27;, &#x27;z0&#x27;, &#x27;theta&#x27;, &#x27;phi&#x27;, &#x27;qOverP&#x27;],
+    phoenixType: &#x27;Tracks&#x27;,
+    collectionName: &#x27;ExtrapolatedMuonTrackParticles&#x27;,
+  },
+  {
+    prefix: &#x27;GSFTrackParticlesAuxDyn&#x27;,
+    fields: [&#x27;d0&#x27;, &#x27;z0&#x27;, &#x27;theta&#x27;, &#x27;phi&#x27;, &#x27;qOverP&#x27;],
+    phoenixType: &#x27;Tracks&#x27;,
+    collectionName: &#x27;GSFTrackParticles&#x27;,
+  },
+  {
+    prefix: &#x27;MET_Core_AnalysisMETAuxDyn&#x27;,
+    fields: [&#x27;mpx&#x27;, &#x27;mpy&#x27;],
+    phoenixType: &#x27;MissingEnergy&#x27;,
+    collectionName: &#x27;MET&#x27;,
+  },
+  {
+    prefix: &#x27;PrimaryVerticesAuxDyn&#x27;,
+    fields: [&#x27;x&#x27;, &#x27;y&#x27;, &#x27;z&#x27;],
+    phoenixType: &#x27;Vertices&#x27;,
+    collectionName: &#x27;PrimaryVertices&#x27;,
+  },
+  {
+    prefix: &#x27;egammaClustersAuxDyn&#x27;,
+    fields: [&#x27;calE&#x27;, &#x27;calEta&#x27;, &#x27;calPhi&#x27;],
+    phoenixType: &#x27;CaloClusters&#x27;,
+    collectionName: &#x27;egammaClusters&#x27;,
+  },
+];
+
+/**
+ * Loader for ATLAS PHYSLITE (DAOD_PHYSLITE) ROOT files.
+ *
+ * Uses jsroot to read the CollectionTree TTree and converts
+ * xAOD auxiliary-data branches into Phoenix event data format.
+ */
+export class PHYSLITELoader extends PhoenixLoader {
+  /** Maximum number of events to load from the file. */
+  private maxEvents: number;
+  /** Collection definitions describing which branches to read. */
+  private collectionDefs: PHYSLITECollectionDef[];
+
+  /**
+   * Create a PHYSLITE loader.
+   * @param maxEvents Maximum number of events to read from the file.
+   */
+  constructor(maxEvents: number &#x3D; 100) {
+    super();
+    this.maxEvents &#x3D; maxEvents;
+    this.collectionDefs &#x3D; DEFAULT_COLLECTIONS;
+  }
+
+  /**
+   * Open a PHYSLITE ROOT file and return all events as a
+   * PhoenixEventsData object (keyed by event name).
+   * @param fileSource File object or URL of the .root file.
+   * @returns Promise resolving to the events data.
+   */
+  async getEventData(fileSource: File | string): Promise&lt;any&gt; {
+    jsrootSettings.UseStamp &#x3D; false;
+
+    const file &#x3D; await openFile(fileSource as any);
+    const tree: any &#x3D; await file.readObject(&#x27;CollectionTree&#x27;);
+
+    if (!tree) {
+      throw new Error(
+        &#x27;No CollectionTree found in this ROOT file. It may not be a PHYSLITE file.&#x27;,
+      );
+    }
+
+    const nEntries: number &#x3D; tree.fEntries ?? 0;
+    const nToProcess &#x3D; Math.min(nEntries, this.maxEvents);
+
+    if (nToProcess &#x3D;&#x3D;&#x3D; 0) {
+      throw new Error(&#x27;CollectionTree has no entries.&#x27;);
+    }
+
+    // --- Add branches to the selector, skipping missing collections ---
+    // jsroot throws if a non-existent branch is added to treeProcess.
+    // AuxDyn branches are stored as flat top-level entries (e.g.
+    // &quot;AnalysisJetsAuxDyn.pt&quot;), so we check exact names before adding.
+    const topLevelNames &#x3D; new Set&lt;string&gt;(
+      tree.fBranches.arr.map((b: any) &#x3D;&gt; b.fName as string),
+    );
+
+    const activeDefs: {
+      def: PHYSLITECollectionDef;
+      selectorKeys: { [field: string]: string };
+    }[] &#x3D; [];
+
+    const selector &#x3D; new TSelector();
+
+    for (const def of this.collectionDefs) {
+      // Check that at least the first required field branch exists
+      const firstBranch &#x3D; &#x60;${def.prefix}.${def.fields[0]}&#x60;;
+      if (!topLevelNames.has(firstBranch)) {
+        continue;
+      }
+
+      const keys: { [field: string]: string } &#x3D; {};
+      let allFound &#x3D; true;
+
+      for (const field of def.fields) {
+        const branchName &#x3D; &#x60;${def.prefix}.${field}&#x60;;
+        if (!topLevelNames.has(branchName)) {
+          allFound &#x3D; false;
+          break;
+        }
+        const key &#x3D; &#x60;${def.prefix}__${field}&#x60;;
+        keys[field] &#x3D; key;
+      }
+
+      if (!allFound) continue;
+
+      // All branches verified — add them to the selector
+      for (const field of def.fields) {
+        const branchName &#x3D; &#x60;${def.prefix}.${field}&#x60;;
+        selector.addBranch(branchName, keys[field]);
+      }
+
+      activeDefs.push({ def, selectorKeys: keys });
+    }
+
+    // Event info branches (metadata)
+    const eventNumberKey &#x3D; &#x27;evtinfo_eventNumber&#x27;;
+    const runNumberKey &#x3D; &#x27;evtinfo_runNumber&#x27;;
+    selector.addBranch(&#x27;EventInfoAuxDyn.eventNumber&#x27;, eventNumberKey);
+    selector.addBranch(&#x27;EventInfoAuxDyn.runNumber&#x27;, runNumberKey);
+
+    // --- Process entries ---
+    const eventsData: any &#x3D; {};
+    let eventIndex &#x3D; 0;
+
+    selector.Process &#x3D; (entry: number) &#x3D;&gt; {
+      if (eventIndex &gt;&#x3D; nToProcess) {
+        selector.Abort();
+        return;
+      }
+
+      const tgt &#x3D; selector.tgtobj;
+
+      const eventNumber &#x3D; eventNumberKey ? tgt[eventNumberKey] : eventIndex;
+      const runNumber &#x3D; runNumberKey ? tgt[runNumberKey] : 0;
+
+      // Pre-initialize all active collection types so Phoenix registers
+      // them from the first event (even if empty for that event).
+      const eventData: any &#x3D; {
+        &#x27;event number&#x27;: eventNumber,
+        &#x27;run number&#x27;: runNumber,
+      };
+      for (const { def } of activeDefs) {
+        if (!eventData[def.phoenixType]) {
+          eventData[def.phoenixType] &#x3D; {};
+        }
+      }
+
+      for (const { def, selectorKeys } of activeDefs) {
+        const collection &#x3D; this.convertCollection(def, selectorKeys, tgt);
+        if (collection &amp;&amp; collection.length &gt; 0) {
+          eventData[def.phoenixType][def.collectionName] &#x3D; collection;
+        }
+      }
+
+      const eventKey &#x3D; &#x60;Event ${eventNumber}&#x60;;
+      eventsData[eventKey] &#x3D; eventData;
+      eventIndex++;
+    };
+
+    await treeProcess(tree, selector, { numentries: nToProcess });
+
+    return eventsData;
+  }
+
+  /**
+   * Convert one collection&#x27;s branch data for a single event entry
+   * into an array of Phoenix-format objects.
+   */
+  private convertCollection(
+    def: PHYSLITECollectionDef,
+    keys: { [field: string]: string },
+    tgt: any,
+  ): any[] | null {
+    switch (def.phoenixType) {
+      case &#x27;Electrons&#x27;:
+      case &#x27;Muons&#x27;:
+        return this.convertCompoundObjects(keys, tgt, true);
+      case &#x27;Photons&#x27;:
+        return this.convertCompoundObjects(keys, tgt, false);
+      case &#x27;Jets&#x27;:
+        return this.convertJets(keys, tgt);
+      case &#x27;Tracks&#x27;:
+        return this.convertTracks(keys, tgt);
+      case &#x27;MissingEnergy&#x27;:
+        return this.convertMET(keys, tgt);
+      case &#x27;Vertices&#x27;:
+        return this.convertVertices(keys, tgt);
+      case &#x27;CaloClusters&#x27;:
+        return this.convertCaloClusters(keys, tgt);
+      default:
+        return null;
+    }
+  }
+
+  /**
+   * Convert compound objects (Electrons, Muons, Photons).
+   * These are rendered as extrapolated tracks (charged) or clusters (neutral).
+   * Energy is computed from pt, eta, and mass: E &#x3D; sqrt((pt*cosh(eta))^2 + m^2).
+   */
+  private convertCompoundObjects(
+    keys: { [field: string]: string },
+    tgt: any,
+    isCharged: boolean,
+  ): any[] {
+    const ptArr &#x3D; keys[&#x27;pt&#x27;] ? this.toArray(tgt[keys[&#x27;pt&#x27;]]) : null;
+    const etaArr &#x3D; keys[&#x27;eta&#x27;] ? this.toArray(tgt[keys[&#x27;eta&#x27;]]) : null;
+    const phiArr &#x3D; keys[&#x27;phi&#x27;] ? this.toArray(tgt[keys[&#x27;phi&#x27;]]) : null;
+    const mArr &#x3D; keys[&#x27;m&#x27;] ? this.toArray(tgt[keys[&#x27;m&#x27;]]) : null;
+
+    if (!etaArr || !phiArr) return [];
+
+    const n &#x3D; etaArr.length;
+    const objects: any[] &#x3D; [];
+
+    for (let i &#x3D; 0; i &lt; n; i++) {
+      const eta &#x3D; etaArr[i];
+      const phi &#x3D; phiArr[i];
+      const pt &#x3D; ptArr ? ptArr[i] : 0; // MeV
+      const m &#x3D; mArr ? mArr[i] : 0;
+
+      // E &#x3D; sqrt((pt*cosh(eta))^2 + m^2)
+      const p &#x3D; pt * Math.cosh(eta);
+      const energy &#x3D; Math.sqrt(p * p + m * m);
+
+      const obj: any &#x3D; {
+        eta,
+        phi,
+        pt,
+        energy,
+      };
+
+      // For charged particles, derive sign from charge if available,
+      // otherwise assume negative (electron/muon convention)
+      if (isCharged) {
+        // PHYSLITE muons don&#x27;t have explicit pt — they are linked to tracks.
+        // For electrons, charge can be inferred from track qOverP sign.
+        // Default to negative charge convention for track curvature.
+        obj.pdgId &#x3D; -1;
+      }
+
+      objects.push(obj);
+    }
+
+    return objects;
+  }
+
+  /**
+   * Convert jet branch data into Phoenix JetParams array.
+   * Energy computed from pt, eta, m: E &#x3D; sqrt((pt*cosh(eta))^2 + m^2).
+   */
+  private convertJets(keys: { [field: string]: string }, tgt: any): any[] {
+    const ptArr &#x3D; keys[&#x27;pt&#x27;] ? this.toArray(tgt[keys[&#x27;pt&#x27;]]) : null;
+    const etaArr &#x3D; keys[&#x27;eta&#x27;] ? this.toArray(tgt[keys[&#x27;eta&#x27;]]) : null;
+    const phiArr &#x3D; keys[&#x27;phi&#x27;] ? this.toArray(tgt[keys[&#x27;phi&#x27;]]) : null;
+    const mArr &#x3D; keys[&#x27;m&#x27;] ? this.toArray(tgt[keys[&#x27;m&#x27;]]) : null;
+
+    if (!etaArr || !phiArr) return [];
+
+    const n &#x3D; etaArr.length;
+    const jets: any[] &#x3D; [];
+
+    for (let i &#x3D; 0; i &lt; n; i++) {
+      const pt &#x3D; ptArr ? ptArr[i] : 0;
+      const eta &#x3D; etaArr[i];
+      const m &#x3D; mArr ? mArr[i] : 0;
+      const p &#x3D; pt * Math.cosh(eta);
+      const energy &#x3D; Math.sqrt(p * p + m * m);
+
+      jets.push({
+        eta,
+        phi: phiArr[i],
+        energy,
+      });
+    }
+
+    return jets;
+  }
+
+  /**
+   * Convert InDetTrackParticles branch data into Phoenix TrackParams array.
+   * Uses dparams [d0, z0, phi, theta, qOverP] for Runge-Kutta extrapolation.
+   */
+  private convertTracks(keys: { [field: string]: string }, tgt: any): any[] {
+    const d0Arr &#x3D; keys[&#x27;d0&#x27;] ? this.toArray(tgt[keys[&#x27;d0&#x27;]]) : null;
+    const z0Arr &#x3D; keys[&#x27;z0&#x27;] ? this.toArray(tgt[keys[&#x27;z0&#x27;]]) : null;
+    const thetaArr &#x3D; keys[&#x27;theta&#x27;] ? this.toArray(tgt[keys[&#x27;theta&#x27;]]) : null;
+    const phiArr &#x3D; keys[&#x27;phi&#x27;] ? this.toArray(tgt[keys[&#x27;phi&#x27;]]) : null;
+    const qOverPArr &#x3D; keys[&#x27;qOverP&#x27;] ? this.toArray(tgt[keys[&#x27;qOverP&#x27;]]) : null;
+
+    if (!phiArr || !thetaArr || !qOverPArr) return [];
+
+    const n &#x3D; phiArr.length;
+    const tracks: any[] &#x3D; [];
+
+    for (let i &#x3D; 0; i &lt; n; i++) {
+      const d0 &#x3D; d0Arr ? d0Arr[i] : 0;
+      const z0 &#x3D; z0Arr ? z0Arr[i] : 0;
+      const phi &#x3D; phiArr[i];
+      const theta &#x3D; thetaArr[i];
+      const qOverP &#x3D; qOverPArr[i];
+
+      // Skip tracks with invalid parameters to avoid NaN in Runge-Kutta
+      if (
+        !qOverP ||
+        !isFinite(1.0 / qOverP) ||
+        theta &lt;&#x3D; 0 ||
+        theta &gt;&#x3D; Math.PI
+      ) {
+        continue;
+      }
+
+      const p &#x3D; Math.abs(1.0 / qOverP);
+      const pt &#x3D; p * Math.sin(theta);
+      const eta &#x3D; CoordinateHelper.thetaToEta(theta);
+
+      tracks.push({
+        dparams: [d0, z0, phi, theta, qOverP],
+        phi,
+        eta,
+        pT: pt,
+        d0,
+        z0,
+      });
+    }
+
+    return tracks;
+  }
+
+  /**
+   * Convert MET branch data into Phoenix MissingEnergyParams array.
+   */
+  private convertMET(keys: { [field: string]: string }, tgt: any): any[] {
+    const mpx &#x3D; keys[&#x27;mpx&#x27;] ? tgt[keys[&#x27;mpx&#x27;]] : null;
+    const mpy &#x3D; keys[&#x27;mpy&#x27;] ? tgt[keys[&#x27;mpy&#x27;]] : null;
+
+    if (mpx &#x3D;&#x3D; null || mpy &#x3D;&#x3D; null) return [];
+
+    // MET may be a single value or an array with one element
+    return [
+      {
+        etx: typeof mpx &#x3D;&#x3D;&#x3D; &#x27;number&#x27; ? mpx : (mpx[0] ?? 0),
+        ety: typeof mpy &#x3D;&#x3D;&#x3D; &#x27;number&#x27; ? mpy : (mpy[0] ?? 0),
+      },
+    ];
+  }
+
+  /**
+   * Convert PrimaryVertices branch data into Phoenix VertexParams array.
+   */
+  private convertVertices(keys: { [field: string]: string }, tgt: any): any[] {
+    const xArr &#x3D; keys[&#x27;x&#x27;] ? this.toArray(tgt[keys[&#x27;x&#x27;]]) : null;
+    const yArr &#x3D; keys[&#x27;y&#x27;] ? this.toArray(tgt[keys[&#x27;y&#x27;]]) : null;
+    const zArr &#x3D; keys[&#x27;z&#x27;] ? this.toArray(tgt[keys[&#x27;z&#x27;]]) : null;
+
+    if (!xArr || !yArr || !zArr) return [];
+
+    const n &#x3D; xArr.length;
+    const vertices: any[] &#x3D; [];
+
+    for (let i &#x3D; 0; i &lt; n; i++) {
+      vertices.push({
+        x: xArr[i],
+        y: yArr[i],
+        z: zArr[i],
+      });
+    }
+
+    return vertices;
+  }
+
+  /**
+   * Convert egammaClusters branch data into Phoenix CaloClusterParams array.
+   */
+  private convertCaloClusters(
+    keys: { [field: string]: string },
+    tgt: any,
+  ): any[] {
+    const eArr &#x3D; keys[&#x27;calE&#x27;] ? this.toArray(tgt[keys[&#x27;calE&#x27;]]) : null;
+    const etaArr &#x3D; keys[&#x27;calEta&#x27;] ? this.toArray(tgt[keys[&#x27;calEta&#x27;]]) : null;
+    const phiArr &#x3D; keys[&#x27;calPhi&#x27;] ? this.toArray(tgt[keys[&#x27;calPhi&#x27;]]) : null;
+
+    if (!eArr || !etaArr || !phiArr) return [];
+
+    const n &#x3D; eArr.length;
+    const clusters: any[] &#x3D; [];
+
+    for (let i &#x3D; 0; i &lt; n; i++) {
+      clusters.push({
+        energy: eArr[i],
+        eta: etaArr[i],
+        phi: phiArr[i],
+      });
+    }
+
+    return clusters;
+  }
+
+  /**
+   * Ensure a value is a plain array (jsroot may return typed arrays).
+   */
+  private toArray(val: any): number[] | null {
+    if (val &#x3D;&#x3D; null) return null;
+    if (Array.isArray(val)) return val;
+    if (ArrayBuffer.isView(val)) return Array.from(val as any);
+    if (typeof val &#x3D;&#x3D;&#x3D; &#x27;number&#x27;) return [val];
+    return null;
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'PHYSLITECollectionDef.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

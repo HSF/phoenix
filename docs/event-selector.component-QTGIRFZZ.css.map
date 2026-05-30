@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/event-selector/event-selector.component.scss"],
+  "sourcesContent": [".eventSelector {\n  select {\n    width: 9rem;\n    padding: 5px 10px;\n    font-size: 12px;\n    border: 1px solid rgba(88, 88, 88, 0.08);\n    box-shadow: var(--phoenix-icon-shadow);\n    background-color: var(--phoenix-background-color-tertiary);\n    color: var(--phoenix-text-color-secondary);\n  }\n}\n"],
+  "mappings": "AACE,CAAA,cAAA,OACE,MAAA,KADF,QAEE,IAAA,KACA,UAAA,KACA,OAAA,IAAA,MAAA,KAAA,EAAA,CAAA,EAAA,CAAA,EAAA,CAAA,KACA,WAAA,IAAA,uBACA,iBAAA,IAAA,qCACA,MAAA,IAAA",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/embed-menu/embed-menu.component.scss"],
+  "sourcesContent": ["#embedMenu {\n  display: none;\n\n  #embedMenuInner {\n    display: flex;\n    position: absolute;\n    left: 1rem;\n    bottom: 1rem;\n    background: var(--phoenix-background-color-secondary);\n    border: 1px solid var(--phoenix-background-color-tertiary);\n    box-shadow: var(--phoenix-box-shadow);\n    border-radius: 30px;\n    padding: 0.25rem 0;\n  }\n}\n"],
+  "mappings": "AAAA,CAAA,UACE,QAAA,KAEA,CAHF,UAGE,CAAA,eACE,QAAA,KACA,SAAA,SACA,KAAA,KACA,OAAA,KACA,WAAA,IAAA,sCACA,OAAA,IAAA,MAAA,IAAA,qCACA,WAAA,IAAA,sBAVJ,cAWI,KAXJ,QAYI,OAAA",
+  "names": []
+}

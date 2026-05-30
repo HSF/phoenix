@@ -28,9 +28,6 @@
     *ngIf="uiConfig.showObjectSelection"
   ></app-object-selection>
 
-  <!-- Info panel -->
-  <app-info-panel *ngIf="uiConfig.showInfoPanel"></app-info-panel>
-
   <!-- Toggle for animating the event data -->
   <app-animate-event *ngIf="uiConfig.showAnimateEvent"></app-animate-event>
 
@@ -40,15 +37,8 @@
     [animationPresets]="animationPresets"
   ></app-animate-camera>
 
-  <!-- Toggle for collections info -->
-  <app-collections-info
-    *ngIf="uiConfig.showCollectionsInfo"
-  ></app-collections-info>
-
-  <!-- Toggle for geometry browser -->
-  <app-geometry-browser
-    *ngIf="uiConfig.showGeometryBrowser"
-  ></app-geometry-browser>
+  <!-- More information panels -->
+  <app-more-info [uiConfig]="uiConfig"></app-more-info>
 
   <!-- Toggle for performance -->
   <app-performance-toggle

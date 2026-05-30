@@ -31,6 +31,9 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     [key: string]: { enabled: boolean; radius: number };
   } = {};
 
+  /** Registry of active cuts per collection name for re-application on event switch. */
+  private collectionCuts: { [collectionName: string]: Cut[] } = {};
+
   /**
    * Create Phoenix menu UI with different controls related to detector geometry and event data.
    * @param phoenixMenuRoot Root node of the Phoenix menu.
@@ -183,6 +186,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       this.eventFolderState = this.eventFolder.getNodeState();
       this.eventFolder.remove();
     }
+    this.collectionCuts = {};
+
     this.eventFolder = this.phoenixMenuRoot.addChild(
       'Event Data',
       (value: boolean) => {
@@ -249,8 +254,15 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
 
     this.addDrawOptions(collectionNode, collectionName);
 
-    if (cuts && cuts.length > 0) {
-      this.addCutOptions(collectionNode, collectionName, cuts);
+    // Always register cuts for this collection if any were provided.
+    // This ensures the registry has the Cut instances so StateManager
+    // can serialize active cuts (minCutActive / maxCutActive) even if
+    // the initial cuts array was empty or the user only moves sliders later.
+    if (cuts !== undefined) {
+      this.collectionCuts[collectionName] = cuts;
+      if (cuts.length > 0) {
+        this.addCutOptions(collectionNode, collectionName, cuts);
+      }
     }
 
     const colorByOptions: ColorByOptionKeys[] = [];
@@ -526,64 +538,32 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       this.eventFolder.loadStateFromJSON(this.eventFolderState);
     }
   }
+  /**
+   * Re-applies all active cuts to their collections after an event switch.
+   * Called by UIManager after buildEventData() completes.
+   */
+  public reapplyCollectionCuts(): void {
+    for (const [collectionName, cuts] of Object.entries(this.collectionCuts)) {
+      this.sceneManager.collectionFilter(collectionName, cuts);
+    }
+  }
 
   /**
-   * Add JiveXML track extension controls to the Phoenix menu.
-   * @param eventDisplay The event display instance.
+   * Returns the active cut registry keyed by collection name.
+   * Used by StateManager for cut state serialization on Save State.
+   * @returns A reference to the collectionCuts registry.
    */
-  public addJiveXMLTrackExtension(eventDisplay: any): void {
-    const jiveNode = this.phoenixMenuRoot.addChild(
-      'JiveXML Track Extension',
-      undefined,
-      'settings',
-    );
+  public getCollectionCuts(): { [collectionName: string]: Cut[] } {
+    return this.collectionCuts;
+  }
 
-    jiveNode.addConfig({
-      type: 'checkbox',
-      label: 'Use Extra Hits',
-      isChecked: false,
-      onChange: (value: boolean) => {
-        eventDisplay.setJiveXMLTrackExtensionConfig({ useExtraHits: value });
-      },
-    });
-
-    jiveNode.addConfig({
-      type: 'slider',
-      label: 'Extra Hits Min Delta (mm)',
-      min: 50,
-      max: 500,
-      step: 10,
-      allowCustomValue: true,
-      onChange: (value: number) => {
-        eventDisplay.setJiveXMLTrackExtensionConfig({
-          extraHitsMinDelta: value,
-        });
-      },
-    });
-
-    jiveNode.addConfig({
-      type: 'checkbox',
-      label: 'Use RK Extrapolation',
-      isChecked: false,
-      onChange: (value: boolean) => {
-        eventDisplay.setJiveXMLTrackExtensionConfig({
-          useRKExtrapolation: value,
-        });
-      },
-    });
-
-    jiveNode.addConfig({
-      type: 'slider',
-      label: 'RK Radius (mm)',
-      min: 100,
-      max: 5000,
-      step: 50,
-      allowCustomValue: true,
-      onChange: (value: number) => {
-        eventDisplay.setJiveXMLTrackExtensionConfig({
-          rkExtrapolationRadius: value,
-        });
-      },
-    });
+  /**
+   * Set cuts for a specific collection in the registry.
+   * Used by StateManager when restoring cut state from Load State.
+   * @param collectionName Name of the collection.
+   * @param cuts Array of Cut instances to register.
+   */
+  public setCollectionCuts(collectionName: string, cuts: Cut[]): void {
+    this.collectionCuts[collectionName] = cuts;
   }
 }

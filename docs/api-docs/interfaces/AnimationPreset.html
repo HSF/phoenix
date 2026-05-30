@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content interface">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -355,7 +373,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Easing, Tween } from &#x27;@tweenjs/tween.js&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Easing, Group as TweenGroup, Tween } from &#x27;@tweenjs/tween.js&#x27;;
 import {
   TubeGeometry,
   BufferGeometry,
@@ -402,6 +420,7 @@ export class AnimationsManager {
     private scene: Scene,
     private activeCamera: Camera,
     private rendererManager: RendererManager,
+    private tweenGroup: TweenGroup,
   ) {
     this.animateEvent &#x3D; this.animateEvent.bind(this);
     this.animateEventWithClipping &#x3D; this.animateEventWithClipping.bind(this);
@@ -419,7 +438,7 @@ export class AnimationsManager {
     duration: number &#x3D; 1000,
     easing?: typeof Easing.Linear.None,
   ) {
-    const tween &#x3D; new Tween(this.activeCamera.position).to(
+    const tween &#x3D; new Tween(this.activeCamera.position, this.tweenGroup).to(
       { x: pos[0], y: pos[1], z: pos[2] },
       duration,
     );
@@ -509,6 +528,10 @@ export class AnimationsManager {
     onEnd?: () &#x3D;&gt; void,
     onAnimationStart?: () &#x3D;&gt; void,
   ) {
+    // 🔥 Hide labels at the start of the animation
+    const labelsGroup &#x3D; this.scene.getObjectByName(SceneManager.LABELS_ID);
+    if (labelsGroup) labelsGroup.visible &#x3D; false;
+
     const extraAnimationSphereDuration &#x3D; tweenDuration * 0.25;
     tweenDuration *&#x3D; 0.75;
 
@@ -516,6 +539,7 @@ export class AnimationsManager {
     if (!eventData) {
       return;
     }
+
     const animationSphere &#x3D; new Sphere(new Vector3(), 0);
     const objectsToAnimateWithSphere: {
       eventObject: Object3D;
@@ -523,30 +547,26 @@ export class AnimationsManager {
     }[] &#x3D; [];
 
     const allTweens &#x3D; [];
+
     // Traverse over all event data
     eventData.traverse((eventObject: any) &#x3D;&gt; {
       if (eventObject.geometry) {
         // Animation for extrapolating tracks without changing scale
         if (eventObject.name &#x3D;&#x3D;&#x3D; &#x27;Track&#x27; || eventObject.name &#x3D;&#x3D;&#x3D; &#x27;LineHit&#x27;) {
-          // Check if geometry drawRange count exists
           let geometryPosCount &#x3D;
             eventObject.geometry?.attributes?.position?.count;
+
           if (geometryPosCount) {
-            // WORKAROUND
-            // Changing position count for TubeGeometry because
-            // what we get is not the actual and it has Infinity drawRange count
             if (eventObject.geometry instanceof TubeGeometry) {
               geometryPosCount *&#x3D; 6;
             }
 
             if (eventObject.geometry instanceof TracksMesh) {
               eventObject.material.progress &#x3D; 0;
-              const eventObjectTween &#x3D; new Tween(eventObject.material).to(
-                {
-                  progress: 1,
-                },
-                tweenDuration,
-              );
+              const eventObjectTween &#x3D; new Tween(
+                eventObject.material,
+                this.tweenGroup,
+              ).to({ progress: 1 }, tweenDuration);
               eventObjectTween.onComplete(() &#x3D;&gt; {
                 eventObject.material.progress &#x3D; 1;
               });
@@ -554,14 +574,11 @@ export class AnimationsManager {
             } else if (eventObject.geometry instanceof BufferGeometry) {
               const oldDrawRangeCount &#x3D; eventObject.geometry.drawRange.count;
               eventObject.geometry.setDrawRange(0, 0);
+
               const eventObjectTween &#x3D; new Tween(
                 eventObject.geometry.drawRange,
-              ).to(
-                {
-                  count: geometryPosCount,
-                },
-                tweenDuration,
-              );
+                this.tweenGroup,
+              ).to({ count: geometryPosCount }, tweenDuration);
               eventObjectTween.onComplete(() &#x3D;&gt; {
                 eventObject.geometry.drawRange.count &#x3D; oldDrawRangeCount;
               });
@@ -569,13 +586,16 @@ export class AnimationsManager {
             }
           }
         }
-        // Animation for scaling out objects with or without position
+        // Animation for Jets
         else if (eventObject.name &#x3D;&#x3D;&#x3D; &#x27;Jet&#x27;) {
-          const scaleTween &#x3D; new Tween({
-            x: 0.01,
-            y: 0.01,
-            z: 0.01,
-          }).to(
+          const scaleTween &#x3D; new Tween(
+            {
+              x: 0.01,
+              y: 0.01,
+              z: 0.01,
+            },
+            this.tweenGroup,
+          ).to(
             {
               x: eventObject.scale.x,
               y: eventObject.scale.y,
@@ -583,27 +603,28 @@ export class AnimationsManager {
             },
             tweenDuration,
           );
-          // Manually updating scale since we need to change position
+
           scaleTween.onUpdate(
             (updatedScale: { x: number; y: number; z: number }) &#x3D;&gt; {
               const previousScale &#x3D; eventObject.scale.x;
               eventObject.scale.setScalar(updatedScale.x);
-              // Restoring to original position and then moving again with the current value
               eventObject.position
                 .divideScalar(previousScale)
                 .multiplyScalar(updatedScale.x);
             },
           );
           allTweens.push(scaleTween);
-        } else {
+        }
+        // Hits and generic objects
+        else {
           const hasPosition &#x3D; !eventObject.position.equals(
             new Vector3(0, 0, 0),
           );
+
           let position &#x3D; hasPosition
             ? eventObject.position
             : eventObject.geometry.boundingSphere.center;
 
-          // Edit geometry for hits
           if (eventObject.name &#x3D;&#x3D;&#x3D; &#x27;Hit&#x27;) {
             position &#x3D; Array.from(
               eventObject.geometry.attributes[&#x27;position&#x27;].array,
@@ -611,8 +632,6 @@ export class AnimationsManager {
             eventObject.geometry.deleteAttribute(&#x27;position&#x27;);
             eventObject.geometry.computeBoundingSphere();
           } else {
-            // Making the object invisible and will make visible
-            // once the animation sphere reaches the object
             eventObject.visible &#x3D; false;
           }
 
@@ -624,8 +643,8 @@ export class AnimationsManager {
       }
     });
 
-    // Tween for the animation sphere
-    const animationSphereTween &#x3D; new Tween(animationSphere).to(
+    // Tween for animation sphere
+    const animationSphereTween &#x3D; new Tween(animationSphere, this.tweenGroup).to(
       { radius: 3000 },
       tweenDuration,
     );
@@ -657,18 +676,17 @@ export class AnimationsManager {
 
     animationSphereTween.onUpdate(onAnimationSphereUpdate);
 
-    // Animation sphere tween after covering the tracks
-    const animationSphereTweenClone &#x3D; new Tween(animationSphere).to(
-      { radius: 10000 },
-      extraAnimationSphereDuration,
-    );
+    const animationSphereTweenClone &#x3D; new Tween(
+      animationSphere,
+      this.tweenGroup,
+    ).to({ radius: 10000 }, extraAnimationSphereDuration);
     animationSphereTweenClone.onUpdate(onAnimationSphereUpdate);
 
     animationSphereTween.chain(animationSphereTweenClone);
 
     allTweens.push(animationSphereTween);
 
-    // Call onAnimationStart when the first tween starts
+    // onStart callback
     allTweens[0].onStart(() &#x3D;&gt; onAnimationStart?.());
 
     // Start all tweens
@@ -676,10 +694,14 @@ export class AnimationsManager {
       tween.easing(Easing.Quartic.Out).start();
     }
 
-    // Call onEnd when the last tween completes
+    // 🔥 FINAL animation end handler
     animationSphereTweenClone.onComplete(() &#x3D;&gt; {
-      // Restore all remaining event data items
       onAnimationSphereUpdate(new Sphere(new Vector3(), Infinity));
+
+      // 🔥 Show labels again when the animation ends
+      const labelsGroup &#x3D; this.scene.getObjectByName(SceneManager.LABELS_ID);
+      if (labelsGroup) labelsGroup.visible &#x3D; true;
+
       onEnd?.();
     });
   }
@@ -701,6 +723,10 @@ export class AnimationsManager {
     if (!allEventData) {
       return;
     }
+
+    // 🔥 Hide labels at the start of the animation
+    const labelsGroup &#x3D; this.scene.getObjectByName(SceneManager.LABELS_ID);
+    if (labelsGroup) labelsGroup.visible &#x3D; false;
 
     // Sphere to get spherical set of clipping planes from
     const sphere &#x3D; new SphereGeometry(1, 8, 8);
@@ -733,7 +759,7 @@ export class AnimationsManager {
     // Create tweens for the animation clipping planes
     for (const animationClipPlane of animationClipPlanes) {
       animationClipPlane.constant &#x3D; 0;
-      const tween &#x3D; new Tween(animationClipPlane).to(
+      const tween &#x3D; new Tween(animationClipPlane, this.tweenGroup).to(
         { constant: clippingConstant },
         tweenDuration,
       );
@@ -753,12 +779,14 @@ export class AnimationsManager {
         this.rendererManager.getMainRenderer().localClippingEnabled &#x3D;
           prevLocalClipping /* false */;
       }
+
       // Remove the applied clipping planes from the event data objects
       allEventData.traverse((eventObject: any) &#x3D;&gt; {
         if (eventObject.geometry &amp;&amp; eventObject.material) {
           eventObject.material.clippingPlanes &#x3D; null;
         }
       });
+
       onEnd?.();
     });
   }
@@ -798,7 +826,7 @@ export class AnimationsManager {
     const particleTweens &#x3D; [];
 
     for (const particle of particles) {
-      new Tween(particle.material)
+      new Tween(particle.material, this.tweenGroup)
         .to(
           {
             opacity: 1,
@@ -807,7 +835,7 @@ export class AnimationsManager {
         )
         .start();
 
-      const particleToOrigin &#x3D; new Tween(particle.position)
+      const particleToOrigin &#x3D; new Tween(particle.position, this.tweenGroup)
         .to(
           {
             z: 0,
@@ -917,6 +945,10 @@ export class AnimationsManager {
     const { positions, animateEventAfterInterval, collisionDuration } &#x3D;
       animationPreset;
 
+    // 🔥 Hide labels at the start of the preset animation
+    const labelsGroup &#x3D; this.scene.getObjectByName(SceneManager.LABELS_ID);
+    if (labelsGroup) labelsGroup.visible &#x3D; false;
+
     if (animateEventAfterInterval &amp;&amp; collisionDuration) {
       // Will be made visible after collision animation ends.
       const object &#x3D; this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
@@ -940,7 +972,14 @@ export class AnimationsManager {
       previousTween.chain(tween);
       previousTween &#x3D; tween;
     });
-    previousTween.onComplete(onEnd);
+
+    // 🔥 When animation finishes, show labels again
+    previousTween.onComplete(() &#x3D;&gt; {
+      const labelsGroup &#x3D; this.scene.getObjectByName(SceneManager.LABELS_ID);
+      if (labelsGroup) labelsGroup.visible &#x3D; true;
+
+      onEnd?.(); // Call original callback
+    });
 
     firstTween.start();
   }

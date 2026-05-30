@@ -21,7 +21,14 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
   @Input() showObjectsInfo: boolean;
   /** Columns to exclude from the collection info table. */
-  @Input() excludedColumns: string[] = ['uuid', 'hits', 'isCut', 'labelText'];
+  @Input() excludedColumns: string[] = [
+    'uuid',
+    'hits',
+    'isCut',
+    'labelText',
+    '_instanceId',
+    '_position',
+  ];
   hideInvisible: boolean;
   collections: { type: string; collections: string[] }[];
   selectedCollection: string;
@@ -72,13 +79,40 @@ export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
       .getCollection(selectedCollection)
       .map((object: any) => ({
         ...object,
-        isCut: !eventDataGroup.getObjectByProperty('uuid', object.uuid)
-          ?.visible,
+        isCut: this.isObjectCut(object, eventDataGroup),
       }));
 
     this.collectionColumns = Object.keys(this.showingCollection[0]).filter(
       (column) => !this.excludedColumns.includes(column),
     );
+  }
+
+  /**
+   * Check whether an object is hidden by filtering.
+   * For InstancedMesh CaloCells, checks the instance matrix for zero-scale.
+   */
+  private isObjectCut(object: any, eventDataGroup: any): boolean {
+    const sceneObject = eventDataGroup?.getObjectByProperty(
+      'uuid',
+      object.uuid,
+    );
+    if (!sceneObject) return false;
+
+    // InstancedMesh: check if instance matrix is zero-scale
+    if (
+      sceneObject.userData?._isInstancedCaloCells &&
+      object._instanceId !== undefined
+    ) {
+      if (!sceneObject.userData._originalMatrices) {
+        return false; // No filtering applied yet — all visible
+      }
+      const arr = sceneObject.instanceMatrix.array;
+      const off = object._instanceId * 16;
+      // Zero-scale matrix has diagonal elements [0],[5],[10] = 0
+      return arr[off] === 0 && arr[off + 5] === 0 && arr[off + 10] === 0;
+    }
+
+    return !sceneObject.visible;
   }
 
   sort(column: string, order: string) {

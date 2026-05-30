@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content interface">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -208,21 +226,28 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { httpRequest, openFile } from &#x27;jsroot&#x27;;
-import { settings as jsrootSettings } from &#x27;jsroot&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { httpRequest, settings as jsrootSettings, openFile } from &#x27;jsroot&#x27;;
 import { build } from &#x27;jsroot/geom&#x27;;
-import { ThreeManager } from &#x27;./managers/three-manager/index&#x27;;
-import { UIManager } from &#x27;./managers/ui-manager/index&#x27;;
-import { InfoLogger } from &#x27;./helpers/info-logger&#x27;;
-import type { Configuration } from &#x27;./lib/types/configuration&#x27;;
-import { StateManager } from &#x27;./managers/state-manager&#x27;;
-import { LoadingManager } from &#x27;./managers/loading-manager&#x27;;
-import { URLOptionsManager } from &#x27;./managers/url-options-manager&#x27;;
 import { ActiveVariable } from &#x27;./helpers/active-variable&#x27;;
-import type { AnimationPreset } from &#x27;./managers/three-manager/animations-manager&#x27;;
-import { XRSessionType } from &#x27;./managers/three-manager/xr/xr-manager&#x27;;
+import { InfoLogger } from &#x27;./helpers/info-logger&#x27;;
 import { getLabelTitle } from &#x27;./helpers/labels&#x27;;
+import type { Configuration } from &#x27;./lib/types/configuration&#x27;;
 import { PhoenixLoader } from &#x27;./loaders/phoenix-loader&#x27;;
+import { LoadingManager } from &#x27;./managers/loading-manager&#x27;;
+import { StateManager } from &#x27;./managers/state-manager&#x27;;
+import type { AnimationPreset } from &#x27;./managers/three-manager/animations-manager&#x27;;
+import { ThreeManager } from &#x27;./managers/three-manager/index&#x27;;
+import { XRSessionType } from &#x27;./managers/three-manager/xr/xr-manager&#x27;;
+import { UIManager } from &#x27;./managers/ui-manager/index&#x27;;
+import { URLOptionsManager } from &#x27;./managers/url-options-manager&#x27;;
+import type {
+  PhoenixEventData,
+  PhoenixEventsData,
+} from &#x27;./lib/types/event-data&#x27;;
+import {
+  buildEventSummaries,
+  type EventSummary,
+} from &#x27;./helpers/event-summary&#x27;;
 
 declare global {
   /**
@@ -241,7 +266,9 @@ export class EventDisplay {
   /** Configuration for preset views and event data loader. */
   public configuration: Configuration;
   /** An object containing event data. */
-  private eventsData: any;
+  private eventsData: PhoenixEventsData;
+  /** Currently displayed event key. */
+  private currentEventKey: string | null &#x3D; null;
   /** Array containing callbacks to be called when events change. */
   private onEventsChange: ((events: any) &#x3D;&gt; void)[] &#x3D; [];
   /** Array containing callbacks to be called when the displayed event changes. */
@@ -258,6 +285,10 @@ export class EventDisplay {
   private stateManager: StateManager;
   /** URL manager for managing options given through URL. */
   private urlOptionsManager: URLOptionsManager;
+  /** Flag to track if EventDisplay has been initialized. */
+  private isInitialized: boolean &#x3D; false;
+  /** Stored keydown handler for event navigation shortcuts. */
+  private eventNavKeydownHandler: ((e: KeyboardEvent) &#x3D;&gt; void) | null &#x3D; null;
 
   /**
    * Create the Phoenix event display and intitialize all the elements.
@@ -278,6 +309,10 @@ export class EventDisplay {
    * @param configuration Configuration used to customize different aspects.
    */
   public init(configuration: Configuration) {
+    if (this.isInitialized) {
+      this.cleanup();
+    }
+    this.isInitialized &#x3D; true;
     this.configuration &#x3D; configuration;
 
     // Initialize the three manager with configuration
@@ -306,6 +341,29 @@ export class EventDisplay {
   }
 
   /**
+   * Cleanup event listeners and resources before re-initialization.
+   */
+  public cleanup() {
+    if (this.graphicsLibrary) {
+      this.graphicsLibrary.cleanup();
+    }
+    if (this.ui) {
+      this.ui.cleanup();
+    }
+    // Clean up event navigation keyboard handler
+    if (this.eventNavKeydownHandler) {
+      document.removeEventListener(&#x27;keydown&#x27;, this.eventNavKeydownHandler);
+      this.eventNavKeydownHandler &#x3D; null;
+    }
+    // Clear accumulated callbacks
+    this.onEventsChange &#x3D; [];
+    this.onDisplayedEventChange &#x3D; [];
+    // Reset singletons for clean view transition
+    this.loadingManager?.reset();
+    this.stateManager?.resetForViewTransition();
+  }
+
+  /**
    * Initialize XR.
    * @param xrSessionType Type of the XR session. Either AR or VR.
    * @param onSessionEnded Callback when the XR session ends.
@@ -328,7 +386,7 @@ export class EventDisplay {
    * @param eventsData Object containing the event data.
    * @returns Array of strings containing the keys of the eventsData object.
    */
-  public parsePhoenixEvents(eventsData: any): string[] {
+  public parsePhoenixEvents(eventsData: PhoenixEventsData): string[] {
     this.eventsData &#x3D; eventsData;
     if (typeof this.configuration.eventDataLoader &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
       this.configuration.eventDataLoader &#x3D; new PhoenixLoader();
@@ -346,7 +404,7 @@ export class EventDisplay {
    * of physics objects.
    * @param eventData Object containing the event data.
    */
-  public buildEventDataFromJSON(eventData: any) {
+  public buildEventDataFromJSON(eventData: PhoenixEventData) {
     // Reset labels
     this.resetLabels();
     // Creating UI folder
@@ -373,12 +431,67 @@ export class EventDisplay {
    * the event associated with that key.
    * @param eventKey String that represents the event in the eventsData object.
    */
-  public loadEvent(eventKey: any) {
+  public loadEvent(eventKey: string) {
     const event &#x3D; this.eventsData[eventKey];
 
     if (event) {
+      this.currentEventKey &#x3D; eventKey;
       this.buildEventDataFromJSON(event);
     }
+  }
+
+  /**
+   * Get the currently displayed event key.
+   */
+  public getCurrentEventKey(): string | null {
+    return this.currentEventKey;
+  }
+
+  /**
+   * Load the next event in the event list.
+   * Wraps around to the first event after the last.
+   */
+  public nextEvent() {
+    if (!this.eventsData) return;
+    const keys &#x3D; Object.keys(this.eventsData);
+    if (keys.length &#x3D;&#x3D;&#x3D; 0) return;
+    const currentIndex &#x3D; this.currentEventKey
+      ? keys.indexOf(this.currentEventKey)
+      : -1;
+    const nextIndex &#x3D; (currentIndex + 1) % keys.length;
+    this.loadEvent(keys[nextIndex]);
+  }
+
+  /**
+   * Load the previous event in the event list.
+   * Wraps around to the last event before the first.
+   */
+  public previousEvent() {
+    if (!this.eventsData) return;
+    const keys &#x3D; Object.keys(this.eventsData);
+    if (keys.length &#x3D;&#x3D;&#x3D; 0) return;
+    const currentIndex &#x3D; this.currentEventKey
+      ? keys.indexOf(this.currentEventKey)
+      : -1;
+    const prevIndex &#x3D; currentIndex &lt;&#x3D; 0 ? keys.length - 1 : currentIndex - 1;
+    this.loadEvent(keys[prevIndex]);
+  }
+
+  /**
+   * Get all loaded events data.
+   * @returns The events data object, or undefined if no events loaded.
+   */
+  public getEventsData(): PhoenixEventsData | undefined {
+    return this.eventsData;
+  }
+
+  /**
+   * Build summaries of all loaded events for the event browser.
+   * @returns Array of event summaries with collection counts and metadata.
+   */
+  public getEventSummaries(): EventSummary[] {
+    if (!this.eventsData) return [];
+    return buildEventSummaries(this.eventsData);
   }
 
   /**
@@ -569,7 +682,7 @@ export class EventDisplay {
   public async loadGLTFGeometry(
     url: any,
     name: string,
-    menuNodeName: string &#x3D; &#x27;&#x27;,
+    menuNodeName?: string | undefined,
     scale: number &#x3D; 1.0,
     initiallyVisible: boolean &#x3D; true,
   ): Promise&lt;void&gt; {
@@ -750,29 +863,47 @@ export class EventDisplay {
    * Get the different collections for the current stored event.
    * @returns List of strings, each representing a collection of the event displayed.
    */
-  public getCollections(): string[] {
+  public getCollections(): { [key: string]: string[] } {
     if (this.configuration.eventDataLoader) {
       return this.configuration.eventDataLoader.getCollections();
     }
-    return [];
+    return {};
   }
 
   /**
    * Add a callback to onDisplayedEventChange array to call
    * the callback on changes to the displayed event.
    * @param callback Callback to be added to the onDisplayedEventChange array.
+   * @returns Unsubscribe function to remove the callback.
    */
-  public listenToDisplayedEventChange(callback: (event: any) &#x3D;&gt; any) {
+  public listenToDisplayedEventChange(
+    callback: (event: any) &#x3D;&gt; any,
+  ): () &#x3D;&gt; void {
     this.onDisplayedEventChange.push(callback);
+    return () &#x3D;&gt; {
+      const index &#x3D; this.onDisplayedEventChange.indexOf(callback);
+      if (index &gt; -1) {
+        this.onDisplayedEventChange.splice(index, 1);
+      }
+    };
   }
 
   /**
    * Add a callback to onEventsChange array to call
    * the callback on changes to the events.
    * @param callback Callback to be added to the onEventsChange array.
+   * @returns Unsubscribe function to remove the callback.
    */
-  public listenToLoadedEventsChange(callback: (events: any) &#x3D;&gt; any) {
+  public listenToLoadedEventsChange(
+    callback: (events: any) &#x3D;&gt; any,
+  ): () &#x3D;&gt; void {
     this.onEventsChange.push(callback);
+    return () &#x3D;&gt; {
+      const index &#x3D; this.onEventsChange.indexOf(callback);
+      if (index &gt; -1) {
+        this.onEventsChange.splice(index, 1);
+      }
+    };
   }
 
   /**
@@ -916,6 +1047,30 @@ export class EventDisplay {
   public enableKeyboardControls() {
     this.ui.enableKeyboardControls();
     this.graphicsLibrary.enableKeyboardControls();
+
+    // Remove previous event navigation listener if exists
+    if (this.eventNavKeydownHandler) {
+      document.removeEventListener(&#x27;keydown&#x27;, this.eventNavKeydownHandler);
+    }
+
+    // Shift+ArrowRight &#x3D; next event, Shift+ArrowLeft &#x3D; previous event
+    this.eventNavKeydownHandler &#x3D; (e: KeyboardEvent) &#x3D;&gt; {
+      const target &#x3D; e.target as HTMLElement;
+      const isTyping &#x3D; [&#x27;input&#x27;, &#x27;textarea&#x27;, &#x27;select&#x27;].includes(
+        target?.tagName.toLowerCase(),
+      );
+      const hasFocusableContent &#x3D; target?.hasAttribute(&#x27;tabindex&#x27;);
+      if (isTyping || hasFocusableContent || !e.shiftKey) return;
+
+      if (e.code &#x3D;&#x3D;&#x3D; &#x27;ArrowRight&#x27;) {
+        e.preventDefault();
+        this.nextEvent();
+      } else if (e.code &#x3D;&#x3D;&#x3D; &#x27;ArrowLeft&#x27;) {
+        e.preventDefault();
+        this.previousEvent();
+      }
+    };
+    document.addEventListener(&#x27;keydown&#x27;, this.eventNavKeydownHandler);
   }
 
   /**

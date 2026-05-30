@@ -1,4 +1,11 @@
-import { Line, LineSegments, Mesh, Object3D, Points } from 'three';
+import {
+  Line,
+  LineSegments,
+  Mesh,
+  Object3D,
+  Points,
+  InstancedMesh,
+} from 'three';
 import { PhoenixObjects } from '../../../loaders/objects/phoenix-objects';
 
 describe('PhoenixObjects', () => {
@@ -248,6 +255,33 @@ describe('PhoenixObjects', () => {
     expect(obj).toBeInstanceOf(Object3D);
     expect(obj.name).toBe('PlanarCaloCell');
     expect(obj.type).toBe('Mesh');
+  });
+
+  it('should create an InstancedMesh from CaloCells parameters', () => {
+    const cellsParams: any[] = [
+      { energy: 100, phi: 0.5, eta: 1.0, theta: 0.8 },
+      { energy: 200, phi: -0.3, eta: -1.5, theta: 2.1 },
+      { energy: 50, phi: 1.2, eta: 0.0, theta: 1.57 },
+    ];
+
+    const result = PhoenixObjects.getCaloCellsInstanced(cellsParams);
+
+    expect(result).toBeInstanceOf(InstancedMesh);
+    expect(result.name).toBe('CaloCell');
+
+    const mesh = result as InstancedMesh;
+    expect(mesh.count).toBe(3);
+    expect(mesh.userData._isInstancedCaloCells).toBe(true);
+    expect(mesh.userData._instanceData).toBe(cellsParams);
+    expect(mesh.userData._originalMatrices).toBeNull();
+
+    // Each cell should have been assigned an _instanceId and shared uuid
+    expect(cellsParams[0]._instanceId).toBe(0);
+    expect(cellsParams[1]._instanceId).toBe(1);
+    expect(cellsParams[2]._instanceId).toBe(2);
+    expect(cellsParams[0].uuid).toBe(mesh.uuid);
+    expect(cellsParams[1].uuid).toBe(mesh.uuid);
+    expect(cellsParams[2].uuid).toBe(mesh.uuid);
   });
 
   it('should create a Vertex from the given parameters and get it as a MET object', () => {

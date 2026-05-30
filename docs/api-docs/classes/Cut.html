@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content class">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -204,6 +222,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#clone" >clone</a>
+                            </li>
+                            <li>
                                 <a href="#cutPassed" >cutPassed</a>
                             </li>
                             <li>
@@ -213,11 +234,22 @@
                                 <a href="#enableMinCut" >enableMinCut</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#ensureNumericValues" >ensureNumericValues</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#fromJSON" >fromJSON</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#getConfigRangeSlider" >getConfigRangeSlider</a>
                             </li>
                             <li>
                                 <a href="#reset" >reset</a>
+                            </li>
+                            <li>
+                                <a href="#toJSON" >toJSON</a>
                             </li>
                         </ul>
                     </td>
@@ -242,7 +274,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/lib/models/cut.model.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/lib/models/cut.model.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -274,7 +306,7 @@
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>Name of the event data attribute to be filtered.</p>
+                                                                <p>The event data attribute field name to filter on.</p>
 
                                                         </td>
                                                 </tr>
@@ -290,7 +322,7 @@
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>Minimum allowed value of the event data attribute.</p>
+                                                                <p>The minimum allowed value of the attribute.</p>
 
                                                         </td>
                                                 </tr>
@@ -306,7 +338,7 @@
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>Maximum allowed value of the event data attribute.</p>
+                                                                <p>The maximum allowed value of the attribute.</p>
 
                                                         </td>
                                                 </tr>
@@ -322,7 +354,7 @@
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>Size of increment when using slider.</p>
+                                                                <p>Step size for the range slider.</p>
 
                                                         </td>
                                                 </tr>
@@ -338,7 +370,7 @@
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>If true, the minimum cut is appled. Can be overriden later with enableMinCut.</p>
+                                                                <p>Whether the lower bound cut is active by default.</p>
 
                                                         </td>
                                                 </tr>
@@ -354,7 +386,7 @@
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>If true, the maximum cut is appled. Can be overriden later with enableMaxCut.</p>
+                                                                <p>Whether the upper bound cut is active by default.</p>
 
                                                         </td>
                                                 </tr>
@@ -393,7 +425,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/lib/models/cut.model.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/lib/models/cut.model.ts:37</a></div>
                         </td>
                     </tr>
 
@@ -426,7 +458,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/lib/models/cut.model.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/lib/models/cut.model.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -459,7 +491,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/lib/models/cut.model.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/lib/models/cut.model.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -492,7 +524,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/lib/models/cut.model.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/lib/models/cut.model.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -525,7 +557,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/lib/models/cut.model.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/lib/models/cut.model.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -558,13 +590,13 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/lib/models/cut.model.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/lib/models/cut.model.ts:49</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description">Name of the event data attribute to be filtered.</div>
+                    <div class="io-description">The event data attribute field name to filter on.</div>
                 </td>
             </tr>
 
@@ -595,13 +627,13 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/lib/models/cut.model.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/lib/models/cut.model.ts:54</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description">If true, the maximum cut is appled. Can be overriden later with enableMaxCut.</div>
+                    <div class="io-description">Whether the upper bound cut is active by default.</div>
                 </td>
             </tr>
 
@@ -627,13 +659,13 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/lib/models/cut.model.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/lib/models/cut.model.ts:51</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description">Maximum allowed value of the event data attribute.</div>
+                    <div class="io-description">The maximum allowed value of the attribute.</div>
                 </td>
             </tr>
 
@@ -664,13 +696,13 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/lib/models/cut.model.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/lib/models/cut.model.ts:53</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description">If true, the minimum cut is appled. Can be overriden later with enableMinCut.</div>
+                    <div class="io-description">Whether the lower bound cut is active by default.</div>
                 </td>
             </tr>
 
@@ -696,13 +728,13 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/lib/models/cut.model.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/lib/models/cut.model.ts:50</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description">Minimum allowed value of the event data attribute.</div>
+                    <div class="io-description">The minimum allowed value of the attribute.</div>
                 </td>
             </tr>
 
@@ -733,13 +765,13 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/lib/models/cut.model.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/lib/models/cut.model.ts:52</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description">Size of increment when using slider.</div>
+                    <div class="io-description">Step size for the range slider.</div>
                 </td>
             </tr>
 
@@ -752,6 +784,46 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clone"></a>
+                    <span class="name">
+                        <span ><b>clone</b></span>
+                        <a href="#clone"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clone()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="87"
+                                    class="link-to-prism">src/lib/models/cut.model.ts:87</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Create a deep copy of this Cut with the same field, bounds, step,
+and active flags.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../classes/Cut.html" target="_self" >Cut</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -772,8 +844,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="53"
-                                    class="link-to-prism">src/lib/models/cut.model.ts:53</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="76"
+                                    class="link-to-prism">src/lib/models/cut.model.ts:76</a></div>
                         </td>
                     </tr>
 
@@ -841,15 +913,15 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="43"
-                                    class="link-to-prism">src/lib/models/cut.model.ts:43</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="66"
+                                    class="link-to-prism">src/lib/models/cut.model.ts:66</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Returns true if upper cut is valid.</p>
+                        <div class="io-description"><p>Enable/disable upper cut</p>
 </div>
 
                             <div class="io-description">
@@ -910,15 +982,15 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="48"
-                                    class="link-to-prism">src/lib/models/cut.model.ts:48</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="71"
+                                    class="link-to-prism">src/lib/models/cut.model.ts:71</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Returns true if upper cut is valid.</p>
+                        <div class="io-description"><p>Enable/disable lower cut</p>
 </div>
 
                             <div class="io-description">
@@ -963,6 +1035,120 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="ensureNumericValues"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>ensureNumericValues</b></span>
+                        <a href="#ensureNumericValues"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ensureNumericValues()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="102"
+                                    class="link-to-prism">src/lib/models/cut.model.ts:102</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Ensure minValue, maxValue and step are always real numbers
+This prevents string values like &quot;0.5&quot; from being saved in JSON.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fromJSON"></a>
+                    <span class="name">
+                            <span class="modifier">Static</span>
+                        <span ><b>fromJSON</b></span>
+                        <a href="#fromJSON"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>fromJSON(json: <a href="../interfaces/CutJSON.html" target="_self">CutJSON</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="129"
+                                    class="link-to-prism">src/lib/models/cut.model.ts:129</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Reconstruct a Cut instance from a previously serialized CutJSON object.
+Handles cases where values might come as strings from JSON.parse().</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>json</td>
+                                            <td>
+                                                            <code><a href="../interfaces/CutJSON.html" target="_self" >CutJSON</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../classes/Cut.html" target="_self" >Cut</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getConfigRangeSlider"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -981,8 +1167,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="82"
-                                    class="link-to-prism">src/lib/models/cut.model.ts:82</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="162"
+                                    class="link-to-prism">src/lib/models/cut.model.ts:162</a></div>
                         </td>
                     </tr>
 
@@ -1001,7 +1187,6 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
-                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1016,10 +1201,6 @@
                                             </td>
 
 
-                                            <td>
-                                                    <p>callback function to apply to all objects inside a collection, filtering them given a parameter</p>
-
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1029,8 +1210,7 @@
 
                         </div>
                             <div class="io-description">
-                                <p>config range slider for the cut to be used in Phoenix Menu</p>
-
+                                
                             </div>
                 </td>
             </tr>
@@ -1056,8 +1236,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="63"
-                                    class="link-to-prism">src/lib/models/cut.model.ts:63</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="143"
+                                    class="link-to-prism">src/lib/models/cut.model.ts:143</a></div>
                         </td>
                     </tr>
 
@@ -1069,6 +1249,46 @@
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toJSON"></a>
+                    <span class="name">
+                        <span ><b>toJSON</b></span>
+                        <a href="#toJSON"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toJSON()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="112"
+                                    class="link-to-prism">src/lib/models/cut.model.ts:112</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Serialize the current cut state to a plain object for JSON persistence.
+Forces numbers to prevent string values like &quot;0.5&quot;.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/CutJSON.html" target="_self" >CutJSON</a></code>
 
                         </div>
                 </td>
@@ -1089,6 +1309,25 @@
 import { ConfigRangeSlider } from &#x27;../../managers/ui-manager/phoenix-menu/config-types&#x27;;
 
 /**
+ * Plain-object representation of a Cut, safe for JSON serialization.
+ * Used by StateManager to persist active cut state across sessions.
+ */
+export interface CutJSON {
+  /** The event data attribute field name this cut applies to. */
+  field: string;
+  /** The active minimum bound value of the cut. */
+  minValue: number;
+  /** The active maximum bound value of the cut. */
+  maxValue: number;
+  /** Step size used by the range slider for this cut. */
+  step: number;
+  /** Whether the lower bound cut is currently active. */
+  minCutActive: boolean;
+  /** Whether the upper bound cut is currently active. */
+  maxCutActive: boolean;
+}
+
+/**
  * Cut for specifying filters on event data attribute.
  */
 export class Cut {
@@ -1100,17 +1339,18 @@ export class Cut {
   private defaultApplyMaxValue: boolean;
   /** Default if lower bound applied */
   private defaultApplyMinValue: boolean;
+
   /** Range slider for Cut */
   public configRangeSlider?: ConfigRangeSlider;
+
   /**
    * Create the cut to filter an event data attribute.
-   * @param field Name of the event data attribute to be filtered.
-   * @param minValue Minimum allowed value of the event data attribute.
-   * @param maxValue Maximum allowed value of the event data attribute.
-   * @param step Size of increment when using slider.
-   * @param minCutActive If true, the minimum cut is appled. Can be overriden later with enableMinCut.
-   * @param maxCutActive If true, the maximum cut is appled. Can be overriden later with enableMaxCut.
-   *
+   * @param field The event data attribute field name to filter on.
+   * @param minValue The minimum allowed value of the attribute.
+   * @param maxValue The maximum allowed value of the attribute.
+   * @param step Step size for the range slider.
+   * @param minCutActive Whether the lower bound cut is active by default.
+   * @param maxCutActive Whether the upper bound cut is active by default.
    */
   constructor(
     public field: string,
@@ -1124,14 +1364,17 @@ export class Cut {
     this.defaultMaxValue &#x3D; maxValue;
     this.defaultApplyMinValue &#x3D; minCutActive;
     this.defaultApplyMaxValue &#x3D; maxCutActive;
+
+    // Ensure all numeric values are actual numbers from the start
+    this.ensureNumericValues();
   }
 
-  /** Returns true if upper cut is valid. */
+  /** Enable/disable upper cut */
   enableMaxCut(check: boolean) {
     this.maxCutActive &#x3D; check;
   }
 
-  /** Returns true if upper cut is valid. */
+  /** Enable/disable lower cut */
   enableMinCut(check: boolean) {
     this.minCutActive &#x3D; check;
   }
@@ -1145,6 +1388,63 @@ export class Cut {
   }
 
   /**
+   * Create a deep copy of this Cut with the same field, bounds, step,
+   * and active flags.
+   */
+  clone(): Cut {
+    return new Cut(
+      this.field,
+      this.minValue,
+      this.maxValue,
+      this.step,
+      this.minCutActive,
+      this.maxCutActive,
+    );
+  }
+
+  /**
+   * Ensure minValue, maxValue and step are always real numbers
+   * This prevents string values like &quot;0.5&quot; from being saved in JSON.
+   */
+  private ensureNumericValues() {
+    this.minValue &#x3D; Number(this.minValue);
+    this.maxValue &#x3D; Number(this.maxValue);
+    this.step &#x3D; Number(this.step);
+  }
+
+  /**
+   * Serialize the current cut state to a plain object for JSON persistence.
+   * Forces numbers to prevent string values like &quot;0.5&quot;.
+   */
+  toJSON(): CutJSON {
+    this.ensureNumericValues(); // Extra safety before serialization
+
+    return {
+      field: this.field,
+      minValue: Number(this.minValue),
+      maxValue: Number(this.maxValue),
+      step: Number(this.step),
+      minCutActive: Boolean(this.minCutActive),
+      maxCutActive: Boolean(this.maxCutActive),
+    };
+  }
+
+  /**
+   * Reconstruct a Cut instance from a previously serialized CutJSON object.
+   * Handles cases where values might come as strings from JSON.parse().
+   */
+  static fromJSON(json: CutJSON): Cut {
+    return new Cut(
+      json.field,
+      Number(json.minValue),
+      Number(json.maxValue),
+      Number(json.step ?? 1),
+      Boolean(json.minCutActive ?? true),
+      Boolean(json.maxCutActive ?? true),
+    );
+  }
+
+  /**
    * Reset the minimum and maximum value of the cut to default.
    */
   reset() {
@@ -1152,7 +1452,9 @@ export class Cut {
     this.maxValue &#x3D; this.defaultMaxValue;
     this.minCutActive &#x3D; this.defaultApplyMinValue;
     this.maxCutActive &#x3D; this.defaultApplyMaxValue;
-    // Reset the config range slider
+
+    this.ensureNumericValues();
+
     if (this.configRangeSlider !&#x3D; undefined) {
       this.configRangeSlider.enableMin &#x3D; true;
       this.configRangeSlider.enableMax &#x3D; true;
@@ -1163,8 +1465,6 @@ export class Cut {
 
   /**
    * Builds a config range slider for the cut to be used in Phoenix Menu
-   * @param collectionFiltering callback function to apply to all objects inside a collection, filtering them given a parameter
-   * @returns config range slider for the cut to be used in Phoenix Menu
    */
   public getConfigRangeSlider(
     collectionFiltering: () &#x3D;&gt; void,
@@ -1181,8 +1481,9 @@ export class Cut {
         enableMin: this.minCutActive,
         enableMax: this.maxCutActive,
         onChange: ({ value, highValue }) &#x3D;&gt; {
-          this.minValue &#x3D; value;
-          this.maxValue &#x3D; highValue;
+          this.minValue &#x3D; Number(value); // Force number
+          this.maxValue &#x3D; Number(highValue); // Force number
+          this.ensureNumericValues();
           collectionFiltering();
         },
         setEnableMin: (checked: boolean) &#x3D;&gt; {

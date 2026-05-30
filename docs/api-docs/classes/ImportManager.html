@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content class">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -467,8 +485,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="646"
-                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:646</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="654"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:654</a></div>
                         </td>
                     </tr>
 
@@ -843,8 +861,8 @@ also support zipped versions of the files</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="553"
-                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:553</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="561"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:561</a></div>
                         </td>
                     </tr>
 
@@ -1109,8 +1127,8 @@ also support zipped versions of the files</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="473"
-                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:473</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="481"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:481</a></div>
                         </td>
                     </tr>
 
@@ -1182,8 +1200,8 @@ Also supports zip versions of those</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="488"
-                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:488</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="496"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:496</a></div>
                         </td>
                     </tr>
 
@@ -1477,8 +1495,8 @@ Also supports zip versions of those</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="593"
-                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:593</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="601"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:601</a></div>
                         </td>
                     </tr>
 
@@ -1601,8 +1619,8 @@ Also supports zip versions of those</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="533"
-                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:533</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="541"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:541</a></div>
                         </td>
                     </tr>
 
@@ -2738,8 +2756,16 @@ export class ImportManager {
                 BufferGeometryUtils.mergeGeometries((val as any).geoms),
                 (val as any).material,
               );
+              // Dispose intermediate geometries to free GPU memory
+              for (const geom of (val as any).geoms) {
+                geom.dispose();
+              }
               mesh.renderOrder &#x3D; (val as any).renderOrder;
               scene.add(mesh);
+
+              for (const intermediateGeom of (val as any).geoms) {
+                intermediateGeom.dispose();
+              }
             }
 
             this.processGeometry(

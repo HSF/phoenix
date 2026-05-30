@@ -21,7 +21,6 @@ import type {
   PhoenixEventData,
   PhoenixEventsData,
 } from '../lib/types/event-data';
-import * as _ from 'lodash';
 
 /**
  * Loader for processing and loading an event.
@@ -248,7 +247,7 @@ export class PhoenixLoader implements EventDataLoader {
     this.ui.addEventDataTypeFolder(typeName);
 
     for (const collectionName of collectionsList) {
-      const newCuts = _.cloneDeep(cuts);
+      const newCuts = cuts?.map((cut) => cut.clone());
       // Make a new array ^, otherwise we reuse the same cuts for each collection
       const objectCollection = object[collectionName];
       console.log(

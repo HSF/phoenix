@@ -9,6 +9,8 @@ import {
   AmbientLight,
   AxesHelper,
   Mesh,
+  InstancedMesh,
+  Color,
 } from 'three';
 import { Easing, Group as TweenGroup, Tween } from '@tweenjs/tween.js';
 import { InfoLogger } from '../../helpers/info-logger';
@@ -66,11 +68,21 @@ export class SelectionManager {
   /** Currently hovered object (for outline preview) */
   private hoveredObject: Mesh | null = null;
 
+  // InstancedMesh per-cell hover highlight (CaloCells)
+  /** The InstancedMesh currently being hovered */
+  private hoveredInstanceMesh: InstancedMesh | null = null;
+  /** The instanceId of the currently highlighted cell */
+  private hoveredInstanceId: number | null = null;
+  /** Original color of the highlighted cell (to restore on un-hover) */
+  private hoveredInstanceOriginalColor: Color | null = null;
+  /** Highlight color for hovered instanced cells */
+  private static readonly INSTANCE_HIGHLIGHT_COLOR = new Color(0xffffff);
+
   // Drag detection to prevent accidental selection during orbit controls
   /** Mouse down position for drag detection (selection system) */
   private selectionMouseDownPosition: { x: number; y: number } | null = null;
   /** Maximum pixel distance to consider as a click (not drag) */
-  private clickThreshold = 5;
+  private clickThreshold = 10;
   /** Whether the user is currently dragging (selection system) */
   private selectionIsDragging = false;
 
@@ -555,11 +567,33 @@ export class SelectionManager {
       }
     }
 
-    // Only update hover outline if the target object has changed
-    if (targetObject !== this.hoveredObject) {
+    // For InstancedMesh, compare instanceId too (different cells = same object)
+    const isInstanced = targetObject?.userData?._isInstancedCaloCells;
+    const instanceId: number | null = isInstanced
+      ? (targetObject!.userData._lastHitInstanceId ?? null)
+      : null;
+
+    const hoverChanged = isInstanced
+      ? targetObject !== this.hoveredObject ||
+        instanceId !== this.hoveredInstanceId
+      : targetObject !== this.hoveredObject;
+
+    if (hoverChanged) {
+      // Restore any previous instanced cell highlight before switching
+      this.clearInstanceHighlight();
+
       this.hoveredObject = targetObject;
 
-      // Set hover outline (this is separate from sticky selections)
+      if (isInstanced && instanceId !== null) {
+        // Highlight the hovered cell via color change
+        this.setInstanceHighlight(targetObject as InstancedMesh, instanceId);
+        this.effectsManager.setHoverOutline(null);
+        this.updateInfoPanelForHover(targetObject);
+        this.currentlyOutlinedObject = null;
+        return;
+      }
+
+      // Non-instanced: normal outline
       this.effectsManager.setHoverOutline(targetObject);
 
       // Update info panel for hovered object (immediate feedback)
@@ -568,6 +602,45 @@ export class SelectionManager {
       // Also update the currently outlined object for backwards compatibility
       this.currentlyOutlinedObject = targetObject;
     }
+  }
+
+  /**
+   * Highlight an individual instance in an InstancedMesh by changing its color.
+   * Saves the original color so it can be restored on un-hover.
+   */
+  private setInstanceHighlight(mesh: InstancedMesh, instanceId: number) {
+    if (!mesh.instanceColor) return;
+
+    const origColor = new Color();
+    mesh.getColorAt(instanceId, origColor);
+
+    this.hoveredInstanceMesh = mesh;
+    this.hoveredInstanceId = instanceId;
+    this.hoveredInstanceOriginalColor = origColor;
+
+    mesh.setColorAt(instanceId, SelectionManager.INSTANCE_HIGHLIGHT_COLOR);
+    mesh.instanceColor.needsUpdate = true;
+  }
+
+  /**
+   * Restore the original color of a previously highlighted instanced cell.
+   */
+  private clearInstanceHighlight() {
+    if (
+      this.hoveredInstanceMesh &&
+      this.hoveredInstanceId !== null &&
+      this.hoveredInstanceOriginalColor &&
+      this.hoveredInstanceMesh.instanceColor
+    ) {
+      this.hoveredInstanceMesh.setColorAt(
+        this.hoveredInstanceId,
+        this.hoveredInstanceOriginalColor,
+      );
+      this.hoveredInstanceMesh.instanceColor.needsUpdate = true;
+    }
+    this.hoveredInstanceMesh = null;
+    this.hoveredInstanceId = null;
+    this.hoveredInstanceOriginalColor = null;
   }
 
   /**
@@ -599,24 +672,25 @@ export class SelectionManager {
 
     // Only process as a click if movement was minimal (not a drag)
     if (distance <= this.clickThreshold) {
-      // Handle single click for selection
-      this.handleClick();
+      this.handleClick(event);
     }
   };
 
-  /**
-   * Handle double-click events with precise collision detection.
-   * Performs detailed intersection and prints collision coordinates.
-   * @param event The mouse event for collision detection
-   */
   /**
    * Function to call on mouse click when object selection is enabled.
    * Implements sticky multi-selection behavior:
    * - Click on object: toggle its selection (add if not selected, remove if selected)
    * - Click on empty space: clear all selections
    */
-  private handleClick = () => {
-    const intersectedObject = this.currentlyOutlinedObject;
+  private handleClick = (event?: MouseEvent) => {
+    // Use pre-computed hover target, or do a fresh raycast if needed
+    let intersectedObject = this.currentlyOutlinedObject;
+    if (!intersectedObject && event) {
+      const result = this.intersectObject(event);
+      if (result && result instanceof Mesh) {
+        intersectedObject = result as Mesh;
+      }
+    }
 
     if (intersectedObject) {
       // Toggle selection of the clicked object
@@ -650,6 +724,16 @@ export class SelectionManager {
    */
   private updateInfoPanelForHover(object: Mesh | null) {
     if (object) {
+      // InstancedMesh CaloCells: read per-instance data
+      let userData = object.userData;
+      if (
+        userData?._isInstancedCaloCells &&
+        userData._instanceData &&
+        userData._lastHitInstanceId !== undefined
+      ) {
+        userData = userData._instanceData[userData._lastHitInstanceId] ?? {};
+      }
+
       // Object is being hovered - update info panel
       this.selectedObject.name = object.name;
       this.selectedObject.attributes.splice(
@@ -658,7 +742,7 @@ export class SelectionManager {
       );
       this.activeObject.update(object.uuid);
 
-      const prettyParams = PrettySymbols.getPrettyParams(object.userData);
+      const prettyParams = PrettySymbols.getPrettyParams(userData);
 
       for (const key of Object.keys(prettyParams)) {
         this.selectedObject.attributes.push({
@@ -814,7 +898,19 @@ export class SelectionManager {
     // Perform intersection test
     const intersects = raycaster.intersectObjects(intersectableObjects, false);
 
-    return intersects.length > 0 ? intersects[0].object : null;
+    if (intersects.length === 0) return null;
+
+    const hit = intersects[0];
+    // For InstancedMesh CaloCells, store the hit instanceId for downstream use
+    if (
+      hit.object.userData?._isInstancedCaloCells &&
+      hit.object instanceof InstancedMesh &&
+      hit.instanceId !== undefined
+    ) {
+      hit.object.userData._lastHitInstanceId = hit.instanceId;
+    }
+
+    return hit.object;
   }
 
   /**
@@ -923,6 +1019,9 @@ export class SelectionManager {
   public highlightObject(uuid: string, objectsGroup: Object3D) {
     const object = objectsGroup.getObjectByProperty('uuid', uuid);
     if (object && object instanceof Mesh) {
+      // Skip OutlinePass for instanced CaloCells (can't outline individual instances)
+      if (object.userData?._isInstancedCaloCells) return;
+
       // Use the modern selection system instead of legacy outline
       this.effectsManager.selectObject(object);
       this.selectedObjects.add(object);
@@ -937,6 +1036,7 @@ export class SelectionManager {
    */
   public disableHighlighting() {
     // Clear all selections instead of just the legacy outline
+    this.clearInstanceHighlight();
     this.effectsManager.clearAllSelections();
     this.selectedObjects.clear();
     this.currentlyOutlinedObject = null;
@@ -1087,6 +1187,7 @@ export class SelectionManager {
     const hadSelections = this.selectedObjects.size > 0;
 
     // Clear all selected outlines from the effects manager (if initialized)
+    this.clearInstanceHighlight();
     if (this.effectsManager) {
       this.effectsManager.clearAllSelections();
     }
@@ -1182,6 +1283,7 @@ export class SelectionManager {
       this.effectsManager.setHoverOutline(null);
     }
     this.selectedObjects.clear();
+    this.clearInstanceHighlight();
     this.hoveredObject = null;
     this.currentlyOutlinedObject = null;
 

@@ -19,6 +19,7 @@ const gitignorePath = path.resolve(__dirname, ".gitignore");
 
 export default [
     includeIgnoreFile(gitignorePath),
+    { ignores: ["docs/**"] },
     ...compat.extends(
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",

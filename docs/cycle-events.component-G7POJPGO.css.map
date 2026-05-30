@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/cycle-events/cycle-events.component.scss"],
+  "sourcesContent": [":host {\n  display: flex;\n  margin: 0 0.6rem;\n\n  .cycle-events {\n    display: flex;\n    background: unset;\n    border: none;\n    height: 2.5rem;\n    width: 2.5rem;\n    min-height: 2.5rem;\n    min-width: 2.5rem;\n    padding: 0.65rem;\n    cursor: pointer;\n    align-self: center;\n    transition: all 0.4s;\n\n    &-icon {\n      width: 100%;\n      height: 100%;\n\n      &.active-icon {\n        --phoenix-options-icon-path: #00bcd4;\n      }\n      &.reload-icon {\n        --phoenix-options-icon-path: #77dd77;\n      }\n    }\n\n    &:hover {\n      background-color: var(--phoenix-options-icon-bg);\n      border-radius: 40%;\n      transition: all 0.4s;\n    }\n\n    &.disabled {\n      cursor: not-allowed;\n      opacity: 0.4;\n    }\n  }\n}\n"],
+  "mappings": "AAAA,MACE,QAAA,KADF,OAEE,EAAA,MAEA,MAAA,CAAA,aACE,QAAA,KACA,WAAA,MACA,OAAA,KACA,OAAA,OACA,MAAA,OACA,WAAA,OACA,UAAA,OAXJ,QAYI,OACA,OAAA,QACA,WAAA,OACA,WAAA,IAAA,IAEA,MAAA,CAAA,kBACE,MAAA,KACA,OAAA,KAEA,MAAA,CAJF,iBAIE,CAAA,YACE,6BAAA,QAEF,MAAA,CAPF,iBAOE,CAAA,YACE,6BAAA,QAIJ,MAAA,CAzBF,YAyBE,OACE,iBAAA,IAAA,2BA9BN,cA+BM,IACA,WAAA,IAAA,IAGF,MAAA,CA/BF,YA+BE,CAAA,SACE,OAAA,YACA,QAAA",
+  "names": []
+}

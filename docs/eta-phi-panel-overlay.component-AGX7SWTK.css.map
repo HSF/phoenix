@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/eta-phi-panel/eta-phi-panel-overlay/eta-phi-panel-overlay.component.scss"],
+  "sourcesContent": [".eta-phi-container {\n  padding: 8px;\n  min-width: 620px;\n}\n\n.eta-phi-controls {\n  display: flex;\n  gap: 16px;\n  margin-bottom: 6px;\n  font-size: 12px;\n  color: #ccc;\n\n  label {\n    display: flex;\n    align-items: center;\n    gap: 4px;\n    cursor: pointer;\n    user-select: none;\n  }\n\n  input[type='checkbox'] {\n    cursor: pointer;\n  }\n}\n\n.canvas-wrapper {\n  position: relative;\n  display: inline-block;\n\n  canvas {\n    display: block;\n    border: 1px solid #444;\n    border-radius: 2px;\n    cursor: crosshair;\n  }\n}\n\n.color-bar {\n  margin-top: 4px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n\n  canvas {\n    border-radius: 2px;\n  }\n}\n\n.color-bar-labels {\n  display: flex;\n  justify-content: space-between;\n  width: 300px;\n  font-size: 10px;\n  color: #999;\n}\n"],
+  "mappings": "AAAA,CAAA,kBAAA,QACE,IACA,UAAA,MAGF,CAAA,iBACE,QAAA,KACA,IAAA,KACA,cAAA,IACA,UAAA,KACA,MAAA,KAEA,CAPF,iBAOE,MACE,QAAA,KACA,YAAA,OACA,IAAA,IACA,OAAA,QACA,oBAAA,KAAA,YAAA,KAGF,CAfF,iBAeE,KAAA,CAAA,eACE,OAAA,QAIJ,CAAA,eACE,SAAA,SACA,QAAA,aAEA,CAJF,eAIE,OACE,QAAA,MACA,OAAA,IAAA,MAAA,KA/BJ,cAgCI,IACA,OAAA,UAIJ,CAAA,UACE,WAAA,IACA,QAAA,KACA,eAAA,OACA,YAAA,OAEA,CANF,UAME,OA3CF,cA4CI,IAIJ,CAAA,iBACE,QAAA,KACA,gBAAA,cACA,MAAA,MACA,UAAA,KACA,MAAA",
+  "names": []
+}

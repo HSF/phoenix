@@ -16,6 +16,10 @@ import type {
   PhoenixEventData,
   PhoenixEventsData,
 } from './lib/types/event-data';
+import {
+  buildEventSummaries,
+  type EventSummary,
+} from './helpers/event-summary';
 
 declare global {
   /**
@@ -35,6 +39,8 @@ export class EventDisplay {
   public configuration: Configuration;
   /** An object containing event data. */
   private eventsData: PhoenixEventsData;
+  /** Currently displayed event key. */
+  private currentEventKey: string | null = null;
   /** Array containing callbacks to be called when events change. */
   private onEventsChange: ((events: any) => void)[] = [];
   /** Array containing callbacks to be called when the displayed event changes. */
@@ -53,6 +59,8 @@ export class EventDisplay {
   private urlOptionsManager: URLOptionsManager;
   /** Flag to track if EventDisplay has been initialized. */
   private isInitialized: boolean = false;
+  /** Stored keydown handler for event navigation shortcuts. */
+  private eventNavKeydownHandler: ((e: KeyboardEvent) => void) | null = null;
 
   /**
    * Create the Phoenix event display and intitialize all the elements.
@@ -83,16 +91,6 @@ export class EventDisplay {
     this.graphicsLibrary.init(configuration);
     // Initialize the UI with configuration
     this.ui.init(configuration);
-    // Apply JiveXML track extension configuration and surface UI controls when available
-    const loaderWithTrackExtension = this.configuration.eventDataLoader as any;
-    if (loaderWithTrackExtension?.setTrackExtensionConfig) {
-      if (this.configuration.jiveXMLTrackExtension) {
-        loaderWithTrackExtension.setTrackExtensionConfig(
-          this.configuration.jiveXMLTrackExtension,
-        );
-      }
-      this.ui.addJiveXMLTrackExtensionUI(this);
-    }
     // Set up for the state manager
     this.getStateManager().setEventDisplay(this);
 
@@ -123,6 +121,11 @@ export class EventDisplay {
     }
     if (this.ui) {
       this.ui.cleanup();
+    }
+    // Clean up event navigation keyboard handler
+    if (this.eventNavKeydownHandler) {
+      document.removeEventListener('keydown', this.eventNavKeydownHandler);
+      this.eventNavKeydownHandler = null;
     }
     // Clear accumulated callbacks
     this.onEventsChange = [];
@@ -204,8 +207,63 @@ export class EventDisplay {
     const event = this.eventsData[eventKey];
 
     if (event) {
+      this.currentEventKey = eventKey;
       this.buildEventDataFromJSON(event);
     }
+  }
+
+  /**
+   * Get the currently displayed event key.
+   */
+  public getCurrentEventKey(): string | null {
+    return this.currentEventKey;
+  }
+
+  /**
+   * Load the next event in the event list.
+   * Wraps around to the first event after the last.
+   */
+  public nextEvent() {
+    if (!this.eventsData) return;
+    const keys = Object.keys(this.eventsData);
+    if (keys.length === 0) return;
+    const currentIndex = this.currentEventKey
+      ? keys.indexOf(this.currentEventKey)
+      : -1;
+    const nextIndex = (currentIndex + 1) % keys.length;
+    this.loadEvent(keys[nextIndex]);
+  }
+
+  /**
+   * Load the previous event in the event list.
+   * Wraps around to the last event before the first.
+   */
+  public previousEvent() {
+    if (!this.eventsData) return;
+    const keys = Object.keys(this.eventsData);
+    if (keys.length === 0) return;
+    const currentIndex = this.currentEventKey
+      ? keys.indexOf(this.currentEventKey)
+      : -1;
+    const prevIndex = currentIndex <= 0 ? keys.length - 1 : currentIndex - 1;
+    this.loadEvent(keys[prevIndex]);
+  }
+
+  /**
+   * Get all loaded events data.
+   * @returns The events data object, or undefined if no events loaded.
+   */
+  public getEventsData(): PhoenixEventsData | undefined {
+    return this.eventsData;
+  }
+
+  /**
+   * Build summaries of all loaded events for the event browser.
+   * @returns Array of event summaries with collection counts and metadata.
+   */
+  public getEventSummaries(): EventSummary[] {
+    if (!this.eventsData) return [];
+    return buildEventSummaries(this.eventsData);
   }
 
   /**
@@ -761,6 +819,30 @@ export class EventDisplay {
   public enableKeyboardControls() {
     this.ui.enableKeyboardControls();
     this.graphicsLibrary.enableKeyboardControls();
+
+    // Remove previous event navigation listener if exists
+    if (this.eventNavKeydownHandler) {
+      document.removeEventListener('keydown', this.eventNavKeydownHandler);
+    }
+
+    // Shift+ArrowRight = next event, Shift+ArrowLeft = previous event
+    this.eventNavKeydownHandler = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      const isTyping = ['input', 'textarea', 'select'].includes(
+        target?.tagName.toLowerCase(),
+      );
+      const hasFocusableContent = target?.hasAttribute('tabindex');
+      if (isTyping || hasFocusableContent || !e.shiftKey) return;
+
+      if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        this.nextEvent();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        this.previousEvent();
+      }
+    };
+    document.addEventListener('keydown', this.eventNavKeydownHandler);
   }
 
   /**
@@ -865,44 +947,5 @@ export class EventDisplay {
         }
       }
     }
-  }
-
-  /**
-   * Set JiveXML track extension configuration.
-   * @param config Partial configuration for JiveXML track extension.
-   */
-  public setJiveXMLTrackExtensionConfig(config: any) {
-    if (!this.configuration.eventDataLoader) {
-      return;
-    }
-    // Check if the loader has the setTrackExtensionConfig method (JiveXMLLoader)
-    if (
-      typeof (this.configuration.eventDataLoader as any)
-        .setTrackExtensionConfig === 'function'
-    ) {
-      (this.configuration.eventDataLoader as any).setTrackExtensionConfig(
-        config,
-      );
-    }
-  }
-
-  /**
-   * Get JiveXML track extension configuration.
-   * @returns Current JiveXML track extension configuration or undefined if not available.
-   */
-  public getJiveXMLTrackExtensionConfig(): any {
-    if (!this.configuration.eventDataLoader) {
-      return undefined;
-    }
-    // Check if the loader has the getTrackExtensionConfig method (JiveXMLLoader)
-    if (
-      typeof (this.configuration.eventDataLoader as any)
-        .getTrackExtensionConfig === 'function'
-    ) {
-      return (
-        this.configuration.eventDataLoader as any
-      ).getTrackExtensionConfig();
-    }
-    return undefined;
   }
 }

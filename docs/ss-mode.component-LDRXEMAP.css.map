@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/ss-mode/ss-mode.component.scss"],
+  "sourcesContent": ["#uiMenu,\n#phoenixMenu,\n#mainLogo,\n#statsElement {\n  transition: opacity 0.4s;\n}\n\n.ss-mode {\n  #uiMenu,\n  #phoenixMenu,\n  #mainLogo,\n  #statsElement {\n    visibility: hidden;\n    opacity: 0;\n  }\n}\n"],
+  "mappings": "AAAA,CAAA,OAAA,CAAA,YAAA,CAAA,SAAA,CAAA,aAIE,WAAA,QAAA,IAIA,CAAA,QAAA,CARF,OAQE,CAAA,QAAA,CARF,YAQE,CAAA,QAAA,CARF,SAQE,CAAA,QAAA,CARF,aAYI,WAAA,OACA,QAAA",
+  "names": []
+}

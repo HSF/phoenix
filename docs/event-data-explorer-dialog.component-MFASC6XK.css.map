@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component.scss"],
+  "sourcesContent": [".dialog {\n  width: 30rem;\n  max-width: 95%;\n}\n\n.file-path-button {\n  width: 100%;\n  color: var(--phoenix-text-color);\n  background: var(--phoenix-background-color-tertiary);\n  text-align: left;\n  border-radius: 1rem;\n  margin-bottom: 0.5rem;\n  padding: 0.5rem 1rem;\n\n  &:last-child {\n    margin-bottom: 0;\n  }\n\n  &:hover {\n    background: var(--phoenix-background-color-secondary);\n  }\n\n  &:focus {\n    border: 1px solid var(--phoenix-text-color-secondary);\n    box-shadow: none;\n  }\n}\n"],
+  "mappings": "AAAA,CAAA,OACE,MAAA,MACA,UAAA,IAGF,CAAA,iBACE,MAAA,KACA,MAAA,IAAA,sBACA,WAAA,IAAA,qCACA,WAAA,KATF,cAUE,KACA,cAAA,MAXF,QAYE,MAAA,KAEA,CATF,gBASE,YACE,cAAA,EAGF,CAbF,gBAaE,OACE,WAAA,IAAA,sCAGF,CAjBF,gBAiBE,OACE,OAAA,IAAA,MAAA,IAAA,gCACA,WAAA",
+  "names": []
+}

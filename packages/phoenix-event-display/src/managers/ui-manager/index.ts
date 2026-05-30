@@ -609,6 +609,17 @@ export class UIManager {
       (uiMenu) => uiMenu instanceof PhoenixMenuUI,
     ) as PhoenixMenuUI;
     phoenixMenuUI?.loadEventFolderState();
+    phoenixMenuUI?.reapplyCollectionCuts();
+  }
+  /**
+   * Get the PhoenixMenuUI instance if one is active.
+   * Used by StateManager to access the cut registry for serialization.
+   * @returns The PhoenixMenuUI instance, or undefined if not initialized.
+   */
+  public getPhoenixMenuUI(): PhoenixMenuUI | undefined {
+    return this.uiMenus.find((uiMenu) => uiMenu instanceof PhoenixMenuUI) as
+      | PhoenixMenuUI
+      | undefined;
   }
 
   /**
@@ -617,18 +628,6 @@ export class UIManager {
    */
   public getUIMenus(): PhoenixUI<unknown>[] {
     return this.uiMenus;
-  }
-
-  /**
-   * Add JiveXML track extension controls to the UI if available.
-   * @param eventDisplay Reference to the EventDisplay instance for configuration callbacks.
-   */
-  public addJiveXMLTrackExtensionUI(eventDisplay: any) {
-    this.uiMenus.forEach((menu) => {
-      if (menu.addJiveXMLTrackExtension) {
-        menu.addJiveXMLTrackExtension(eventDisplay);
-      }
-    });
   }
 
   /**

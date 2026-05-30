@@ -4,6 +4,7 @@ import {
   JiveXMLLoader,
   readZipFile,
   Edm4hepJsonLoader,
+  PHYSLITELoader,
 } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -49,6 +50,12 @@ export class IOOptionsDialogComponent implements OnInit {
       '.zip',
       this.handleZipEventDataInput.bind(this),
       '.zip',
+    ),
+    new ImportOption(
+      EventDataFormat.PHYSLITE,
+      '.root',
+      this.handlePHYSLITEInput.bind(this),
+      '.root',
     ),
     new ImportOption(
       EventDataFormat.IG,
@@ -103,19 +110,41 @@ export class IOOptionsDialogComponent implements OnInit {
 
   handleJSONEventDataInput(files: FileList) {
     const callback = (content: any) => {
-      const json = typeof content === 'string' ? JSON.parse(content) : content;
-      this.eventDisplay.parsePhoenixEvents(json);
+      try {
+        const json =
+          typeof content === 'string' ? JSON.parse(content) : content;
+        this.eventDisplay.parsePhoenixEvents(json);
+      } catch (error) {
+        this.eventDisplay
+          .getInfoLogger()
+          .add(
+            'Could not parse JSON event file. Please ensure it is valid JSON.',
+            'Error',
+          );
+        console.error('Error parsing JSON event file:', error);
+      }
     };
     this.handleFileInput(files[0], 'json', callback);
   }
 
   handleEDM4HEPJSONEventDataInput(files: FileList) {
     const callback = (content: any) => {
-      const json = typeof content === 'string' ? JSON.parse(content) : content;
-      const edm4hepJsonLoader = new Edm4hepJsonLoader();
-      edm4hepJsonLoader.setRawEventData(json);
-      edm4hepJsonLoader.processEventData();
-      this.eventDisplay.parsePhoenixEvents(edm4hepJsonLoader.getEventData());
+      try {
+        const json =
+          typeof content === 'string' ? JSON.parse(content) : content;
+        const edm4hepJsonLoader = new Edm4hepJsonLoader();
+        edm4hepJsonLoader.setRawEventData(json);
+        edm4hepJsonLoader.processEventData();
+        this.eventDisplay.parsePhoenixEvents(edm4hepJsonLoader.getEventData());
+      } catch (error) {
+        this.eventDisplay
+          .getInfoLogger()
+          .add(
+            'Could not parse EDM4HEP JSON file. Please ensure it is valid JSON.',
+            'Error',
+          );
+        console.error('Error parsing EDM4HEP JSON file:', error);
+      }
     };
     this.handleFileInput(files[0], 'edm4hep.json', callback);
   }
@@ -196,6 +225,46 @@ export class IOOptionsDialogComponent implements OnInit {
     this.onClose();
   }
 
+  async handlePHYSLITEInput(files: FileList) {
+    if (
+      !this.isFileOfExtension(
+        files[0].name,
+        'root,root.1,pool.root,pool.root.1',
+      )
+    ) {
+      return;
+    }
+
+    const loader = new PHYSLITELoader();
+
+    try {
+      const eventsData = await loader.getEventData(files[0] as any);
+      const eventKeys = Object.keys(eventsData);
+      this.eventDisplay.parsePhoenixEvents(eventsData);
+
+      // Find and load the first event with substantial physics data
+      // (the very first event may have no jets/tracks)
+      const richEvent = eventKeys.find((key) => {
+        const evt = eventsData[key];
+        return (
+          (evt['Jets'] &&
+            Object.keys(evt['Jets']).some((c) => evt['Jets'][c].length > 0)) ||
+          (evt['Tracks'] &&
+            Object.keys(evt['Tracks']).some((c) => evt['Tracks'][c].length > 0))
+        );
+      });
+      if (richEvent && richEvent !== eventKeys[0]) {
+        this.eventDisplay.loadEvent(richEvent);
+      }
+    } catch (error) {
+      this.eventDisplay
+        .getInfoLogger()
+        .add('Failed to load PHYSLITE file: ' + error.message, 'Error');
+    }
+
+    this.onClose();
+  }
+
   handleIgEventDataInput(files: FileList) {
     const cmsLoader = new CMSLoader();
     cmsLoader.readIgArchive(files[0], (allEvents: any[]) => {
@@ -270,14 +339,21 @@ export class IOOptionsDialogComponent implements OnInit {
   }
 
   private isFileOfExtension(fileName: string, extensions: string): boolean {
-    if (
-      extensions.split(',').includes(fileName.slice(fileName.indexOf('.') + 1))
-    ) {
+    const extList = extensions.split(',');
+    const lowerName = fileName.toLowerCase();
+    if (extList.some((ext) => lowerName.endsWith('.' + ext.toLowerCase()))) {
       return true;
     }
 
-    console.error('Error: Invalid file format!');
-    this.eventDisplay.getInfoLogger().add('Invalid file format!', 'Error');
+    const accepted = extList.map((e) => '.' + e).join(', ');
+    const msg =
+      'Invalid file format! Possibly the file name "' +
+      fileName +
+      '" does not match the expected FILENAME.EXTENSION, ' +
+      'where extension is one of: ' +
+      accepted;
+    console.error('Error: ' + msg);
+    this.eventDisplay.getInfoLogger().add(msg, 'Error');
 
     return false;
   }

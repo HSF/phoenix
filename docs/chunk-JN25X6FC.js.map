@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../node_modules/xhr2/lib/browser.js"],"sourcesContent":["module.exports = XMLHttpRequest;"],"mappings":"wCAAA,IAAAA,EAAAC,EAAA,CAAAC,EAAAC,IAAA,CAAAA,EAAO,QAAU","names":["require_browser","__commonJSMin","exports","module"],"x_google_ignoreList":[0]}

@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content class">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -179,6 +197,10 @@
                                 <a href="#applyOptions" >applyOptions</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#applyViewStateOption" >applyViewStateOption</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#getURLOptions" >getURLOptions</a>
                             </li>
@@ -224,7 +246,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/managers/url-options-manager.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/managers/url-options-manager.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -310,7 +332,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/managers/url-options-manager.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/managers/url-options-manager.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -352,8 +374,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="248"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:248</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="289"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:289</a></div>
                         </td>
                     </tr>
 
@@ -393,8 +415,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="59"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:59</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="61"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -493,8 +515,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="230"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:230</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="271"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:271</a></div>
                         </td>
                     </tr>
 
@@ -534,8 +556,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="43"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:43</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="45"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -543,6 +565,49 @@
             <tr>
                 <td class="col-md-4">
                         <div class="io-description"><p>Initialize and apply all URL options on page load.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyViewStateOption"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>applyViewStateOption</b></span>
+                        <a href="#applyViewStateOption"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>applyViewStateOption()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="237"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:237</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Apply view state from the URL&#39;s &quot;state&quot; parameter.
+Decodes a Base64-encoded JSON state and restores camera, clipping, and menu visibility.
+Uses a load listener to ensure state applies after all other initialization completes.</p>
 </div>
 
                         <div class="io-description">
@@ -575,8 +640,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="289"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:289</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="330"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:330</a></div>
                         </td>
                     </tr>
 
@@ -621,8 +686,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="152"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:152</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="157"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:157</a></div>
                         </td>
                     </tr>
 
@@ -699,8 +764,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="176"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:176</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="181"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:181</a></div>
                         </td>
                     </tr>
 
@@ -777,8 +842,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="187"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:187</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="192"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:192</a></div>
                         </td>
                     </tr>
 
@@ -854,8 +919,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="273"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:273</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="314"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:314</a></div>
                         </td>
                     </tr>
 
@@ -932,6 +997,7 @@ export const phoenixURLOptions &#x3D; {
   file: &#x27;&#x27;,
   type: &#x27;&#x27;,
   config: &#x27;&#x27;,
+  state: &#x27;&#x27;,
   hideWidgets: false,
   embed: false,
 };
@@ -952,8 +1018,9 @@ export class URLOptionsManager {
     private eventDisplay: EventDisplay,
     private configuration: Configuration,
   ) {
+    const queryIndex &#x3D; window.location.href.indexOf(&#x27;?&#x27;);
     this.urlOptions &#x3D; new URLSearchParams(
-      window.location.href.substr(window.location.href.lastIndexOf(&#x27;?&#x27;)),
+      queryIndex !&#x3D;&#x3D; -1 ? window.location.href.substring(queryIndex) : &#x27;&#x27;,
     );
   }
 
@@ -1028,7 +1095,10 @@ export class URLOptionsManager {
           })
           .finally(() &#x3D;&gt; {
             this.eventDisplay.getLoadingManager().itemLoaded(&#x27;url_config&#x27;);
+            this.applyViewStateOption();
           });
+      } else {
+        this.applyViewStateOption();
       }
     };
 
@@ -1142,6 +1212,42 @@ export class URLOptionsManager {
     // For some reason the above doesn&#x27;t pick up JiveXML_XXX_YYY.zip
 
     this.eventDisplay.parsePhoenixEvents(allEventsObject);
+  }
+
+  /**
+   * Apply view state from the URL&#x27;s &quot;state&quot; parameter.
+   * Decodes a Base64-encoded JSON state and restores camera, clipping, and menu visibility.
+   * Uses a load listener to ensure state applies after all other initialization completes.
+   */
+  private applyViewStateOption() {
+    const stateParam &#x3D; this.urlOptions.get(&#x27;state&#x27;);
+    if (!stateParam) {
+      return;
+    }
+
+    const applyState &#x3D; async () &#x3D;&gt; {
+      try {
+        const binary &#x3D; atob(stateParam);
+        const bytes &#x3D; Uint8Array.from(binary, (c) &#x3D;&gt; c.charCodeAt(0));
+        // Decompress the deflate-compressed state
+        const stream &#x3D; new Blob([bytes])
+          .stream()
+          .pipeThrough(new DecompressionStream(&#x27;deflate&#x27;));
+        const decompressed &#x3D; await new Response(stream).arrayBuffer();
+        const jsonString &#x3D; new TextDecoder().decode(decompressed);
+        const jsonState &#x3D; JSON.parse(jsonString);
+        console.log(&#x27;Applying view state from URL&#x27;);
+        const stateManager &#x3D; new StateManager();
+        stateManager.loadStateFromJSON(jsonState);
+      } catch (error) {
+        console.error(&#x27;Could not parse view state from URL.&#x27;, error);
+      }
+    };
+
+    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() &#x3D;&gt; {
+      // Small delay to ensure experiment component&#x27;s load listener runs first
+      setTimeout(applyState, 200);
+    });
   }
 
   /**

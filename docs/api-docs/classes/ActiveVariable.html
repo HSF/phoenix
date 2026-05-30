@@ -61,6 +61,20 @@
                }
                toggleDarkMode(darkModeState);
           </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
@@ -81,6 +95,10 @@
                <!-- START CONTENT -->
                <div class="content class">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -348,8 +366,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="32"
-                                    class="link-to-prism">src/helpers/active-variable.ts:32</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="33"
+                                    class="link-to-prism">src/helpers/active-variable.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -396,7 +414,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>Unsubscribe function to remove the callback.</p>
+
                             </div>
                 </td>
             </tr>
@@ -517,9 +536,16 @@ export class ActiveVariable&lt;T &#x3D; any&gt; {
   /**
    * Call a function on updating the value of variable.
    * @param callback Callback to call with updated value when the variable is updated.
+   * @returns Unsubscribe function to remove the callback.
    */
-  public onUpdate(callback: CallbackFunction&lt;T&gt;) {
+  public onUpdate(callback: CallbackFunction&lt;T&gt;): () &#x3D;&gt; void {
     this.callbacks.push(callback);
+    return () &#x3D;&gt; {
+      const index &#x3D; this.callbacks.indexOf(callback);
+      if (index &gt; -1) {
+        this.callbacks.splice(index, 1);
+      }
+    };
   }
 }
 </code></pre>

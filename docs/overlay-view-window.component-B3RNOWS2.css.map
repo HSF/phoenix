@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/overlay-view/overlay-view-window/overlay-view-window.component.scss"],
+  "sourcesContent": ["#overlay-canvas {\n  background-color: rgba(0, 0, 0, 0.1);\n  width: auto;\n}\n\n.overlay-view-controls {\n  bottom: 1em;\n  right: 1em;\n  opacity: 0;\n  transition: opacity 0.2s;\n\n  .overlay-view-control {\n    border-radius: 50%;\n    background: var(--phoenix-background-color-secondary);\n    box-shadow: var(--phoenix-box-shadow);\n    overflow: hidden;\n    width: 2.5rem;\n    height: 2.5rem;\n    border-radius: 50%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n}\n\n.overlay-view-wrapper:hover {\n  .overlay-view-controls {\n    opacity: 1;\n    transition: opacity 0.2s;\n  }\n}\n"],
+  "mappings": "AAAA,CAAA,eACE,iBAAA,UACA,MAAA,KAGF,CAAA,sBACE,OAAA,IACA,MAAA,IACA,QAAA,EACA,WAAA,QAAA,IAEA,CANF,sBAME,CAAA,qBAEE,WAAA,IAAA,sCACA,WAAA,IAAA,sBACA,SAAA,OACA,MAAA,OACA,OAAA,OAjBJ,cAkBI,IACA,QAAA,KACA,gBAAA,OACA,YAAA,OAKF,CAAA,oBAAA,OAAA,CArBF,sBAsBI,QAAA,EACA,WAAA,QAAA",
+  "names": []
+}

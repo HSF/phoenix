@@ -167,9 +167,9 @@ export class RendererManager {
 
   /**
    * Remove a renderer from the available renderers list.
-   * @param renderer Three,js WebGLRenderer to be removed.
+   * @param renderer Three.js WebGLRenderer to be removed.
    */
-  public removeControls(renderer: WebGLRenderer) {
+  public removeRenderer(renderer: WebGLRenderer) {
     const index: number = this.renderers.indexOf(renderer);
     if (index > -1) {
       this.renderers.splice(index, 1);
@@ -258,12 +258,29 @@ export class RendererManager {
   }
 
   /**
-   * Cleanup event listeners before re-initialization.
+   * Cleanup event listeners and dispose renderers before re-initialization.
+   * The main renderer is kept alive because `init()` reuses it via
+   * `getMainRenderer()`. Only the overlay renderer (and any other
+   * secondary renderers) are disposed.
    */
   public cleanup() {
     if (this.resizeHandler) {
       window.removeEventListener('resize', this.resizeHandler);
       this.resizeHandler = null;
     }
+
+    for (const renderer of this.renderers) {
+      if (renderer === this.mainRenderer) {
+        // Remove from DOM but keep the renderer alive for reuse in init()
+        renderer.domElement.remove();
+      } else {
+        renderer.domElement.remove();
+        renderer.dispose();
+      }
+    }
+
+    // Reset the list to only contain the main renderer
+    this.renderers = [this.mainRenderer];
+    this.overlayRenderer = null;
   }
 }

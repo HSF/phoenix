@@ -14,6 +14,7 @@ jest.mock('three', () => {
       setPixelRatio: jest.fn(),
       setAnimationLoop: jest.fn(),
       render: jest.fn(),
+      dispose: jest.fn(),
       domElement: document.createElement('canvas'),
       localClippingEnabled: false,
     })),
@@ -90,6 +91,65 @@ describe('RendererManager', () => {
       rendererManager.swapRenderers(renderer, renderer);
 
       expect(rendererManager.getRenderers()).toEqual(renderersBefore);
+    });
+  });
+
+  describe('cleanup', () => {
+    it('should dispose secondary renderers but keep main renderer alive', () => {
+      const mainRenderer = rendererManager.getMainRenderer();
+      const otherRenderer = new WebGLRenderer();
+      rendererManager.addRenderer(otherRenderer);
+
+      const mainRemoveSpy = jest.spyOn(mainRenderer.domElement, 'remove');
+      const otherRemoveSpy = jest.spyOn(otherRenderer.domElement, 'remove');
+
+      rendererManager.cleanup();
+
+      // Main renderer is NOT disposed (reused by init()), but its DOM element is removed
+      expect(mainRenderer.dispose).not.toHaveBeenCalled();
+      expect(mainRemoveSpy).toHaveBeenCalled();
+
+      // Secondary renderers ARE disposed and removed from DOM
+      expect(otherRenderer.dispose).toHaveBeenCalled();
+      expect(otherRemoveSpy).toHaveBeenCalled();
+
+      // Renderers list retains only the main renderer
+      expect(rendererManager.getRenderers()).toEqual([mainRenderer]);
+    });
+
+    it('should clear the overlay renderer reference', () => {
+      const overlayCanvas = document.createElement('canvas');
+      rendererManager.setOverlayRenderer(overlayCanvas);
+      expect(rendererManager.getOverlayRenderer()).toBeTruthy();
+
+      rendererManager.cleanup();
+
+      expect(rendererManager.getOverlayRenderer()).toBeFalsy();
+    });
+
+    it('should remove the resize event listener', () => {
+      const removeEventSpy = jest.spyOn(window, 'removeEventListener');
+
+      // Trigger init to set up the resize handler
+      const wrapper = document.createElement('div');
+      wrapper.id = 'testDisplay';
+      document.body.appendChild(wrapper);
+      rendererManager.init('testDisplay');
+
+      rendererManager.cleanup();
+
+      expect(removeEventSpy).toHaveBeenCalledWith(
+        'resize',
+        expect.any(Function),
+      );
+
+      wrapper.remove();
+      removeEventSpy.mockRestore();
+    });
+
+    it('should handle cleanup when no resize handler is set', () => {
+      // Fresh manager, no init called — cleanup should not throw
+      expect(() => rendererManager.cleanup()).not.toThrow();
     });
   });
 });

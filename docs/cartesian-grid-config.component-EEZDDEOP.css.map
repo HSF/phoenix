@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.scss"],
+  "sourcesContent": [".container {\n  display: flex;\n  flex-direction: row;\n}\n\n.item-config-single {\n  display: flex;\n  flex-direction: column;\n\n  .item-config-group {\n    margin: 0.1rem 2rem;\n\n    .item-config-label {\n      display: inline;\n      margin: 1rem;\n    }\n\n    .form-control {\n      width: 60%;\n      display: inline;\n    }\n  }\n\n  button {\n    margin: 0.5rem 4rem;\n  }\n\n  .explain-button {\n    padding-top: 1rem;\n  }\n\n  .explain-text {\n    width: 20rem;\n    opacity: 0.7;\n    margin-top: 0.5rem;\n    font-size: 0.9rem;\n  }\n}\n"],
+  "mappings": "AAAA,CAAA,UACE,QAAA,KACA,eAAA,IAGF,CAAA,mBACE,QAAA,KACA,eAAA,OAEA,CAJF,mBAIE,CAAA,kBATF,OAUI,MAAA,KAEA,CAPJ,mBAOI,CAHF,kBAGE,CAAA,kBACE,QAAA,OAbN,OAcM,KAGF,CAZJ,mBAYI,CARF,kBAQE,CAAA,aACE,MAAA,IACA,QAAA,OAIJ,CAlBF,mBAkBE,OAvBF,OAwBI,MAAA,KAGF,CAtBF,mBAsBE,CAAA,eACE,YAAA,KAGF,CA1BF,mBA0BE,CAAA,aACE,MAAA,MACA,QAAA,GACA,WAAA,MACA,UAAA",
+  "names": []
+}

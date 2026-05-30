@@ -2,6 +2,25 @@ import { PrettySymbols } from '../../helpers/pretty-symbols';
 import { ConfigRangeSlider } from '../../managers/ui-manager/phoenix-menu/config-types';
 
 /**
+ * Plain-object representation of a Cut, safe for JSON serialization.
+ * Used by StateManager to persist active cut state across sessions.
+ */
+export interface CutJSON {
+  /** The event data attribute field name this cut applies to. */
+  field: string;
+  /** The active minimum bound value of the cut. */
+  minValue: number;
+  /** The active maximum bound value of the cut. */
+  maxValue: number;
+  /** Step size used by the range slider for this cut. */
+  step: number;
+  /** Whether the lower bound cut is currently active. */
+  minCutActive: boolean;
+  /** Whether the upper bound cut is currently active. */
+  maxCutActive: boolean;
+}
+
+/**
  * Cut for specifying filters on event data attribute.
  */
 export class Cut {
@@ -13,17 +32,18 @@ export class Cut {
   private defaultApplyMaxValue: boolean;
   /** Default if lower bound applied */
   private defaultApplyMinValue: boolean;
+
   /** Range slider for Cut */
   public configRangeSlider?: ConfigRangeSlider;
+
   /**
    * Create the cut to filter an event data attribute.
-   * @param field Name of the event data attribute to be filtered.
-   * @param minValue Minimum allowed value of the event data attribute.
-   * @param maxValue Maximum allowed value of the event data attribute.
-   * @param step Size of increment when using slider.
-   * @param minCutActive If true, the minimum cut is appled. Can be overriden later with enableMinCut.
-   * @param maxCutActive If true, the maximum cut is appled. Can be overriden later with enableMaxCut.
-   *
+   * @param field The event data attribute field name to filter on.
+   * @param minValue The minimum allowed value of the attribute.
+   * @param maxValue The maximum allowed value of the attribute.
+   * @param step Step size for the range slider.
+   * @param minCutActive Whether the lower bound cut is active by default.
+   * @param maxCutActive Whether the upper bound cut is active by default.
    */
   constructor(
     public field: string,
@@ -37,14 +57,17 @@ export class Cut {
     this.defaultMaxValue = maxValue;
     this.defaultApplyMinValue = minCutActive;
     this.defaultApplyMaxValue = maxCutActive;
+
+    // Ensure all numeric values are actual numbers from the start
+    this.ensureNumericValues();
   }
 
-  /** Returns true if upper cut is valid. */
+  /** Enable/disable upper cut */
   enableMaxCut(check: boolean) {
     this.maxCutActive = check;
   }
 
-  /** Returns true if upper cut is valid. */
+  /** Enable/disable lower cut */
   enableMinCut(check: boolean) {
     this.minCutActive = check;
   }
@@ -58,6 +81,63 @@ export class Cut {
   }
 
   /**
+   * Create a deep copy of this Cut with the same field, bounds, step,
+   * and active flags.
+   */
+  clone(): Cut {
+    return new Cut(
+      this.field,
+      this.minValue,
+      this.maxValue,
+      this.step,
+      this.minCutActive,
+      this.maxCutActive,
+    );
+  }
+
+  /**
+   * Ensure minValue, maxValue and step are always real numbers
+   * This prevents string values like "0.5" from being saved in JSON.
+   */
+  private ensureNumericValues() {
+    this.minValue = Number(this.minValue);
+    this.maxValue = Number(this.maxValue);
+    this.step = Number(this.step);
+  }
+
+  /**
+   * Serialize the current cut state to a plain object for JSON persistence.
+   * Forces numbers to prevent string values like "0.5".
+   */
+  toJSON(): CutJSON {
+    this.ensureNumericValues(); // Extra safety before serialization
+
+    return {
+      field: this.field,
+      minValue: Number(this.minValue),
+      maxValue: Number(this.maxValue),
+      step: Number(this.step),
+      minCutActive: Boolean(this.minCutActive),
+      maxCutActive: Boolean(this.maxCutActive),
+    };
+  }
+
+  /**
+   * Reconstruct a Cut instance from a previously serialized CutJSON object.
+   * Handles cases where values might come as strings from JSON.parse().
+   */
+  static fromJSON(json: CutJSON): Cut {
+    return new Cut(
+      json.field,
+      Number(json.minValue),
+      Number(json.maxValue),
+      Number(json.step ?? 1),
+      Boolean(json.minCutActive ?? true),
+      Boolean(json.maxCutActive ?? true),
+    );
+  }
+
+  /**
    * Reset the minimum and maximum value of the cut to default.
    */
   reset() {
@@ -65,7 +145,9 @@ export class Cut {
     this.maxValue = this.defaultMaxValue;
     this.minCutActive = this.defaultApplyMinValue;
     this.maxCutActive = this.defaultApplyMaxValue;
-    // Reset the config range slider
+
+    this.ensureNumericValues();
+
     if (this.configRangeSlider != undefined) {
       this.configRangeSlider.enableMin = true;
       this.configRangeSlider.enableMax = true;
@@ -76,8 +158,6 @@ export class Cut {
 
   /**
    * Builds a config range slider for the cut to be used in Phoenix Menu
-   * @param collectionFiltering callback function to apply to all objects inside a collection, filtering them given a parameter
-   * @returns config range slider for the cut to be used in Phoenix Menu
    */
   public getConfigRangeSlider(
     collectionFiltering: () => void,
@@ -94,8 +174,9 @@ export class Cut {
         enableMin: this.minCutActive,
         enableMax: this.maxCutActive,
         onChange: ({ value, highValue }) => {
-          this.minValue = value;
-          this.maxValue = highValue;
+          this.minValue = Number(value); // Force number
+          this.maxValue = Number(highValue); // Force number
+          this.ensureNumericValues();
           collectionFiltering();
         },
         setEnableMin: (checked: boolean) => {

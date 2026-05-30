@@ -1,0 +1,228 @@
+<app-overlay
+  overlayTitle="Event Browser"
+  icon="event-browser"
+  [active]="showEventBrowser"
+>
+  <div *ngIf="showEventBrowser" class="event-browser m-2">
+    <!-- Search box -->
+    <div
+      class="search-box mb-2 d-flex align-items-center"
+      *ngIf="allSummaries.length > 0"
+    >
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Jump to event number..."
+        [ngModel]="searchQuery"
+        (ngModelChange)="updateSearch($event)"
+        (keydown.enter)="jumpToSearch()"
+      />
+      <span class="search-hint" *ngIf="searchQuery">Enter to load</span>
+    </div>
+
+    <!-- Filter controls -->
+    <div class="filter-controls mb-2" *ngIf="allSummaries.length > 0">
+      <div class="d-flex align-items-center flex-wrap gap-1">
+        <span class="filter-label">Filter:</span>
+        <select class="filter-select" [(ngModel)]="filterColumn">
+          <option value="" disabled>Column</option>
+          <option *ngFor="let col of columns" [value]="col">{{ col }}</option>
+        </select>
+        <select class="filter-select" [(ngModel)]="filterOperator">
+          <option value=">=">&gt;=</option>
+          <option value="<=">&lt;=</option>
+          <option value="=">=</option>
+        </select>
+        <input
+          type="number"
+          class="filter-input"
+          placeholder="value"
+          [(ngModel)]="filterValue"
+          min="0"
+        />
+        <button class="btn-filter btn-blank" (click)="addFilter()">Add</button>
+        <span class="filter-separator">|</span>
+        <span class="filter-label">MET &gt;=</span>
+        <input
+          type="number"
+          class="filter-input"
+          placeholder="GeV"
+          (input)="updateMETFilter($event.target.value)"
+        />
+        <button
+          class="btn-filter btn-blank"
+          (click)="clearFilters()"
+          *ngIf="filters.length > 0 || metFilterMin !== null || searchQuery"
+        >
+          Clear
+        </button>
+      </div>
+      <!-- Active filters -->
+      <div class="active-filters mt-1" *ngIf="filters.length > 0">
+        <span class="filter-tag" *ngFor="let filter of filters; index as i">
+          {{ getFilterLabel(filter) }}
+          <button class="btn-blank filter-remove" (click)="removeFilter(i)">
+            &times;
+          </button>
+        </span>
+      </div>
+    </div>
+
+    <!-- Summary count -->
+    <div class="summary-count mb-1" *ngIf="allSummaries.length > 0">
+      {{ displayedSummaries.length }} of {{ allSummaries.length }} events
+    </div>
+
+    <!-- Event table -->
+    <div
+      class="boxBody table-responsive"
+      (keydown)="onTableKeydown($event)"
+      tabindex="0"
+    >
+      <table
+        class="table table-borderless table-sm"
+        *ngIf="allSummaries.length > 0"
+      >
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th *ngFor="let col of columns">
+              <div class="head-wrapper">
+                <div>{{ col }}</div>
+                <div class="sort-options">
+                  <button
+                    class="icon-wrapper icon-button btn-blank up"
+                    [ngClass]="{ 'sort-active': isSortActive(col, 'desc') }"
+                    (click)="sort(col, 'desc')"
+                  >
+                    <svg>
+                      <use href="assets/icons/expand.svg#expand"></use>
+                    </svg>
+                  </button>
+                  <button
+                    class="icon-wrapper icon-button btn-blank"
+                    [ngClass]="{ 'sort-active': isSortActive(col, 'asc') }"
+                    (click)="sort(col, 'asc')"
+                  >
+                    <svg>
+                      <use href="assets/icons/expand.svg#expand"></use>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="head-wrapper">
+                <div
+                  matTooltip="Reconstructed physics objects (excl. detector readouts)"
+                >
+                  Reco
+                </div>
+                <div class="sort-options">
+                  <button
+                    class="icon-wrapper icon-button btn-blank up"
+                    [ngClass]="{ 'sort-active': isSortActive('_reco', 'desc') }"
+                    (click)="sortByReco('desc')"
+                  >
+                    <svg>
+                      <use href="assets/icons/expand.svg#expand"></use>
+                    </svg>
+                  </button>
+                  <button
+                    class="icon-wrapper icon-button btn-blank"
+                    [ngClass]="{ 'sort-active': isSortActive('_reco', 'asc') }"
+                    (click)="sortByReco('asc')"
+                  >
+                    <svg>
+                      <use href="assets/icons/expand.svg#expand"></use>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="head-wrapper">
+                <div>MET</div>
+                <div class="sort-options">
+                  <button
+                    class="icon-wrapper icon-button btn-blank up"
+                    [ngClass]="{ 'sort-active': isSortActive('_met', 'desc') }"
+                    (click)="sortByMET('desc')"
+                  >
+                    <svg>
+                      <use href="assets/icons/expand.svg#expand"></use>
+                    </svg>
+                  </button>
+                  <button
+                    class="icon-wrapper icon-button btn-blank"
+                    [ngClass]="{ 'sort-active': isSortActive('_met', 'asc') }"
+                    (click)="sortByMET('asc')"
+                  >
+                    <svg>
+                      <use href="assets/icons/expand.svg#expand"></use>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let summary of displayedSummaries"
+            [id]="'event-row-' + summary.eventKey"
+            [ngClass]="{
+              'selected-event': selectedEventKey === summary.eventKey,
+              'loaded-event': isLoadedEvent(summary),
+            }"
+            (click)="selectedEventKey = summary.eventKey"
+            (dblclick)="selectEvent(summary)"
+          >
+            <td class="event-cell">
+              <div class="event-label">{{ getEventLabel(summary) }}</div>
+              <div class="run-label" *ngIf="getRunLabel(summary)">
+                {{ getRunLabel(summary) }}
+              </div>
+            </td>
+            <td
+              *ngFor="let col of columns"
+              [ngClass]="{ 'dim-zero': getCount(summary, col) === 0 }"
+            >
+              {{ formatNumber(getCount(summary, col)) }}
+            </td>
+            <td [ngClass]="{ 'dim-zero': getRecoTotal(summary) === 0 }">
+              {{ formatNumber(getRecoTotal(summary)) }}
+            </td>
+            <td>{{ formatMET(summary.met) }}</td>
+            <td>
+              <button
+                class="btn-blank btn-load"
+                [matTooltip]="
+                  isLoadingEvent(summary) ? 'Loading...' : 'Load this event'
+                "
+                (click)="selectEvent(summary); $event.stopPropagation()"
+              >
+                <span
+                  *ngIf="isLoadingEvent(summary)"
+                  class="loading-spinner"
+                ></span>
+                <svg *ngIf="!isLoadingEvent(summary)" class="load-icon">
+                  <use href="assets/icons/views.svg#views"></use>
+                </svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="emptyBox" *ngIf="allSummaries.length === 0">
+        Load event data to browse events here.
+      </p>
+    </div>
+
+    <!-- Keyboard hint -->
+    <div class="keyboard-hint mt-1" *ngIf="allSummaries.length > 0">
+      Arrow keys to navigate, Enter to load, Shift+Left/Right for prev/next
+    </div>
+  </div>
+</app-overlay>

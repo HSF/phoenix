@@ -89,7 +89,8 @@ export function getDefaultObjectTypeConfigs(): ObjectTypeConfig[] {
     },
     {
       typeName: 'CaloCells',
-      getObject: PhoenixObjects.getCaloCell,
+      getObject: PhoenixObjects.getCaloCellsInstanced,
+      concatonateObjs: true,
       cuts: [
         new Cut('phi', -pi, pi, 0.01),
         new Cut('eta', -5.0, 5.0, 0.1),
@@ -98,7 +99,7 @@ export function getDefaultObjectTypeConfigs(): ObjectTypeConfig[] {
       scaleConfig: {
         key: 'caloCellsScale',
         label: 'CaloCells Scale',
-        scaleMethod: 'scaleChildObjects',
+        scaleMethod: 'scaleInstancedObjects',
         scaleAxis: 'z',
       },
     },

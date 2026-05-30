@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/nav/nav.component.scss"],
+  "sourcesContent": [".main-logo {\n  width: 140px;\n  z-index: 9999;\n\n  img {\n    transition: all 0.5s;\n  }\n\n  &:hover {\n    img {\n      filter: drop-shadow(0px 0px 10px var(--phoenix-text-color));\n      transition: all 0.5s;\n    }\n  }\n}\n"],
+  "mappings": "AAAA,CAAA,UACE,MAAA,MACA,QAAA,KAEA,CAJF,UAIE,IACE,WAAA,IAAA,IAIA,CATJ,SASI,OAAA,IACE,OAAA,YAAA,IAAA,IAAA,KAAA,IAAA,uBACA,WAAA,IAAA",
+  "names": []
+}

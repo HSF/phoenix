@@ -32,6 +32,8 @@ export * from './helpers/runge-kutta';
 export * from './helpers/pretty-symbols';
 export * from './helpers/active-variable';
 export * from './helpers/zip';
+export * from './helpers/event-summary';
+export * from './helpers/eta-phi-config';
 export * from './helpers/kinematics-config';
 
 // Loaders
@@ -40,6 +42,7 @@ export * from './loaders/object-type-registry';
 export * from './loaders/cms-loader';
 export * from './loaders/jivexml-loader';
 export * from './loaders/jsroot-event-loader';
+export * from './loaders/physlite-loader';
 export * from './loaders/phoenix-loader';
 export * from './loaders/edm4hep-json-loader';
 export * from './loaders/script-loader';

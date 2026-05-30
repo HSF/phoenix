@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/loader/loader.component.scss"],
+  "sourcesContent": [".loader-wrapper {\n  background: var(--phoenix-background-color);\n  z-index: 9998;\n\n  &.load-complete {\n    display: none !important;\n  }\n\n  img {\n    width: 5rem;\n    height: 5rem;\n    animation: loader 2s infinite;\n  }\n\n  p {\n    color: var(--phoenix-text-color);\n  }\n\n  .loading-bar {\n    width: 15rem;\n    max-width: 90%;\n    height: 0.5rem;\n    background: var(--phoenix-background-color-tertiary);\n    border-radius: 2.5rem;\n    overflow: hidden;\n\n    span {\n      display: block;\n      height: 100%;\n      border-radius: 2.5rem;\n      background: linear-gradient(\n        to right,\n        var(--phoenix-primary),\n        var(--phoenix-secondary)\n      );\n      transition: all 0.5s;\n    }\n  }\n}\n\n@keyframes app-loader_loader {\n  0%,\n  100% {\n    transform: scale(0.1) rotateZ(0deg);\n  }\n  95% {\n    transform: scale(1) rotateZ(15deg);\n  }\n}\n"],
+  "mappings": "AAAA,CAAA,eACE,WAAA,IAAA,4BACA,QAAA,KAEA,CAJF,cAIE,CAAA,cACE,QAAA,eAGF,CARF,eAQE,IACE,MAAA,KACA,OAAA,KACA,UAAA,OAAA,GAAA,SAGF,CAdF,eAcE,EACE,MAAA,IAAA,sBAGF,CAlBF,eAkBE,CAAA,YACE,MAAA,MACA,UAAA,IACA,OAAA,MACA,WAAA,IAAA,qCAtBJ,cAuBI,OACA,SAAA,OAEA,CA1BJ,eA0BI,CARF,YAQE,KACE,QAAA,MACA,OAAA,KA5BN,cA6BM,OACA,WAAA,gBAAA,GAAA,KAAA,CAAA,IAAA,kBAAA,CAAA,IAAA,sBAKA,WAAA,IAAA,IAKN,WAAA,kBACE,MAEE,UAAA,MAAA,IAAA,OAAA,GAEF,IACE,UAAA,MAAA,GAAA,OAAA",
+  "names": []
+}

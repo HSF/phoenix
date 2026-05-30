@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/make-picture/make-picture.component.scss"],
+  "sourcesContent": [".size-input {\n  background: transparent;\n  color: var(--phoenix-text-color);\n  text-align: center;\n}\n\n.size-input label {\n  width: 60px;\n}\n\n.size-input input {\n  background: transparent;\n  color: var(--phoenix-text-color);\n  width: 80px;\n}\n\n.badSize {\n  border-color: red;\n}\n\n.make-picture {\n  text-align: center;\n  display: block;\n}\n\n.screenshot-mode span {\n  padding: 4px 8px;\n  border: 2px solid var(--phoenix-text-color);\n  border-radius: 8px;\n  display: inline-block;\n}\n\n.make-picture span {\n  padding: 5px 25px;\n  border: 2px solid var(--phoenix-text-color);\n  border-radius: 8px;\n}\n\n#uiMenu,\n#phoenixMenu,\n#mainLogo,\n#statsElement {\n  transition: opacity 0.4s;\n}\n\n.ss-mode {\n  #uiMenu,\n  #phoenixMenu,\n  #mainLogo,\n  #statsElement {\n    visibility: hidden;\n    opacity: 0;\n  }\n}\n"],
+  "mappings": "AAAA,CAAA,WACE,WAAA,YACA,MAAA,IAAA,sBACA,WAAA,OAGF,CANA,WAMA,MACE,MAAA,KAGF,CAVA,WAUA,MACE,WAAA,YACA,MAAA,IAAA,sBACA,MAAA,KAGF,CAAA,QACE,aAAA,IAGF,CAAA,aACE,WAAA,OACA,QAAA,MAGF,CAAA,gBAAA,KAzBA,QA0BE,IAAA,IACA,OAAA,IAAA,MAAA,IAAA,sBA3BF,cA4BE,IACA,QAAA,aAGF,CAZA,aAYA,KAhCA,QAiCE,IAAA,KACA,OAAA,IAAA,MAAA,IAAA,sBAlCF,cAmCE,IAGF,CAAA,OAAA,CAAA,YAAA,CAAA,SAAA,CAAA,aAIE,WAAA,QAAA,IAIA,CAAA,QAAA,CARF,OAQE,CAAA,QAAA,CARF,YAQE,CAAA,QAAA,CARF,SAQE,CAAA,QAAA,CARF,aAYI,WAAA,OACA,QAAA",
+  "names": []
+}

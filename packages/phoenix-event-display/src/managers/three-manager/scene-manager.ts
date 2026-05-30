@@ -22,6 +22,8 @@ import {
   TubeGeometry,
   MeshToonMaterial,
   Line,
+  InstancedMesh,
+  Matrix4,
   type Object3DEventMap,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -298,6 +300,15 @@ export class SceneManager {
     const collection = eventData.getObjectByName(collectionName);
     if (collection) {
       for (const child of Object.values(collection.children)) {
+        // InstancedMesh: filter by scaling hidden instances to zero
+        if (
+          child.userData?._isInstancedCaloCells &&
+          child instanceof InstancedMesh
+        ) {
+          this.filterInstancedMesh(child, filters);
+          continue;
+        }
+
         if (child.userData) {
           for (const filter of filters) {
             const value = child.userData[filter.field];
@@ -913,6 +924,143 @@ export class SceneManager {
         }
       }
     });
+  }
+
+  /**
+   * Filter an InstancedMesh by setting hidden instances to zero-scale.
+   * Respects current scale factor so filter and scale don't conflict.
+   * @param mesh The InstancedMesh to filter.
+   * @param filters Cuts used to determine visibility of each instance.
+   */
+  private filterInstancedMesh(mesh: InstancedMesh, filters: Cut[]) {
+    const instanceData: any[] = mesh.userData._instanceData;
+    if (!instanceData) return;
+
+    this.ensureOriginalMatrices(mesh);
+
+    const originalMatrices: Float32Array = mesh.userData._originalMatrices;
+    const scaleValue: number = mesh.userData._scaleValue ?? 1;
+    const scaleAxis: string | null = mesh.userData._scaleAxis ?? null;
+    const zeroMatrix = new Matrix4().makeScale(0, 0, 0);
+    const tempMatrix = new Matrix4();
+    const pos = new Vector3();
+    const quat = new Quaternion();
+    const scl = new Vector3();
+
+    for (let i = 0; i < instanceData.length; i++) {
+      const cell = instanceData[i];
+      let visible = true;
+
+      for (const filter of filters) {
+        const value = cell[filter.field];
+        if (value !== undefined && !filter.cutPassed(value)) {
+          visible = false;
+          break;
+        }
+      }
+
+      if (visible) {
+        tempMatrix.fromArray(originalMatrices, i * 16);
+        // Re-apply current scale factor so filtering doesn't reset scale
+        if (scaleValue !== 1) {
+          tempMatrix.decompose(pos, quat, scl);
+          this.applyAxisScale(scl, scaleValue, scaleAxis);
+          tempMatrix.compose(pos, quat, scl);
+        }
+        mesh.setMatrixAt(i, tempMatrix);
+      } else {
+        mesh.setMatrixAt(i, zeroMatrix);
+      }
+    }
+
+    mesh.instanceMatrix.needsUpdate = true;
+  }
+
+  /**
+   * Scale instances in an InstancedMesh along an axis.
+   * Stores scale state so filtering preserves it. Skips zero-scaled (filtered) instances.
+   * Falls back to scaleChildObjects for non-instanced groups.
+   * @param groupName Name of the group containing the InstancedMesh.
+   * @param value Scale factor (1 = original size).
+   * @param axis Optional axis to scale along ('x', 'y', 'z').
+   */
+  public scaleInstancedObjects(
+    groupName: string,
+    value: number,
+    axis?: string,
+  ) {
+    const object = this.scene.getObjectByName(groupName);
+    if (!object) return;
+
+    let handled = false;
+    object.traverse((child: Object3D) => {
+      if (
+        child.userData?._isInstancedCaloCells &&
+        child instanceof InstancedMesh
+      ) {
+        handled = true;
+        const instanceData: any[] = child.userData._instanceData;
+        if (!instanceData) return;
+
+        this.ensureOriginalMatrices(child);
+
+        // Store scale state for filter coordination
+        child.userData._scaleValue = value;
+        child.userData._scaleAxis = axis ?? null;
+
+        const originalMatrices: Float32Array = child.userData._originalMatrices;
+        const tempMatrix = new Matrix4();
+        const currentMatrix = new Matrix4();
+        const pos = new Vector3();
+        const quat = new Quaternion();
+        const scl = new Vector3();
+
+        for (let i = 0; i < instanceData.length; i++) {
+          // Skip instances that are currently filtered out (zero-scale)
+          child.getMatrixAt(i, currentMatrix);
+          const e = currentMatrix.elements;
+          if (e[0] === 0 && e[5] === 0 && e[10] === 0) continue;
+
+          tempMatrix.fromArray(originalMatrices, i * 16);
+          tempMatrix.decompose(pos, quat, scl);
+          this.applyAxisScale(scl, value, axis);
+          tempMatrix.compose(pos, quat, scl);
+          child.setMatrixAt(i, tempMatrix);
+        }
+
+        child.instanceMatrix.needsUpdate = true;
+      }
+    });
+
+    // Fallback for non-instanced objects in the same group
+    if (!handled) {
+      this.scaleChildObjects(groupName, value, axis);
+    }
+  }
+
+  /** Snapshot the original instance matrices on first use. */
+  private ensureOriginalMatrices(mesh: InstancedMesh) {
+    if (!mesh.userData._originalMatrices) {
+      mesh.userData._originalMatrices =
+        mesh.instanceMatrix.array.slice() as Float32Array;
+    }
+  }
+
+  /** Apply a scale factor to a Vector3 along a specific axis or uniformly. */
+  private applyAxisScale(scl: Vector3, value: number, axis?: string | null) {
+    switch (axis) {
+      case 'x':
+        scl.x *= value;
+        break;
+      case 'y':
+        scl.y *= value;
+        break;
+      case 'z':
+        scl.z *= value;
+        break;
+      default:
+        scl.multiplyScalar(value);
+    }
   }
 
   /**
