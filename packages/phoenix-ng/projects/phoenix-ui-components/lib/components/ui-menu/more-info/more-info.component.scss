@@ -1,0 +1,15 @@
+.hidden-panels {
+  display: none;
+}
+
+.item-content {
+  display: inline-flex;
+  align-items: center;
+}
+
+.item-icon {
+  inline-size: 1.2rem;
+  block-size: 1.2rem;
+  margin-inline-end: 0.5rem;
+  fill: currentColor;
+}

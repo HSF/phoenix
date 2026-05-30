@@ -69,6 +69,7 @@ import {
   EventBrowserOverlayComponent,
   EtaPhiPanelComponent,
   EtaPhiPanelOverlayComponent,
+  MoreInfoComponent,
 } from './ui-menu';
 
 import { AttributePipe } from '../services/extras/attribute.pipe';
@@ -86,6 +87,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   NavComponent,
   UiMenuWrapperComponent,
   UiMenuComponent,
+  MoreInfoComponent,
   CollectionsInfoComponent,
   GeometryBrowserComponent,
   GeometryBrowserOverlayComponent,
