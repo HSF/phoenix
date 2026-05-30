@@ -22,23 +22,23 @@
 <mat-menu #moreInfo>
   <button mat-menu-item *ngIf="uiConfig?.showInfoPanel">
     <mat-checkbox
-      [checked]="infoPanel?.showInfoPanel"
+      [checked]="showInfoPanel"
       (click)="$event.stopPropagation()"
-      (change)="infoPanel?.toggleOverlay()"
+      (change)="toggleInfoPanel()"
     >
       <span class="item-content">
         <svg class="item-icon">
           <use href="assets/icons/info-panel.svg#info-panel"></use>
         </svg>
-        Messages Panel
+        Info Panel
       </span>
     </mat-checkbox>
   </button>
   <button mat-menu-item *ngIf="uiConfig?.showEventBrowser">
     <mat-checkbox
-      [checked]="eventBrowser?.showEventBrowser"
+      [checked]="showEventBrowser"
       (click)="$event.stopPropagation()"
-      (change)="eventBrowser?.toggleOverlay()"
+      (change)="toggleEventBrowser()"
     >
       <span class="item-content">
         <svg class="item-icon">
@@ -50,9 +50,9 @@
   </button>
   <button mat-menu-item *ngIf="uiConfig?.showCollectionsInfo">
     <mat-checkbox
-      [checked]="collectionsInfo?.showObjectsInfo"
+      [checked]="showCollectionsInfo"
       (click)="$event.stopPropagation()"
-      (change)="collectionsInfo?.toggleOverlay()"
+      (change)="toggleCollectionsInfo()"
     >
       <span class="item-content">
         <svg class="item-icon">
@@ -64,9 +64,9 @@
   </button>
   <button mat-menu-item *ngIf="uiConfig?.showEtaPhiPanel">
     <mat-checkbox
-      [checked]="etaPhiPanel?.showPanel"
+      [checked]="showEtaPhiPanel"
       (click)="$event.stopPropagation()"
-      (change)="etaPhiPanel?.toggleOverlay()"
+      (change)="toggleEtaPhiPanel()"
     >
       <span class="item-content">
         <svg class="item-icon">
@@ -78,9 +78,9 @@
   </button>
   <button mat-menu-item *ngIf="uiConfig?.showGeometryBrowser">
     <mat-checkbox
-      [checked]="geometryBrowser?.browseDetectorParts"
+      [checked]="showGeometryBrowser"
       (click)="$event.stopPropagation()"
-      (change)="geometryBrowser?.toggleOverlay()"
+      (change)="toggleGeometryBrowser()"
     >
       <span class="item-content">
         <svg class="item-icon">

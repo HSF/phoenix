@@ -20,4 +20,35 @@ export class MoreInfoComponent {
   @ViewChild('collectionsInfo') collectionsInfo: CollectionsInfoComponent;
   @ViewChild('etaPhiPanel') etaPhiPanel: EtaPhiPanelComponent;
   @ViewChild('geometryBrowser') geometryBrowser: GeometryBrowserComponent;
+
+  showInfoPanel = false;
+  showEventBrowser = false;
+  showCollectionsInfo = false;
+  showEtaPhiPanel = false;
+  showGeometryBrowser = false;
+
+  toggleInfoPanel() {
+    this.showInfoPanel = !this.showInfoPanel;
+    this.infoPanel?.toggleOverlay();
+  }
+
+  toggleEventBrowser() {
+    this.showEventBrowser = !this.showEventBrowser;
+    this.eventBrowser?.toggleOverlay();
+  }
+
+  toggleCollectionsInfo() {
+    this.showCollectionsInfo = !this.showCollectionsInfo;
+    this.collectionsInfo?.toggleOverlay();
+  }
+
+  toggleEtaPhiPanel() {
+    this.showEtaPhiPanel = !this.showEtaPhiPanel;
+    this.etaPhiPanel?.toggleOverlay();
+  }
+
+  toggleGeometryBrowser() {
+    this.showGeometryBrowser = !this.showGeometryBrowser;
+    this.geometryBrowser?.toggleOverlay();
+  }
 }
