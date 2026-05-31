@@ -60,8 +60,7 @@ export class EventAutoloader {
     if (source.type === 'sse') {
       this.startSSE(source.url);
     } else {
-      const intervalMs =
-        (source as { intervalMs?: number }).intervalMs ?? 5000;
+      const intervalMs = (source as { intervalMs?: number }).intervalMs ?? 5000;
       // Run once immediately, then on interval
       this.poll();
       this.intervalId = setInterval(() => this.poll(), intervalMs);
@@ -95,7 +94,9 @@ export class EventAutoloader {
         await this.pollRestEndpoint(source.url);
       }
     } catch (err: any) {
-      this.options.onError?.(err instanceof Error ? err : new Error(String(err)));
+      this.options.onError?.(
+        err instanceof Error ? err : new Error(String(err)),
+      );
     }
   }
 
@@ -106,7 +107,8 @@ export class EventAutoloader {
    */
   private async pollApacheListing(url: string) {
     const res = await fetch(url);
-    if (!res.ok) throw new Error(`Directory listing fetch failed: ${res.status}`);
+    if (!res.ok)
+      throw new Error(`Directory listing fetch failed: ${res.status}`);
     const html = await res.text();
 
     const newFiles = this.parseApacheListing(html, url);
@@ -163,10 +165,14 @@ export class EventAutoloader {
   /** Fetches a .json or .xml(.zip) file and emits its parsed content. */
   private async fetchAndEmit(fileUrl: string) {
     const res = await fetch(fileUrl);
-    if (!res.ok) throw new Error(`Event file fetch failed (${fileUrl}): ${res.status}`);
+    if (!res.ok)
+      throw new Error(`Event file fetch failed (${fileUrl}): ${res.status}`);
 
     const isZip = fileUrl.endsWith('.zip');
-    const rawExt = fileUrl.replace(/\.zip$/, '').split('.').pop();
+    const rawExt = fileUrl
+      .replace(/\.zip$/, '')
+      .split('.')
+      .pop();
 
     let text: string;
     if (isZip) {

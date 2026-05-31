@@ -1,0 +1,149 @@
+<app-overlay
+  [overlayTitle]="config.title"
+  icon="kinematics"
+  [resizable]="true"
+  [active]="showKinematics"
+>
+  <div *ngIf="showKinematics" class="kinematics-panel">
+    <!-- Header: collection selector + filter + count + export -->
+    <div class="panel-header" *ngIf="collections?.length > 0">
+      <div class="header-top">
+        <div class="collection-selector" *ngIf="collections.length > 1">
+          <select (change)="selectCollection($event.target.value)">
+            <option
+              *ngFor="let c of collections"
+              [value]="c"
+              [selected]="c === selectedCollection"
+            >
+              {{ c }}
+            </option>
+          </select>
+        </div>
+        <span class="collection-name" *ngIf="collections.length === 1">
+          {{ selectedCollection }}
+        </span>
+        <span class="track-count">
+          {{ rows.length
+          }}<span *ngIf="filterValue > 0"> / {{ allRows.length }}</span> tracks
+        </span>
+        <button
+          class="export-btn"
+          matTooltip="Export as TSV"
+          (click)="exportTSV()"
+          *ngIf="rows.length > 0"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="var(--phoenix-options-icon-path, #fff)"
+          >
+            <path
+              d="M10 3a.75.75 0 0 1 .75.75v7.69l2.22-2.22a.75.75 0 1 1 1.06 1.06l-3.5 3.5a.75.75 0 0 1-1.06 0l-3.5-3.5a.75.75 0 1 1 1.06-1.06l2.22 2.22V3.75A.75.75 0 0 1 10 3Z"
+            />
+            <path
+              d="M3 15.75a.75.75 0 0 1 .75-.75h12.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Filter row -->
+      <div class="filter-row" *ngIf="filterCol">
+        <label>
+          {{ filterCol.label }} &ge;
+          <input
+            type="number"
+            class="filter-input"
+            [value]="filterValue"
+            (input)="onFilterChange($event.target.value)"
+            step="1"
+            min="0"
+          />
+          <span class="filter-unit" *ngIf="filterCol.unit">{{
+            filterCol.unit
+          }}</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Table with keyboard navigation -->
+    <div
+      class="table-container"
+      *ngIf="rows.length > 0"
+      tabindex="0"
+      (keydown)="onKeyDown($event)"
+    >
+      <table class="kinematics-table">
+        <thead>
+          <tr>
+            <th class="col-index">#</th>
+            <th class="col-action"></th>
+            <th
+              *ngFor="let col of config.columns"
+              class="col-data sortable"
+              [class.sorted]="sortColumn === col.id"
+              [matTooltip]="col.tooltip"
+              (click)="sort(col.id)"
+            >
+              <span class="col-label">{{ col.label }}</span>
+              <span *ngIf="col.unit" class="col-unit">({{ col.unit }})</span>
+              <span class="sort-arrow" *ngIf="sortColumn === col.id">
+                {{ sortDirection === 'asc' ? '\u25B2' : '\u25BC' }}
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let row of rows; index as i"
+            [id]="'kin-' + row.uuid"
+            [class.active-object]="activeRowUuid === row.uuid"
+            [class.is-cut]="row.isCut"
+            (click)="selectTrack(row)"
+          >
+            <td class="col-index" [style.color]="getChargeColor(row)">
+              {{ i + 1 }}
+            </td>
+            <td class="col-action">
+              <button
+                *ngIf="row.uuid"
+                class="icon-btn"
+                matTooltip="Look at track"
+                (click)="lookAtTrack(row.uuid, $event)"
+              >
+                <svg>
+                  <use href="assets/icons/views.svg#views"></use>
+                </svg>
+              </button>
+            </td>
+            <td
+              *ngFor="let col of config.columns"
+              class="col-data"
+              [ngClass]="getChargeClass(col, row.values[col.id])"
+            >
+              {{ formatValue(row.values[col.id], col) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty states -->
+    <p
+      class="empty-state"
+      *ngIf="collections?.length > 0 && rows.length === 0 && allRows.length > 0"
+    >
+      No tracks above {{ filterCol?.label }} &ge; {{ filterValue }}
+      {{ filterCol?.unit }}.
+    </p>
+    <p
+      class="empty-state"
+      *ngIf="collections?.length > 0 && allRows.length === 0"
+    >
+      No objects in this collection.
+    </p>
+    <p class="empty-state" *ngIf="!collections || collections.length === 0">
+      Load event data to view track kinematics.
+    </p>
+  </div>
+</app-overlay>
