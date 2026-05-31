@@ -151,7 +151,9 @@ mesh edges). This addresses the feedback that EdgesGeometry showed too many
 internal edges, especially on jets where all cone triangles were visible.</p>
 <p>Hover uses EdgesGeometry (15° threshold) for lightweight, immediate feedback.</p>
 <p>Selection color defaults to amber but is configurable via setSelectionColor()
-for experiments like LHCb where amber-colored objects are common.</p>
+for experiments like LHCb where amber-colored objects are common.
+Hover color defaults to blue but is configurable via setHoverColor()
+for experiments where blue objects are common.</p>
 
             </p>
 
@@ -171,6 +173,10 @@ for experiments like LHCb where amber-colored objects are common.</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_hoverColor" >_hoverColor</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#antialiasing" >antialiasing</a>
                             </li>
@@ -181,6 +187,10 @@ for experiments like LHCb where amber-colored objects are common.</p>
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#composer" >composer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#currentState" >currentState</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -292,6 +302,10 @@ for experiments like LHCb where amber-colored objects are common.</p>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#setHoverColor" >setHoverColor</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#setHoverOutline" >setHoverOutline</a>
                             </li>
                             <li>
@@ -329,7 +343,7 @@ for experiments like LHCb where amber-colored objects are common.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/managers/three-manager/effects-manager.ts:74</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">src/managers/three-manager/effects-manager.ts:103</a></div>
                             </td>
                         </tr>
 
@@ -415,6 +429,44 @@ for experiments like LHCb where amber-colored objects are common.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="_hoverColor"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_hoverColor</b></span>
+                        <a href="#_hoverColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{ r: 0.2, g: 0.6, b: 1.0 }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/managers/three-manager/effects-manager.ts:77</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Current hover color as RGB components (default blue).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="antialiasing"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -436,7 +488,7 @@ for experiments like LHCb where amber-colored objects are common.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/managers/three-manager/effects-manager.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/managers/three-manager/effects-manager.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -469,7 +521,7 @@ for experiments like LHCb where amber-colored objects are common.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/managers/three-manager/effects-manager.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/managers/three-manager/effects-manager.ts:53</a></div>
                         </td>
                     </tr>
 
@@ -502,13 +554,52 @@ for experiments like LHCb where amber-colored objects are common.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/managers/three-manager/effects-manager.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/managers/three-manager/effects-manager.ts:51</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Effect composer for effect passes.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentState"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>currentState</b></span>
+                        <a href="#currentState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#EffectsState" target="_self" >EffectsState</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>EffectsState.DEFAULT</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/managers/three-manager/effects-manager.ts:82</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Current visual state of the effects system.
+Introduced to provide a typed alternative to implicit state checks.</p>
 </div>
                 </td>
             </tr>
@@ -535,7 +626,7 @@ for experiments like LHCb where amber-colored objects are common.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/managers/three-manager/effects-manager.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/managers/three-manager/effects-manager.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -572,22 +663,24 @@ for experiments like LHCb where amber-colored objects are common.</p>
                     <td class="col-md-4">
                         <i>Default value : </i><code>&#x60;
     uniform float opacity;
+    uniform float colorR;
+    uniform float colorG;
+    uniform float colorB;
     void main() {
-      vec3 color &#x3D; vec3(0.2, 0.6, 1.0);
-      gl_FragColor &#x3D; vec4(color, opacity);
+      gl_FragColor &#x3D; vec4(colorR, colorG, colorB, opacity);
     }
   &#x60;</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/managers/three-manager/effects-manager.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/managers/three-manager/effects-manager.ts:95</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Fragment shader for hover outlines (static blue).</p>
+                    <div class="io-description"><p>Fragment shader for hover outlines. Color controlled via uniforms.</p>
 </div>
                 </td>
             </tr>
@@ -619,7 +712,7 @@ for experiments like LHCb where amber-colored objects are common.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/managers/three-manager/effects-manager.ts:53</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/managers/three-manager/effects-manager.ts:73</a></div>
                         </td>
                     </tr>
 
@@ -657,7 +750,7 @@ for experiments like LHCb where amber-colored objects are common.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/managers/three-manager/effects-manager.ts:55</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/managers/three-manager/effects-manager.ts:75</a></div>
                         </td>
                     </tr>
 
@@ -695,7 +788,7 @@ for experiments like LHCb where amber-colored objects are common.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/managers/three-manager/effects-manager.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/managers/three-manager/effects-manager.ts:59</a></div>
                         </td>
                     </tr>
 
@@ -728,7 +821,7 @@ for experiments like LHCb where amber-colored objects are common.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/managers/three-manager/effects-manager.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/managers/three-manager/effects-manager.ts:85</a></div>
                         </td>
                     </tr>
 
@@ -761,7 +854,7 @@ for experiments like LHCb where amber-colored objects are common.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/managers/three-manager/effects-manager.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/managers/three-manager/effects-manager.ts:63</a></div>
                         </td>
                     </tr>
 
@@ -794,7 +887,7 @@ for experiments like LHCb where amber-colored objects are common.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/managers/three-manager/effects-manager.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/managers/three-manager/effects-manager.ts:55</a></div>
                         </td>
                     </tr>
 
@@ -832,7 +925,7 @@ for experiments like LHCb where amber-colored objects are common.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/managers/three-manager/effects-manager.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/managers/three-manager/effects-manager.ts:67</a></div>
                         </td>
                     </tr>
 
@@ -870,7 +963,7 @@ for experiments like LHCb where amber-colored objects are common.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/managers/three-manager/effects-manager.ts:49</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/managers/three-manager/effects-manager.ts:69</a></div>
                         </td>
                     </tr>
 
@@ -914,7 +1007,7 @@ for experiments like LHCb where amber-colored objects are common.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/managers/three-manager/effects-manager.ts:61</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/managers/three-manager/effects-manager.ts:88</a></div>
                         </td>
                     </tr>
 
@@ -956,8 +1049,8 @@ for experiments like LHCb where amber-colored objects are common.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="169"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:169</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="200"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:200</a></div>
                         </td>
                     </tr>
 
@@ -1001,8 +1094,8 @@ for experiments like LHCb where amber-colored objects are common.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="147"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:147</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="178"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:178</a></div>
                         </td>
                     </tr>
 
@@ -1010,7 +1103,9 @@ for experiments like LHCb where amber-colored objects are common.</p>
             <tr>
                 <td class="col-md-4">
                         <div class="io-description"><p>Render for antialias without the effects composer.
-Falls back to composer if there are active selections (OutlinePass needs it).</p>
+Uses currentState enum to determine render path — replacing
+implicit boolean checks with typed state transitions.
+Falls back to composer when currentState is SELECTED (OutlinePass needs it).</p>
 </div>
 
                             <div class="io-description">
@@ -1094,8 +1189,8 @@ Falls back to composer if there are active selections (OutlinePass needs it).</p
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="373"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:373</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="436"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:436</a></div>
                         </td>
                     </tr>
 
@@ -1136,8 +1231,8 @@ Must be called before re-initialization or when destroying the event display.</p
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="290"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:290</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="326"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:326</a></div>
                         </td>
                     </tr>
 
@@ -1177,8 +1272,8 @@ Must be called before re-initialization or when destroying the event display.</p
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="339"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:339</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="399"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:399</a></div>
                         </td>
                     </tr>
 
@@ -1255,8 +1350,8 @@ Added as a child so it inherits transforms and is excluded from raycasts.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="258"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:258</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="292"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:292</a></div>
                         </td>
                     </tr>
 
@@ -1331,8 +1426,8 @@ Added as a child so it inherits transforms and is excluded from raycasts.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="127"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:127</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="156"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:156</a></div>
                         </td>
                     </tr>
 
@@ -1424,8 +1519,8 @@ Called when antialiasing is off (selection mode).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="100"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:100</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="129"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:129</a></div>
                         </td>
                     </tr>
 
@@ -1467,8 +1562,8 @@ existing tests that check composer.passes.length.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="230"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:230</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="264"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:264</a></div>
                         </td>
                     </tr>
 
@@ -1512,8 +1607,8 @@ existing tests that check composer.passes.length.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="190"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:190</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="221"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:221</a></div>
                         </td>
                     </tr>
 
@@ -1588,8 +1683,8 @@ existing tests that check composer.passes.length.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="243"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:243</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="277"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:277</a></div>
                         </td>
                     </tr>
 
@@ -1665,8 +1760,8 @@ Uses OutlinePass for true silhouette rendering (boundary only).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="209"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:209</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="240"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:240</a></div>
                         </td>
                     </tr>
 
@@ -1723,6 +1818,85 @@ Uses OutlinePass for true silhouette rendering (boundary only).</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="setHoverColor"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>setHoverColor</b></span>
+                        <a href="#setHoverColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setHoverColor(color: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="378"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:378</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Set the hover outline color.
+Default is blue (0x3399ff). Experiments with blue-colored objects
+(e.g. LHCb calorimeter deposits) can override this for contrast
+with the selection color. Mirrors setSelectionColor() for hover.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>color</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The color as a hex number (e.g. 0xff6600 for orange).</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="setHoverOutline"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -1741,8 +1915,8 @@ Uses OutlinePass for true silhouette rendering (boundary only).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="303"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:303</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="340"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:340</a></div>
                         </td>
                     </tr>
 
@@ -1818,8 +1992,8 @@ Uses EdgesGeometry at 15° for visible hover feedback.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="328"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:328</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="366"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:366</a></div>
                         </td>
                     </tr>
 
@@ -1827,7 +2001,7 @@ Uses EdgesGeometry at 15° for visible hover feedback.</p>
             <tr>
                 <td class="col-md-4">
                         <div class="io-description"><p>Set the selection outline color.
-Default is amber (0xffa633). Experiments with amber-colored objects
+Default is amber (0xffcc44). Experiments with amber-colored objects
 (e.g. LHCb calorimeter deposits) may want a different color for contrast.</p>
 </div>
 
@@ -1896,8 +2070,8 @@ Default is amber (0xffa633). Experiments with amber-colored objects
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="277"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:277</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="313"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:313</a></div>
                         </td>
                     </tr>
 
@@ -1973,8 +2147,8 @@ Default is amber (0xffa633). Experiments with amber-colored objects
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="218"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:218</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="249"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:249</a></div>
                         </td>
                     </tr>
 
@@ -2020,6 +2194,24 @@ import { OutlinePass } from &#x27;three/examples/jsm/postprocessing/OutlinePass.
 import { Pass } from &#x27;three/examples/jsm/postprocessing/Pass.js&#x27;;
 
 /**
+ * Represents the possible visual states of objects managed
+ * by EffectsManager. Provides typed state management instead
+ * of implicit boolean checks scattered across the render path.
+ */
+export enum EffectsState {
+  /** Default state of the object. */
+  DEFAULT &#x3D; &#x27;DEFAULT&#x27;,
+  /** State when the object is being hovered over. */
+  HOVERED &#x3D; &#x27;HOVERED&#x27;,
+  /** State when the object is selected. */
+  SELECTED &#x3D; &#x27;SELECTED&#x27;,
+  /** State when the object is highlighted. */
+  HIGHLIGHTED &#x3D; &#x27;HIGHLIGHTED&#x27;,
+  /** State when the object is dimmed/faded out. */
+  DIMMED &#x3D; &#x27;DIMMED&#x27;,
+}
+
+/**
  * Manager for managing three.js event display effects like outline pass and unreal bloom.
  *
  * Selection uses OutlinePass for true silhouette outlines (boundary only, no internal
@@ -2030,6 +2222,8 @@ import { Pass } from &#x27;three/examples/jsm/postprocessing/Pass.js&#x27;;
  *
  * Selection color defaults to amber but is configurable via setSelectionColor()
  * for experiments like LHCb where amber-colored objects are common.
+ * Hover color defaults to blue but is configurable via setHoverColor()
+ * for experiments where blue objects are common.
  */
 export class EffectsManager {
   /** Effect composer for effect passes. */
@@ -2058,6 +2252,13 @@ export class EffectsManager {
   private hoverOutline: LineSegments | null &#x3D; null;
   /** Reference to the hovered object for cleanup */
   private hoverTarget: Mesh | null &#x3D; null;
+  /** Current hover color as RGB components (default blue). */
+  private _hoverColor &#x3D; { r: 0.2, g: 0.6, b: 1.0 };
+  /**
+   * Current visual state of the effects system.
+   * Introduced to provide a typed alternative to implicit state checks.
+   */
+  private currentState: EffectsState &#x3D; EffectsState.DEFAULT;
 
   /** Render function with (normal render) or without antialias (effects render). */
   public render: (scene: Scene, camera: Camera) &#x3D;&gt; void;
@@ -2069,12 +2270,14 @@ export class EffectsManager {
     }
   &#x60;;
 
-  /** Fragment shader for hover outlines (static blue). */
+  /** Fragment shader for hover outlines. Color controlled via uniforms. */
   private static readonly HOVER_FRAGMENT_SHADER &#x3D; &#x60;
     uniform float opacity;
+    uniform float colorR;
+    uniform float colorG;
+    uniform float colorB;
     void main() {
-      vec3 color &#x3D; vec3(0.2, 0.6, 1.0);
-      gl_FragColor &#x3D; vec4(color, opacity);
+      gl_FragColor &#x3D; vec4(colorR, colorG, colorB, opacity);
     }
   &#x60;;
 
@@ -2145,12 +2348,14 @@ export class EffectsManager {
 
   /**
    * Render for antialias without the effects composer.
-   * Falls back to composer if there are active selections (OutlinePass needs it).
+   * Uses currentState enum to determine render path — replacing
+   * implicit boolean checks with typed state transitions.
+   * Falls back to composer when currentState is SELECTED (OutlinePass needs it).
    * @param scene The default scene used for event display.
    * @param camera The camera inside the scene.
    */
   private antialiasRender(scene: Scene, camera: Camera) {
-    if (this.selectedObjectsSet.size &gt; 0) {
+    if (this.currentState &#x3D;&#x3D;&#x3D; EffectsState.SELECTED) {
       // Selections require OutlinePass which needs the composer
       this.defaultRenderPass.camera &#x3D; camera;
       this.defaultRenderPass.scene &#x3D; scene;
@@ -2159,7 +2364,7 @@ export class EffectsManager {
       }
       this.updateSelectionPulse();
       this.composer.render();
-    } else if (this.hoverOutline) {
+    } else if (this.currentState &#x3D;&#x3D;&#x3D; EffectsState.HOVERED) {
       // Hover outlines are scene children, direct render handles them
       this.renderer.render(scene, camera);
     } else {
@@ -2221,7 +2426,10 @@ export class EffectsManager {
    * Oscillates edgeStrength for a gentle breathing effect.
    */
   private updateSelectionPulse() {
-    if (this.selectionOutlinePass &amp;&amp; this.selectedObjectsSet.size &gt; 0) {
+    if (
+      this.selectionOutlinePass &amp;&amp;
+      this.currentState &#x3D;&#x3D;&#x3D; EffectsState.SELECTED
+    ) {
       const time &#x3D; performance.now() * 0.001;
       // Pulse between 1.5 and 4.5 — always visible, gentle breathing
       this.selectionOutlinePass.edgeStrength &#x3D; 3 + 1.5 * Math.sin(time * 2.5);
@@ -2249,7 +2457,7 @@ export class EffectsManager {
     if (this.selectedObjectsSet.has(object)) {
       return;
     }
-
+    this.currentState &#x3D; EffectsState.SELECTED;
     this.selectedObjectsSet.add(object);
     const pass &#x3D; this.ensureSelectionPass();
     pass.selectedObjects &#x3D; Array.from(this.selectedObjectsSet);
@@ -2264,8 +2472,10 @@ export class EffectsManager {
     if (!this.selectedObjectsSet.has(object)) {
       return;
     }
-
     this.selectedObjectsSet.delete(object);
+    if (this.selectedObjectsSet.size &#x3D;&#x3D;&#x3D; 0) {
+      this.currentState &#x3D; EffectsState.DEFAULT;
+    }
     if (this.selectionOutlinePass) {
       this.selectionOutlinePass.selectedObjects &#x3D; Array.from(
         this.selectedObjectsSet,
@@ -2294,6 +2504,7 @@ export class EffectsManager {
    */
   public clearAllSelections() {
     this.selectedObjectsSet.clear();
+    this.currentState &#x3D; EffectsState.DEFAULT;
     if (this.selectionOutlinePass) {
       this.selectionOutlinePass.selectedObjects &#x3D; [];
       this.selectionOutlinePass.enabled &#x3D; false;
@@ -2306,6 +2517,7 @@ export class EffectsManager {
    * @param object The mesh object to hover outline, or null to clear.
    */
   public setHoverOutline(object: Mesh | null) {
+    this.currentState &#x3D; object ? EffectsState.HOVERED : EffectsState.DEFAULT;
     // Clear existing hover outline
     if (this.hoverOutline) {
       this.hoverOutline.removeFromParent();
@@ -2326,13 +2538,35 @@ export class EffectsManager {
 
   /**
    * Set the selection outline color.
-   * Default is amber (0xffa633). Experiments with amber-colored objects
+   * Default is amber (0xffcc44). Experiments with amber-colored objects
    * (e.g. LHCb calorimeter deposits) may want a different color for contrast.
    * @param color The color as a hex number (e.g. 0x00ff00 for green).
    */
   public setSelectionColor(color: number) {
     const pass &#x3D; this.ensureSelectionPass();
     pass.visibleEdgeColor.set(color);
+  }
+
+  /**
+   * Set the hover outline color.
+   * Default is blue (0x3399ff). Experiments with blue-colored objects
+   * (e.g. LHCb calorimeter deposits) can override this for contrast
+   * with the selection color. Mirrors setSelectionColor() for hover.
+   * @param color The color as a hex number (e.g. 0xff6600 for orange).
+   */
+  public setHoverColor(color: number): void {
+    this._hoverColor &#x3D; {
+      r: ((color &gt;&gt; 16) &amp; 255) / 255,
+      g: ((color &gt;&gt; 8) &amp; 255) / 255,
+      b: (color &amp; 255) / 255,
+    };
+    // Update active hover outline immediately if one exists
+    if (this.hoverOutline) {
+      const mat &#x3D; this.hoverOutline.material as ShaderMaterial;
+      mat.uniforms[&#x27;colorR&#x27;].value &#x3D; this._hoverColor.r;
+      mat.uniforms[&#x27;colorG&#x27;].value &#x3D; this._hoverColor.g;
+      mat.uniforms[&#x27;colorB&#x27;].value &#x3D; this._hoverColor.b;
+    }
   }
 
   /**
@@ -2350,6 +2584,9 @@ export class EffectsManager {
       fragmentShader: EffectsManager.HOVER_FRAGMENT_SHADER,
       uniforms: {
         opacity: { value: 0.8 },
+        colorR: { value: this._hoverColor.r },
+        colorG: { value: this._hoverColor.g },
+        colorB: { value: this._hoverColor.b },
       },
       transparent: true,
       depthTest: true,

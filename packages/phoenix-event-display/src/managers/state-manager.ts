@@ -3,7 +3,12 @@ import { Camera } from 'three';
 import { PhoenixMenuNode } from './ui-manager/phoenix-menu/phoenix-menu-node';
 import { loadFile, saveFile } from '../helpers/file';
 import { ActiveVariable } from '../helpers/active-variable';
+import { Cut, CutJSON } from '../lib/models/cut.model';
 
+/** Map of collection name to array of serialized cuts, for JSON persistence. */
+export interface CutStateJSON {
+  [collectionName: string]: CutJSON[];
+}
 /**
  * A singleton manager for managing the scene's state.
  */
@@ -78,7 +83,8 @@ export class StateManager {
 
   /**
    * Get the current state of the event display as a JSON object.
-   * @returns The state object with menu, camera, and clipping data.
+   * Now includes active cut state so Save State preserves filters.
+   * @returns The state object with menu, camera, clipping, and cut data.
    */
   getStateAsJSON(): { [key: string]: any } {
     const controls = this.eventDisplay
@@ -98,9 +104,38 @@ export class StateManager {
           ? this.openingClippingAngle.value
           : null,
       },
+      cuts: this.getActiveCutsAsJSON(),
     };
   }
 
+  /**
+   * Serialize active cuts from PhoenixMenuUI into a plain JSON-safe object.
+   * Only collections with at least one active cut bound are included.
+   * Returns an empty object if no cuts are active or UI is unavailable.
+   */
+  private getActiveCutsAsJSON(): CutStateJSON {
+    const phoenixMenuUI = this.eventDisplay
+      ?.getUIManager()
+      ?.getPhoenixMenuUI?.();
+
+    if (!phoenixMenuUI) {
+      return {};
+    }
+
+    const registry = phoenixMenuUI.getCollectionCuts(); // This returns object { [name: string]: Cut[] }
+    const result: CutStateJSON = {};
+
+    Object.entries(registry).forEach(([collectionName, cuts]) => {
+      const activeCuts = cuts.filter(
+        (cut) => cut.minCutActive || cut.maxCutActive,
+      );
+      if (activeCuts.length > 0) {
+        result[collectionName] = activeCuts.map((cut) => cut.toJSON());
+      }
+    });
+
+    return result;
+  }
   /**
    * Save the state of the event display as JSON.
    */
@@ -169,6 +204,36 @@ export class StateManager {
         }
       }
     }
+    // Restore cut state if present in the saved JSON
+    if (jsonData['cuts']) {
+      this.restoreCutsFromJSON(jsonData['cuts'] as CutStateJSON);
+    }
+  }
+  /**
+   * Deserialize cut state from a saved JSON file, register the cuts back
+   * into PhoenixMenuUI, and re-apply them to the currently loaded event.
+   * @param cutsJSON The cuts section of a loaded state JSON file.
+   */
+  private restoreCutsFromJSON(cutsJSON: CutStateJSON): void {
+    const phoenixMenuUI = this.eventDisplay
+      ?.getUIManager()
+      ?.getPhoenixMenuUI?.();
+
+    if (!phoenixMenuUI) {
+      console.warn(
+        'StateManager: Cannot restore cuts — PhoenixMenuUI not available.',
+      );
+      return;
+    }
+
+    for (const [collectionName, cutJSONArray] of Object.entries(cutsJSON)) {
+      if (Array.isArray(cutJSONArray) && cutJSONArray.length > 0) {
+        const cuts = cutJSONArray.map((c) => Cut.fromJSON(c));
+        phoenixMenuUI.setCollectionCuts(collectionName, cuts);
+      }
+    }
+
+    phoenixMenuUI.reapplyCollectionCuts();
   }
 
   /**

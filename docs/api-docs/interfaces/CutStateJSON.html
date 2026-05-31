@@ -1,0 +1,568 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  CutStateJSON</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/managers/state-manager.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Map of collection name to array of serialized cuts, for JSON persistence.</p>
+
+            </p>
+
+
+
+
+            <section data-compodoc="block-indexables">
+    <h3 id="inputs">Indexable</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <code>[collectionName: string]:        <code><a href="../interfaces/CutJSON.html" target="_self" >CutJSON[]</a></code>
+</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/managers/state-manager.ts:9</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EventDisplay } from &#x27;../event-display&#x27;;
+import { Camera } from &#x27;three&#x27;;
+import { PhoenixMenuNode } from &#x27;./ui-manager/phoenix-menu/phoenix-menu-node&#x27;;
+import { loadFile, saveFile } from &#x27;../helpers/file&#x27;;
+import { ActiveVariable } from &#x27;../helpers/active-variable&#x27;;
+import { Cut, CutJSON } from &#x27;../lib/models/cut.model&#x27;;
+
+/** Map of collection name to array of serialized cuts, for JSON persistence. */
+export interface CutStateJSON {
+  [collectionName: string]: CutJSON[];
+}
+/**
+ * A singleton manager for managing the scene&#x27;s state.
+ */
+export class StateManager {
+  /** Instance of the state manager. */
+  private static instance: StateManager;
+  /** Root node of the phoenix menu. */
+  phoenixMenuRoot: PhoenixMenuNode;
+  /** Whether the clipping is enabled or not. */
+  clippingEnabled &#x3D; new ActiveVariable(false);
+  /** Starting angle of the clipping. */
+  startClippingAngle &#x3D; new ActiveVariable(0);
+  /** Opening angle of the clipping. */
+  openingClippingAngle &#x3D; new ActiveVariable(0);
+  /** The active camera. */
+  activeCamera: Camera;
+  /** The event display. */
+  eventDisplay: EventDisplay;
+  /** Current loaded event&#x27;s metadata. */
+  eventMetadata: { runNumber: string; eventNumber: string } &#x3D; {
+    runNumber: &#x27;000&#x27;,
+    eventNumber: &#x27;000&#x27;,
+  };
+
+  /**
+   * Create the state manager.
+   * @returns The state manager instance.
+   */
+  constructor() {
+    if (StateManager.instance &#x3D;&#x3D;&#x3D; undefined) {
+      StateManager.instance &#x3D; this;
+    }
+    return StateManager.instance;
+  }
+
+  /**
+   * Get the instance of state manager.
+   * @returns The state manager instance.
+   */
+  static getInstance(): StateManager {
+    return StateManager.instance;
+  }
+
+  /**
+   * Set the root node of Phoenix menu.
+   * @param phoenixMenuRoot Phoenix menu root node.
+   */
+  setPhoenixMenuRoot(phoenixMenuRoot: PhoenixMenuNode) {
+    this.phoenixMenuRoot &#x3D; phoenixMenuRoot;
+
+    if (this.phoenixMenuRoot) {
+      // Add save and load config buttons to the root node
+      this.phoenixMenuRoot
+        .addConfig({
+          type: &#x27;button&#x27;,
+          label: &#x27;Save state&#x27;,
+          onClick: () &#x3D;&gt; {
+            this.saveStateAsJSON();
+          },
+        })
+        .addConfig({
+          type: &#x27;button&#x27;,
+          label: &#x27;Load state&#x27;,
+          onClick: () &#x3D;&gt; {
+            loadFile((data) &#x3D;&gt; {
+              this.loadStateFromJSON(JSON.parse(data));
+            });
+          },
+        });
+    }
+  }
+
+  /**
+   * Get the current state of the event display as a JSON object.
+   * Now includes active cut state so Save State preserves filters.
+   * @returns The state object with menu, camera, clipping, and cut data.
+   */
+  getStateAsJSON(): { [key: string]: any } {
+    const controls &#x3D; this.eventDisplay
+      ?.getThreeManager()
+      ?.getControlsManager()
+      ?.getMainControls();
+
+    return {
+      phoenixMenu: this.phoenixMenuRoot?.getNodeState(),
+      eventDisplay: {
+        cameraPosition: this.activeCamera?.position.toArray(),
+        cameraTarget: controls?.target?.toArray(),
+        startClippingAngle: this.clippingEnabled.value
+          ? this.startClippingAngle.value
+          : null,
+        openingClippingAngle: this.clippingEnabled.value
+          ? this.openingClippingAngle.value
+          : null,
+      },
+      cuts: this.getActiveCutsAsJSON(),
+    };
+  }
+
+  /**
+   * Serialize active cuts from PhoenixMenuUI into a plain JSON-safe object.
+   * Only collections with at least one active cut bound are included.
+   * Returns an empty object if no cuts are active or UI is unavailable.
+   */
+  private getActiveCutsAsJSON(): CutStateJSON {
+    const phoenixMenuUI &#x3D; this.eventDisplay
+      ?.getUIManager()
+      ?.getPhoenixMenuUI?.();
+
+    if (!phoenixMenuUI) {
+      return {};
+    }
+
+    const registry &#x3D; phoenixMenuUI.getCollectionCuts(); // This returns object { [name: string]: Cut[] }
+    const result: CutStateJSON &#x3D; {};
+
+    Object.entries(registry).forEach(([collectionName, cuts]) &#x3D;&gt; {
+      const activeCuts &#x3D; cuts.filter(
+        (cut) &#x3D;&gt; cut.minCutActive || cut.maxCutActive,
+      );
+      if (activeCuts.length &gt; 0) {
+        result[collectionName] &#x3D; activeCuts.map((cut) &#x3D;&gt; cut.toJSON());
+      }
+    });
+
+    return result;
+  }
+  /**
+   * Save the state of the event display as JSON.
+   */
+  saveStateAsJSON() {
+    const state &#x3D; this.getStateAsJSON();
+
+    saveFile(
+      JSON.stringify(state),
+      &#x60;run${this.eventMetadata.runNumber}_evt${this.eventMetadata.eventNumber}.json&#x60;,
+    );
+  }
+
+  /**
+   * Load the state from JSON.
+   * @param json JSON for state.
+   */
+  loadStateFromJSON(json: string | { [key: string]: any }) {
+    const jsonData: { [key: string]: any } &#x3D;
+      typeof json &#x3D;&#x3D;&#x3D; &#x27;string&#x27; ? JSON.parse(json) : json;
+
+    if (jsonData[&#x27;phoenixMenu&#x27;] &amp;&amp; this.phoenixMenuRoot) {
+      console.log(&#x27;StateManager: Processing phoenixMenu configuration&#x27;);
+      this.phoenixMenuRoot.loadStateFromJSON(jsonData[&#x27;phoenixMenu&#x27;]);
+      this.phoenixMenuRoot.configActive &#x3D; false;
+    }
+
+    if (jsonData[&#x27;eventDisplay&#x27;]) {
+      console.log(&#x27;StateManager: Processing eventDisplay configuration&#x27;);
+      if (jsonData[&#x27;eventDisplay&#x27;]?.[&#x27;cameraPosition&#x27;]) {
+        this.activeCamera.position.fromArray(
+          jsonData[&#x27;eventDisplay&#x27;][&#x27;cameraPosition&#x27;],
+        );
+      }
+
+      if (jsonData[&#x27;eventDisplay&#x27;]?.[&#x27;cameraTarget&#x27;]) {
+        const controls &#x3D; this.eventDisplay
+          ?.getThreeManager()
+          ?.getControlsManager()
+          ?.getMainControls();
+        if (controls) {
+          controls.target.fromArray(jsonData[&#x27;eventDisplay&#x27;][&#x27;cameraTarget&#x27;]);
+          controls.update();
+        }
+      }
+
+      const startAngle &#x3D; jsonData[&#x27;eventDisplay&#x27;]?.[&#x27;startClippingAngle&#x27;];
+      const openingAngle &#x3D; jsonData[&#x27;eventDisplay&#x27;]?.[&#x27;openingClippingAngle&#x27;];
+
+      if (startAngle || openingAngle) {
+        this.setClippingEnabled(true);
+        this.eventDisplay.getUIManager().setClipping(true);
+
+        if (startAngle) {
+          this.eventDisplay
+            .getUIManager()
+            .rotateStartAngleClipping(
+              jsonData[&#x27;eventDisplay&#x27;][&#x27;startClippingAngle&#x27;],
+            );
+        }
+        if (openingAngle) {
+          this.eventDisplay
+            .getUIManager()
+            .rotateOpeningAngleClipping(
+              jsonData[&#x27;eventDisplay&#x27;][&#x27;openingClippingAngle&#x27;],
+            );
+        }
+      }
+    }
+    // Restore cut state if present in the saved JSON
+    if (jsonData[&#x27;cuts&#x27;]) {
+      this.restoreCutsFromJSON(jsonData[&#x27;cuts&#x27;] as CutStateJSON);
+    }
+  }
+  /**
+   * Deserialize cut state from a saved JSON file, register the cuts back
+   * into PhoenixMenuUI, and re-apply them to the currently loaded event.
+   * @param cutsJSON The cuts section of a loaded state JSON file.
+   */
+  private restoreCutsFromJSON(cutsJSON: CutStateJSON): void {
+    const phoenixMenuUI &#x3D; this.eventDisplay
+      ?.getUIManager()
+      ?.getPhoenixMenuUI?.();
+
+    if (!phoenixMenuUI) {
+      console.warn(
+        &#x27;StateManager: Cannot restore cuts — PhoenixMenuUI not available.&#x27;,
+      );
+      return;
+    }
+
+    for (const [collectionName, cutJSONArray] of Object.entries(cutsJSON)) {
+      if (Array.isArray(cutJSONArray) &amp;&amp; cutJSONArray.length &gt; 0) {
+        const cuts &#x3D; cutJSONArray.map((c) &#x3D;&gt; Cut.fromJSON(c));
+        phoenixMenuUI.setCollectionCuts(collectionName, cuts);
+      }
+    }
+
+    phoenixMenuUI.reapplyCollectionCuts();
+  }
+
+  /**
+   * Set the state of clipping.
+   * @param clipping Whether the clipping is enabled or not.
+   */
+  setClippingEnabled(clipping: boolean) {
+    this.clippingEnabled.update(clipping);
+  }
+
+  /**
+   * Set the start clipping angle of clipping.
+   * @param angle Angle for clipping.
+   */
+  setStartClippingAngle(angle: number) {
+    this.startClippingAngle.update(angle);
+  }
+
+  /**
+   * Get the start clipping angle of clipping.
+   * @returns The starting angle of clipping.
+   */
+  getStartClippingAngle(): number {
+    return this.startClippingAngle.value ?? 0.0;
+  }
+
+  /**
+   * Set the opening angle of clipping.
+   * @param angle Angle for clipping.
+   */
+  setOpeningClippingAngle(angle: number) {
+    this.openingClippingAngle.update(angle);
+  }
+
+  /**
+   * Get the opening angle of clipping.
+   * @returns The opening angle of clipping.
+   */
+  getOpeningClippingAngle(): number {
+    return this.openingClippingAngle.value ?? 0.0;
+  }
+
+  /**
+   * Set the scene camera for state.
+   * @param camera The camera.
+   */
+  setCamera(camera: Camera) {
+    this.activeCamera &#x3D; camera;
+  }
+
+  /**
+   * Set the event display.
+   * @param eventDisplay The event display.
+   */
+  setEventDisplay(eventDisplay: EventDisplay) {
+    this.eventDisplay &#x3D; eventDisplay;
+  }
+
+  /**
+   * Reset state manager for view transitions. Clears stale references.
+   */
+  resetForViewTransition() {
+    this.phoenixMenuRoot &#x3D; undefined;
+    this.activeCamera &#x3D; undefined;
+    this.clippingEnabled &#x3D; new ActiveVariable(false);
+    this.startClippingAngle &#x3D; new ActiveVariable(0);
+    this.openingClippingAngle &#x3D; new ActiveVariable(0);
+    this.eventMetadata &#x3D; { runNumber: &#x27;000&#x27;, eventNumber: &#x27;000&#x27; };
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'CutStateJSON.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
