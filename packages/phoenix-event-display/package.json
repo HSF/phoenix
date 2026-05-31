@@ -50,7 +50,7 @@
   "devDependencies": {
     "@babel/helper-string-parser": "^7.27.1",
     "@babel/plugin-transform-runtime": "^7.28.5",
-    "@compodoc/compodoc": "^1.1.32",
+    "@compodoc/compodoc": "^1.2.1",
     "@types/dat.gui": "^0.7.13",
     "@types/three": "~0.178.1",
     "esbuild-loader": "^4.4.0",

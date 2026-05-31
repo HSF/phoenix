@@ -139,9 +139,9 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return Object.keys(this.rawEventData).length;
   }
 
-  /* Define particle PID based on link */
+  /** Define particle PID based on link */
   private assignPID(rawEvent: any) {
-    let linkCollection: edm4hep.Link[] | edm4hep.Association[] = null;
+    let linkCollection: edm4hep.Link[] | edm4hep.Association[] | null = null;
 
     if ('MCRecoAssociations' in rawEvent)
       // Schema 1 and 2
