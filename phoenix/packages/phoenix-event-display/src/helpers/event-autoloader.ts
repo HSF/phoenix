@@ -113,10 +113,17 @@ export class EventAutoloader {
 
     const newFiles = this.parseApacheListing(html, url);
 
-    for (const fileUrl of newFiles) {
+   for (const fileUrl of newFiles) {
       if (this.seenFiles.has(fileUrl)) continue;
       this.seenFiles.add(fileUrl);
-      await this.fetchAndEmit(fileUrl);
+      
+      try {
+        await this.fetchAndEmit(fileUrl);
+      } catch (err: any) {
+        // Log it, but let the loop continue to the next file!
+        this.options.onError?.(err instanceof Error ? err : new Error(String(err)));
+      }
+    }
     }
   }
 
