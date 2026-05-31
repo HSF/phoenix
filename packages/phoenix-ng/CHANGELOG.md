@@ -3,9 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## 3.0.6 (2026-04-01)
+## [3.0.6](https://github.com/HSF/phoenix/compare/v3.0.5...v3.0.6) (2026-05-28)
 
-**Note:** Version bump only for package phoenix-ng
+
+### Bug Fixes
+
+* **accessibility:** add descriptive alt text ([8e16302](https://github.com/HSF/phoenix/commit/8e16302a891502e06a7049a8196fdbd75988da4e))
+* add Angular 20 compatibility by upgrading dependencies and migrating to application builder ([a1bccdc](https://github.com/HSF/phoenix/commit/a1bccdc08533d666c2ef2a81ac399ed3b78cc8c8)), closes [#728](https://github.com/HSF/phoenix/issues/728)
+* add missing ngOnDestroy cleanup in 4 UI components ([bb2278b](https://github.com/HSF/phoenix/commit/bb2278bbc30192b5b21ef45170aac4c7932d1dfe)), closes [#865](https://github.com/HSF/phoenix/issues/865)
+* add unsubscribe mechanism to prevent callback memory leaks ([9c10385](https://github.com/HSF/phoenix/commit/9c10385cab5a7deec5e2e69e017a17ecfac15cf0))
+* align screenshot mode button styling ([40bf07b](https://github.com/HSF/phoenix/commit/40bf07bc1d325db6ee8b10b765ce8ca06e479350))
+* **app:** fixing tests ([9402d2f](https://github.com/HSF/phoenix/commit/9402d2fbb06f504fa23d2b8dd832cac205430057))
+* **app:** isolate Jest and Cypress TypeScript types to restore IntelliSense ([4eee288](https://github.com/HSF/phoenix/commit/4eee288388c2ecb4bb7666e2755dc369d8449eeb))
+* apply lint formatting fixes ([183294c](https://github.com/HSF/phoenix/commit/183294c0aef4e3a6296aa452a24a195cbedf433f))
+* clean up event listeners in OverlayComponent and SSModeComponent ([54ba286](https://github.com/HSF/phoenix/commit/54ba286ee3d8544c3ab15ac1896390bc467765c4)), closes [#762](https://github.com/HSF/phoenix/issues/762)
+* hide eta-phi panel button on LHCb section ([4f0c25c](https://github.com/HSF/phoenix/commit/4f0c25cc6e0bd5cdd7473448bb9aaad7ac276149))
+* **io-options-dialog:** add try/catch for JSON parse errors with user feedback ([#842](https://github.com/HSF/phoenix/issues/842)) ([d77601f](https://github.com/HSF/phoenix/commit/d77601fdab3c90430d949cf83d74c9d772b8a960))
+* **make-picture:** remove outdated size check for tiled screenshots ([6d7a5f0](https://github.com/HSF/phoenix/commit/6d7a5f04eaad59866761437d27e0f6f873fbc438))
+* **release:** add OIDC permissions, pin action versions, fix exports warnings ([44dd281](https://github.com/HSF/phoenix/commit/44dd281ca9e421266843a8604c8604b4f0a116aa)), closes [#851](https://github.com/HSF/phoenix/issues/851)
+* remove checkSize and disabled logic as requested ([c9ee693](https://github.com/HSF/phoenix/commit/c9ee693eeefb9521b3dda192929514d360e934ba))
+* replace cypress-plugin-snapshots with @frsource/cypress-plugin-visual-regression-diff ([10b296a](https://github.com/HSF/phoenix/commit/10b296a03c710129d6d8dd293fb32a963dfba455)), closes [#733](https://github.com/HSF/phoenix/issues/733)
+* replace hardcoded column exclusion list with configurable Input ([c693972](https://github.com/HSF/phoenix/commit/c6939727c9a80891f5d58fe1e31933bcf214d7fd))
+* reset callbacks and state on view transitions ([0c12096](https://github.com/HSF/phoenix/commit/0c12096a59a88a20567cb12890f8a51cd7e1dae9))
+* resolve duplicate AttributePipe and stabilize Angular 20 tests ([3646a9f](https://github.com/HSF/phoenix/commit/3646a9f4c69d098f01d8e9a79398088e1c90c539))
+* restore default UI config for LHCb ([f4b4b4e](https://github.com/HSF/phoenix/commit/f4b4b4e13cc06a3d4002d40b738515e6bdbc2229))
+* stabilize Jest tests for Angular 20 compatibility ([3270baf](https://github.com/HSF/phoenix/commit/3270baf572dddc958aab2e56ef19d2e0376d7a32))
+* **test:** make setup-jest ESLint-safe for Angular 20 ([504a131](https://github.com/HSF/phoenix/commit/504a13186f22787d1545b859a6ee9cf1d7dbf4c0))
+* **ui:** clear cycle-events interval on component destroy ([8b650d5](https://github.com/HSF/phoenix/commit/8b650d5fb26a37b62b43b715f5e65921e7b66127))
+* **ui:** handle FileReader errors in IO options dialog ([005e6d1](https://github.com/HSF/phoenix/commit/005e6d1c44e43a704000ca80e421e306746ce38d))
+* upgrade TypeScript to 5.7 with Jest ESM mocks ([7969ece](https://github.com/HSF/phoenix/commit/7969ece4ff3a169bb27f6cac0cb51b1188b54dfe))
+* use Angular build configs for deploy scripts to avoid outputPath override ([5d5a986](https://github.com/HSF/phoenix/commit/5d5a986fbfb98d1fba4879415fa0aa32dc3c6cff))
+* use distinct icon for collections info panel ([7cbb895](https://github.com/HSF/phoenix/commit/7cbb89510696e50f9bc3c4f4d73c76fa701b63e4))
+* use InstancedMesh for CaloCells to prevent WebGL crash ([#474](https://github.com/HSF/phoenix/issues/474)) Signed-off-by: rx18-eng <remopanda78@gmail.com> ([766d3ba](https://github.com/HSF/phoenix/commit/766d3ba8fbd7924cc0be0c70c7495d5a52d5e85e))
+
+
+### Features
+
+* add eta-phi energy map panel ([012fb8d](https://github.com/HSF/phoenix/commit/012fb8d7a218aacc2d499d3ca4da06c7fd9e79ae))
+* add event dataset browser with physics-aware filtering ([#861](https://github.com/HSF/phoenix/issues/861)) ([28a8995](https://github.com/HSF/phoenix/commit/28a8995a653579846efd50342952ff7e414d4a48))
+* add PHYSLITE ROOT file loader for ATLAS Open Data ([#823](https://github.com/HSF/phoenix/issues/823)) ([d9ff993](https://github.com/HSF/phoenix/commit/d9ff993fb74309cb28d87f8dd47b8d7d23615ce4))
+* add URL deep linking with full view state sharing ([4124325](https://github.com/HSF/phoenix/commit/4124325e3fbdff737a5394802d1b0ca6469f75f9))
+* make UI components configurable via UIMenuConfig ([#61](https://github.com/HSF/phoenix/issues/61)) ([09efeb8](https://github.com/HSF/phoenix/commit/09efeb8d6c4461eaeafc06176f5f070f6ce0355b))
+* merge screenshot mode into make picture menu ([#540](https://github.com/HSF/phoenix/issues/540)) ([0edb178](https://github.com/HSF/phoenix/commit/0edb178f1285bba4ec555ced743a5ad4310d531c))
+
 
 
 

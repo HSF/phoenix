@@ -170,6 +170,10 @@
                                 <a href="#getCaloCell" >getCaloCell</a>
                             </li>
                             <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#getCaloCellsInstanced" >getCaloCellsInstanced</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                     <span class="modifier">Static</span>
                                 <a href="#getCaloCube" >getCaloCube</a>
@@ -280,8 +284,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="719"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:719</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="721"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:721</a></div>
                         </td>
                     </tr>
 
@@ -334,6 +338,85 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getCaloCellsInstanced"></a>
+                    <span class="name">
+                            <span class="modifier">Static</span>
+                        <span ><b>getCaloCellsInstanced</b></span>
+                        <a href="#getCaloCellsInstanced"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCaloCellsInstanced(cellsParams: any[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="785"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:785</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Create all CaloCells as a single InstancedMesh for performance.
+Receives the entire collection array and returns one object with
+per-instance transforms and colors, reducing 187K draw calls to 1.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>cellsParams</td>
+                                            <td>
+                                                        <code>any[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Array of all cell parameters in the collection.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Object3D</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>InstancedMesh containing all cells.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getCaloCube"></a>
                     <span class="name">
                             <span class="modifier">Private</span>
@@ -353,8 +436,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="679"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:679</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="681"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:681</a></div>
                         </td>
                     </tr>
 
@@ -472,8 +555,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="622"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:622</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="624"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:624</a></div>
                         </td>
                     </tr>
 
@@ -609,8 +692,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="562"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:562</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="564"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:564</a></div>
                         </td>
                     </tr>
 
@@ -746,8 +829,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="310"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:310</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="312"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:312</a></div>
                         </td>
                     </tr>
 
@@ -827,8 +910,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="951"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:951</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1049"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:1049</a></div>
                         </td>
                     </tr>
 
@@ -904,8 +987,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="212"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:212</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="214"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:214</a></div>
                         </td>
                     </tr>
 
@@ -981,8 +1064,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="917"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:917</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1015"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:1015</a></div>
                         </td>
                     </tr>
 
@@ -1058,8 +1141,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="830"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:830</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="928"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:928</a></div>
                         </td>
                     </tr>
 
@@ -1135,8 +1218,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="781"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:781</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="879"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:879</a></div>
                         </td>
                     </tr>
 
@@ -1212,8 +1295,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="112"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:112</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="114"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:114</a></div>
                         </td>
                     </tr>
 
@@ -1289,8 +1372,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="45"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:45</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="47"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -1366,8 +1449,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="886"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:886</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="984"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:984</a></div>
                         </td>
                     </tr>
 
@@ -1444,8 +1527,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="515"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:515</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="517"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:517</a></div>
                         </td>
                     </tr>
 
@@ -1552,8 +1635,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="434"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:434</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="436"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:436</a></div>
                         </td>
                     </tr>
 
@@ -1660,8 +1743,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="482"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:482</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="484"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:484</a></div>
                         </td>
                     </tr>
 
@@ -1768,8 +1851,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="401"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:401</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="403"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:403</a></div>
                         </td>
                     </tr>
 
@@ -1889,6 +1972,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
   CanvasTexture,
   ShaderMaterial,
   DoubleSide,
+  InstancedMesh,
+  Matrix4,
 } from &#x27;three&#x27;;
 import { ConvexGeometry } from &#x27;three/examples/jsm/geometries/ConvexGeometry.js&#x27;;
 import { EVENT_DATA_TYPE_COLORS } from &#x27;../../helpers/constants&#x27;;
@@ -2636,6 +2721,102 @@ export class PhoenixObjects {
     caloCellParams.uuid &#x3D; cube.uuid;
 
     return cube;
+  }
+
+  /**
+   * Create all CaloCells as a single InstancedMesh for performance.
+   * Receives the entire collection array and returns one object with
+   * per-instance transforms and colors, reducing 187K draw calls to 1.
+   * @param cellsParams Array of all cell parameters in the collection.
+   * @returns InstancedMesh containing all cells.
+   */
+  public static getCaloCellsInstanced(cellsParams: any[]): Object3D {
+    const defaultRadius &#x3D; 1700;
+    const defaultZ &#x3D; 2000;
+    const defaultSide &#x3D; 30;
+    const defaultLength &#x3D; 30;
+
+    const count &#x3D; cellsParams.length;
+    const unitBox &#x3D; new BoxGeometry(1, 1, 1);
+    const material &#x3D; new MeshPhongMaterial({
+      color: cellsParams[0]?.color ?? EVENT_DATA_TYPE_COLORS.CaloClusters,
+      transparent: true,
+      opacity: 0.7,
+    });
+
+    const mesh &#x3D; new InstancedMesh(unitBox, material, count);
+
+    // Reusable temporaries to avoid per-iteration allocation
+    const tempMatrix &#x3D; new Matrix4();
+    const tempPosition &#x3D; new Vector3();
+    const tempScale &#x3D; new Vector3();
+    const tempColor &#x3D; new Color();
+    const tempObj &#x3D; new Object3D();
+
+    for (let i &#x3D; 0; i &lt; count; i++) {
+      const cell &#x3D; cellsParams[i];
+
+      // Position (reuse existing helper)
+      const position &#x3D; PhoenixObjects.getCaloPosition(
+        cell,
+        defaultRadius,
+        defaultZ,
+      );
+
+      // Cell dimensions — scale encodes variable width/length
+      const cellWidth &#x3D; cell.side ?? defaultSide;
+      let cellLength &#x3D; cell.length ?? defaultLength;
+      if (cellLength &lt; cellWidth) {
+        cellLength &#x3D; cellWidth;
+      }
+
+      // Orientation via lookAt (same 3-branch logic as getCaloCell)
+      tempObj.position.copy(position);
+      tempObj.rotation.set(0, 0, 0);
+      tempObj.updateMatrix();
+      if (!cell.radius &amp;&amp; !cell.z) {
+        tempObj.lookAt(0, 0, 0);
+      } else if (cell.z &amp;&amp; !cell.radius) {
+        tempObj.lookAt(position.x, position.y, 0);
+      }
+      if (cell.radius) {
+        tempObj.lookAt(0, 0, position.z);
+      }
+
+      // Compose transform: position + orientation + scale
+      tempScale.set(cellWidth, cellWidth, cellLength);
+      tempMatrix.compose(position, tempObj.quaternion, tempScale);
+      mesh.setMatrixAt(i, tempMatrix);
+
+      // Per-instance color
+      tempColor.set(cell.color ?? EVENT_DATA_TYPE_COLORS.CaloClusters);
+      mesh.setColorAt(i, tempColor);
+
+      // Write back identifiers for filtering and collection lookups
+      cell._instanceId &#x3D; i;
+      cell.uuid &#x3D; mesh.uuid;
+    }
+
+    mesh.instanceMatrix.needsUpdate &#x3D; true;
+    if (mesh.instanceColor) {
+      mesh.instanceColor.needsUpdate &#x3D; true;
+    }
+
+    // Compute bounding sphere across all instances for correct frustum culling.
+    // Without this, Three.js uses the unit-box bounding sphere and cells
+    // disappear when panning.
+    mesh.computeBoundingSphere();
+
+    mesh.name &#x3D; &#x27;CaloCell&#x27;;
+    mesh.userData &#x3D; {
+      _isInstancedCaloCells: true,
+      _instanceData: cellsParams,
+      _originalMatrices: null, // lazily populated on first filter
+      _scaleValue: 1, // current scale factor (for filter↔scale coordination)
+      _scaleAxis: null as string | null,
+    };
+
+    return mesh;
   }
 
   /**

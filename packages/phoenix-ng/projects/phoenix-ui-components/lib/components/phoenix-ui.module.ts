@@ -65,6 +65,13 @@ import {
   EventDataExplorerComponent,
   EventDataExplorerDialogComponent,
   CycleEventsComponent,
+  EventBrowserComponent,
+  EventBrowserOverlayComponent,
+  EtaPhiPanelComponent,
+  EtaPhiPanelOverlayComponent,
+  MoreInfoComponent,
+  KinematicsPanelComponent,
+  KinematicsPanelOverlayComponent,
 } from './ui-menu';
 
 import { AttributePipe } from '../services/extras/attribute.pipe';
@@ -82,6 +89,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   NavComponent,
   UiMenuWrapperComponent,
   UiMenuComponent,
+  MoreInfoComponent,
   CollectionsInfoComponent,
   GeometryBrowserComponent,
   GeometryBrowserOverlayComponent,
@@ -127,6 +135,12 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   FileExplorerComponent,
   RingLoaderComponent,
   CycleEventsComponent,
+  EventBrowserComponent,
+  EventBrowserOverlayComponent,
+  EtaPhiPanelComponent,
+  EtaPhiPanelOverlayComponent,
+  KinematicsPanelComponent,
+  KinematicsPanelOverlayComponent,
 ];
 
 @NgModule({

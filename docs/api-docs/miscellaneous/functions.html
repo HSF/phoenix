@@ -130,10 +130,25 @@
                 <td class="col-md-4">
                     <ul class="index-list">
                         <li>
+                            <a href="#buildEventSummaries" title="src/helpers/event-summary.ts" ><b>buildEventSummaries</b>&nbsp;&nbsp;&nbsp;(src/.../event-summary.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#computeMET" title="src/helpers/event-summary.ts" ><b>computeMET</b>&nbsp;&nbsp;&nbsp;(src/.../event-summary.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#countCollections" title="src/helpers/event-summary.ts" ><b>countCollections</b>&nbsp;&nbsp;&nbsp;(src/.../event-summary.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#getAvailableColumns" title="src/helpers/event-summary.ts" ><b>getAvailableColumns</b>&nbsp;&nbsp;&nbsp;(src/.../event-summary.ts)</a>
+                        </li>
+                        <li>
                             <a href="#getDefaultObjectTypeConfigs" title="src/loaders/object-type-registry.ts" ><b>getDefaultObjectTypeConfigs</b>&nbsp;&nbsp;&nbsp;(src/.../object-type-registry.ts)</a>
                         </li>
                         <li>
                             <a href="#setColorForObject" title="src/managers/three-manager/color-manager.ts" ><b>setColorForObject</b>&nbsp;&nbsp;&nbsp;(src/.../color-manager.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#summarizeEvent" title="src/helpers/event-summary.ts" ><b>summarizeEvent</b>&nbsp;&nbsp;&nbsp;(src/.../event-summary.ts)</a>
                         </li>
                     </ul>
                 </td>
@@ -142,7 +157,336 @@
     </table>
 </section>
 
-    <h3>src/loaders/object-type-registry.ts</h3>
+    <h3>src/helpers/event-summary.ts</h3>
+    <section data-compodoc="block-methods">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buildEventSummaries"></a>
+                    <span class="name">
+                        <span ><b>buildEventSummaries</b></span>
+                        <a href="#buildEventSummaries"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>buildEventSummaries(eventsData: <a href="../interfaces/PhoenixEventsData.html" target="_self">PhoenixEventsData</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Pre-scan all events and build a summary index.
+This is the main entry point for the event browser.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>eventsData</td>
+                                            <td>
+                                                            <code><a href="../interfaces/PhoenixEventsData.html" target="_self" >PhoenixEventsData</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/EventSummary.html" target="_self" >EventSummary[]</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="computeMET"></a>
+                    <span class="name">
+                        <span ><b>computeMET</b></span>
+                        <a href="#computeMET"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>computeMET(eventData: <a href="../interfaces/PhoenixEventData.html" target="_self">PhoenixEventData</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Compute missing transverse energy magnitude from MET collections.
+Returns NaN if no MET data is present.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>eventData</td>
+                                            <td>
+                                                            <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="countCollections"></a>
+                    <span class="name">
+                        <span ><b>countCollections</b></span>
+                        <a href="#countCollections"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>countCollections(eventData: <a href="../interfaces/PhoenixEventData.html" target="_self">PhoenixEventData</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Count all physics objects in a single event.
+Each collection type (Tracks, Jets, etc.) can have multiple named sub-collections.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>eventData</td>
+                                            <td>
+                                                            <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>literal type</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAvailableColumns"></a>
+                    <span class="name">
+                        <span ><b>getAvailableColumns</b></span>
+                        <a href="#getAvailableColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAvailableColumns(summaries)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Get all unique collection type names across all events.
+Reconstructed physics objects are listed first, detector-level types last.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>summaries</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>string[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="summarizeEvent"></a>
+                    <span class="name">
+                        <span ><b>summarizeEvent</b></span>
+                        <a href="#summarizeEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>summarizeEvent(eventKey: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, eventData: <a href="../interfaces/PhoenixEventData.html" target="_self">PhoenixEventData</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Build a summary for a single event.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>eventKey</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>eventData</td>
+                                            <td>
+                                                            <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/EventSummary.html" target="_self" >EventSummary</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/loaders/object-type-registry.ts</h3>
     <section data-compodoc="block-methods">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
