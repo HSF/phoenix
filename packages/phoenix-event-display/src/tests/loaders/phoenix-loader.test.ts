@@ -11,11 +11,15 @@ jest.mock('../../managers/three-manager/index');
 
 describe('PhoenixLoader', () => {
   let phoenixLoader: PhoenixLoader;
+  let infoLogger: InfoLogger;
+  let threeManager: ThreeManager;
+  let uiManager: UIManager;
 
   const eventData = {
     Event: {
       'event number': 1,
       'run number': 1,
+      time: 500, // ns
       Hits: {
         hitsCollection: [
           {
@@ -48,9 +52,9 @@ describe('PhoenixLoader', () => {
   beforeEach(() => {
     phoenixLoader = new PhoenixLoader();
 
-    const infoLogger = new InfoLogger();
-    const threeManager = new ThreeManager(infoLogger);
-    const uiManager = new UIManager(threeManager);
+    infoLogger = new InfoLogger();
+    threeManager = new ThreeManager(infoLogger);
+    uiManager = new UIManager(threeManager);
 
     jest
       .spyOn(threeManager, 'addEventDataTypeGroup')
@@ -74,15 +78,15 @@ describe('PhoenixLoader', () => {
 
   it('should not get the list of collections and collection with the given collection name from the event data', () => {
     // Set eventData to undefined to simulate no data available
-    phoenixLoader['eventData'] = undefined;
+    (phoenixLoader as any).eventData = eventData['Event'];
 
     // Test getCollections()
     const collections = phoenixLoader.getCollections();
-    expect(collections).toEqual({}); // Expect an empty object instead of an array
+    expect(collections).toEqual({ Hits: ['hitsCollection'] });
 
     // Test getCollection() for a specific collection name
     const collection = phoenixLoader.getCollection('hitsCollection');
-    expect(collection).toBeFalsy(); // Ensure it doesn't return a valid collection
+    expect(collection).toBeTruthy(); // collection exists since eventData is set
 
     // Restore eventData for other tests
     phoenixLoader['eventData'] = eventData['Event'];
@@ -120,6 +124,10 @@ describe('PhoenixLoader', () => {
         label: 'Run / Event',
         value: '1 / 1',
       },
+      {
+        label: 'Data recorded',
+        value: '500',
+      },
     ]);
   });
 
@@ -143,5 +151,20 @@ describe('PhoenixLoader', () => {
     expect(
       phoenixLoader.addLabelToEventObject(label, collectionName, index),
     ).toBe('Hits > hitsCollection > 0');
+  });
+
+  it('should extract and expose event-level time information', () => {
+    const eventTime = phoenixLoader.getEventTime();
+    expect(eventTime).toEqual({ time: 500, unit: 'ns' });
+  });
+
+  it('should return undefined when no time field in event data', () => {
+    phoenixLoader.buildEventData(
+      { 'event number': 1, 'run number': 1 } as any,
+      threeManager,
+      uiManager,
+      infoLogger,
+    );
+    expect(phoenixLoader.getEventTime()).toBeUndefined();
   });
 });
