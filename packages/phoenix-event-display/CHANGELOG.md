@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [3.0.7](https://github.com/HSF/phoenix/compare/v3.0.5...v3.0.7) (2026-04-29)
+## [3.0.6](https://github.com/HSF/phoenix/compare/v3.0.5...v3.0.6) (2026-05-28)
 
 
 ### Bug Fixes
@@ -48,6 +48,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
+* add eta-phi energy map panel ([012fb8d](https://github.com/HSF/phoenix/commit/012fb8d7a218aacc2d499d3ca4da06c7fd9e79ae))
 * add event dataset browser with physics-aware filtering ([#861](https://github.com/HSF/phoenix/issues/861)) ([28a8995](https://github.com/HSF/phoenix/commit/28a8995a653579846efd50342952ff7e414d4a48))
 * add per-collection track extension to radius ([#177](https://github.com/HSF/phoenix/issues/177)) ([2983295](https://github.com/HSF/phoenix/commit/2983295225d25b7e3e1af448cd584f09f2dee21b))
 * add PHYSLITE ROOT file loader for ATLAS Open Data ([#823](https://github.com/HSF/phoenix/issues/823)) ([d9ff993](https://github.com/HSF/phoenix/commit/d9ff993fb74309cb28d87f8dd47b8d7d23615ce4))
@@ -66,13 +67,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 * Revert "chore: apply prettier and eslint fixes" ([8904c1c](https://github.com/HSF/phoenix/commit/8904c1cfcd829df43e2c3b6ab9494ce9f153d016))
 
-
-
-
-
-## 3.0.6 (2026-04-01)
-
-**Note:** Version bump only for package phoenix-event-display
 
 
 

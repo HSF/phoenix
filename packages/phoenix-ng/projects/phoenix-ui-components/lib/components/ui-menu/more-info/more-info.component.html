@@ -1,0 +1,101 @@
+<!-- Sub-components kept outside the mat-menu so their overlays persist when the menu closes -->
+<div class="hidden-panels">
+  <app-info-panel #infoPanel *ngIf="uiConfig?.showInfoPanel"></app-info-panel>
+  <app-event-browser
+    #eventBrowser
+    *ngIf="uiConfig?.showEventBrowser"
+  ></app-event-browser>
+  <app-collections-info
+    #collectionsInfo
+    *ngIf="uiConfig?.showCollectionsInfo"
+  ></app-collections-info>
+  <app-eta-phi-panel
+    #etaPhiPanel
+    *ngIf="uiConfig?.showEtaPhiPanel"
+  ></app-eta-phi-panel>
+  <app-geometry-browser
+    #geometryBrowser
+    *ngIf="uiConfig?.showGeometryBrowser"
+  ></app-geometry-browser>
+</div>
+
+<mat-menu #moreInfo>
+  <button mat-menu-item *ngIf="uiConfig?.showInfoPanel">
+    <mat-checkbox
+      [checked]="showInfoPanel"
+      (click)="$event.stopPropagation()"
+      (change)="toggleInfoPanel()"
+    >
+      <span class="item-content">
+        <svg class="item-icon">
+          <use href="assets/icons/info-panel.svg#info-panel"></use>
+        </svg>
+        Info Panel
+      </span>
+    </mat-checkbox>
+  </button>
+  <button mat-menu-item *ngIf="uiConfig?.showEventBrowser">
+    <mat-checkbox
+      [checked]="showEventBrowser"
+      (click)="$event.stopPropagation()"
+      (change)="toggleEventBrowser()"
+    >
+      <span class="item-content">
+        <svg class="item-icon">
+          <use href="assets/icons/event-browser.svg#event-browser"></use>
+        </svg>
+        Event Browser
+      </span>
+    </mat-checkbox>
+  </button>
+  <button mat-menu-item *ngIf="uiConfig?.showCollectionsInfo">
+    <mat-checkbox
+      [checked]="showCollectionsInfo"
+      (click)="$event.stopPropagation()"
+      (change)="toggleCollectionsInfo()"
+    >
+      <span class="item-content">
+        <svg class="item-icon">
+          <use href="assets/icons/eventData.svg#eventData"></use>
+        </svg>
+        Collections Info
+      </span>
+    </mat-checkbox>
+  </button>
+  <button mat-menu-item *ngIf="uiConfig?.showEtaPhiPanel">
+    <mat-checkbox
+      [checked]="showEtaPhiPanel"
+      (click)="$event.stopPropagation()"
+      (change)="toggleEtaPhiPanel()"
+    >
+      <span class="item-content">
+        <svg class="item-icon">
+          <use href="assets/icons/eta-phi.svg#eta-phi"></use>
+        </svg>
+        Eta-Phi Panel
+      </span>
+    </mat-checkbox>
+  </button>
+  <button mat-menu-item *ngIf="uiConfig?.showGeometryBrowser">
+    <mat-checkbox
+      [checked]="showGeometryBrowser"
+      (click)="$event.stopPropagation()"
+      (change)="toggleGeometryBrowser()"
+    >
+      <span class="item-content">
+        <svg class="item-icon">
+          <use href="assets/icons/top-cube.svg#top-cube"></use>
+        </svg>
+        Geometry Browser
+      </span>
+    </mat-checkbox>
+  </button>
+</mat-menu>
+
+<app-menu-toggle
+  [matMenuTriggerFor]="moreInfo"
+  tooltip="More information"
+  icon="info"
+  [active]="false"
+>
+</app-menu-toggle>

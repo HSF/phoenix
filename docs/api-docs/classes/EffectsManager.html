@@ -1049,8 +1049,8 @@ Introduced to provide a typed alternative to implicit state checks.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="198"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:198</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="200"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:200</a></div>
                         </td>
                     </tr>
 
@@ -1094,8 +1094,8 @@ Introduced to provide a typed alternative to implicit state checks.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="176"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:176</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="178"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:178</a></div>
                         </td>
                     </tr>
 
@@ -1103,7 +1103,9 @@ Introduced to provide a typed alternative to implicit state checks.</p>
             <tr>
                 <td class="col-md-4">
                         <div class="io-description"><p>Render for antialias without the effects composer.
-Falls back to composer if there are active selections (OutlinePass needs it).</p>
+Uses currentState enum to determine render path — replacing
+implicit boolean checks with typed state transitions.
+Falls back to composer when currentState is SELECTED (OutlinePass needs it).</p>
 </div>
 
                             <div class="io-description">
@@ -1187,8 +1189,8 @@ Falls back to composer if there are active selections (OutlinePass needs it).</p
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="431"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:431</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="436"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:436</a></div>
                         </td>
                     </tr>
 
@@ -1229,8 +1231,8 @@ Must be called before re-initialization or when destroying the event display.</p
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="321"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:321</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="326"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:326</a></div>
                         </td>
                     </tr>
 
@@ -1270,8 +1272,8 @@ Must be called before re-initialization or when destroying the event display.</p
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="394"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:394</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="399"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:399</a></div>
                         </td>
                     </tr>
 
@@ -1348,8 +1350,8 @@ Added as a child so it inherits transforms and is excluded from raycasts.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="287"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:287</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="292"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:292</a></div>
                         </td>
                     </tr>
 
@@ -1560,8 +1562,8 @@ existing tests that check composer.passes.length.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="259"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:259</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="264"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:264</a></div>
                         </td>
                     </tr>
 
@@ -1605,8 +1607,8 @@ existing tests that check composer.passes.length.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="219"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:219</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="221"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:221</a></div>
                         </td>
                     </tr>
 
@@ -1681,8 +1683,8 @@ existing tests that check composer.passes.length.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="272"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:272</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="277"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:277</a></div>
                         </td>
                     </tr>
 
@@ -1758,8 +1760,8 @@ Uses OutlinePass for true silhouette rendering (boundary only).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="238"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:238</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="240"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:240</a></div>
                         </td>
                     </tr>
 
@@ -1834,8 +1836,8 @@ Uses OutlinePass for true silhouette rendering (boundary only).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="373"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:373</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="378"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:378</a></div>
                         </td>
                     </tr>
 
@@ -1913,8 +1915,8 @@ with the selection color. Mirrors setSelectionColor() for hover.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="335"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:335</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="340"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:340</a></div>
                         </td>
                     </tr>
 
@@ -1990,8 +1992,8 @@ Uses EdgesGeometry at 15° for visible hover feedback.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="361"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:361</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="366"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:366</a></div>
                         </td>
                     </tr>
 
@@ -2068,8 +2070,8 @@ Default is amber (0xffcc44). Experiments with amber-colored objects
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="308"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:308</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="313"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:313</a></div>
                         </td>
                     </tr>
 
@@ -2145,8 +2147,8 @@ Default is amber (0xffcc44). Experiments with amber-colored objects
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="247"
-                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:247</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="249"
+                                    class="link-to-prism">src/managers/three-manager/effects-manager.ts:249</a></div>
                         </td>
                     </tr>
 
@@ -2346,12 +2348,14 @@ export class EffectsManager {
 
   /**
    * Render for antialias without the effects composer.
-   * Falls back to composer if there are active selections (OutlinePass needs it).
+   * Uses currentState enum to determine render path — replacing
+   * implicit boolean checks with typed state transitions.
+   * Falls back to composer when currentState is SELECTED (OutlinePass needs it).
    * @param scene The default scene used for event display.
    * @param camera The camera inside the scene.
    */
   private antialiasRender(scene: Scene, camera: Camera) {
-    if (this.selectedObjectsSet.size &gt; 0) {
+    if (this.currentState &#x3D;&#x3D;&#x3D; EffectsState.SELECTED) {
       // Selections require OutlinePass which needs the composer
       this.defaultRenderPass.camera &#x3D; camera;
       this.defaultRenderPass.scene &#x3D; scene;
@@ -2360,7 +2364,7 @@ export class EffectsManager {
       }
       this.updateSelectionPulse();
       this.composer.render();
-    } else if (this.hoverOutline) {
+    } else if (this.currentState &#x3D;&#x3D;&#x3D; EffectsState.HOVERED) {
       // Hover outlines are scene children, direct render handles them
       this.renderer.render(scene, camera);
     } else {
@@ -2422,7 +2426,10 @@ export class EffectsManager {
    * Oscillates edgeStrength for a gentle breathing effect.
    */
   private updateSelectionPulse() {
-    if (this.selectionOutlinePass &amp;&amp; this.selectedObjectsSet.size &gt; 0) {
+    if (
+      this.selectionOutlinePass &amp;&amp;
+      this.currentState &#x3D;&#x3D;&#x3D; EffectsState.SELECTED
+    ) {
       const time &#x3D; performance.now() * 0.001;
       // Pulse between 1.5 and 4.5 — always visible, gentle breathing
       this.selectionOutlinePass.edgeStrength &#x3D; 3 + 1.5 * Math.sin(time * 2.5);

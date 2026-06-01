@@ -61,9 +61,9 @@ export class EventDataExplorerDialogComponent {
     );
   }
 
-  loadEvent(file: FileEvent) {
+  async loadEvent(file: FileEvent) {
     this.loading = true;
-    this.error = this.fileLoader.loadEvent(
+    this.error = await this.fileLoader.loadEvent(
       file.url,
       this.eventDisplay,
       file.nocache ? { cache: 'no-cache' } : {},
@@ -72,9 +72,9 @@ export class EventDataExplorerDialogComponent {
     if (!this.error) this.onClose();
   }
 
-  loadConfig(file: FileEvent) {
+  async loadConfig(file: FileEvent) {
     this.loading = true;
-    this.error = this.fileLoader.makeRequest(
+    this.error = await this.fileLoader.makeRequest(
       `${this.dialogData.apiURL}?type=config&f=${file.url}`,
       'text',
       (config) => {

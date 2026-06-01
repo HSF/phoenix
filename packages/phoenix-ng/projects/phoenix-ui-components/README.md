@@ -86,3 +86,65 @@ export class TestComponent {
   phoenixMenuRoot = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
 }
 ```
+## Services
+
+### NotificationService
+
+`NotificationService` provides user-facing notifications with four severity levels and configurable auto-dismiss durations. It replaces silent console errors with actionable feedback visible directly in the UI.
+
+#### Severity levels and default durations
+
+| Severity  | Default duration| Behaviour               |
+|-----------|-----------------|-------------------------|
+| `success` | 5000ms          | Auto-dismisses          |
+| `info`    | 5000ms          | Auto-dismisses          |
+| `warning` | 8000ms          | Auto-dismisses          |
+| `error`   | 0ms             | Requires manual dismiss |
+
+#### Usage
+
+Inject `NotificationService` into any Angular component or service:
+
+```ts
+import { NotificationService } from 'phoenix-ui-components';
+
+@Component({ ... })
+export class MyComponent {
+  constructor(private notificationService: NotificationService) {}
+
+  loadFile() {
+    try {
+      // ... load file
+      this.notificationService.success('File loaded successfully.');
+    } catch (error) {
+      this.notificationService.error('Could not parse event file. Please ensure it is valid JSON.');
+    }
+  }
+}
+```
+
+To display notifications, subscribe to the service in your component and render the received notification:
+
+```ts
+
+private unsubscribe: () => void;
+ngOnInit() {
+  this.unsubscribe = this.notificationService.subscribeToNotifications((notification) => {
+    // notification.message   — the text to display
+    // notification.severity  — 'success' | 'info' | 'warning' | 'error'
+    // notification.duration  — auto-dismiss duration in ms (0 = no auto-dismiss)
+  });
+}
+
+ngOnDestroy() {
+  this.unsubscribe?.();
+}
+
+```
+
+A custom duration can be passed as an optional second argument to override the default:
+
+```ts
+this.notificationService.warning('Large file detected — loading may take a moment.', 12000);
+this.notificationService.error('Connection lost.', 10000); // override no-auto-dismiss default
+```

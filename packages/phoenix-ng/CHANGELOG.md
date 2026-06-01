@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [3.0.7](https://github.com/HSF/phoenix/compare/v3.0.5...v3.0.7) (2026-04-29)
+## [3.0.6](https://github.com/HSF/phoenix/compare/v3.0.5...v3.0.6) (2026-05-28)
 
 
 ### Bug Fixes
@@ -17,6 +17,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **app:** isolate Jest and Cypress TypeScript types to restore IntelliSense ([4eee288](https://github.com/HSF/phoenix/commit/4eee288388c2ecb4bb7666e2755dc369d8449eeb))
 * apply lint formatting fixes ([183294c](https://github.com/HSF/phoenix/commit/183294c0aef4e3a6296aa452a24a195cbedf433f))
 * clean up event listeners in OverlayComponent and SSModeComponent ([54ba286](https://github.com/HSF/phoenix/commit/54ba286ee3d8544c3ab15ac1896390bc467765c4)), closes [#762](https://github.com/HSF/phoenix/issues/762)
+* hide eta-phi panel button on LHCb section ([4f0c25c](https://github.com/HSF/phoenix/commit/4f0c25cc6e0bd5cdd7473448bb9aaad7ac276149))
 * **io-options-dialog:** add try/catch for JSON parse errors with user feedback ([#842](https://github.com/HSF/phoenix/issues/842)) ([d77601f](https://github.com/HSF/phoenix/commit/d77601fdab3c90430d949cf83d74c9d772b8a960))
 * **make-picture:** remove outdated size check for tiled screenshots ([6d7a5f0](https://github.com/HSF/phoenix/commit/6d7a5f04eaad59866761437d27e0f6f873fbc438))
 * **release:** add OIDC permissions, pin action versions, fix exports warnings ([44dd281](https://github.com/HSF/phoenix/commit/44dd281ca9e421266843a8604c8604b4f0a116aa)), closes [#851](https://github.com/HSF/phoenix/issues/851)
@@ -38,19 +39,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
+* add eta-phi energy map panel ([012fb8d](https://github.com/HSF/phoenix/commit/012fb8d7a218aacc2d499d3ca4da06c7fd9e79ae))
 * add event dataset browser with physics-aware filtering ([#861](https://github.com/HSF/phoenix/issues/861)) ([28a8995](https://github.com/HSF/phoenix/commit/28a8995a653579846efd50342952ff7e414d4a48))
 * add PHYSLITE ROOT file loader for ATLAS Open Data ([#823](https://github.com/HSF/phoenix/issues/823)) ([d9ff993](https://github.com/HSF/phoenix/commit/d9ff993fb74309cb28d87f8dd47b8d7d23615ce4))
 * add URL deep linking with full view state sharing ([4124325](https://github.com/HSF/phoenix/commit/4124325e3fbdff737a5394802d1b0ca6469f75f9))
 * make UI components configurable via UIMenuConfig ([#61](https://github.com/HSF/phoenix/issues/61)) ([09efeb8](https://github.com/HSF/phoenix/commit/09efeb8d6c4461eaeafc06176f5f070f6ce0355b))
 * merge screenshot mode into make picture menu ([#540](https://github.com/HSF/phoenix/issues/540)) ([0edb178](https://github.com/HSF/phoenix/commit/0edb178f1285bba4ec555ced743a5ad4310d531c))
 
-
-
-
-
-## 3.0.6 (2026-04-01)
-
-**Note:** Version bump only for package phoenix-ng
 
 
 

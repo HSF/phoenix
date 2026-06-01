@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [3.0.7](https://github.com/HSF/phoenix/compare/v3.0.5...v3.0.7) (2026-04-29)
+## [3.0.6](https://github.com/HSF/phoenix/compare/v3.0.5...v3.0.6) (2026-05-28)
 
 
 ### Bug Fixes
@@ -29,6 +29,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **event-display:** a patch to a typo ([90db004](https://github.com/HSF/phoenix/commit/90db0045a8bbd44d3b98b5b6ba5c636aa1ff62a3))
 * exclude generated docs from ESLint to fix release build ([ca4c63b](https://github.com/HSF/phoenix/commit/ca4c63b7822640ec76e82067394d7dd25a60550c))
 * **gltf:** dispose intermediate geometries after merge ([c50d18b](https://github.com/HSF/phoenix/commit/c50d18bede95c61e8a60e8e6e2a18416c2032f45))
+* hide eta-phi panel button on LHCb section ([4f0c25c](https://github.com/HSF/phoenix/commit/4f0c25cc6e0bd5cdd7473448bb9aaad7ac276149))
 * hide labels during animations until event objects fully appear ([efd4e3e](https://github.com/HSF/phoenix/commit/efd4e3e8756fcf63a76dca9036c2b7f92adfbd06))
 * ignore generated docs in eslint ([c0dc65f](https://github.com/HSF/phoenix/commit/c0dc65f2fe39ca7e403f8a0494c1374536018957))
 * **import-manager:** dispose intermediate geometries after GLTF merge ([2d4fb93](https://github.com/HSF/phoenix/commit/2d4fb93a34d55c7f4c6951c66a8d35d183b9f0d8))
@@ -76,6 +77,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
+* add eta-phi energy map panel ([012fb8d](https://github.com/HSF/phoenix/commit/012fb8d7a218aacc2d499d3ca4da06c7fd9e79ae))
 * add event dataset browser with physics-aware filtering ([#861](https://github.com/HSF/phoenix/issues/861)) ([28a8995](https://github.com/HSF/phoenix/commit/28a8995a653579846efd50342952ff7e414d4a48))
 * add per-collection track extension to radius ([#177](https://github.com/HSF/phoenix/issues/177)) ([2983295](https://github.com/HSF/phoenix/commit/2983295225d25b7e3e1af448cd584f09f2dee21b))
 * add PHYSLITE ROOT file loader for ATLAS Open Data ([#823](https://github.com/HSF/phoenix/issues/823)) ([d9ff993](https://github.com/HSF/phoenix/commit/d9ff993fb74309cb28d87f8dd47b8d7d23615ce4))
@@ -97,14 +99,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Reverts
 
 * Revert "chore: apply prettier and eslint fixes" ([8904c1c](https://github.com/HSF/phoenix/commit/8904c1cfcd829df43e2c3b6ab9494ce9f153d016))
-
-
-
-
-
-## 3.0.6 (2026-04-01)
-
-**Note:** Version bump only for package root
 
 
 
