@@ -86,6 +86,7 @@ export class TestComponent {
   phoenixMenuRoot = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
 }
 ```
+
 ## Services
 
 ### NotificationService
