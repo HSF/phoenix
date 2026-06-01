@@ -32,6 +32,7 @@ export * from './helpers/runge-kutta';
 export * from './helpers/pretty-symbols';
 export * from './helpers/active-variable';
 export * from './helpers/zip';
+export * from './helpers/invariant-mass';
 export * from './helpers/event-summary';
 export * from './helpers/eta-phi-config';
 export * from './helpers/kinematics-config';
