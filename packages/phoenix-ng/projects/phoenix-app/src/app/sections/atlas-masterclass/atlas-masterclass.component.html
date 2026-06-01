@@ -1,0 +1,15 @@
+<app-loader [loaded]="loaded" [progress]="loadingProgress"></app-loader>
+<app-nav></app-nav>
+<app-ui-menu
+  [eventDataImportOptions]="eventDataImportOptions"
+  [uiConfig]="uiConfig"
+  [masterclassConfig]="masterclassConfig"
+></app-ui-menu>
+<app-embed-menu></app-embed-menu>
+<app-experiment-info
+  logo="assets/images/atlas.svg"
+  url="https://home.cern/science/experiments/atlas"
+  tagline="ATLAS Masterclass"
+></app-experiment-info>
+<app-phoenix-menu [rootNode]="phoenixMenuRoot"></app-phoenix-menu>
+<div id="eventDisplay"></div>
