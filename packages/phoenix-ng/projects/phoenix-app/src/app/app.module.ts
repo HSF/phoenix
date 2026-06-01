@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { GeometryComponent } from './sections/geometry/geometry.component';
 import { AtlasComponent } from './sections/atlas/atlas.component';
+import { AtlasMasterclassComponent } from './sections/atlas-masterclass/atlas-masterclass.component';
 import { LHCbComponent } from './sections/lhcb/lhcb.component';
 import { VPToggleComponent } from './sections/lhcb/vp-toggle/vp-toggle.component';
 import { CMSComponent } from './sections/cms/cms.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'geometry', component: GeometryComponent },
   { path: 'atlas', component: AtlasComponent },
+  { path: 'atlas-masterclass', component: AtlasMasterclassComponent },
   { path: 'lhcb', component: LHCbComponent },
   { path: 'cms', component: CMSComponent },
   { path: 'trackml', component: TrackmlComponent },
@@ -39,6 +41,7 @@ const routes: Routes = [
     HomeComponent,
     GeometryComponent,
     AtlasComponent,
+    AtlasMasterclassComponent,
     LHCbComponent,
     VPToggleComponent,
     CMSComponent,

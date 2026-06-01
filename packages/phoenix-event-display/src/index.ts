@@ -35,6 +35,7 @@ export * from './helpers/zip';
 export * from './helpers/event-summary';
 export * from './helpers/eta-phi-config';
 export * from './helpers/kinematics-config';
+export * from './helpers/invariant-mass';
 
 // Loaders
 export * from './loaders/event-data-loader';
