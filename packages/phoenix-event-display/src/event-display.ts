@@ -15,6 +15,7 @@ import { URLOptionsManager } from './managers/url-options-manager';
 import type {
   PhoenixEventData,
   PhoenixEventsData,
+  PileupEvent,
 } from './lib/types/event-data';
 import {
   buildEventSummaries,
@@ -893,6 +894,25 @@ export class EventDisplay {
     onEnd?: () => void,
   ) {
     this.graphicsLibrary.animateClippingWithCollision(tweenDuration, onEnd);
+  }
+
+  /**
+   * Animate multiple pp interactions from a single bunch crossing (pileup),
+   * sequenced in time order using the timestamp stored on each interaction.
+   *
+   * Each interaction produces a brief vertex flash and then its tracks are
+   * drawn out proportionally to its timestamp relative to the bunch crossing.
+   *
+   * @param pileupEvent Object containing all pileup interactions with timestamps.
+   * @param totalDuration Total duration of the full pileup animation in ms. Default 6000.
+   * @param onEnd Callback fired when all interactions have finished animating.
+   */
+  public animatePileup(
+    pileupEvent: PileupEvent,
+    totalDuration: number = 6000,
+    onEnd?: () => void,
+  ): void {
+    this.graphicsLibrary.animatePileup(pileupEvent, totalDuration, onEnd);
   }
 
   /**
