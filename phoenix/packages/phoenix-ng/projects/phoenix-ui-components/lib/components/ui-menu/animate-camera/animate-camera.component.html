@@ -1,0 +1,25 @@
+<mat-menu #animationPresets>
+  <ng-container *ngFor="let preset of animationPresetsKeys">
+    <button mat-menu-item (click)="animatePreset(preset)">
+      {{ preset }}
+    </button>
+    <button
+      mat-menu-item
+      (click)="animatePresetInSSMode(preset)"
+      matTooltip="Run '{{ preset }}' in fullscreen screenshot mode (ideal for OBS recording)"
+    >
+      ▶ {{ preset }} (screenshot mode)
+    </button>
+  </ng-container>
+  <button mat-menu-item (click)="animateCamera()">Animate camera</button>
+</mat-menu>
+
+<app-menu-toggle
+  [matMenuTriggerFor]="animationPresets"
+  tooltip="Preset animations"
+  icon="animate-camera"
+>
+</app-menu-toggle>
+
+<!-- Hidden SS mode component driven programmatically -->
+<app-ss-mode style="display:none"></app-ss-mode>
