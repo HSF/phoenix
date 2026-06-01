@@ -1,0 +1,238 @@
+.kinematics-panel {
+  height: 95%;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-header {
+  flex-shrink: 0;
+  padding: 0.5rem 0.75rem 0.25rem;
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-height: 2rem;
+  }
+
+  .collection-selector select {
+    padding: 4px 8px;
+    font-size: 12px;
+    border: 1px solid rgba(88, 88, 88, 0.08);
+    box-shadow: var(--phoenix-icon-shadow);
+    background-color: var(--phoenix-background-color-tertiary);
+    color: var(--phoenix-text-color-secondary);
+  }
+
+  .collection-name {
+    color: var(--phoenix-text-color-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .track-count {
+    color: var(--phoenix-text-color-secondary);
+    font-size: 0.75rem;
+    opacity: 0.6;
+    margin-left: auto;
+  }
+
+  .export-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0.3rem;
+    border: none;
+    background: var(--phoenix-options-icon-bg);
+    border-radius: 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    &:hover {
+      outline: 1px solid var(--phoenix-options-icon-path);
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.filter-row {
+  padding: 0.3rem 0;
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--phoenix-text-color-secondary);
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+
+  .filter-input {
+    width: 4rem;
+    padding: 2px 6px;
+    font-size: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    background: var(--phoenix-background-color-tertiary);
+    color: var(--phoenix-text-color-secondary);
+
+    &:focus {
+      outline: 1px solid var(--phoenix-text-color-secondary);
+    }
+  }
+
+  .filter-unit {
+    opacity: 0.5;
+    font-size: 0.7rem;
+  }
+}
+
+.table-container {
+  flex: 1;
+  overflow: auto;
+  outline: none;
+}
+
+.kinematics-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--phoenix-text-color-secondary);
+
+  thead tr th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--phoenix-background-color-secondary);
+    padding: 0.4rem 0.7rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    &.sortable {
+      cursor: pointer;
+      user-select: none;
+
+      &:hover {
+        color: var(--phoenix-text-color);
+      }
+    }
+
+    &.sorted {
+      color: var(--phoenix-text-color);
+    }
+
+    .col-unit {
+      opacity: 0.5;
+      font-weight: normal;
+      font-size: 0.68rem;
+      margin-left: 0.15rem;
+    }
+
+    .sort-arrow {
+      font-size: 0.55rem;
+      margin-left: 0.2rem;
+      opacity: 0.7;
+    }
+  }
+
+  tbody tr {
+    cursor: pointer;
+    transition: background 0.12s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    &.active-object {
+      color: var(--phoenix-background-color);
+      background: var(--phoenix-text-color);
+      box-shadow: 0 0 12px var(--phoenix-text-color);
+
+      .icon-btn {
+        --phoenix-options-icon-path: var(--phoenix-background-color);
+        --phoenix-options-icon-bg: var(--phoenix-text-color-hover);
+      }
+    }
+
+    &.is-cut {
+      opacity: 0.35;
+    }
+  }
+
+  td {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+
+    &.col-index {
+      color: rgba(255, 255, 255, 0.4);
+      width: 2.5rem;
+      text-align: right;
+      padding-right: 0.4rem;
+      white-space: nowrap;
+    }
+
+    &.col-action {
+      width: 2rem;
+      padding: 0.2rem;
+    }
+
+    &.col-data {
+      text-align: right;
+    }
+  }
+}
+
+.charge-pos {
+  color: #ff7b7b;
+  font-weight: 600;
+
+  &::before {
+    content: '+';
+  }
+}
+
+.charge-neg {
+  color: #7bb5ff;
+  font-weight: 600;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0.3rem;
+  border: none;
+  background: var(--phoenix-options-icon-bg);
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover {
+    outline: 1px solid var(--phoenix-options-icon-path);
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.empty-state {
+  color: var(--phoenix-text-color-secondary);
+  opacity: 0.5;
+  text-align: center;
+  padding: 2rem;
+  max-width: 18em;
+  margin: 2rem auto;
+  font-size: 0.85rem;
+}

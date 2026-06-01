@@ -70,6 +70,8 @@ import {
   EtaPhiPanelComponent,
   EtaPhiPanelOverlayComponent,
   MoreInfoComponent,
+  KinematicsPanelComponent,
+  KinematicsPanelOverlayComponent,
 } from './ui-menu';
 
 import { AttributePipe } from '../services/extras/attribute.pipe';
@@ -137,6 +139,8 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   EventBrowserOverlayComponent,
   EtaPhiPanelComponent,
   EtaPhiPanelOverlayComponent,
+  KinematicsPanelComponent,
+  KinematicsPanelOverlayComponent,
 ];
 
 @NgModule({

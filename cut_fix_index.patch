@@ -1,0 +1,12 @@
+diff --git a/packages/phoenix-event-display/src/managers/ui-manager/index.ts b/packages/phoenix-event-display/src/managers/ui-manager/index.ts
+index 6c1c1b00..c5206d84 100644
+--- a/packages/phoenix-event-display/src/managers/ui-manager/index.ts
++++ b/packages/phoenix-event-display/src/managers/ui-manager/index.ts
+@@ -609,6 +609,7 @@ export class UIManager {
+       (uiMenu) => uiMenu instanceof PhoenixMenuUI,
+     ) as PhoenixMenuUI;
+     phoenixMenuUI?.loadEventFolderState();
++    phoenixMenuUI?.reapplyCollectionCuts();
+   }
+ 
+   /**
