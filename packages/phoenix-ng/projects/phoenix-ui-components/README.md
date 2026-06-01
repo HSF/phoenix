@@ -95,7 +95,7 @@ export class TestComponent {
 #### Severity levels and default durations
 
 | Severity  | Default duration | Behaviour               |
-|-----------|------------------|-------------------------|
+| --------- | ---------------- | ----------------------- |
 | `success` | 5000ms           | Auto-dismisses          |
 | `info`    | 5000ms           | Auto-dismisses          |
 | `warning` | 8000ms           | Auto-dismisses          |
