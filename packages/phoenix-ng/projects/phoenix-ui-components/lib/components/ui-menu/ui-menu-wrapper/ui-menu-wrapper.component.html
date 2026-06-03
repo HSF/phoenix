@@ -1,6 +1,8 @@
 <div id="uiMenu">
   <button
     id="hideUIMenu"
+    type="button"
+    aria-label="Toggle toolbar visibility"
     [matTooltip]="hideUIMenu ? 'Show toolbar' : 'Hide toolbar'"
     matTooltipPosition="above"
     (click)="hideUIMenu = !hideUIMenu"
