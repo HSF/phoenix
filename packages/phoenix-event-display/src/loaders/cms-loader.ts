@@ -45,56 +45,70 @@ export class CMSLoader extends PhoenixLoader {
     this.loadingManager.addLoadableItem('ig_archive');
     const igArchive = new JSZip();
     const eventsDataInIg: any[] = [];
-    const readArchive = (res: File | ArrayBuffer) => {
-      igArchive.loadAsync(res).then(() => {
+
+    const readArchive = async (res: File | ArrayBuffer) => {
+      try {
+        await igArchive.loadAsync(res);
         let allFilesPath = Object.keys(igArchive.files);
-        // If the event path or name is given then filter all data to get the required events
+
+        // Filter all data to get the required events
         if (eventPathName) {
           allFilesPath = allFilesPath.filter((filePath) =>
             filePath.includes(eventPathName),
           );
         }
-        let i = 1;
-        for (const filePathInIg of allFilesPath) {
-          // If the files are in the "Events" folder then process them.
+
+        const filePromises = allFilesPath.map(async (filePathInIg) => {
           if (filePathInIg.toLowerCase().startsWith('events')) {
-            igArchive
-              ?.file(filePathInIg)!
-              .async('string')
-              .then((singleEvent: string) => {
-                // The data has some inconsistencies which need to be removed to properly parse JSON
-                singleEvent = singleEvent
-                  .replace(/'/g, '"')
-                  .replace(/\(/g, '[')
-                  .replace(/\)/g, ']')
-                  .replace(/nan/g, '0');
-                const eventJSON = JSON.parse(singleEvent);
-                eventJSON.eventPath = filePathInIg;
-                eventsDataInIg.push(eventJSON);
-                if (i === allFilesPath.length) {
-                  onFileRead(eventsDataInIg);
-                  this.loadingManager.itemLoaded('ig_archive');
-                }
-                i++;
-              });
-          } else {
-            if (i === allFilesPath.length) {
-              onFileRead(eventsDataInIg);
-              this.loadingManager.itemLoaded('ig_archive');
-            }
-            i++;
+            const archiveFile = igArchive.file(filePathInIg);
+            if (!archiveFile) return;
+
+            let singleEvent = await archiveFile.async('string');
+
+            // OPTIMIZATION: Single-pass Regex replaces all inconsistent data at once 
+            // instead of iterating the entire giant string 4 separate times.
+            singleEvent = singleEvent.replace(/'|\(|\)|nan/g, (match) => {
+              if (match === "'") return '"';
+              if (match === '(') return '[';
+              if (match === ')') return ']';
+              if (match === 'nan') return '0';
+              return match;
+            });
+
+            const eventJSON = JSON.parse(singleEvent);
+            eventJSON.eventPath = filePathInIg;
+            eventsDataInIg.push(eventJSON);
           }
+        });
+
+        // Ensure all async processing completes before firing the callback
+        await Promise.all(filePromises);
+
+        // Fire callback only when all data is ready
+        if (eventsDataInIg.length > 0) {
+          onFileRead(eventsDataInIg);
         }
-      });
+        
+      } catch (error) {
+        console.error('Error parsing .ig archive:', error);
+      } finally {
+        // FINALLY BLOCK: Guarantees the loading manager resolves whether it succeeds or fails
+        this.loadingManager.itemLoaded('ig_archive');
+      }
     };
 
     if (file instanceof File) {
       readArchive(file);
     } else {
       fetch(file)
-        .then((res) => res.arrayBuffer())
         .then((res) => {
-          readArchive(res);
+          if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+          return res.arrayBuffer();
+        })
+        .then((res) => readArchive(res))
+        .catch((error) => {
+          console.error('Error fetching .ig file:', error);
+          this.loadingManager.itemLoaded('ig_archive');
         });
     }
   }
