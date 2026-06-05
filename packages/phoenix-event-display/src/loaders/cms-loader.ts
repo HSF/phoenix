@@ -65,7 +65,7 @@ export class CMSLoader extends PhoenixLoader {
 
             let singleEvent = await archiveFile.async('string');
 
-            // OPTIMIZATION: Single-pass Regex replaces all inconsistent data at once 
+            // OPTIMIZATION: Single-pass Regex replaces all inconsistent data at once
             // instead of iterating the entire giant string 4 separate times.
             singleEvent = singleEvent.replace(/'|\(|\)|nan/g, (match) => {
               if (match === "'") return '"';
@@ -88,7 +88,6 @@ export class CMSLoader extends PhoenixLoader {
         if (eventsDataInIg.length > 0) {
           onFileRead(eventsDataInIg);
         }
-        
       } catch (error) {
         console.error('Error parsing .ig archive:', error);
       } finally {
