@@ -53,6 +53,32 @@
     </button>
   </ng-container>
 
+  <!-- Pending: link-supplied session awaiting explicit user confirmation -->
+  <ng-container *ngIf="state.kind === 'pending'">
+    <span class="label">Shared session</span>
+    <span class="time">{{ pendingSummary }}</span>
+    <span class="dot-sep">·</span>
+    <span class="count">from {{ state.sourceLabel }}</span>
+    <button
+      type="button"
+      class="action play-pending"
+      (click)="onPlayPending()"
+      title="Play this shared session"
+      aria-label="Play shared session"
+    >
+      Play
+    </button>
+    <button
+      type="button"
+      class="action close"
+      (click)="onDismiss()"
+      title="Dismiss"
+      aria-label="Dismiss shared session"
+    >
+      ✕
+    </button>
+  </ng-container>
+
   <!-- Playing / Paused / Finished -->
   <ng-container
     *ngIf="

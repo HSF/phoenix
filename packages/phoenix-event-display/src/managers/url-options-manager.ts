@@ -340,45 +340,55 @@ export class URLOptionsManager {
   /**
    * Apply session replay options from the URL: `?replay=<base64>` for
    * inline sessions, `?session=<url>` for remote `.phnxreplay` JSON files.
-   * Defers to the load listener so the event/config/state apply first
-   * before replay starts emitting on the bus.
+   *
+   * The payload is decoded and validated, then STAGED as pending; it does not
+   * auto-play. Link-supplied content is untrusted, so the floating pill shows
+   * the source and requires an explicit click before replaying. Deferred to
+   * the load listener so the event/config/state apply first.
    */
   private applySessionReplayOption() {
     const replayParam = this.urlOptions.get('replay');
     const sessionParam = this.urlOptions.get('session');
     if (!replayParam && !sessionParam) return;
 
-    const startReplay = async () => {
+    const stageReplay = async () => {
       const sessionManager = this.eventDisplay.getSessionManager();
       try {
         if (replayParam) {
-          await sessionManager.loadAndPlayBase64(replayParam);
+          await sessionManager.prepareFromBase64(replayParam, 'shared link');
         } else if (sessionParam) {
-          const text = await this.fetchRemoteSession(sessionParam);
-          sessionManager.loadFromJsonText(text);
-          sessionManager.play();
+          const { text, host } = await this.fetchRemoteSession(sessionParam);
+          sessionManager.prepareFromJsonText(text, host);
         }
       } catch (error) {
-        console.error('Failed to start session replay from URL.', error);
+        console.error('Failed to load session replay from URL.', error);
         this.eventDisplay
           .getInfoLogger()
-          .add('Could not start session replay from URL.', 'Error');
+          .add('Could not load session replay from URL.', 'Error');
       }
     };
 
     this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
-      setTimeout(startReplay, 400);
+      setTimeout(stageReplay, 400);
     });
   }
 
   /**
-   * Fetch a remote `.phnxreplay` JSON file. Validates the URL scheme and
-   * caps the response size before parsing. Errors surface to the caller.
+   * Fetch a remote `.phnxreplay` JSON file for the `?session=` option.
+   * Hardened against abuse of the URL parameter:
+   * - scheme allowlist (http/https only), blocking javascript:/data:/file:
+   * - `credentials: 'omit'` so no cookies leak cross-origin
+   * - `referrerPolicy: 'no-referrer'` so the target learns nothing about us
+   * - a hard request timeout so a hung server cannot pin the loader
+   * - a streamed size cap so an oversized body is aborted mid-download
+   *   instead of being fully buffered first
    * @param rawUrl The user-supplied URL from `?session=`.
-   * @returns Raw JSON text of the session.
-   * @throws Error on disallowed scheme, non-2xx response, or oversize body.
+   * @returns The raw JSON text and the resolved host (for the confirm UI).
+   * @throws Error on disallowed scheme, non-2xx, timeout, or oversize body.
    */
-  private async fetchRemoteSession(rawUrl: string): Promise<string> {
+  private async fetchRemoteSession(
+    rawUrl: string,
+  ): Promise<{ text: string; host: string }> {
     let parsed: URL;
     try {
       parsed = new URL(rawUrl, window.location.origin);
@@ -391,14 +401,49 @@ export class URLOptionsManager {
       );
     }
 
-    const res = await fetch(parsed.toString(), { credentials: 'omit' });
-    if (!res.ok) {
-      throw new Error(`Session fetch failed with status ${res.status}.`);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    try {
+      const res = await fetch(parsed.toString(), {
+        credentials: 'omit',
+        referrerPolicy: 'no-referrer',
+        signal: controller.signal,
+      });
+      if (!res.ok) {
+        throw new Error(`Session fetch failed with status ${res.status}.`);
+      }
+
+      // Stream the body and abort as soon as the running total exceeds the
+      // cap, rather than buffering the whole (possibly huge) response first.
+      const reader = res.body?.getReader();
+      if (!reader) {
+        const text = await res.text();
+        if (text.length > MAX_REMOTE_SESSION_BYTES) {
+          throw new Error('Session file is too large.');
+        }
+        return { text, host: parsed.host };
+      }
+      const chunks: Uint8Array[] = [];
+      let total = 0;
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        total += value.byteLength;
+        if (total > MAX_REMOTE_SESSION_BYTES) {
+          controller.abort();
+          throw new Error('Session file is too large.');
+        }
+        chunks.push(value);
+      }
+      const merged = new Uint8Array(total);
+      let offset = 0;
+      for (const chunk of chunks) {
+        merged.set(chunk, offset);
+        offset += chunk.byteLength;
+      }
+      return { text: new TextDecoder().decode(merged), host: parsed.host };
+    } finally {
+      clearTimeout(timeout);
     }
-    const blob = await res.blob();
-    if (blob.size > MAX_REMOTE_SESSION_BYTES) {
-      throw new Error(`Session file is too large (${blob.size} bytes).`);
-    }
-    return blob.text();
   }
 }

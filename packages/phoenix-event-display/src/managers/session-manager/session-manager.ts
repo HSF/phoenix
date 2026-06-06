@@ -17,6 +17,7 @@ export type SessionState =
   | { kind: 'idle' }
   | { kind: 'recording'; recorder: SessionRecorder }
   | { kind: 'recorded'; session: SessionV1 }
+  | { kind: 'pending'; session: SessionV1; sourceLabel: string }
   | { kind: 'playing'; player: SessionPlayer; currentTime: number }
   | { kind: 'paused'; player: SessionPlayer; currentTime: number }
   | { kind: 'finished'; player: SessionPlayer }
@@ -38,6 +39,8 @@ export class SessionManager {
   private recorder: SessionRecorder | null = null;
   /** Active player instance, or null when no replay is loaded. */
   private player: SessionPlayer | null = null;
+  /** Decoded-but-not-yet-played session awaiting explicit user confirmation. */
+  private pendingSession: SessionV1 | null = null;
   /**
    * Share-link base64 precomputed when a recording stops, so the UI can copy
    * it synchronously inside the click gesture (the Clipboard API rejects a
@@ -141,7 +144,60 @@ export class SessionManager {
   }
 
   /**
+   * Decode + validate a base64 `?replay=` payload and stage it for playback,
+   * WITHOUT starting it. Sets state to 'pending' so the UI can require an
+   * explicit user click before replaying untrusted, link-supplied content.
+   * @param base64 Base64 input from the URL.
+   * @param sourceLabel Human-readable origin shown in the confirm UI.
+   * @throws Error if decoding/validation fails (also exposed via state.error).
+   */
+  public async prepareFromBase64(
+    base64: string,
+    sourceLabel: string,
+  ): Promise<void> {
+    try {
+      const session = await decodeSessionFromBase64(base64);
+      this.setPending(session, sourceLabel);
+    } catch (e) {
+      this.state.update({ kind: 'error', message: errorMessage(e) });
+      throw e;
+    }
+  }
+
+  /**
+   * Decode + validate a `.phnxreplay` JSON payload and stage it for playback
+   * without starting it (see {@link prepareFromBase64}).
+   * @param text JSON text contents.
+   * @param sourceLabel Human-readable origin shown in the confirm UI.
+   * @throws Error if validation fails.
+   */
+  public prepareFromJsonText(text: string, sourceLabel: string): SessionV1 {
+    try {
+      const session = decodeSessionFromJson(text);
+      this.setPending(session, sourceLabel);
+      return session;
+    } catch (e) {
+      this.state.update({ kind: 'error', message: errorMessage(e) });
+      throw e;
+    }
+  }
+
+  /**
+   * Start the pending session after explicit user confirmation. No-op if the
+   * manager is not in the 'pending' state.
+   */
+  public playPending(): void {
+    if (this.state.value?.kind !== 'pending' || !this.pendingSession) return;
+    const session = this.pendingSession;
+    this.pendingSession = null;
+    this.attachPlayer(new SessionPlayer(this.host, session));
+    this.player?.play();
+  }
+
+  /**
    * Load a session from a base64 ?replay= URL parameter and start playing.
+   * For programmatic/trusted callers; the URL path uses
+   * {@link prepareFromBase64} so link-supplied content is not auto-run.
    * @param base64 Base64 input from the URL.
    * @throws Error if decoding/validation fails (also exposed via state.error).
    */
@@ -201,9 +257,22 @@ export class SessionManager {
   /** Stop and detach any active player. Resets state to idle. */
   public stopPlayback(): void {
     this.stopPlaybackIfAny();
+    this.pendingSession = null;
     if (this.state.value?.kind !== 'recording') {
       this.state.update({ kind: 'idle' });
     }
+  }
+
+  /**
+   * Stage a decoded session as pending (awaiting user confirmation) and
+   * publish the 'pending' state for the UI. Stops any active playback first.
+   * @param session The validated session to stage.
+   * @param sourceLabel Human-readable origin (host or 'shared link').
+   */
+  private setPending(session: SessionV1, sourceLabel: string): void {
+    this.stopPlaybackIfAny();
+    this.pendingSession = session;
+    this.state.update({ kind: 'pending', session, sourceLabel });
   }
 
   /**
@@ -234,6 +303,7 @@ export class SessionManager {
       }
     }
     this.recorder = null;
+    this.pendingSession = null;
     this.stopPlaybackIfAny();
     this.state.update({ kind: 'idle' });
   }

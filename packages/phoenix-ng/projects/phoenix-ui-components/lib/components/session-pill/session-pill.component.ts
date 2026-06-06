@@ -92,6 +92,18 @@ export class SessionPillComponent implements OnInit, OnDestroy {
     }
   }
 
+  /** Start a pending (link-supplied) session after explicit user confirmation. */
+  onPlayPending(): void {
+    this.sessionManager.playPending();
+  }
+
+  /** Source label + duration/event summary for the pending confirm prompt. */
+  get pendingSummary(): string {
+    if (this.state.kind !== 'pending') return '';
+    const { session } = this.state;
+    return `${formatClock(session.duration)} · ${session.events.length} events`;
+  }
+
   /** Toggle play/pause on the active player. */
   onTogglePlayback(): void {
     if (this.state.kind === 'playing') {
