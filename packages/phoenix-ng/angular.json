@@ -69,7 +69,9 @@
               "assert",
               "node:assert",
               "worker_threads",
-              "node:worker_threads"
+              "node:worker_threads",
+              "@resvg/resvg-js",
+              "@resvg/resvg-js-linux-x64-gnu"
             ],
             "sourceMap": true,
             "optimization": false,

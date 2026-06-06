@@ -12,7 +12,12 @@ const jsrootThree = path.resolve(
 );
 
 if (fs.existsSync(jsrootThree)) {
-  fs.writeFileSync(jsrootThree, "export * from 'three';\n");
+  // Also re-export Timer explicitly: it lives in three/examples, not the main bundle,
+  // but jsroot imports it from ./three.mjs via `export *`.
+  fs.writeFileSync(
+    jsrootThree,
+    "export * from 'three';\nexport { Timer } from 'three/examples/jsm/misc/Timer.js';\n",
+  );
   console.log(
     'Patched jsroot/modules/three.mjs to re-export from project three.js',
   );
