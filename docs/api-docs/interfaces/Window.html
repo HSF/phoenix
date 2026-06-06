@@ -273,6 +273,8 @@ export class EventDisplay {
   private onEventsChange: ((events: any) &#x3D;&gt; void)[] &#x3D; [];
   /** Array containing callbacks to be called when the displayed event changes. */
   private onDisplayedEventChange: ((nowDisplayingEvent: any) &#x3D;&gt; void)[] &#x3D; [];
+  /** Generic event bus for integration with external frameworks. */
+  private eventBus: Map&lt;string, Set&lt;(data: any) &#x3D;&gt; void&gt;&gt; &#x3D; new Map();
   /** Three manager for three.js operations. */
   private graphicsLibrary: ThreeManager;
   /** Info logger for storing event display logs. */
@@ -358,9 +360,52 @@ export class EventDisplay {
     // Clear accumulated callbacks
     this.onEventsChange &#x3D; [];
     this.onDisplayedEventChange &#x3D; [];
+    this.eventBus.clear();
     // Reset singletons for clean view transition
     this.loadingManager?.reset();
     this.stateManager?.resetForViewTransition();
+  }
+
+  /**
+   * Subscribe to a named event on the integration event bus.
+   * Allows external frameworks to react to actions like particle tagging
+   * or result recording.
+   *
+   * Standard event names:
+   * - &#x60;&#x27;particle-tagged&#x27;&#x60;: Fired when a particle is tagged in the masterclass panel.
+   * - &#x60;&#x27;particle-untagged&#x27;&#x60;: Fired when a tagged particle is removed.
+   * - &#x60;&#x27;result-recorded&#x27;&#x60;: Fired when an invariant mass result is recorded.
+   *
+   * @param eventName The event name to listen for.
+   * @param callback Callback invoked with event-specific data.
+   * @returns Unsubscribe function to remove the listener.
+   */
+  public on(eventName: string, callback: (data: any) &#x3D;&gt; void): () &#x3D;&gt; void {
+    if (!this.eventBus.has(eventName)) {
+      this.eventBus.set(eventName, new Set());
+    }
+    this.eventBus.get(eventName).add(callback);
+    return () &#x3D;&gt; {
+      const listeners &#x3D; this.eventBus.get(eventName);
+      if (listeners) {
+        listeners.delete(callback);
+        if (listeners.size &#x3D;&#x3D;&#x3D; 0) {
+          this.eventBus.delete(eventName);
+        }
+      }
+    };
+  }
+
+  /**
+   * Emit a named event on the integration event bus.
+   * @param eventName The event name to emit.
+   * @param data Data to pass to listeners.
+   */
+  public emit(eventName: string, data?: any): void {
+    const listeners &#x3D; this.eventBus.get(eventName);
+    if (listeners) {
+      listeners.forEach((cb) &#x3D;&gt; cb(data));
+    }
   }
 
   /**

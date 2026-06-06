@@ -1,0 +1,634 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  MasterclassConfig</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/helpers/invariant-mass.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Configuration for experiment-specific masterclass exercises.
+Each experiment (ATLAS, LHCb, CMS, ...) provides its own config.</p>
+
+            </p>
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#classifyEvent" 
+>
+                                            classifyEvent
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#hints" 
+>
+                                            hints
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#particleTags" 
+>
+                                            particleTags
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#title" 
+>
+                                            title
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="classifyEvent"></a>
+                                        <span class="name "><b>classifyEvent</b>
+                                            <a href="#classifyEvent">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>classifyEvent:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Classify an event from the tag counts.
+Receives a map of tag id to count, e.g. { electron: 2, muon: 0 }.
+Returns a short label like &quot;e&quot;, &quot;4e&quot;, &quot;2e2m&quot;.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="hints"></a>
+                                        <span class="name "><b>hints</b>
+                                            <a href="#hints">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>hints:     <code>string[]</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string[]</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Educational hints shown when invariant mass is computed.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="particleTags"></a>
+                                        <span class="name "><b>particleTags</b>
+                                            <a href="#particleTags">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>particleTags:         <code><a href="../interfaces/ParticleTagDef.html" target="_self" >ParticleTagDef[]</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/ParticleTagDef.html" target="_self" >ParticleTagDef[]</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Available particle tags for this exercise.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="title"></a>
+                                        <span class="name "><b>title</b>
+                                            <a href="#title">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>title:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Panel title, e.g. &#39;ATLAS Z-Path Masterclass&#39;.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface FourMomentum {
+  /** Total energy in MeV. */
+  E: number;
+  /** Momentum x-component in MeV. */
+  px: number;
+  /** Momentum y-component in MeV. */
+  py: number;
+  /** Momentum z-component in MeV. */
+  pz: number;
+}
+
+/** A tagged particle with its physics properties. */
+export interface TaggedParticle {
+  /** Unique identifier of the underlying 3D object. */
+  uuid: string;
+  /** Tag id assigned to this particle (e.g. &#x27;electron&#x27;, &#x27;muon&#x27;). */
+  tag: string;
+  /** Lorentz 4-momentum computed from track/cluster kinematics. */
+  fourMomentum: FourMomentum;
+  /** Transverse momentum in MeV. */
+  pT: number;
+  /** Pseudorapidity. */
+  eta: number;
+  /** Azimuthal angle in radians. */
+  phi: number;
+}
+
+/** Definition of a particle tag for use in masterclass exercises. */
+export interface ParticleTagDef {
+  /** Unique identifier, e.g. &#x27;electron&#x27;, &#x27;kaon&#x27;. */
+  id: string;
+  /** Human-readable label, e.g. &#x27;Electron&#x27;. */
+  label: string;
+  /** Symbol for display, e.g. &#x27;e\u00B1&#x27;, &#x27;K\u00B1&#x27;. */
+  symbol: string;
+  /** CSS color for the tag button and badge. */
+  color: string;
+  /** Rest mass in MeV/c\u00B2. */
+  mass: number;
+}
+
+/**
+ * Configuration for experiment-specific masterclass exercises.
+ * Each experiment (ATLAS, LHCb, CMS, ...) provides its own config.
+ */
+export interface MasterclassConfig {
+  /** Panel title, e.g. &#x27;ATLAS Z-Path Masterclass&#x27;. */
+  title: string;
+  /** Available particle tags for this exercise. */
+  particleTags: ParticleTagDef[];
+  /** Educational hints shown when invariant mass is computed. */
+  hints: string[];
+  /**
+   * Classify an event from the tag counts.
+   * Receives a map of tag id to count, e.g. { electron: 2, muon: 0 }.
+   * Returns a short label like &quot;e&quot;, &quot;4e&quot;, &quot;2e2m&quot;.
+   */
+  classifyEvent: (tagCounts: Record&lt;string, number&gt;) &#x3D;&gt; string;
+}
+
+/**
+ * Extract a 4-momentum vector from track userData.
+ * Tracks have pT, eta/phi (or dparams), and we assign mass from the tag definition.
+ * @param userData Track user data containing kinematic properties.
+ * @param mass Particle rest mass in MeV/c².
+ */
+export function fourMomentumFromTrack(
+  userData: any,
+  mass: number,
+): FourMomentum | null {
+  const pT &#x3D; userData.pT;
+  if (pT &#x3D;&#x3D; null) return null;
+
+  const phi &#x3D; userData.phi ?? userData.dparams?.[2];
+  // theta from dparams, or compute from eta
+  let theta &#x3D; userData.dparams?.[3];
+  if (theta &#x3D;&#x3D; null &amp;&amp; userData.eta !&#x3D; null) {
+    theta &#x3D; 2 * Math.atan(Math.exp(-userData.eta));
+  }
+  if (phi &#x3D;&#x3D; null || theta &#x3D;&#x3D; null) return null;
+
+  const px &#x3D; pT * Math.cos(phi);
+  const py &#x3D; pT * Math.sin(phi);
+  const pz &#x3D; pT / Math.tan(theta);
+  const p2 &#x3D; px * px + py * py + pz * pz;
+  const E &#x3D; Math.sqrt(p2 + mass * mass);
+
+  return { E, px, py, pz };
+}
+
+/**
+ * Extract a 4-momentum vector from a calorimeter cluster.
+ * Clusters have energy, eta, phi (treated as massless).
+ */
+export function fourMomentumFromCluster(userData: any): FourMomentum | null {
+  const energy &#x3D; userData.energy;
+  const eta &#x3D; userData.eta;
+  const phi &#x3D; userData.phi;
+  if (energy &#x3D;&#x3D; null || eta &#x3D;&#x3D; null || phi &#x3D;&#x3D; null) return null;
+
+  const theta &#x3D; 2 * Math.atan(Math.exp(-eta));
+  const px &#x3D; energy * Math.sin(theta) * Math.cos(phi);
+  const py &#x3D; energy * Math.sin(theta) * Math.sin(phi);
+  const pz &#x3D; energy * Math.cos(theta);
+
+  return { E: energy, px, py, pz };
+}
+
+/**
+ * Compute the invariant mass of a set of particles in MeV.
+ * M² &#x3D; (ΣE)² - (Σpx)² - (Σpy)² - (Σpz)²
+ */
+export function invariantMass(momenta: FourMomentum[]): number {
+  if (momenta.length &lt; 2) return 0;
+
+  let sumE &#x3D; 0,
+    sumPx &#x3D; 0,
+    sumPy &#x3D; 0,
+    sumPz &#x3D; 0;
+  for (const p of momenta) {
+    sumE +&#x3D; p.E;
+    sumPx +&#x3D; p.px;
+    sumPy +&#x3D; p.py;
+    sumPz +&#x3D; p.pz;
+  }
+
+  const m2 &#x3D; sumE * sumE - sumPx * sumPx - sumPy * sumPy - sumPz * sumPz;
+  return m2 &gt; 0 ? Math.sqrt(m2) : 0;
+}
+
+/**
+ * Default event classifier for ATLAS Z-path masterclass.
+ * Classifies events by electron/muon/photon counts.
+ */
+export function atlasClassifyEvent(tagCounts: Record&lt;string, number&gt;): string {
+  const e &#x3D; tagCounts[&#x27;electron&#x27;] ?? 0;
+  const m &#x3D; tagCounts[&#x27;muon&#x27;] ?? 0;
+  const g &#x3D; tagCounts[&#x27;photon&#x27;] ?? 0;
+
+  if (e &#x3D;&#x3D;&#x3D; 2 &amp;&amp; m &#x3D;&#x3D;&#x3D; 0 &amp;&amp; g &#x3D;&#x3D;&#x3D; 0) return &#x27;e&#x27;;
+  if (e &#x3D;&#x3D;&#x3D; 0 &amp;&amp; m &#x3D;&#x3D;&#x3D; 2 &amp;&amp; g &#x3D;&#x3D;&#x3D; 0) return &#x27;m&#x27;;
+  if (e &#x3D;&#x3D;&#x3D; 0 &amp;&amp; m &#x3D;&#x3D;&#x3D; 0 &amp;&amp; g &#x3D;&#x3D;&#x3D; 2) return &#x27;g&#x27;;
+  if (e &#x3D;&#x3D;&#x3D; 4 &amp;&amp; m &#x3D;&#x3D;&#x3D; 0 &amp;&amp; g &#x3D;&#x3D;&#x3D; 0) return &#x27;4e&#x27;;
+  if (e &#x3D;&#x3D;&#x3D; 2 &amp;&amp; m &#x3D;&#x3D;&#x3D; 2 &amp;&amp; g &#x3D;&#x3D;&#x3D; 0) return &#x27;2e2m&#x27;;
+  if (e &#x3D;&#x3D;&#x3D; 0 &amp;&amp; m &#x3D;&#x3D;&#x3D; 4 &amp;&amp; g &#x3D;&#x3D;&#x3D; 0) return &#x27;4m&#x27;;
+
+  const parts: string[] &#x3D; [];
+  if (e &gt; 0) parts.push(&#x60;${e}e&#x60;);
+  if (m &gt; 0) parts.push(&#x60;${m}m&#x60;);
+  if (g &gt; 0) parts.push(&#x60;${g}g&#x60;);
+  return parts.join(&#x27;&#x27;) || &#x27;?&#x27;;
+}
+
+/** Default masterclass configuration for ATLAS Z-path exercises. */
+export const ATLAS_MASTERCLASS_CONFIG: MasterclassConfig &#x3D; {
+  title: &#x27;Masterclass: Invariant Mass&#x27;,
+  particleTags: [
+    {
+      id: &#x27;electron&#x27;,
+      label: &#x27;Electron&#x27;,
+      symbol: &#x27;e\u00B1&#x27;,
+      color: &#x27;#f0c040&#x27;,
+      mass: 0.511,
+    },
+    {
+      id: &#x27;muon&#x27;,
+      label: &#x27;Muon&#x27;,
+      symbol: &#x27;\u03BC\u00B1&#x27;,
+      color: &#x27;#40c060&#x27;,
+      mass: 105.658,
+    },
+    {
+      id: &#x27;photon&#x27;,
+      label: &#x27;Photon&#x27;,
+      symbol: &#x27;\u03B3&#x27;,
+      color: &#x27;#e04040&#x27;,
+      mass: 0,
+    },
+  ],
+  hints: [
+    &#x27;Z boson \u2248 91 GeV&#x27;,
+    &#x27;Higgs \u2248 125 GeV&#x27;,
+    &#x27;J/\u03C8 \u2248 3.1 GeV&#x27;,
+  ],
+  classifyEvent: atlasClassifyEvent,
+};
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'MasterclassConfig.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

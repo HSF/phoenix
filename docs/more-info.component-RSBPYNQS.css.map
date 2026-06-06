@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/more-info/more-info.component.scss"],
+  "sourcesContent": [".hidden-panels {\n  display: none;\n}\n\n.item-content {\n  display: inline-flex;\n  align-items: center;\n}\n\n.item-icon {\n  inline-size: 1.2rem;\n  block-size: 1.2rem;\n  margin-inline-end: 0.5rem;\n  fill: currentColor;\n}\n"],
+  "mappings": "AAAA,CAAA,cACE,QAAA,KAGF,CAAA,aACE,QAAA,YACA,YAAA,OAGF,CAAA,UACE,YAAA,OACA,WAAA,OACA,kBAAA,MACA,KAAA",
+  "names": []
+}

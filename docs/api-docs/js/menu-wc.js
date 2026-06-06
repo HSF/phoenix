@@ -209,18 +209,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/AnimationPreset.html" data-type="entity-link" >AnimationPreset</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/CaloCellParams.html" data-type="entity-link" >CaloCellParams</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/CaloClusterParams.html" data-type="entity-link" >CaloClusterParams</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/CompoundObjectParams.html" data-type="entity-link" >CompoundObjectParams</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/Configuration.html" data-type="entity-link" >Configuration</a>
-                            </li>
-                            <li class="link">
                                 <a href="interfaces/CutJSON.html" data-type="entity-link" >CutJSON</a>
                             </li>
                             <li class="link">
@@ -236,25 +224,22 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/EventSummary.html" data-type="entity-link" >EventSummary</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/HitParams.html" data-type="entity-link" >HitParams</a>
+                                <a href="interfaces/FourMomentum.html" data-type="entity-link" >FourMomentum</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/IrregularCaloCellParams.html" data-type="entity-link" >IrregularCaloCellParams</a>
+                                <a href="interfaces/KinematicsColumn.html" data-type="entity-link" >KinematicsColumn</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/JetParams.html" data-type="entity-link" >JetParams</a>
+                                <a href="interfaces/KinematicsConfig.html" data-type="entity-link" >KinematicsConfig</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/MissingEnergyParams.html" data-type="entity-link" >MissingEnergyParams</a>
+                                <a href="interfaces/MasterclassConfig.html" data-type="entity-link" >MasterclassConfig</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/ObjectTypeConfig.html" data-type="entity-link" >ObjectTypeConfig</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/PhoenixEventData.html" data-type="entity-link" >PhoenixEventData</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/PhoenixEventsData.html" data-type="entity-link" >PhoenixEventsData</a>
+                                <a href="interfaces/ParticleTagDef.html" data-type="entity-link" >ParticleTagDef</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/PhoenixUI.html" data-type="entity-link" >PhoenixUI</a>
@@ -263,13 +248,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/PHYSLITECollectionDef.html" data-type="entity-link" >PHYSLITECollectionDef</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/PlanarCaloCellParams.html" data-type="entity-link" >PlanarCaloCellParams</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/TrackParams.html" data-type="entity-link" >TrackParams</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/VertexParams.html" data-type="entity-link" >VertexParams</a>
+                                <a href="interfaces/TaggedParticle.html" data-type="entity-link" >TaggedParticle</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/Window.html" data-type="entity-link" >Window</a>

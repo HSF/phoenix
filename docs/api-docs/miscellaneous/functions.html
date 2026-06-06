@@ -130,6 +130,9 @@
                 <td class="col-md-4">
                     <ul class="index-list">
                         <li>
+                            <a href="#atlasClassifyEvent" title="src/helpers/invariant-mass.ts" ><b>atlasClassifyEvent</b>&nbsp;&nbsp;&nbsp;(src/.../invariant-mass.ts)</a>
+                        </li>
+                        <li>
                             <a href="#buildEventSummaries" title="src/helpers/event-summary.ts" ><b>buildEventSummaries</b>&nbsp;&nbsp;&nbsp;(src/.../event-summary.ts)</a>
                         </li>
                         <li>
@@ -139,10 +142,19 @@
                             <a href="#countCollections" title="src/helpers/event-summary.ts" ><b>countCollections</b>&nbsp;&nbsp;&nbsp;(src/.../event-summary.ts)</a>
                         </li>
                         <li>
+                            <a href="#fourMomentumFromCluster" title="src/helpers/invariant-mass.ts" ><b>fourMomentumFromCluster</b>&nbsp;&nbsp;&nbsp;(src/.../invariant-mass.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#fourMomentumFromTrack" title="src/helpers/invariant-mass.ts" ><b>fourMomentumFromTrack</b>&nbsp;&nbsp;&nbsp;(src/.../invariant-mass.ts)</a>
+                        </li>
+                        <li>
                             <a href="#getAvailableColumns" title="src/helpers/event-summary.ts" ><b>getAvailableColumns</b>&nbsp;&nbsp;&nbsp;(src/.../event-summary.ts)</a>
                         </li>
                         <li>
                             <a href="#getDefaultObjectTypeConfigs" title="src/loaders/object-type-registry.ts" ><b>getDefaultObjectTypeConfigs</b>&nbsp;&nbsp;&nbsp;(src/.../object-type-registry.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#invariantMass" title="src/helpers/invariant-mass.ts" ><b>invariantMass</b>&nbsp;&nbsp;&nbsp;(src/.../invariant-mass.ts)</a>
                         </li>
                         <li>
                             <a href="#setColorForObject" title="src/managers/three-manager/color-manager.ts" ><b>setColorForObject</b>&nbsp;&nbsp;&nbsp;(src/.../color-manager.ts)</a>
@@ -157,7 +169,282 @@
     </table>
 </section>
 
-    <h3>src/helpers/event-summary.ts</h3>
+    <h3>src/helpers/invariant-mass.ts</h3>
+    <section data-compodoc="block-methods">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="atlasClassifyEvent"></a>
+                    <span class="name">
+                        <span ><b>atlasClassifyEvent</b></span>
+                        <a href="#atlasClassifyEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>atlasClassifyEvent(tagCounts: Record)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Default event classifier for ATLAS Z-path masterclass.
+Classifies events by electron/muon/photon counts.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tagCounts</td>
+                                            <td>
+                                                        <code>Record</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fourMomentumFromCluster"></a>
+                    <span class="name">
+                        <span ><b>fourMomentumFromCluster</b></span>
+                        <a href="#fourMomentumFromCluster"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fourMomentumFromCluster(userData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Extract a 4-momentum vector from a calorimeter cluster.
+Clusters have energy, eta, phi (treated as massless).</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>userData</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/FourMomentum.html" target="_self" >FourMomentum | null</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fourMomentumFromTrack"></a>
+                    <span class="name">
+                        <span ><b>fourMomentumFromTrack</b></span>
+                        <a href="#fourMomentumFromTrack"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fourMomentumFromTrack(userData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, mass: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Extract a 4-momentum vector from track userData.
+Tracks have pT, eta/phi (or dparams), and we assign mass from the tag definition.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>userData</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Track user data containing kinematic properties.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>mass</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Particle rest mass in MeV/c².</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/FourMomentum.html" target="_self" >FourMomentum | null</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="invariantMass"></a>
+                    <span class="name">
+                        <span ><b>invariantMass</b></span>
+                        <a href="#invariantMass"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>invariantMass(momenta)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Compute the invariant mass of a set of particles in MeV.
+M² = (ΣE)² - (Σpx)² - (Σpy)² - (Σpz)²</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>momenta</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/helpers/event-summary.ts</h3>
     <section data-compodoc="block-methods">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
@@ -172,7 +459,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>buildEventSummaries(eventsData: <a href="../interfaces/PhoenixEventsData.html" target="_self">PhoenixEventsData</a>)</code>
+<code>buildEventSummaries(eventsData: PhoenixEventsData)</code>
                 </td>
             </tr>
 
@@ -200,7 +487,7 @@ This is the main entry point for the event browser.</p>
                                         <tr>
                                                 <td>eventsData</td>
                                             <td>
-                                                            <code><a href="../interfaces/PhoenixEventsData.html" target="_self" >PhoenixEventsData</a></code>
+                                                        <code>PhoenixEventsData</code>
                                             </td>
 
                                             <td>
@@ -236,7 +523,7 @@ This is the main entry point for the event browser.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>computeMET(eventData: <a href="../interfaces/PhoenixEventData.html" target="_self">PhoenixEventData</a>)</code>
+<code>computeMET(eventData: PhoenixEventData)</code>
                 </td>
             </tr>
 
@@ -264,7 +551,7 @@ Returns NaN if no MET data is present.</p>
                                         <tr>
                                                 <td>eventData</td>
                                             <td>
-                                                            <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
+                                                        <code>PhoenixEventData</code>
                                             </td>
 
                                             <td>
@@ -300,7 +587,7 @@ Returns NaN if no MET data is present.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>countCollections(eventData: <a href="../interfaces/PhoenixEventData.html" target="_self">PhoenixEventData</a>)</code>
+<code>countCollections(eventData: PhoenixEventData)</code>
                 </td>
             </tr>
 
@@ -328,7 +615,7 @@ Each collection type (Tracks, Jets, etc.) can have multiple named sub-collection
                                         <tr>
                                                 <td>eventData</td>
                                             <td>
-                                                            <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
+                                                        <code>PhoenixEventData</code>
                                             </td>
 
                                             <td>
@@ -424,7 +711,7 @@ Reconstructed physics objects are listed first, detector-level types last.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>summarizeEvent(eventKey: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, eventData: <a href="../interfaces/PhoenixEventData.html" target="_self">PhoenixEventData</a>)</code>
+<code>summarizeEvent(eventKey: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, eventData: PhoenixEventData)</code>
                 </td>
             </tr>
 
@@ -463,7 +750,7 @@ Reconstructed physics objects are listed first, detector-level types last.</p>
                                         <tr>
                                                 <td>eventData</td>
                                             <td>
-                                                            <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
+                                                        <code>PhoenixEventData</code>
                                             </td>
 
                                             <td>

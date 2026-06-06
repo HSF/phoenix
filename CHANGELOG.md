@@ -3,6 +3,117 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/HSF/phoenix/compare/v3.0.5...v4.0.0) (2026-06-06)
+
+
+### Bug Fixes
+
+* **accessibility:** add descriptive alt text ([8e16302](https://github.com/HSF/phoenix/commit/8e16302a891502e06a7049a8196fdbd75988da4e))
+* add Angular 20 compatibility by upgrading dependencies and migrating to application builder ([a1bccdc](https://github.com/HSF/phoenix/commit/a1bccdc08533d666c2ef2a81ac399ed3b78cc8c8)), closes [#728](https://github.com/HSF/phoenix/issues/728)
+* add missing ngOnDestroy cleanup in 4 UI components ([bb2278b](https://github.com/HSF/phoenix/commit/bb2278bbc30192b5b21ef45170aac4c7932d1dfe)), closes [#865](https://github.com/HSF/phoenix/issues/865)
+* add unsubscribe mechanism to prevent callback memory leaks ([9c10385](https://github.com/HSF/phoenix/commit/9c10385cab5a7deec5e2e69e017a17ecfac15cf0))
+* align screenshot mode button styling ([40bf07b](https://github.com/HSF/phoenix/commit/40bf07bc1d325db6ee8b10b765ce8ca06e479350))
+* **app:** fixing tests ([9402d2f](https://github.com/HSF/phoenix/commit/9402d2fbb06f504fa23d2b8dd832cac205430057))
+* **app:** isolate Jest and Cypress TypeScript types to restore IntelliSense ([4eee288](https://github.com/HSF/phoenix/commit/4eee288388c2ecb4bb7666e2755dc369d8449eeb))
+* apply lint formatting fixes ([183294c](https://github.com/HSF/phoenix/commit/183294c0aef4e3a6296aa452a24a195cbedf433f))
+* clean up event listeners in OverlayComponent and SSModeComponent ([54ba286](https://github.com/HSF/phoenix/commit/54ba286ee3d8544c3ab15ac1896390bc467765c4)), closes [#762](https://github.com/HSF/phoenix/issues/762)
+* clear selections before track extension to prevent stale outlines ([594e3e8](https://github.com/HSF/phoenix/commit/594e3e845c6c6893b8bfb0542aa5f399275aa55d))
+* convert makeRequest() to async/await with proper error propagation ([8b770da](https://github.com/HSF/phoenix/commit/8b770dae39bd153d47a5c99d4c6b400eb1b7c201)), closes [#847](https://github.com/HSF/phoenix/issues/847)
+* correct stretch rendering logic, remove crop offsets, proper viewOffset and aspect handling ([1b836b3](https://github.com/HSF/phoenix/commit/1b836b3d28c2687cb4668cb8754207bd12a6a9e1))
+* correct Stretch screenshot aspect ratio & restore camera aspect ([5a1662c](https://github.com/HSF/phoenix/commit/5a1662c2d59e993bb93a45a6e609d7738c8253dd))
+* correct viewOffset typing to resolve TS2349 error ([07e9fc1](https://github.com/HSF/phoenix/commit/07e9fc1c06d5d76e010e004b43164a8458e20ba2))
+* deduplicate three.js instance bundled by jsroot ([8e13cbc](https://github.com/HSF/phoenix/commit/8e13cbcf774bf3f6479f852fcce2b3217bc1991a)), closes [#655](https://github.com/HSF/phoenix/issues/655)
+* dispose intermediate geometries after merging ([ad79b44](https://github.com/HSF/phoenix/commit/ad79b4421bd1a798796022178fef88769e5dab45))
+* dispose WebGL renderers and revoke blob URLs to prevent resource leaks ([a59b067](https://github.com/HSF/phoenix/commit/a59b06747cdccabad6f8872c303eb5e41a3c3ae7)), closes [#845](https://github.com/HSF/phoenix/issues/845)
+* dispose WebGL resources and event listeners on cleanup ([b7cd200](https://github.com/HSF/phoenix/commit/b7cd20090bf865887e58d6ee1a71109be3ea4dfe))
+* **effects-manager:** sync selection outlines with object transforms ([cf02404](https://github.com/HSF/phoenix/commit/cf02404061e856b75cfc691ca2e6fdc753c18679))
+* **event-display:** a patch to a typo ([90db004](https://github.com/HSF/phoenix/commit/90db0045a8bbd44d3b98b5b6ba5c636aa1ff62a3))
+* exclude generated docs from ESLint to fix release build ([ca4c63b](https://github.com/HSF/phoenix/commit/ca4c63b7822640ec76e82067394d7dd25a60550c))
+* **gltf:** dispose intermediate geometries after merge ([c50d18b](https://github.com/HSF/phoenix/commit/c50d18bede95c61e8a60e8e6e2a18416c2032f45))
+* hide eta-phi panel button on LHCb section ([4f0c25c](https://github.com/HSF/phoenix/commit/4f0c25cc6e0bd5cdd7473448bb9aaad7ac276149))
+* hide labels during animations until event objects fully appear ([efd4e3e](https://github.com/HSF/phoenix/commit/efd4e3e8756fcf63a76dca9036c2b7f92adfbd06))
+* ignore generated docs in eslint ([c0dc65f](https://github.com/HSF/phoenix/commit/c0dc65f2fe39ca7e403f8a0494c1374536018957))
+* **import-manager:** dispose intermediate geometries after GLTF merge ([2d4fb93](https://github.com/HSF/phoenix/commit/2d4fb93a34d55c7f4c6951c66a8d35d183b9f0d8))
+* initialize callback functions + update Docker install step to fix CI ([4a6d799](https://github.com/HSF/phoenix/commit/4a6d7998ce4cb4d947e2f127cd4bb737fd6b8672))
+* initialize callbacks + update Dockerfile base image to fix CI ([e86b35d](https://github.com/HSF/phoenix/commit/e86b35dc4bb9d279d160f2739605fe2c9e9bf9b5))
+* **io-options-dialog:** add try/catch for JSON parse errors with user feedback ([#842](https://github.com/HSF/phoenix/issues/842)) ([d77601f](https://github.com/HSF/phoenix/commit/d77601fdab3c90430d949cf83d74c9d772b8a960))
+* **jivexml:** prevent crash on missing XML tags in vertex parsing ([2752bb8](https://github.com/HSF/phoenix/commit/2752bb849da4dde90b90926bb4a7097d998a71f7))
+* **make-picture:** remove outdated size check for tiled screenshots ([6d7a5f0](https://github.com/HSF/phoenix/commit/6d7a5f04eaad59866761437d27e0f6f873fbc438))
+* **phoenix-objects:** guard against undefined track.pos ([35d496f](https://github.com/HSF/phoenix/commit/35d496f4f2f3bda4f145b087267836728ef99ab1))
+* preserve main renderer during cleanup to prevent disposed-renderer reuse ([4cdb72a](https://github.com/HSF/phoenix/commit/4cdb72ac79f9874257f9267870b7d2f3ba9d83c4))
+* python install and node-gyp python3 path for CI ([82e5612](https://github.com/HSF/phoenix/commit/82e5612df0e17d0931e69f06e5b8abfdf68be09b))
+* re-apply collection cuts after event switch and clear registry on rebuild ([4683c91](https://github.com/HSF/phoenix/commit/4683c91b3dfe168df04dd23443d6cf79b5823bad))
+* **release:** add OIDC permissions, pin action versions, fix exports warnings ([44dd281](https://github.com/HSF/phoenix/commit/44dd281ca9e421266843a8604c8604b4f0a116aa)), closes [#851](https://github.com/HSF/phoenix/issues/851)
+* **release:** use actual release version for Docker tags ([4e4c7b8](https://github.com/HSF/phoenix/commit/4e4c7b835b9aced7e641f69d2760a5afe23ae41b))
+* remove checkSize and disabled logic as requested ([c9ee693](https://github.com/HSF/phoenix/commit/c9ee693eeefb9521b3dda192929514d360e934ba))
+* remove unsupported --verbose flag from yarn install ([56317f2](https://github.com/HSF/phoenix/commit/56317f2688134997aa97407f7ca9607abe6cd260))
+* rename RendererManager.removeControls() to removeRenderer() ([#809](https://github.com/HSF/phoenix/issues/809)) ([66a7762](https://github.com/HSF/phoenix/commit/66a7762ff9c7438eef99db115b28611c6f23538d))
+* **renderer-manager:** swap renderers in class state instead of local params ([9409909](https://github.com/HSF/phoenix/commit/94099093c180253e2a4a9f096328d2c01af32b9f)), closes [#808](https://github.com/HSF/phoenix/issues/808)
+* replace cypress-plugin-snapshots with @frsource/cypress-plugin-visual-regression-diff ([10b296a](https://github.com/HSF/phoenix/commit/10b296a03c710129d6d8dd293fb32a963dfba455)), closes [#733](https://github.com/HSF/phoenix/issues/733)
+* replace deprecated substr() with substring() in url-options-manager\n\nReplace window.location.href.substr() with substring() and add a guard\nfor missing query string to prevent incorrect behavior when the URL\nhas no '?' character." ([ddbd110](https://github.com/HSF/phoenix/commit/ddbd110cc72805b424655a47e3088877819af7f6))
+* replace hardcoded column exclusion list with configurable Input ([c693972](https://github.com/HSF/phoenix/commit/c6939727c9a80891f5d58fe1e31933bcf214d7fd))
+* reset callbacks and state on view transitions ([0c12096](https://github.com/HSF/phoenix/commit/0c12096a59a88a20567cb12890f8a51cd7e1dae9))
+* resolve Dockerfile conflict and enable native build for lmdb ([247b909](https://github.com/HSF/phoenix/commit/247b909ac1e4474361f83fb554c2178ce2289da5))
+* resolve duplicate AttributePipe and stabilize Angular 20 tests ([3646a9f](https://github.com/HSF/phoenix/commit/3646a9f4c69d098f01d8e9a79398088e1c90c539))
+* restore callback typings + initialize defaults + replace python with python3 in Dockerfile ([0c41d48](https://github.com/HSF/phoenix/commit/0c41d485411ed0f297ade85e69a180948fa1e6a2))
+* restore crop/stretch logic + integrate tiling safely ([cc8b764](https://github.com/HSF/phoenix/commit/cc8b76445bcc95a7c5b274a7646d437178683e07))
+* restore default UI config for LHCb ([f4b4b4e](https://github.com/HSF/phoenix/commit/f4b4b4e13cc06a3d4002d40b738515e6bdbc2229))
+* restore stretch aspect logic + safe TS guards ([5eddf2d](https://github.com/HSF/phoenix/commit/5eddf2d90695d022ad22ccc241bb6036c07f1ce1))
+* revert rainbow selection to amber glow, improve jet and selection UX ([#839](https://github.com/HSF/phoenix/issues/839)) ([0f6da97](https://github.com/HSF/phoenix/commit/0f6da97424adb839019ff0bfcfb56ee85c2da018))
+* safe camera view offset calls ([e06a9c2](https://github.com/HSF/phoenix/commit/e06a9c2facc952facf9398e87c78366dbb0366c1))
+* **scene-manager:** dispose GPU resources on event switch ([ae6df4a](https://github.com/HSF/phoenix/commit/ae6df4a1a28eef1fe179f8604cb894395f0e5df7))
+* **selection-manager:** prevent duplicate event listeners on re-init ([cb9daec](https://github.com/HSF/phoenix/commit/cb9daecbc62929a8c15cc32cf9e64ddef7fc09bd))
+* stabilize Jest tests for Angular 20 compatibility ([3270baf](https://github.com/HSF/phoenix/commit/3270baf572dddc958aab2e56ef19d2e0376d7a32))
+* **test:** make setup-jest ESLint-safe for Angular 20 ([504a131](https://github.com/HSF/phoenix/commit/504a13186f22787d1545b859a6ee9cf1d7dbf4c0))
+* **three-manager:** clear selections on event switch to prevent memory leak ([1335d57](https://github.com/HSF/phoenix/commit/1335d579228b47897c0624df99bd88df599de920))
+* **three-manager:** complete event listener cleanup on re-init ([a72f27b](https://github.com/HSF/phoenix/commit/a72f27bb748320148b8e9973728e9e54cba5594f))
+* **ui:** clear cycle-events interval on component destroy ([8b650d5](https://github.com/HSF/phoenix/commit/8b650d5fb26a37b62b43b715f5e65921e7b66127))
+* **ui:** handle FileReader errors in IO options dialog ([005e6d1](https://github.com/HSF/phoenix/commit/005e6d1c44e43a704000ca80e421e306746ce38d))
+* upgrade tween.js to v25 with explicit group management ([acec46c](https://github.com/HSF/phoenix/commit/acec46ce0829545db1251f8238f4d4dc4a265622)), closes [#680](https://github.com/HSF/phoenix/issues/680)
+* upgrade TypeScript to 5.7 with Jest ESM mocks ([7969ece](https://github.com/HSF/phoenix/commit/7969ece4ff3a169bb27f6cac0cb51b1188b54dfe))
+* use Angular build configs for deploy scripts to avoid outputPath override ([5d5a986](https://github.com/HSF/phoenix/commit/5d5a986fbfb98d1fba4879415fa0aa32dc3c6cff))
+* use distinct icon for collections info panel ([7cbb895](https://github.com/HSF/phoenix/commit/7cbb89510696e50f9bc3c4f4d73c76fa701b63e4))
+* use InstancedMesh for CaloCells to prevent WebGL crash ([#474](https://github.com/HSF/phoenix/issues/474)) Signed-off-by: rx18-eng <remopanda78@gmail.com> ([766d3ba](https://github.com/HSF/phoenix/commit/766d3ba8fbd7924cc0be0c70c7495d5a52d5e85e))
+
+
+### Features
+
+* add eta-phi energy map panel ([012fb8d](https://github.com/HSF/phoenix/commit/012fb8d7a218aacc2d499d3ca4da06c7fd9e79ae))
+* add event dataset browser with physics-aware filtering ([#861](https://github.com/HSF/phoenix/issues/861)) ([28a8995](https://github.com/HSF/phoenix/commit/28a8995a653579846efd50342952ff7e414d4a48))
+* add EventAutoloader for live event streaming from directories/endpoints ([4b3f139](https://github.com/HSF/phoenix/commit/4b3f139bcf58d2e303f4abff4de1429d82065069))
+* add masterclass panel and ATLAS masterclass landing page (closes [#835](https://github.com/HSF/phoenix/issues/835), closes [#915](https://github.com/HSF/phoenix/issues/915)) ([8a6784c](https://github.com/HSF/phoenix/commit/8a6784c649e1677bdb58cf12e750488f5fd2dfbb))
+* add per-collection track extension to radius ([#177](https://github.com/HSF/phoenix/issues/177)) ([2983295](https://github.com/HSF/phoenix/commit/2983295225d25b7e3e1af448cd584f09f2dee21b))
+* add PHYSLITE ROOT file loader for ATLAS Open Data ([#823](https://github.com/HSF/phoenix/issues/823)) ([d9ff993](https://github.com/HSF/phoenix/commit/d9ff993fb74309cb28d87f8dd47b8d7d23615ce4))
+* add tiled screenshot rendering to support very large images ([#581](https://github.com/HSF/phoenix/issues/581)) ([67d522d](https://github.com/HSF/phoenix/commit/67d522dbc1900d01787d9b9afbf62f85d9d51ce4))
+* add track kinematics panel with config-driven columns ([846edca](https://github.com/HSF/phoenix/commit/846edcab55e0d88cd356c2c3568486d51de2b282))
+* add typed event data pipeline with loader registry ([901707a](https://github.com/HSF/phoenix/commit/901707ac8c233f1f0a8159b927627c8ae5d0079d))
+* add URL deep linking with full view state sharing ([4124325](https://github.com/HSF/phoenix/commit/4124325e3fbdff737a5394802d1b0ca6469f75f9))
+* add URL event loading with auto-refresh clean-branch([#448](https://github.com/HSF/phoenix/issues/448)) ([1b95c31](https://github.com/HSF/phoenix/commit/1b95c3166a375ba05fdad9ec9144bc538b9711fe))
+* **effects-manager:** add EffectsState enum and setHoverColor() ([#886](https://github.com/HSF/phoenix/issues/886)) ([eabcdbf](https://github.com/HSF/phoenix/commit/eabcdbfd0d27ed3c3d17649c5d5880191ccfe67e))
+* **event-display:** implement performant rainbow selection system with multi-object support ([bfa2705](https://github.com/HSF/phoenix/commit/bfa2705610ab081e68a1f3a8b5ba3bdb1a32620f))
+* **event-display:** implement rainbow outline selection system with EdgesGeometry ([6bb0256](https://github.com/HSF/phoenix/commit/6bb0256f772fbcc2d57add191e6f422cb06f283c))
+* **event-display:** migrate to controls-based architecture with dual canvas support ([b045001](https://github.com/HSF/phoenix/commit/b045001c71dd7c640ae772e94c2ab5daf79abcb5))
+* make UI components configurable via UIMenuConfig ([#61](https://github.com/HSF/phoenix/issues/61)) ([09efeb8](https://github.com/HSF/phoenix/commit/09efeb8d6c4461eaeafc06176f5f070f6ce0355b))
+* merge screenshot mode into make picture menu ([#540](https://github.com/HSF/phoenix/issues/540)) ([0edb178](https://github.com/HSF/phoenix/commit/0edb178f1285bba4ec555ced743a5ad4310d531c))
+* **notification-service:** add NotificationService with 4 severity levels ([#886](https://github.com/HSF/phoenix/issues/886)) ([067155a](https://github.com/HSF/phoenix/commit/067155af4c8a7739f3d47e68273a379e194268d1))
+* offload JiveXML/JSON parsing to Web Worker to prevent UI freeze ([f101fb3](https://github.com/HSF/phoenix/commit/f101fb3e31f678b10c504240feaa1d68786b936a))
+* **state-manager:** serialize cut state to JSON and restore via Load State ([092814b](https://github.com/HSF/phoenix/commit/092814b35c88d532007c423680dca9df68c7904f)), closes [#872](https://github.com/HSF/phoenix/issues/872) [#863](https://github.com/HSF/phoenix/issues/863)
+* support per-track linewidth in TracksMesh ([4c7d711](https://github.com/HSF/phoenix/commit/4c7d7118898426509d5fbf7ead7a4bfd1bc1d1f6))
+
+
+### Performance Improvements
+
+* **phoenix-ng:** isolate animation loop outside NgZone ([b8e1f98](https://github.com/HSF/phoenix/commit/b8e1f9875e6faaf4748a0b34beba926cebf460af)), closes [HSF/phoenix#827](https://github.com/HSF/phoenix/issues/827)
+
+
+### Reverts
+
+* Revert "chore: apply prettier and eslint fixes" ([8904c1c](https://github.com/HSF/phoenix/commit/8904c1cfcd829df43e2c3b6ab9494ce9f153d016))
+
+
+
+
+
 ## [3.0.6](https://github.com/HSF/phoenix/compare/v3.0.5...v3.0.6) (2026-05-28)
 
 

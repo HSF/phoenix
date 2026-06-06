@@ -130,6 +130,12 @@
                 <td class="col-md-4">
                     <ul class="index-list">
                         <li>
+                            <a href="#ATLAS_KINEMATICS" title="src/helpers/kinematics-config.ts" ><b>ATLAS_KINEMATICS</b>&nbsp;&nbsp;&nbsp;(src/.../kinematics-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ATLAS_MASTERCLASS_CONFIG" title="src/helpers/invariant-mass.ts" ><b>ATLAS_MASTERCLASS_CONFIG</b>&nbsp;&nbsp;&nbsp;(src/.../invariant-mass.ts)</a>
+                        </li>
+                        <li>
                             <a href="#DEFAULT_COLLECTIONS" title="src/loaders/physlite-loader.ts" ><b>DEFAULT_COLLECTIONS</b>&nbsp;&nbsp;&nbsp;(src/.../physlite-loader.ts)</a>
                         </li>
                         <li>
@@ -181,6 +187,160 @@
     </table>
 </section>
 
+    <h3>src/helpers/kinematics-config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ATLAS_KINEMATICS"></a>
+                    <span class="name">
+                        <span ><b>ATLAS_KINEMATICS</b></span>
+                        <a href="#ATLAS_KINEMATICS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/KinematicsConfig.html" target="_self" >KinematicsConfig</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  title: &#x27;Track Momenta&#x27;,
+  collectionType: &#x27;Tracks&#x27;,
+  defaultSort: &#x27;pT&#x27;,
+  defaultSortDirection: &#x27;desc&#x27;,
+  filterColumn: &#x27;pT&#x27;,
+  columns: [
+    {
+      id: &#x27;pT&#x27;,
+      label: &#x27;pT&#x27;,
+      unit: &#x27;GeV&#x27;,
+      tooltip: &#x27;Transverse momentum&#x27;,
+      getter: (t) &#x3D;&gt; (t.pT ?? 0) / 1000,
+      precision: 1,
+    },
+    {
+      id: &#x27;eta&#x27;,
+      label: &#x27;\u03B7&#x27;,
+      tooltip: &#x27;Pseudorapidity&#x27;,
+      getter: (t) &#x3D;&gt; t.eta ?? 0,
+      precision: 2,
+    },
+    {
+      id: &#x27;phi&#x27;,
+      label: &#x27;\u03C6&#x27;,
+      tooltip: &#x27;Azimuthal angle&#x27;,
+      getter: (t) &#x3D;&gt; t.phi ?? 0,
+      precision: 2,
+    },
+    {
+      id: &#x27;charge&#x27;,
+      label: &#x27;q&#x27;,
+      tooltip: &#x27;Electric charge&#x27;,
+      getter: (t) &#x3D;&gt; {
+        if (t.charge !&#x3D; null) return t.charge;
+        const qOverP &#x3D; t.dparams?.[4];
+        return qOverP ? Math.sign(qOverP) : 0;
+      },
+      precision: 0,
+    },
+    {
+      id: &#x27;p&#x27;,
+      label: &#x27;|p|&#x27;,
+      unit: &#x27;GeV&#x27;,
+      tooltip: &#x27;Total momentum&#x27;,
+      getter: (t) &#x3D;&gt; {
+        const qOverP &#x3D; t.dparams?.[4];
+        if (!qOverP || !isFinite(1 / qOverP)) return 0;
+        return Math.abs(1 / qOverP) / 1000;
+      },
+      precision: 1,
+    },
+  ],
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Default ATLAS track kinematics config for JiveXML/PHYSLITE data.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/helpers/invariant-mass.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ATLAS_MASTERCLASS_CONFIG"></a>
+                    <span class="name">
+                        <span ><b>ATLAS_MASTERCLASS_CONFIG</b></span>
+                        <a href="#ATLAS_MASTERCLASS_CONFIG"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/MasterclassConfig.html" target="_self" >MasterclassConfig</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  title: &#x27;Masterclass: Invariant Mass&#x27;,
+  particleTags: [
+    {
+      id: &#x27;electron&#x27;,
+      label: &#x27;Electron&#x27;,
+      symbol: &#x27;e\u00B1&#x27;,
+      color: &#x27;#f0c040&#x27;,
+      mass: 0.511,
+    },
+    {
+      id: &#x27;muon&#x27;,
+      label: &#x27;Muon&#x27;,
+      symbol: &#x27;\u03BC\u00B1&#x27;,
+      color: &#x27;#40c060&#x27;,
+      mass: 105.658,
+    },
+    {
+      id: &#x27;photon&#x27;,
+      label: &#x27;Photon&#x27;,
+      symbol: &#x27;\u03B3&#x27;,
+      color: &#x27;#e04040&#x27;,
+      mass: 0,
+    },
+  ],
+  hints: [
+    &#x27;Z boson \u2248 91 GeV&#x27;,
+    &#x27;Higgs \u2248 125 GeV&#x27;,
+    &#x27;J/\u03C8 \u2248 3.1 GeV&#x27;,
+  ],
+  classifyEvent: atlasClassifyEvent,
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Default masterclass configuration for ATLAS Z-path exercises.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
     <h3>src/loaders/physlite-loader.ts</h3>
     <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">

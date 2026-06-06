@@ -174,6 +174,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#eventBus" >eventBus</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#eventNavKeydownHandler" >eventNavKeydownHandler</a>
                             </li>
                             <li>
@@ -267,6 +271,10 @@
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#disableHighlighting" >disableHighlighting</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#emit" >emit</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -415,6 +423,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#on" >on</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                     <span class="modifier">Async</span>
                                 <a href="#parseGLTFGeometry" >parseGLTFGeometry</a>
                             </li>
@@ -465,12 +477,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(configuration?: <a href="../interfaces/Configuration.html" target="_self">Configuration</a>)</code>
+<code>constructor(configuration?: Configuration)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/event-display.ts:63</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/event-display.ts:65</a></div>
                             </td>
                         </tr>
 
@@ -494,7 +506,7 @@
                                                         <td>configuration</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../interfaces/Configuration.html" target="_self" >Configuration</a></code>
+                                                                    <code>Configuration</code>
                                                         </td>
                                                   
                                                     <td>
@@ -534,7 +546,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../interfaces/Configuration.html" target="_self" >Configuration</a></code>
+                        <i>Type : </i>    <code>Configuration</code>
 
                     </td>
                 </tr>
@@ -595,6 +607,44 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="eventBus"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>eventBus</b></span>
+                        <a href="#eventBus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Map&lt;string | Set&lt;void&gt;&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/event-display.ts:49</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Generic event bus for integration with external frameworks.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="eventNavKeydownHandler"></a>
                     <span class="name">
                             <span class="modifier">Private</span>
@@ -616,7 +666,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/event-display.ts:63</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/event-display.ts:65</a></div>
                         </td>
                     </tr>
 
@@ -643,7 +693,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../interfaces/PhoenixEventsData.html" target="_self" >PhoenixEventsData</a></code>
+                        <i>Type : </i>    <code>PhoenixEventsData</code>
 
                     </td>
                 </tr>
@@ -682,7 +732,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/event-display.ts:49</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/event-display.ts:51</a></div>
                         </td>
                     </tr>
 
@@ -715,7 +765,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/event-display.ts:51</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/event-display.ts:53</a></div>
                         </td>
                     </tr>
 
@@ -753,7 +803,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/event-display.ts:61</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/event-display.ts:63</a></div>
                         </td>
                     </tr>
 
@@ -786,7 +836,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/event-display.ts:55</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/event-display.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -895,7 +945,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/event-display.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/event-display.ts:59</a></div>
                         </td>
                     </tr>
 
@@ -928,7 +978,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/event-display.ts:53</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/event-display.ts:55</a></div>
                         </td>
                     </tr>
 
@@ -961,7 +1011,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/event-display.ts:59</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/event-display.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -1003,8 +1053,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="905"
-                                    class="link-to-prism">src/event-display.ts:905</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="950"
+                                    class="link-to-prism">src/event-display.ts:950</a></div>
                         </td>
                     </tr>
 
@@ -1127,8 +1177,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="745"
-                                    class="link-to-prism">src/event-display.ts:745</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="790"
+                                    class="link-to-prism">src/event-display.ts:790</a></div>
                         </td>
                     </tr>
 
@@ -1203,8 +1253,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="891"
-                                    class="link-to-prism">src/event-display.ts:891</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="936"
+                                    class="link-to-prism">src/event-display.ts:936</a></div>
                         </td>
                     </tr>
 
@@ -1296,8 +1346,8 @@ using clipping planes after particle collison.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="881"
-                                    class="link-to-prism">src/event-display.ts:881</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="926"
+                                    class="link-to-prism">src/event-display.ts:926</a></div>
                         </td>
                     </tr>
 
@@ -1388,8 +1438,8 @@ using clipping planes after particle collison.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="872"
-                                    class="link-to-prism">src/event-display.ts:872</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="917"
+                                    class="link-to-prism">src/event-display.ts:917</a></div>
                         </td>
                     </tr>
 
@@ -1482,8 +1532,8 @@ event collision animation options.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="854"
-                                    class="link-to-prism">src/event-display.ts:854</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="899"
+                                    class="link-to-prism">src/event-display.ts:899</a></div>
                         </td>
                     </tr>
 
@@ -1583,15 +1633,15 @@ event collision animation options.</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>buildEventDataFromJSON(eventData: <a href="../interfaces/PhoenixEventData.html" target="_self">PhoenixEventData</a>)</code>
+                    <code>buildEventDataFromJSON(eventData: PhoenixEventData)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="179"
-                                    class="link-to-prism">src/event-display.ts:179</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="224"
+                                    class="link-to-prism">src/event-display.ts:224</a></div>
                         </td>
                     </tr>
 
@@ -1618,7 +1668,7 @@ of physics objects.</p>
                                         <tr>
                                                 <td>eventData</td>
                                             <td>
-                                                            <code><a href="../interfaces/PhoenixEventData.html" target="_self" >PhoenixEventData</a></code>
+                                                        <code>PhoenixEventData</code>
                                             </td>
 
                                             <td>
@@ -1667,8 +1717,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="585"
-                                    class="link-to-prism">src/event-display.ts:585</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="630"
+                                    class="link-to-prism">src/event-display.ts:630</a></div>
                         </td>
                     </tr>
 
@@ -1738,8 +1788,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="118"
-                                    class="link-to-prism">src/event-display.ts:118</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="120"
+                                    class="link-to-prism">src/event-display.ts:120</a></div>
                         </td>
                     </tr>
 
@@ -1779,8 +1829,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="812"
-                                    class="link-to-prism">src/event-display.ts:812</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="857"
+                                    class="link-to-prism">src/event-display.ts:857</a></div>
                         </td>
                     </tr>
 
@@ -1794,6 +1844,98 @@ of physics objects.</p>
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emit"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>emit</b></span>
+                        <a href="#emit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>emit(eventName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="176"
+                                    class="link-to-prism">src/event-display.ts:176</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Emit a named event on the integration event bus.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>eventName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The event name to emit.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Data to pass to listeners.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1820,8 +1962,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="695"
-                                    class="link-to-prism">src/event-display.ts:695</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="740"
+                                    class="link-to-prism">src/event-display.ts:740</a></div>
                         </td>
                     </tr>
 
@@ -1861,8 +2003,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="805"
-                                    class="link-to-prism">src/event-display.ts:805</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="850"
+                                    class="link-to-prism">src/event-display.ts:850</a></div>
                         </td>
                     </tr>
 
@@ -1902,8 +2044,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="819"
-                                    class="link-to-prism">src/event-display.ts:819</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="864"
+                                    class="link-to-prism">src/event-display.ts:864</a></div>
                         </td>
                     </tr>
 
@@ -1943,8 +2085,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="753"
-                                    class="link-to-prism">src/event-display.ts:753</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="798"
+                                    class="link-to-prism">src/event-display.ts:798</a></div>
                         </td>
                     </tr>
 
@@ -2012,15 +2154,15 @@ of physics objects.</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>endXR(xrSessionType: <a href="../undefineds/XRSessionType.html" target="_self">XRSessionType</a>)</code>
+                    <code>endXR(xrSessionType: <a href="../miscellaneous/enumerations.html#XRSessionType" target="_self">XRSessionType</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="151"
-                                    class="link-to-prism">src/event-display.ts:151</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="196"
+                                    class="link-to-prism">src/event-display.ts:196</a></div>
                         </td>
                     </tr>
 
@@ -2095,8 +2237,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="421"
-                                    class="link-to-prism">src/event-display.ts:421</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="466"
+                                    class="link-to-prism">src/event-display.ts:466</a></div>
                         </td>
                     </tr>
 
@@ -2136,8 +2278,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="389"
-                                    class="link-to-prism">src/event-display.ts:389</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="434"
+                                    class="link-to-prism">src/event-display.ts:434</a></div>
                         </td>
                     </tr>
 
@@ -2177,8 +2319,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="761"
-                                    class="link-to-prism">src/event-display.ts:761</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="806"
+                                    class="link-to-prism">src/event-display.ts:806</a></div>
                         </td>
                     </tr>
 
@@ -2253,8 +2395,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="769"
-                                    class="link-to-prism">src/event-display.ts:769</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="814"
+                                    class="link-to-prism">src/event-display.ts:814</a></div>
                         </td>
                     </tr>
 
@@ -2298,8 +2440,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="627"
-                                    class="link-to-prism">src/event-display.ts:627</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="672"
+                                    class="link-to-prism">src/event-display.ts:672</a></div>
                         </td>
                     </tr>
 
@@ -2375,8 +2517,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="638"
-                                    class="link-to-prism">src/event-display.ts:638</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="683"
+                                    class="link-to-prism">src/event-display.ts:683</a></div>
                         </td>
                     </tr>
 
@@ -2420,8 +2562,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="218"
-                                    class="link-to-prism">src/event-display.ts:218</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="263"
+                                    class="link-to-prism">src/event-display.ts:263</a></div>
                         </td>
                     </tr>
 
@@ -2461,8 +2603,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="685"
-                                    class="link-to-prism">src/event-display.ts:685</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="730"
+                                    class="link-to-prism">src/event-display.ts:730</a></div>
                         </td>
                     </tr>
 
@@ -2506,8 +2648,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="256"
-                                    class="link-to-prism">src/event-display.ts:256</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="301"
+                                    class="link-to-prism">src/event-display.ts:301</a></div>
                         </td>
                     </tr>
 
@@ -2518,7 +2660,7 @@ of physics objects.</p>
 </div>
 
                         <div class="io-description">
-                            <b>Returns : </b>        <code><a href="../interfaces/PhoenixEventsData.html" target="_self" >PhoenixEventsData | undefined</a></code>
+                            <b>Returns : </b>    <code>PhoenixEventsData | undefined</code>
 
                         </div>
                             <div class="io-description">
@@ -2551,8 +2693,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="264"
-                                    class="link-to-prism">src/event-display.ts:264</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="309"
+                                    class="link-to-prism">src/event-display.ts:309</a></div>
                         </td>
                     </tr>
 
@@ -2596,8 +2738,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="289"
-                                    class="link-to-prism">src/event-display.ts:289</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="334"
+                                    class="link-to-prism">src/event-display.ts:334</a></div>
                         </td>
                     </tr>
 
@@ -2641,8 +2783,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="297"
-                                    class="link-to-prism">src/event-display.ts:297</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="342"
+                                    class="link-to-prism">src/event-display.ts:342</a></div>
                         </td>
                     </tr>
 
@@ -2686,8 +2828,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="305"
-                                    class="link-to-prism">src/event-display.ts:305</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="350"
+                                    class="link-to-prism">src/event-display.ts:350</a></div>
                         </td>
                     </tr>
 
@@ -2731,8 +2873,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="273"
-                                    class="link-to-prism">src/event-display.ts:273</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="318"
+                                    class="link-to-prism">src/event-display.ts:318</a></div>
                         </td>
                     </tr>
 
@@ -2776,8 +2918,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="281"
-                                    class="link-to-prism">src/event-display.ts:281</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="326"
+                                    class="link-to-prism">src/event-display.ts:326</a></div>
                         </td>
                     </tr>
 
@@ -2821,8 +2963,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="317"
-                                    class="link-to-prism">src/event-display.ts:317</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="362"
+                                    class="link-to-prism">src/event-display.ts:362</a></div>
                         </td>
                     </tr>
 
@@ -2866,8 +3008,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="794"
-                                    class="link-to-prism">src/event-display.ts:794</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="839"
+                                    class="link-to-prism">src/event-display.ts:839</a></div>
                         </td>
                     </tr>
 
@@ -2957,15 +3099,15 @@ of physics objects.</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>init(configuration: <a href="../interfaces/Configuration.html" target="_self">Configuration</a>)</code>
+                    <code>init(configuration: Configuration)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="83"
-                                    class="link-to-prism">src/event-display.ts:83</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="85"
+                                    class="link-to-prism">src/event-display.ts:85</a></div>
                         </td>
                     </tr>
 
@@ -2991,7 +3133,7 @@ of physics objects.</p>
                                         <tr>
                                                 <td>configuration</td>
                                             <td>
-                                                            <code><a href="../interfaces/Configuration.html" target="_self" >Configuration</a></code>
+                                                        <code>Configuration</code>
                                             </td>
 
                                             <td>
@@ -3033,15 +3175,15 @@ of physics objects.</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>initXR(xrSessionType: <a href="../undefineds/XRSessionType.html" target="_self">XRSessionType</a>, onSessionEnded?: () => void)</code>
+                    <code>initXR(xrSessionType: <a href="../miscellaneous/enumerations.html#XRSessionType" target="_self">XRSessionType</a>, onSessionEnded?: () => void)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="143"
-                                    class="link-to-prism">src/event-display.ts:143</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="188"
+                                    class="link-to-prism">src/event-display.ts:188</a></div>
                         </td>
                     </tr>
 
@@ -3132,8 +3274,8 @@ of physics objects.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="651"
-                                    class="link-to-prism">src/event-display.ts:651</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="696"
+                                    class="link-to-prism">src/event-display.ts:696</a></div>
                         </td>
                     </tr>
 
@@ -3210,8 +3352,8 @@ the callback on changes to the displayed event.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="669"
-                                    class="link-to-prism">src/event-display.ts:669</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="714"
+                                    class="link-to-prism">src/event-display.ts:714</a></div>
                         </td>
                     </tr>
 
@@ -3288,8 +3430,8 @@ the callback on changes to the events.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="206"
-                                    class="link-to-prism">src/event-display.ts:206</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="251"
+                                    class="link-to-prism">src/event-display.ts:251</a></div>
                         </td>
                     </tr>
 
@@ -3366,8 +3508,8 @@ the event associated with that key.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="454"
-                                    class="link-to-prism">src/event-display.ts:454</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="499"
+                                    class="link-to-prism">src/event-display.ts:499</a></div>
                         </td>
                     </tr>
 
@@ -3522,8 +3664,8 @@ and adds it to the dat.GUI menu.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="488"
-                                    class="link-to-prism">src/event-display.ts:488</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="533"
+                                    class="link-to-prism">src/event-display.ts:533</a></div>
                         </td>
                     </tr>
 
@@ -3694,8 +3836,8 @@ and adds it to the dat.GUI menu.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="337"
-                                    class="link-to-prism">src/event-display.ts:337</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="382"
+                                    class="link-to-prism">src/event-display.ts:382</a></div>
                         </td>
                     </tr>
 
@@ -3886,8 +4028,8 @@ and adds it to the dat.GUI menu.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="553"
-                                    class="link-to-prism">src/event-display.ts:553</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="598"
+                                    class="link-to-prism">src/event-display.ts:598</a></div>
                         </td>
                     </tr>
 
@@ -4075,8 +4217,8 @@ and adds it to the dat.GUI menu.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="520"
-                                    class="link-to-prism">src/event-display.ts:520</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="565"
+                                    class="link-to-prism">src/event-display.ts:565</a></div>
                         </td>
                     </tr>
 
@@ -4245,8 +4387,8 @@ and adds it to the dat.GUI menu.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="604"
-                                    class="link-to-prism">src/event-display.ts:604</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="649"
+                                    class="link-to-prism">src/event-display.ts:649</a></div>
                         </td>
                     </tr>
 
@@ -4322,8 +4464,8 @@ from Phoenix file format (.phnx).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="779"
-                                    class="link-to-prism">src/event-display.ts:779</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="824"
+                                    class="link-to-prism">src/event-display.ts:824</a></div>
                         </td>
                     </tr>
 
@@ -4421,8 +4563,8 @@ and highlight it.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="226"
-                                    class="link-to-prism">src/event-display.ts:226</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="271"
+                                    class="link-to-prism">src/event-display.ts:271</a></div>
                         </td>
                     </tr>
 
@@ -4437,6 +4579,107 @@ Wraps around to the first event after the last.</p>
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="on"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>on</b></span>
+                        <a href="#on"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>on(eventName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, callback: (data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="155"
+                                    class="link-to-prism">src/event-display.ts:155</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Subscribe to a named event on the integration event bus.
+Allows external frameworks to react to actions like particle tagging
+or result recording.</p>
+<p>Standard event names:</p>
+<ul>
+<li><code>&#39;particle-tagged&#39;</code>: Fired when a particle is tagged in the masterclass panel.</li>
+<li><code>&#39;particle-untagged&#39;</code>: Fired when a tagged particle is removed.</li>
+<li><code>&#39;result-recorded&#39;</code>: Fired when an invariant mass result is recorded.</li>
+</ul>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>eventName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The event name to listen for.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>callback</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Callback invoked with event-specific data.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Unsubscribe function to remove the listener.</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -4464,8 +4707,8 @@ Wraps around to the first event after the last.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="431"
-                                    class="link-to-prism">src/event-display.ts:431</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="476"
+                                    class="link-to-prism">src/event-display.ts:476</a></div>
                         </td>
                     </tr>
 
@@ -4542,8 +4785,8 @@ also supports zip files of the above</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="370"
-                                    class="link-to-prism">src/event-display.ts:370</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="415"
+                                    class="link-to-prism">src/event-display.ts:415</a></div>
                         </td>
                     </tr>
 
@@ -4678,8 +4921,8 @@ and adds it to the dat.GUI menu.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="400"
-                                    class="link-to-prism">src/event-display.ts:400</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="445"
+                                    class="link-to-prism">src/event-display.ts:445</a></div>
                         </td>
                     </tr>
 
@@ -4750,15 +4993,15 @@ and other configuration.</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>parsePhoenixEvents(eventsData: <a href="../interfaces/PhoenixEventsData.html" target="_self">PhoenixEventsData</a>)</code>
+                    <code>parsePhoenixEvents(eventsData: PhoenixEventsData)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="161"
-                                    class="link-to-prism">src/event-display.ts:161</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="206"
+                                    class="link-to-prism">src/event-display.ts:206</a></div>
                         </td>
                     </tr>
 
@@ -4785,7 +5028,7 @@ Then it loads by default the first event.</p>
                                         <tr>
                                                 <td>eventsData</td>
                                             <td>
-                                                            <code><a href="../interfaces/PhoenixEventsData.html" target="_self" >PhoenixEventsData</a></code>
+                                                        <code>PhoenixEventsData</code>
                                             </td>
 
                                             <td>
@@ -4835,8 +5078,8 @@ Then it loads by default the first event.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="241"
-                                    class="link-to-prism">src/event-display.ts:241</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="286"
+                                    class="link-to-prism">src/event-display.ts:286</a></div>
                         </td>
                     </tr>
 
@@ -4877,8 +5120,8 @@ Wraps around to the last event before the first.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="934"
-                                    class="link-to-prism">src/event-display.ts:934</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="979"
+                                    class="link-to-prism">src/event-display.ts:979</a></div>
                         </td>
                     </tr>
 
@@ -4918,8 +5161,8 @@ Wraps around to the last event before the first.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="737"
-                                    class="link-to-prism">src/event-display.ts:737</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="782"
+                                    class="link-to-prism">src/event-display.ts:782</a></div>
                         </td>
                     </tr>
 
@@ -4994,8 +5237,8 @@ Wraps around to the last event before the first.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="595"
-                                    class="link-to-prism">src/event-display.ts:595</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="640"
+                                    class="link-to-prism">src/event-display.ts:640</a></div>
                         </td>
                     </tr>
 
@@ -5122,6 +5365,8 @@ export class EventDisplay {
   private onEventsChange: ((events: any) &#x3D;&gt; void)[] &#x3D; [];
   /** Array containing callbacks to be called when the displayed event changes. */
   private onDisplayedEventChange: ((nowDisplayingEvent: any) &#x3D;&gt; void)[] &#x3D; [];
+  /** Generic event bus for integration with external frameworks. */
+  private eventBus: Map&lt;string, Set&lt;(data: any) &#x3D;&gt; void&gt;&gt; &#x3D; new Map();
   /** Three manager for three.js operations. */
   private graphicsLibrary: ThreeManager;
   /** Info logger for storing event display logs. */
@@ -5207,9 +5452,52 @@ export class EventDisplay {
     // Clear accumulated callbacks
     this.onEventsChange &#x3D; [];
     this.onDisplayedEventChange &#x3D; [];
+    this.eventBus.clear();
     // Reset singletons for clean view transition
     this.loadingManager?.reset();
     this.stateManager?.resetForViewTransition();
+  }
+
+  /**
+   * Subscribe to a named event on the integration event bus.
+   * Allows external frameworks to react to actions like particle tagging
+   * or result recording.
+   *
+   * Standard event names:
+   * - &#x60;&#x27;particle-tagged&#x27;&#x60;: Fired when a particle is tagged in the masterclass panel.
+   * - &#x60;&#x27;particle-untagged&#x27;&#x60;: Fired when a tagged particle is removed.
+   * - &#x60;&#x27;result-recorded&#x27;&#x60;: Fired when an invariant mass result is recorded.
+   *
+   * @param eventName The event name to listen for.
+   * @param callback Callback invoked with event-specific data.
+   * @returns Unsubscribe function to remove the listener.
+   */
+  public on(eventName: string, callback: (data: any) &#x3D;&gt; void): () &#x3D;&gt; void {
+    if (!this.eventBus.has(eventName)) {
+      this.eventBus.set(eventName, new Set());
+    }
+    this.eventBus.get(eventName).add(callback);
+    return () &#x3D;&gt; {
+      const listeners &#x3D; this.eventBus.get(eventName);
+      if (listeners) {
+        listeners.delete(callback);
+        if (listeners.size &#x3D;&#x3D;&#x3D; 0) {
+          this.eventBus.delete(eventName);
+        }
+      }
+    };
+  }
+
+  /**
+   * Emit a named event on the integration event bus.
+   * @param eventName The event name to emit.
+   * @param data Data to pass to listeners.
+   */
+  public emit(eventName: string, data?: any): void {
+    const listeners &#x3D; this.eventBus.get(eventName);
+    if (listeners) {
+      listeners.forEach((cb) &#x3D;&gt; cb(data));
+    }
   }
 
   /**
