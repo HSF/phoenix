@@ -1,6 +1,6 @@
 {
   "name": "phoenix-ng",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "private": true,
   "scripts": {
     "start": "ng serve phoenix-app",
@@ -37,7 +37,7 @@
     "css-element-queries": "^1.2.3",
     "jszip": "^3.10.1",
     "phoenix-event-display": "^4.0.0",
-    "phoenix-ui-components": "^4.0.0",
+    "phoenix-ui-components": "^4.0.1",
     "qrcode": "1.5.4",
     "rxjs": "^7.8.2",
     "three": "~0.178.0",

@@ -17368,7 +17368,7 @@ __metadata:
     jszip: ^3.10.1
     ng-packagr: ^20.3.2
     phoenix-event-display: ^4.0.0
-    phoenix-ui-components: ^4.0.0
+    phoenix-ui-components: ^4.0.1
     qrcode: 1.5.4
     rxjs: ^7.8.2
     three: ~0.178.0
@@ -17381,7 +17381,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"phoenix-ui-components@^4.0.0, phoenix-ui-components@workspace:packages/phoenix-ng/projects/phoenix-ui-components":
+"phoenix-ui-components@^4.0.1, phoenix-ui-components@workspace:packages/phoenix-ng/projects/phoenix-ui-components":
   version: 0.0.0-use.local
   resolution: "phoenix-ui-components@workspace:packages/phoenix-ng/projects/phoenix-ui-components"
   dependencies:
