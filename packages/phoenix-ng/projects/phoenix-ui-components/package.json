@@ -44,6 +44,11 @@
   "typings": "dist/index.d.ts",
   "sideEffects": false,
   "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/fesm2022/phoenix-ui-components.mjs",
+      "default": "./dist/fesm2022/phoenix-ui-components.mjs"
+    },
     "./theming": {
       "sass": "./_theming.scss"
     }
