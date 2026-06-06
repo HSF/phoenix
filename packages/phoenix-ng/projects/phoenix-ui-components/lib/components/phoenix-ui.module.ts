@@ -72,6 +72,8 @@ import {
   MoreInfoComponent,
   KinematicsPanelComponent,
   KinematicsPanelOverlayComponent,
+  MasterclassPanelComponent,
+  MasterclassPanelOverlayComponent,
 } from './ui-menu';
 
 import { AttributePipe } from '../services/extras/attribute.pipe';
@@ -141,6 +143,8 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   EtaPhiPanelOverlayComponent,
   KinematicsPanelComponent,
   KinematicsPanelOverlayComponent,
+  MasterclassPanelComponent,
+  MasterclassPanelOverlayComponent,
 ];
 
 @NgModule({

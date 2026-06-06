@@ -43,6 +43,12 @@
     [kinematicsConfig]="kinematicsConfig"
   ></app-more-info>
 
+  <!-- Masterclass: tag particles and calculate invariant mass -->
+  <app-masterclass-panel
+    *ngIf="uiConfig?.showMasterclassPanel"
+    [config]="masterclassConfig"
+  ></app-masterclass-panel>
+
   <!-- Toggle for performance -->
   <app-performance-toggle
     *ngIf="uiConfig.showPerformanceToggle"

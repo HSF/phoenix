@@ -1182,10 +1182,11 @@ export class ThreeManager {
   // ********************************
 
   /**
-   * Get the selection manager.
+   * Get the selection manager. Public so external integrations (e.g. the
+   * masterclass panel) can hook into hover and click events directly.
    * @returns Selection manager responsible for managing selection of 3D objects.
    */
-  private getSelectionManager(): SelectionManager {
+  public getSelectionManager(): SelectionManager {
     if (!this.selectionManager) {
       this.selectionManager = new SelectionManager();
     }
