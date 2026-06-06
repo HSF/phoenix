@@ -20,6 +20,10 @@ import {
   buildEventSummaries,
   type EventSummary,
 } from './helpers/event-summary';
+import {
+  SessionManager,
+  type SessionManagerHost,
+} from './managers/session-manager';
 
 declare global {
   /**
@@ -47,6 +51,14 @@ export class EventDisplay {
   private onDisplayedEventChange: ((nowDisplayingEvent: any) => void)[] = [];
   /** Generic event bus for integration with external frameworks. */
   private eventBus: Map<string, Set<(data: any) => void>> = new Map();
+  /** Wildcard subscribers fired on every emit (recorders, external bridges). */
+  private eventBusWildcard: Set<(eventName: string, data: any) => void> =
+    new Set();
+  /** Session recorder/player coordinator for #883 (lazy initialized). */
+  private sessionManager: SessionManager | null = null;
+  /** Stored keydown handler for session recording shortcut (Shift+Ctrl+R). */
+  private sessionRecordKeydownHandler: ((e: KeyboardEvent) => void) | null =
+    null;
   /** Three manager for three.js operations. */
   private graphicsLibrary: ThreeManager;
   /** Info logger for storing event display logs. */
@@ -129,10 +141,18 @@ export class EventDisplay {
       document.removeEventListener('keydown', this.eventNavKeydownHandler);
       this.eventNavKeydownHandler = null;
     }
+    // Clean up session recording keyboard handler
+    if (this.sessionRecordKeydownHandler) {
+      document.removeEventListener('keydown', this.sessionRecordKeydownHandler);
+      this.sessionRecordKeydownHandler = null;
+    }
+    // Stop any active session recording or playback
+    this.sessionManager?.cleanup();
     // Clear accumulated callbacks
     this.onEventsChange = [];
     this.onDisplayedEventChange = [];
     this.eventBus.clear();
+    this.eventBusWildcard.clear();
     // Reset singletons for clean view transition
     this.loadingManager?.reset();
     this.stateManager?.resetForViewTransition();
@@ -170,6 +190,7 @@ export class EventDisplay {
 
   /**
    * Emit a named event on the integration event bus.
+   * Named subscribers fire first, then wildcard subscribers.
    * @param eventName The event name to emit.
    * @param data Data to pass to listeners.
    */
@@ -178,6 +199,84 @@ export class EventDisplay {
     if (listeners) {
       listeners.forEach((cb) => cb(data));
     }
+    if (this.eventBusWildcard.size > 0) {
+      this.eventBusWildcard.forEach((cb) => cb(eventName, data));
+    }
+  }
+
+  /**
+   * Subscribe to every event-bus emission, regardless of name.
+   * Used by the session recorder (#883) and external bridges that want a
+   * single hook into all integration events.
+   * @param callback Invoked with (eventName, data) on every emit.
+   * @returns Unsubscribe function to remove the listener.
+   */
+  public onAny(callback: (eventName: string, data: any) => void): () => void {
+    this.eventBusWildcard.add(callback);
+    return () => {
+      this.eventBusWildcard.delete(callback);
+    };
+  }
+
+  /**
+   * Get the SessionManager (#883) for recording and replaying exploration.
+   * Lazily instantiated so the manager is only created when the feature is used.
+   * @returns The SessionManager singleton for this EventDisplay.
+   */
+  public getSessionManager(): SessionManager {
+    if (!this.sessionManager) {
+      this.sessionManager = new SessionManager(this.buildSessionHost());
+    }
+    return this.sessionManager;
+  }
+
+  /**
+   * Build the host adapter that bridges SessionManager to the live
+   * EventDisplay (event bus, state snapshot, camera apply).
+   */
+  private buildSessionHost(): SessionManagerHost {
+    return {
+      onAny: (cb) => this.onAny(cb),
+      emit: (name, data) => this.emit(name, data),
+      getStateSnapshot: () => {
+        try {
+          return this.getStateManager()?.getStateAsJSON() ?? {};
+        } catch {
+          return {};
+        }
+      },
+      applyStateSnapshot: (state) => {
+        try {
+          this.getStateManager()?.loadStateFromJSON(state);
+        } catch {
+          // ignore: replay still proceeds even if state apply fails
+        }
+      },
+      getCameraSample: () => {
+        const stateManager = this.getStateManager();
+        const activeCamera = stateManager?.activeCamera;
+        const controls = this.graphicsLibrary
+          ?.getControlsManager?.()
+          ?.getMainControls?.();
+        if (!activeCamera || !controls) return null;
+        const pos = activeCamera.position;
+        const target = controls.target;
+        return {
+          pos: [pos.x, pos.y, pos.z],
+          target: [target.x, target.y, target.z],
+        };
+      },
+      applyCamera: (pos, target) => {
+        const activeCamera = this.getStateManager()?.activeCamera;
+        const controls = this.graphicsLibrary
+          ?.getControlsManager?.()
+          ?.getMainControls?.();
+        if (!activeCamera || !controls) return;
+        activeCamera.position.set(pos[0], pos[1], pos[2]);
+        controls.target.set(target[0], target[1], target[2]);
+        controls.update();
+      },
+    };
   }
 
   /**
@@ -888,6 +987,26 @@ export class EventDisplay {
       }
     };
     document.addEventListener('keydown', this.eventNavKeydownHandler);
+
+    // Remove previous session recording listener if exists
+    if (this.sessionRecordKeydownHandler) {
+      document.removeEventListener('keydown', this.sessionRecordKeydownHandler);
+    }
+
+    // Shift+Ctrl+R = toggle session recording (#883). Plain Ctrl+R is left
+    // alone so the browser refresh keeps working.
+    this.sessionRecordKeydownHandler = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      const isTyping = ['input', 'textarea', 'select'].includes(
+        target?.tagName.toLowerCase(),
+      );
+      if (isTyping) return;
+      if (!e.shiftKey || !(e.ctrlKey || e.metaKey)) return;
+      if (e.code !== 'KeyR') return;
+      e.preventDefault();
+      this.getSessionManager().toggleRecording();
+    };
+    document.addEventListener('keydown', this.sessionRecordKeydownHandler);
   }
 
   /**

@@ -4,6 +4,7 @@ import type { Configuration } from '../lib/types/configuration';
 import { EventDisplay } from '../event-display';
 import { StateManager } from './state-manager';
 import { readZipFile } from '../helpers/zip';
+import { MAX_REMOTE_SESSION_BYTES } from './session-manager';
 
 /**
  * Model for Phoenix URL options.
@@ -15,6 +16,10 @@ export const phoenixURLOptions = {
   state: '',
   hideWidgets: false,
   embed: false,
+  /** Inline base64-deflate session replay payload (#883). */
+  replay: '',
+  /** Remote URL pointing at a `.phnxreplay` JSON file (#883). */
+  session: '',
 };
 
 /**
@@ -50,6 +55,7 @@ export class URLOptionsManager {
     );
     this.applyHideWidgetsOptions();
     this.applyEmbedOption();
+    this.applySessionReplayOption();
   }
 
   /**
@@ -329,5 +335,70 @@ export class URLOptionsManager {
    */
   public getURLOptions() {
     return this.urlOptions;
+  }
+
+  /**
+   * Apply session replay options from the URL: `?replay=<base64>` for
+   * inline sessions, `?session=<url>` for remote `.phnxreplay` JSON files.
+   * Defers to the load listener so the event/config/state apply first
+   * before replay starts emitting on the bus.
+   */
+  private applySessionReplayOption() {
+    const replayParam = this.urlOptions.get('replay');
+    const sessionParam = this.urlOptions.get('session');
+    if (!replayParam && !sessionParam) return;
+
+    const startReplay = async () => {
+      const sessionManager = this.eventDisplay.getSessionManager();
+      try {
+        if (replayParam) {
+          await sessionManager.loadAndPlayBase64(replayParam);
+        } else if (sessionParam) {
+          const text = await this.fetchRemoteSession(sessionParam);
+          sessionManager.loadFromJsonText(text);
+          sessionManager.play();
+        }
+      } catch (error) {
+        console.error('Failed to start session replay from URL.', error);
+        this.eventDisplay
+          .getInfoLogger()
+          .add('Could not start session replay from URL.', 'Error');
+      }
+    };
+
+    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
+      setTimeout(startReplay, 400);
+    });
+  }
+
+  /**
+   * Fetch a remote `.phnxreplay` JSON file. Validates the URL scheme and
+   * caps the response size before parsing. Errors surface to the caller.
+   * @param rawUrl The user-supplied URL from `?session=`.
+   * @returns Raw JSON text of the session.
+   * @throws Error on disallowed scheme, non-2xx response, or oversize body.
+   */
+  private async fetchRemoteSession(rawUrl: string): Promise<string> {
+    let parsed: URL;
+    try {
+      parsed = new URL(rawUrl, window.location.origin);
+    } catch {
+      throw new Error('Invalid session URL.');
+    }
+    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+      throw new Error(
+        `Session URL scheme "${parsed.protocol}" is not allowed.`,
+      );
+    }
+
+    const res = await fetch(parsed.toString(), { credentials: 'omit' });
+    if (!res.ok) {
+      throw new Error(`Session fetch failed with status ${res.status}.`);
+    }
+    const blob = await res.blob();
+    if (blob.size > MAX_REMOTE_SESSION_BYTES) {
+      throw new Error(`Session file is too large (${blob.size} bytes).`);
+    }
+    return blob.text();
   }
 }
