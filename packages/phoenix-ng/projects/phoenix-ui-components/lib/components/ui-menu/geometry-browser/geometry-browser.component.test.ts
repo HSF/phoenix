@@ -20,6 +20,10 @@ describe('GeometryBrowserComponent', () => {
       enableHighlighting: jest.fn(),
     },
     destroy: jest.fn(),
+    position: jest.fn().mockReturnThis(),
+    global: jest.fn().mockReturnThis(),
+    bottom: jest.fn().mockReturnThis(),
+    right: jest.fn().mockReturnThis(),
   };
 
   beforeEach(() => {
