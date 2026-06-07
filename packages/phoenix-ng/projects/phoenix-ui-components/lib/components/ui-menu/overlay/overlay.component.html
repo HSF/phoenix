@@ -2,7 +2,10 @@
   #overlayCard
   class="overlay-card card"
   [hidden]="!active"
+  (mousedown)="bringToFront()"
+  (touchstart)="bringToFront()"
   cdkDrag
+  cdkDragRootElement=".cdk-overlay-pane"
   cdkDragBoundary="body"
 >
   <div
@@ -22,7 +25,7 @@
       matTooltip="Expand / Collapse"
       matTooltipPosition="right"
       [ngClass]="{ expand: showBody }"
-      (click)="showBody = !showBody"
+      (click)="toggleBodyAndEmit()"
     >
       <svg>
         <use href="assets/icons/expand.svg#expand"></use>

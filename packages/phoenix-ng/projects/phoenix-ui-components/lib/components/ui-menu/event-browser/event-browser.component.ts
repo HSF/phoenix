@@ -4,9 +4,9 @@ import {
   ComponentRef,
   type OnDestroy,
 } from '@angular/core';
+import { EventBrowserOverlayComponent } from './event-browser-overlay/event-browser-overlay.component';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { EventBrowserOverlayComponent } from './event-browser-overlay/event-browser-overlay.component';
 
 @Component({
   standalone: false,
@@ -21,7 +21,13 @@ export class EventBrowserComponent implements OnInit, OnDestroy {
   constructor(private overlay: Overlay) {}
 
   ngOnInit() {
-    const overlayRef = this.overlay.create();
+    const positionStrategy = this.overlay
+      .position()
+      .global()
+      .bottom('15px')
+      .right('15px');
+
+    const overlayRef = this.overlay.create({ positionStrategy });
     const overlayPortal = new ComponentPortal(EventBrowserOverlayComponent);
     this.overlayWindow = overlayRef.attach(overlayPortal);
     this.overlayWindow.instance.showEventBrowser = this.showEventBrowser;

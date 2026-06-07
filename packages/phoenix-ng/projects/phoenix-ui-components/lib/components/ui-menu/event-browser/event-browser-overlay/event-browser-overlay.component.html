@@ -1,7 +1,9 @@
 <app-overlay
   overlayTitle="Event Browser"
   icon="event-browser"
+  [resizable]="true"
   [active]="showEventBrowser"
+  accordionId="right-dock"
 >
   <div *ngIf="showEventBrowser" class="event-browser m-2">
     <!-- Search box -->

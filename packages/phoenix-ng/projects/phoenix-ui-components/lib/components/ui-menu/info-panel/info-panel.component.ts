@@ -7,6 +7,7 @@ import {
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { InfoPanelOverlayComponent } from './info-panel-overlay/info-panel-overlay.component';
+import { OverlayCascadeService } from '../../../services/overlay-cascade.service';
 
 /**
  * Component for toggling info panel overlay
@@ -27,13 +28,17 @@ export class InfoPanelComponent implements OnInit, OnDestroy {
    * Create the info panel toggle
    * @param overlay Info panel overlay containing logger data
    */
-  constructor(private overlay: Overlay) {}
+  constructor(
+    private overlay: Overlay,
+    private overlayCascade: OverlayCascadeService,
+  ) {}
 
   /**
    * Create the info panel overlay
    */
   ngOnInit() {
-    const overlayRef = this.overlay.create();
+    const positionStrategy = this.overlayCascade.getCascadePositionStrategy();
+    const overlayRef = this.overlay.create({ positionStrategy });
     const overlayPortal = new ComponentPortal(InfoPanelOverlayComponent);
     this.overlayWindow = overlayRef.attach(overlayPortal);
     this.overlayWindow.instance.showInfoPanel = this.showInfoPanel;

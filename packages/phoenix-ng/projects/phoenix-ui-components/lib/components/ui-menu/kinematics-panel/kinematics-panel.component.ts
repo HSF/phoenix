@@ -11,6 +11,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { KinematicsPanelOverlayComponent } from './kinematics-panel-overlay/kinematics-panel-overlay.component';
 import type { KinematicsConfig } from 'phoenix-event-display';
+import { OverlayCascadeService } from '../../../services/overlay-cascade.service';
 
 @Component({
   standalone: false,
@@ -23,10 +24,14 @@ export class KinematicsPanelComponent implements OnInit, OnDestroy, OnChanges {
   overlayWindow: ComponentRef<KinematicsPanelOverlayComponent>;
   @Input() config?: KinematicsConfig;
 
-  constructor(private overlay: Overlay) {}
+  constructor(
+    private overlay: Overlay,
+    private overlayCascade: OverlayCascadeService,
+  ) {}
 
   ngOnInit() {
-    const overlayRef = this.overlay.create();
+    const positionStrategy = this.overlayCascade.getCascadePositionStrategy();
+    const overlayRef = this.overlay.create({ positionStrategy });
     const overlayPortal = new ComponentPortal(KinematicsPanelOverlayComponent);
     this.overlayWindow = overlayRef.attach(overlayPortal);
     this.overlayWindow.instance.showKinematics = this.showKinematics;
