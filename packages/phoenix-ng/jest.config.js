@@ -25,7 +25,9 @@ module.exports = {
   // 🔑 CRITICAL: ensures CI uses your setup-jest.ts
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
 
-  moduleNameMapper: pathsToModuleNameMapper(paths, { prefix: '<rootDir>' }),
+  moduleNameMapper: {
+    ...pathsToModuleNameMapper(paths, { prefix: '<rootDir>' }),
+  },
 
   transformIgnorePatterns: [
     `/node_modules/(?!.*\\.m?js$|${esModules.join('|')})`,

@@ -13,6 +13,8 @@ import {
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { Pass } from 'three/examples/jsm/postprocessing/Pass.js';
+import VERTEX_SHADER from './shaders/hover-vertex';
+import HOVER_FRAGMENT_SHADER from './shaders/hover-fragment';
 
 /**
  * Represents the possible visual states of objects managed
@@ -83,24 +85,6 @@ export class EffectsManager {
 
   /** Render function with (normal render) or without antialias (effects render). */
   public render: (scene: Scene, camera: Camera) => void;
-
-  /** Vertex shader for hover outline rendering. */
-  private static readonly VERTEX_SHADER = `
-    void main() {
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-  `;
-
-  /** Fragment shader for hover outlines. Color controlled via uniforms. */
-  private static readonly HOVER_FRAGMENT_SHADER = `
-    uniform float opacity;
-    uniform float colorR;
-    uniform float colorG;
-    uniform float colorB;
-    void main() {
-      gl_FragColor = vec4(colorR, colorG, colorB, opacity);
-    }
-  `;
 
   /**
    * Constructor for the effects manager.
@@ -401,8 +385,8 @@ export class EffectsManager {
     const edges = new EdgesGeometry(object.geometry, 15);
 
     const lineMaterial = new ShaderMaterial({
-      vertexShader: EffectsManager.VERTEX_SHADER,
-      fragmentShader: EffectsManager.HOVER_FRAGMENT_SHADER,
+      vertexShader: VERTEX_SHADER,
+      fragmentShader: HOVER_FRAGMENT_SHADER,
       uniforms: {
         opacity: { value: 0.8 },
         colorR: { value: this._hoverColor.r },
