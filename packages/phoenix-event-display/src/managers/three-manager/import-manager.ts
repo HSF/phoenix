@@ -13,13 +13,17 @@ import {
   Vector3,
   Matrix4,
   REVISION,
+  ColorRepresentation,
+  Texture,
+  BufferGeometry,
+  MeshStandardMaterial,
+  MeshBasicMaterial,
 } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import type { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import JSZip from 'jszip';
 
 /**
  * Manager for managing event display's import related functionality.
@@ -31,6 +35,13 @@ export class ImportManager {
   private EVENT_DATA_ID: string;
   /** Object group ID containing detector geometries. */
   private GEOMETRIES_ID: string;
+
+  /** Cached GLTFLoader instance */
+  private gltfLoader?: GLTFLoader;
+  /** Cached OBJLoader instance */
+  private objLoader?: OBJLoader;
+  /** Cached ObjectLoader instance */
+  private objectLoader?: ObjectLoader;
 
   /**
    * Constructor for the import manager.
@@ -49,6 +60,59 @@ export class ImportManager {
   }
 
   /**
+   * Lazily instantiates and caches the GLTFLoader and DRACOLoader.
+   * @returns The GLTFLoader instance.
+   */
+  private getGLTFLoader(): GLTFLoader {
+    if (!this.gltfLoader) {
+      this.gltfLoader = new GLTFLoader();
+      const dracoLoader = new DRACOLoader();
+      // Optimization Note: Consider hosting these files locally in production
+      dracoLoader.setDecoderPath(
+        `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`,
+      );
+      this.gltfLoader.setDRACOLoader(dracoLoader);
+    }
+    return this.gltfLoader;
+  }
+
+  /**
+   * Lazily instantiates and caches the OBJLoader.
+   * @returns The OBJLoader instance.
+   */
+  private getOBJLoader(): OBJLoader {
+    if (!this.objLoader) this.objLoader = new OBJLoader();
+    return this.objLoader;
+  }
+
+  /**
+   * Lazily instantiates and caches the ObjectLoader.
+   * @returns The ObjectLoader instance.
+   */
+  private getObjectLoader(): ObjectLoader {
+    if (!this.objectLoader) this.objectLoader = new ObjectLoader();
+    return this.objectLoader;
+  }
+
+  /**
+   * Helper to safely dispose of a material and its associated textures to prevent GPU memory leaks.
+   * @param material The material or array of materials to dispose.
+   */
+  private disposeMaterial(material: Material | Material[]) {
+    const materials = Array.isArray(material) ? material : [material];
+    for (const mat of materials) {
+      mat.dispose();
+      // Dispose of textures attached to the material
+      for (const key in mat) {
+        const value = (mat as unknown as Record<string, unknown>)[key];
+        if (value && value instanceof Texture) {
+          value.dispose();
+        }
+      }
+    }
+  }
+
+  /**
    * Loads an OBJ (.obj) geometry from the given filename.
    * @param filename Path to the geometry.
    * @param name Name given to the geometry.
@@ -57,33 +121,31 @@ export class ImportManager {
    * @param setFlat Whether object should be flat-shaded or not.
    * @returns Promise for loading the geometry.
    */
-  public loadOBJGeometry(
+  public async loadOBJGeometry(
     filename: string,
     name: string,
-    color: any,
+    color: ColorRepresentation,
     doubleSided: boolean,
     setFlat: boolean,
   ): Promise<GeometryUIParameters> {
-    color = color ?? 0x41a6f4;
-    const objLoader = new OBJLoader();
+    const finalColor = color ?? 0x41a6f4;
+    const loader = this.getOBJLoader();
 
-    return new Promise<GeometryUIParameters>((resolve, reject) => {
-      objLoader.load(
+    return new Promise((resolve, reject) => {
+      loader.load(
         filename,
         (object) => {
           const processedObject = this.processOBJ(
             object,
             name,
-            color,
+            finalColor,
             doubleSided,
             setFlat,
           );
           resolve({ object: processedObject });
         },
-        () => {},
-        (error) => {
-          reject(error);
-        },
+        undefined,
+        (error) => reject(error),
       );
     });
   }
@@ -95,8 +157,8 @@ export class ImportManager {
    * @returns The processed object.
    */
   public parseOBJGeometry(geometry: string, name: string): Object3D {
-    const objLoader = new OBJLoader();
-    const object = objLoader.parse(geometry);
+    const loader = this.getOBJLoader();
+    const object = loader.parse(geometry);
     return this.processOBJ(object, name, 0x41a6f4, false, false);
   }
 
@@ -112,7 +174,7 @@ export class ImportManager {
   private processOBJ(
     object: Object3D,
     name: string,
-    color: any,
+    color: ColorRepresentation,
     doubleSided: boolean,
     setFlat: boolean,
   ): Object3D {
@@ -131,7 +193,7 @@ export class ImportManager {
    */
   private setObjFlat(
     object3d: Object3D,
-    color: any,
+    color: ColorRepresentation,
     doubleSided: boolean,
     setFlat: boolean,
   ): Object3D {
@@ -151,21 +213,18 @@ export class ImportManager {
         child.name = object3d.name;
         child.userData = object3d.userData;
         child.userData.size = this.getObjectSize(child);
-        // Use the new material
-        if (child.material instanceof Material) {
-          child.material.dispose();
-          child.material = material2;
+
+        if (child.material) {
+          this.disposeMaterial(child.material);
         }
-        // enable casting shadows
+        child.material = material2;
         child.castShadow = false;
         child.receiveShadow = false;
-      } else {
-        if (
-          child instanceof LineSegments &&
-          child.material instanceof LineBasicMaterial
-        ) {
-          (child.material.color as Color).set(color);
-        }
+      } else if (
+        child instanceof LineSegments &&
+        child.material instanceof LineBasicMaterial
+      ) {
+        child.material.color.set(color as Color);
       }
     });
     return object3d;
@@ -173,164 +232,92 @@ export class ImportManager {
 
   /**
    * Parses and loads a scene in Phoenix (.phnx) format.
+   * Resolves to an object containing eventData and geometries.
    * @param scene Geometry in Phoenix (.phnx) format.
-   * @param callback Callback called after the scene is loaded.
    * @returns Promise for loading the scene.
    */
-  public parsePhnxScene(
-    scene: any,
-    callback: (geometries?: Object3D, eventData?: Object3D) => void,
-  ): Promise<void> {
-    const loader = new GLTFLoader();
-
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath(
-      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`,
-    );
-    loader.setDRACOLoader(dracoLoader);
-
+  public async parsePhnxScene(
+    scene: Record<string, unknown>,
+  ): Promise<{ geometries?: Object3D; eventData?: Object3D }> {
+    const loader = this.getGLTFLoader();
     const sceneString = JSON.stringify(scene, null, 2);
 
-    return new Promise<void>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       loader.parse(
         sceneString,
         '',
         (gltf) => {
           const eventData = gltf.scene.getObjectByName(this.EVENT_DATA_ID);
           const geometries = gltf.scene.getObjectByName(this.GEOMETRIES_ID);
-          callback(eventData, geometries);
-          resolve();
+          resolve({ eventData, geometries });
         },
-        (error) => {
-          reject(error);
-        },
+        (error) => reject(error),
       );
     });
   }
 
   /**
-   * handles some file content and loads a Geometry contained..
-   * It deals with zip file cases and then
-   * calls the given method on each file found
-   * @param path path of the original file
-   * @param filename name of the original file
-   * @param data content of the original file
-   * @param callback the method to be called on each file content
-   * @param resolve the method to be called on success
-   * @param reject the method to be called on failure
+   * Modernized async/await handler for processing standard files or extracting zips.
+   * @param filename Name of the original file.
+   * @param data Content of the original file.
+   * @param path Path of the original file.
+   * @param processFileCallback The method to be called on each file content.
+   * @returns Promise for loading the geometry.
    */
-  private zipHandlingInternal(
-    path: string,
+  private async handleZipOrArrayBuffer(
     filename: string,
     data: ArrayBuffer,
-    callback: (
+    path: string,
+    processFileCallback: (
       fileContent: ArrayBuffer,
-      path: string,
+      filePath: string,
       name: string,
     ) => Promise<GeometryUIParameters[]>,
-    resolve: any,
-    reject: any,
-  ) {
-    if (filename.split('.').pop() == 'zip') {
-      JSZip.loadAsync(data).then((archive) => {
-        const promises: Promise<any>[] = [];
-        for (const filePath in archive.files) {
-          promises.push(
-            archive
-              .file(filePath)
+  ): Promise<GeometryUIParameters[]> {
+    if (filename.toLowerCase().endsWith('.zip')) {
+      try {
+        const JSZip = (await import('jszip')).default;
+        const archive = await JSZip.loadAsync(data);
+        const promises: Promise<GeometryUIParameters[]>[] = [];
+
+        for (const [filePath, zipObject] of Object.entries(archive.files)) {
+          if (!zipObject.dir) {
+            const filePromise = zipObject
               .async('arraybuffer')
               .then((fileData) => {
-                return callback(fileData, path, filePath.split('.')[0]);
-              }),
-          );
+                const extractedName = filePath.split('.')[0];
+                return processFileCallback(fileData, path, extractedName);
+              });
+            promises.push(filePromise);
+          }
         }
-        let allGeometriesUIParameters: GeometryUIParameters[] = [];
-        Promise.all(promises).then((geos) => {
-          geos.forEach((geo) => {
-            allGeometriesUIParameters = allGeometriesUIParameters.concat(geo);
-          });
-          resolve(allGeometriesUIParameters);
-        });
-      });
-    } else {
-      callback(data, path, filename.split('.')[0]).then(
-        (geo) => {
-          resolve(geo);
-        },
-        (error) => {
-          reject(error);
-        },
-      );
+
+        const results = await Promise.allSettled(promises);
+        const successfulGeometries: GeometryUIParameters[] = [];
+        for (const result of results) {
+          if (result.status === 'fulfilled') {
+            successfulGeometries.push(...result.value);
+          } else {
+            console.warn(
+              'Failed to parse a file within the zip archive:',
+              result.reason,
+            );
+          }
+        }
+        return successfulGeometries;
+      } catch (error) {
+        console.error('Failed to extract or parse zip archive:', error);
+        throw error;
+      }
     }
-  }
 
-  /**
-   * Wraps a method taking a file and returning a Promise for
-   * loading a Geometry. It deals with zip file cases and then
-   * calls the original method on each file found
-   * @param file the original file
-   * @param callback the original method
-   * @returns Promise for loading the geometry.
-   */
-  private zipHandlingFileWrapper(
-    file: File,
-    callback: (
-      fileContent: ArrayBuffer,
-      path: string,
-      name: string,
-    ) => Promise<GeometryUIParameters[]>,
-  ): Promise<GeometryUIParameters[]> {
-    return new Promise<GeometryUIParameters[]>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.zipHandlingInternal(
-          '',
-          file.name,
-          reader.result as ArrayBuffer,
-          callback,
-          resolve,
-          reject,
-        );
-      };
-      reader.readAsArrayBuffer(file);
-    });
-  }
-
-  /**
-   * Wraps a method taking a URL and returning a Promise for
-   * loading a Geometry. It deals with zip file cases and then
-   * calls the original method on each file found
-   * @param file the original file
-   * @param callback the original method
-   * @returns Promise for loading the geometry.
-   */
-  private zipHandlingURLWrapper(
-    file: string,
-    callback: (
-      fileContent: ArrayBuffer,
-      path: string,
-      name: string,
-    ) => Promise<GeometryUIParameters[]>,
-  ): Promise<GeometryUIParameters[]> {
-    return new Promise<GeometryUIParameters[]>((resolve, reject) => {
-      fetch(file).then((response) => {
-        return response.arrayBuffer().then((data) => {
-          this.zipHandlingInternal(
-            file.substr(0, file.lastIndexOf('/')),
-            file,
-            data,
-            callback,
-            resolve,
-            reject,
-          );
-        });
-      });
-    });
+    const name = filename.split('.')[0];
+    return processFileCallback(data, path, name);
   }
 
   /**
    * Loads a GLTF (.gltf,.glb) scene(s)/geometry from the given URL.
-   * also support zipped versions of the files
+   * Also supports zipped versions of the files.
    * @param sceneUrl URL to the GLTF (.gltf/.glb or a zip with such file(s)) file.
    * @param name Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present.
    * @param menuNodeName Path to the node in Phoenix menu to add the geometry to. Use `>` as a separator.
@@ -338,20 +325,28 @@ export class ImportManager {
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @returns Promise for loading the geometry.
    */
-  public loadGLTFGeometry(
+  public async loadGLTFGeometry(
     sceneUrl: string,
     name: string,
     menuNodeName: string,
     scale: number,
     initiallyVisible: boolean,
   ): Promise<GeometryUIParameters[]> {
-    return this.zipHandlingURLWrapper(
+    const response = await fetch(sceneUrl);
+    if (!response.ok) throw new Error(`Failed to fetch ${sceneUrl}`);
+
+    const data = await response.arrayBuffer();
+    const path = sceneUrl.substring(0, sceneUrl.lastIndexOf('/') + 1);
+
+    return this.handleZipOrArrayBuffer(
       sceneUrl,
-      (data: ArrayBuffer, path: string, ignoredName: string) => {
-        return this.loadGLTFGeometryInternal(
-          data,
-          path,
-          name,
+      data,
+      path,
+      (fileContent, filePath, extractedName) => {
+        return this.parseGLTFData(
+          fileContent,
+          filePath,
+          name || extractedName,
           menuNodeName,
           scale,
           initiallyVisible,
@@ -361,16 +356,41 @@ export class ImportManager {
   }
 
   /**
-   * Loads a GLTF (.gltf) scene(s)/geometry from the given ArrayBuffer.
-   * @param sceneData ArrayBuffer containing the geometry file's content (gltf or glb data)
-   * @param path The base path from which to find subsequent glTF resources such as textures and .bin data files
-   * @param name Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present.
-   * @param menuNodeName Path to the node in Phoenix menu to add the geometry to. Use `>` as a separator.
+   * Parses and loads a geometry in GLTF (.gltf,.glb) format from a File object.
+   * Also supports zip versions of those.
+   * @param file Geometry file in GLTF (.gltf or .glb) format or zip file containing them.
+   * @returns Promise for loading the geometry.
+   */
+  public async parseGLTFGeometry(file: File): Promise<GeometryUIParameters[]> {
+    const data = await file.arrayBuffer();
+    return this.handleZipOrArrayBuffer(
+      file.name,
+      data,
+      '',
+      (fileContent, filePath, extractedName) => {
+        return this.parseGLTFData(
+          fileContent,
+          filePath,
+          extractedName,
+          '',
+          1,
+          true,
+        );
+      },
+    );
+  }
+
+  /**
+   * Unified parsing logic for GLTF data.
+   * @param sceneData ArrayBuffer containing the geometry file's content (gltf or glb data).
+   * @param path The base path from which to find subsequent glTF resources.
+   * @param name Name given to the geometry.
+   * @param menuNodeName Path to the node in Phoenix menu to add the geometry to.
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @returns Promise for loading the geometry.
    */
-  private loadGLTFGeometryInternal(
+  private parseGLTFData(
     sceneData: ArrayBuffer,
     path: string,
     name: string,
@@ -378,14 +398,9 @@ export class ImportManager {
     scale: number,
     initiallyVisible: boolean,
   ): Promise<GeometryUIParameters[]> {
-    const loader = new GLTFLoader();
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath(
-      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`,
-    );
-    loader.setDRACOLoader(dracoLoader);
+    const loader = this.getGLTFLoader();
 
-    return new Promise<GeometryUIParameters[]>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       loader.parse(
         sceneData,
         path,
@@ -399,13 +414,15 @@ export class ImportManager {
               menuNodeName,
             );
 
-            const materials: {
-              [key: string]: {
+            const materials: Record<
+              string,
+              {
                 material: Material;
-                geoms: any[];
+                geoms: BufferGeometry[];
                 renderOrder: number;
-              };
-            } = {};
+              }
+            > = {};
+
             const findMeshes = (
               node: Object3D,
               parentMatrix: Matrix4,
@@ -413,16 +430,16 @@ export class ImportManager {
             ) => {
               const mat = parentMatrix.clone().multiply(node.matrix);
               if (node instanceof Mesh) {
-                const key = ((node as Mesh).material as any).id; // ts don't recognize material and prevent compilation...
-                if (!materials[key])
-                  materials[key] = {
-                    material: (node as Mesh).material as Material, // Can be Material[], but not sure this is ever still used.
+                const materialId = (node.material as any).id.toString();
+                if (!materials[materialId]) {
+                  materials[materialId] = {
+                    material: node.material as Material,
                     geoms: [],
                     renderOrder: -depth,
                   };
-
-                materials[key].geoms.push(
-                  (node as Mesh).geometry.clone().applyMatrix4(mat),
+                }
+                materials[materialId].geoms.push(
+                  node.geometry.clone().applyMatrix4(mat),
                 );
               }
 
@@ -433,31 +450,37 @@ export class ImportManager {
 
             findMeshes(scene, new Matrix4(), 0);
 
-            // Improve renderorder for transparent materials
+            // Improve render order for transparent materials and merge geometries
             scene.remove(...scene.children);
             for (const val of Object.values(materials)) {
-              const mesh = new Mesh(
-                BufferGeometryUtils.mergeGeometries((val as any).geoms),
-                (val as any).material,
-              );
-              // Dispose intermediate geometries to free GPU memory
-              for (const geom of (val as any).geoms) {
-                geom.dispose();
-              }
-              mesh.renderOrder = (val as any).renderOrder;
-              scene.add(mesh);
+              if (val.geoms.length === 0) continue;
 
-              for (const intermediateGeom of (val as any).geoms) {
-                intermediateGeom.dispose();
+              try {
+                const mergedGeometry = BufferGeometryUtils.mergeGeometries(
+                  val.geoms,
+                );
+                if (mergedGeometry) {
+                  const mesh = new Mesh(mergedGeometry, val.material);
+                  mesh.renderOrder = val.renderOrder;
+                  scene.add(mesh);
+                }
+              } catch (e) {
+                console.warn('Failed to merge geometries:', e);
+                // Fallback to adding individual meshes if merging fails
+                for (const geom of val.geoms) {
+                  const mesh = new Mesh(geom, val.material);
+                  mesh.renderOrder = val.renderOrder;
+                  scene.add(mesh);
+                }
+              }
+
+              // Dispose intermediate geometries to free GPU memory
+              for (const geom of val.geoms) {
+                geom.dispose();
               }
             }
 
-            this.processGeometry(
-              scene,
-              name ?? sceneName?.name,
-              scale,
-              true, // doublesided
-            );
+            this.processGeometry(scene, name ?? sceneName?.name, scale, true);
 
             allGeometries.push({
               object: scene,
@@ -466,68 +489,7 @@ export class ImportManager {
           }
           resolve(allGeometries);
         },
-        (error) => {
-          reject(error);
-        },
-      );
-    });
-  }
-
-  /** Parses and loads a geometry in GLTF (.gltf,.glb) format.
-   * Also supports zip versions of those
-   * @param fileName of the geometry file (.gltf,.glb or a zip with such file(s))
-   * @returns Promise for loading the geometry.
-   */
-  public parseGLTFGeometry(file: File): Promise<GeometryUIParameters[]> {
-    return this.zipHandlingFileWrapper(
-      file,
-      (data: ArrayBuffer, path: string, name: string) => {
-        return this.parseGLTFGeometryFromArrayBuffer(data, path, name);
-      },
-    );
-  }
-
-  /** Parses and loads a geometry in GLTF (.gltf) format.
-   * @param geometry ArrayBuffer containing the geometry file's content (gltf or glb data)
-   * @param path The base path from which to find subsequent glTF resources such as textures and .bin data files
-   * @param name Name given to the geometry.
-   * @returns Promise for loading the geometry.
-   */
-  private parseGLTFGeometryFromArrayBuffer(
-    geometry: ArrayBuffer,
-    path: string,
-    name: string,
-  ): Promise<GeometryUIParameters[]> {
-    const loader = new GLTFLoader();
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath(
-      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`,
-    );
-    loader.setDRACOLoader(dracoLoader);
-    return new Promise<GeometryUIParameters[]>((resolve, reject) => {
-      loader.parse(
-        geometry,
-        path,
-        (gltf) => {
-          const allGeometriesUIParameters: GeometryUIParameters[] = [];
-
-          for (const scene of gltf.scenes) {
-            scene.visible = scene.userData.visible;
-            console.log('Dealing with scene ', scene.name);
-            const sceneName = this.processGLTFSceneName(scene.name);
-            this.processGeometry(scene, sceneName?.name ?? name);
-
-            allGeometriesUIParameters.push({
-              object: scene,
-              menuNodeName: sceneName?.menuNodeName,
-            });
-          }
-
-          resolve(allGeometriesUIParameters);
-        },
-        (error) => {
-          reject(error);
-        },
+        (error) => reject(error),
       );
     });
   }
@@ -535,13 +497,13 @@ export class ImportManager {
   /**
    * Get geometry name and menuNodeName from GLTF scene name.
    * @param sceneName GLTF scene name.
-   * @param menuNodeName Path to the node in Phoenix menu to add the geometry to. Use `>` as a separator.
+   * @param menuNodeName Path to the node in Phoenix menu to add the geometry to.
    * @returns Geometry name and menuNodeName if present in scene name.
    */
   private processGLTFSceneName(sceneName?: string, menuNodeName?: string) {
     if (sceneName) {
       const nodes = sceneName.split('_>_');
-      menuNodeName && nodes.unshift(menuNodeName); // eslint-disable-line
+      if (menuNodeName) nodes.unshift(menuNodeName);
       const fullNodeName = nodes.join(' > ');
       nodes.pop();
       const menuName = nodes.join(' > ');
@@ -558,35 +520,30 @@ export class ImportManager {
    * @param doubleSided Renders both sides of the material.
    * @returns Promise for loading the geometry.
    */
-  public loadJSONGeometry(
-    json: string | { [key: string]: any },
+  public async loadJSONGeometry(
+    json: string | Record<string, unknown>,
     name: string,
     scale?: number,
     doubleSided?: boolean,
   ): Promise<GeometryUIParameters> {
-    const loader = new ObjectLoader();
+    const loader = this.getObjectLoader();
 
-    switch (typeof json) {
-      case 'string':
-        return new Promise<GeometryUIParameters>((resolve, reject) => {
-          loader.load(
-            json,
-            (object: Object3D) => {
-              this.processGeometry(object, name, scale, doubleSided);
-              resolve({ object });
-            },
-            undefined,
-            (error) => {
-              reject(error);
-            },
-          );
-        });
-      case 'object':
-        return new Promise<GeometryUIParameters>((resolve) => {
-          const object = loader.parse(json);
-          this.processGeometry(object, name, scale, doubleSided);
-          resolve({ object });
-        });
+    if (typeof json === 'string') {
+      return new Promise((resolve, reject) => {
+        loader.load(
+          json,
+          (object: Object3D) => {
+            this.processGeometry(object, name, scale, doubleSided);
+            resolve({ object });
+          },
+          undefined,
+          (error) => reject(error),
+        );
+      });
+    } else {
+      const object = loader.parse(json);
+      this.processGeometry(object, name, scale, doubleSided);
+      return Promise.resolve({ object });
     }
   }
 
@@ -596,7 +553,6 @@ export class ImportManager {
    * @param name Name of the geometry.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
-   * @param transparent Whether the transparent property of geometry is true or false. Default `false`.
    */
   private processGeometry(
     geometry: Object3D,
@@ -605,42 +561,48 @@ export class ImportManager {
     doubleSided?: boolean,
   ) {
     geometry.name = name;
-    // Set a custom scale if provided
     if (scale) {
       geometry.scale.setScalar(scale);
     }
+
     geometry.traverse((child) => {
       if (child instanceof Mesh) {
         child.name = child.userData.name = name;
         child.userData.size = this.getObjectSize(child);
-        if (child.material instanceof Material) {
-          const mat = child.material as Material;
-          const color =
-            'color' in mat ? (mat.color as Color).getHex() : 0x2fd691;
-          const side = doubleSided ? DoubleSide : child.material['side'];
 
-          // Disposing of the default material
-          child.material.dispose();
+        if (child.material) {
+          const mat = child.material as Material | Material[];
+          const singleMat = Array.isArray(mat) ? mat[0] : mat;
 
-          // Should tranparency be used?
-          let isTransparent = false;
-          if (geometry.userData.opacity) {
-            isTransparent = true;
+          let color = 0x2fd691;
+          if ('color' in singleMat) {
+            const matColor = (
+              singleMat as
+                | MeshStandardMaterial
+                | MeshBasicMaterial
+                | MeshPhongMaterial
+            ).color;
+            if (matColor) {
+              color = matColor.getHex();
+            }
           }
 
-          // Changing to a material with 0 shininess
+          const side = doubleSided ? DoubleSide : singleMat.side;
+
+          this.disposeMaterial(mat);
+
+          const isTransparent = !!geometry.userData.opacity;
+
           child.material = new MeshPhongMaterial({
             color,
             shininess: 0,
             side: side,
             transparent: isTransparent,
             opacity: geometry.userData.opacity ?? 1,
+            clippingPlanes: this.clipPlanes,
+            clipIntersection: true,
+            clipShadows: false,
           });
-
-          // Setting up the clipping planes
-          child.material.clippingPlanes = this.clipPlanes;
-          child.material.clipIntersection = true;
-          child.material.clipShadows = false;
         }
       }
     });
@@ -653,8 +615,10 @@ export class ImportManager {
    */
   private getObjectSize(object: Mesh): string {
     const size = new Vector3();
-    object.geometry.computeBoundingBox();
-    object.geometry?.boundingBox?.getSize(size);
+    if (!object.geometry.boundingBox) {
+      object.geometry.computeBoundingBox();
+    }
+    object.geometry.boundingBox?.getSize(size);
     return JSON.stringify(size, null, 2);
   }
 }
