@@ -1,0 +1,151 @@
+<div class="session-pill" *ngIf="visible" [attr.data-kind]="state.kind">
+  <!-- Recording -->
+  <ng-container *ngIf="state.kind === 'recording'">
+    <span class="rec-dot" aria-label="Recording"></span>
+    <span class="label">REC</span>
+    <span class="time">{{ durationLabel }}</span>
+    <span class="dot-sep">·</span>
+    <span class="count">{{ eventCount }} events</span>
+    <button
+      type="button"
+      class="action stop"
+      (click)="onStopRecording()"
+      title="Stop recording (Shift+Ctrl+R)"
+      aria-label="Stop recording"
+    >
+      ■
+    </button>
+  </ng-container>
+
+  <!-- Recorded (offer download / share) -->
+  <ng-container *ngIf="state.kind === 'recorded'">
+    <span class="label">Saved</span>
+    <span class="time">{{ durationLabel }}</span>
+    <span class="dot-sep">·</span>
+    <span class="count">{{ eventCount }} events</span>
+    <button
+      type="button"
+      class="action"
+      (click)="onDownload()"
+      title="Download .phnxreplay file"
+      aria-label="Download session"
+    >
+      Download
+    </button>
+    <button
+      type="button"
+      class="action"
+      (click)="onCopyLink()"
+      [disabled]="linkCopied"
+      title="Copy a ?replay= share link"
+      aria-label="Copy share link"
+    >
+      {{ linkCopied ? 'Copied' : 'Copy link' }}
+    </button>
+    <button
+      type="button"
+      class="action close"
+      (click)="onDismiss()"
+      title="Dismiss"
+      aria-label="Dismiss"
+    >
+      ✕
+    </button>
+  </ng-container>
+
+  <!-- Pending: link-supplied session awaiting explicit user confirmation -->
+  <ng-container *ngIf="state.kind === 'pending'">
+    <span class="label">Shared session</span>
+    <span class="time">{{ pendingSummary }}</span>
+    <span class="dot-sep">·</span>
+    <span class="count">from {{ state.sourceLabel }}</span>
+    <button
+      type="button"
+      class="action play-pending"
+      (click)="onPlayPending()"
+      title="Play this shared session"
+      aria-label="Play shared session"
+    >
+      Play
+    </button>
+    <button
+      type="button"
+      class="action close"
+      (click)="onDismiss()"
+      title="Dismiss"
+      aria-label="Dismiss shared session"
+    >
+      ✕
+    </button>
+  </ng-container>
+
+  <!-- Playing / Paused / Finished -->
+  <ng-container
+    *ngIf="
+      state.kind === 'playing' ||
+      state.kind === 'paused' ||
+      state.kind === 'finished'
+    "
+  >
+    <button
+      type="button"
+      class="action play"
+      (click)="onTogglePlayback()"
+      [title]="state.kind === 'playing' ? 'Pause' : 'Play'"
+      [attr.aria-label]="state.kind === 'playing' ? 'Pause' : 'Play'"
+    >
+      {{ state.kind === 'playing' ? '❚❚' : '►' }}
+    </button>
+    <span class="label">Replay</span>
+    <span class="time">{{ playbackLabel }}</span>
+    <input
+      type="range"
+      class="scrub"
+      min="0"
+      [max]="playerDuration"
+      step="50"
+      [value]="
+        state.kind === 'finished' ? playerDuration : (state.currentTime ?? 0)
+      "
+      (input)="onScrub(+$any($event.target).value)"
+      aria-label="Replay scrub bar"
+    />
+    <span class="speeds">
+      <button
+        type="button"
+        class="speed"
+        *ngFor="let s of speeds"
+        [class.selected]="currentSpeed === s"
+        (click)="onSpeed(s)"
+        [attr.aria-label]="'Speed ' + s + 'x'"
+        [attr.aria-pressed]="currentSpeed === s"
+      >
+        {{ s }}×
+      </button>
+    </span>
+    <button
+      type="button"
+      class="action close"
+      (click)="onDismiss()"
+      title="Stop replay"
+      aria-label="Stop replay"
+    >
+      ✕
+    </button>
+  </ng-container>
+
+  <!-- Error -->
+  <ng-container *ngIf="state.kind === 'error'">
+    <span class="label error">Session error</span>
+    <span class="time">{{ state.message }}</span>
+    <button
+      type="button"
+      class="action close"
+      (click)="onDismiss()"
+      title="Dismiss"
+      aria-label="Dismiss"
+    >
+      ✕
+    </button>
+  </ng-container>
+</div>

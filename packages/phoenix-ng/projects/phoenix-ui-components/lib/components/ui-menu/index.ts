@@ -46,3 +46,4 @@ export * from './kinematics-panel/kinematics-panel.component';
 export * from './kinematics-panel/kinematics-panel-overlay/kinematics-panel-overlay.component';
 export * from './masterclass-panel/masterclass-panel.component';
 export * from './masterclass-panel/masterclass-panel-overlay/masterclass-panel-overlay.component';
+export * from '../session-pill/session-pill.component';
