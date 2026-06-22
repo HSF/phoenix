@@ -1,10 +1,10 @@
-import { GeometryBrowserOverlayComponent } from './geometry-browser-overlay/geometry-browser-overlay.component';
 import {
   Component,
   type OnInit,
   ComponentRef,
   type OnDestroy,
 } from '@angular/core';
+import { GeometryBrowserOverlayComponent } from './geometry-browser-overlay/geometry-browser-overlay.component';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 
@@ -21,7 +21,13 @@ export class GeometryBrowserComponent implements OnInit, OnDestroy {
   constructor(private overlay: Overlay) {}
 
   ngOnInit() {
-    const overlayRef = this.overlay.create();
+    const positionStrategy = this.overlay
+      .position()
+      .global()
+      .bottom('150px')
+      .right('15px');
+
+    const overlayRef = this.overlay.create({ positionStrategy });
     const overlayPortal = new ComponentPortal(GeometryBrowserOverlayComponent);
     this.overlayWindow = overlayRef.attach(overlayPortal);
     this.overlayWindow.instance.browseDetectorParts = this.browseDetectorParts;
@@ -34,9 +40,10 @@ export class GeometryBrowserComponent implements OnInit, OnDestroy {
   toggleOverlay() {
     this.browseDetectorParts = !this.browseDetectorParts;
     this.overlayWindow.instance.browseDetectorParts = this.browseDetectorParts;
-    // eslint-disable-next-line
-    this.browseDetectorParts
-      ? this.overlayWindow.instance.enableHighlighting()
-      : this.overlayWindow.instance.disableHighlighting();
+    if (this.browseDetectorParts) {
+      this.overlayWindow.instance.enableHighlighting();
+    } else {
+      this.overlayWindow.instance.disableHighlighting();
+    }
   }
 }

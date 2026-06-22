@@ -1,11 +1,13 @@
 .overlay-card.card {
   color: var(--phoenix-text-color);
   background: none;
-  max-width: 100vw;
+  max-width: 85vw;
   font-size: 12px;
   /* Same min-width as overlay.component.ts MIN_RES_WIDTH */
   min-width: 300px;
-  height: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
   box-shadow: none;
   border: none;
   position: relative;
@@ -59,6 +61,7 @@
     border-top-left-radius: 0;
     overflow: auto;
     height: 100%;
+    max-height: 40vh;
 
     &.transparent-bg {
       background: none;

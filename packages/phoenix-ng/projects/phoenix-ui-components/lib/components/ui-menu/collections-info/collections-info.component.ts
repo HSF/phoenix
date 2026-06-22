@@ -4,9 +4,9 @@ import {
   ComponentRef,
   type OnDestroy,
 } from '@angular/core';
+import { CollectionsInfoOverlayComponent } from './collections-info-overlay/collections-info-overlay.component';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { CollectionsInfoOverlayComponent } from './collections-info-overlay/collections-info-overlay.component';
 
 @Component({
   standalone: false, // this is now required when using NgModule
@@ -21,7 +21,13 @@ export class CollectionsInfoComponent implements OnInit, OnDestroy {
   constructor(private overlay: Overlay) {}
 
   ngOnInit() {
-    const overlayRef = this.overlay.create();
+    const positionStrategy = this.overlay
+      .position()
+      .global()
+      .bottom('80px')
+      .right('15px');
+
+    const overlayRef = this.overlay.create({ positionStrategy });
     const overlayPortal = new ComponentPortal(CollectionsInfoOverlayComponent);
     this.overlayWindow = overlayRef.attach(overlayPortal);
     this.overlayWindow.instance.showObjectsInfo = this.showObjectsInfo;

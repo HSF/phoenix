@@ -44,17 +44,23 @@ export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.unsubscribes.push(
-      this.eventDisplay.listenToDisplayedEventChange(() => {
-        const collectionsGrouped: { [key: string]: string[] } =
-          this.eventDisplay.getCollections();
+    const updateCollections = () => {
+      const collectionsGrouped: { [key: string]: string[] } =
+        this.eventDisplay.getCollections();
+      if (collectionsGrouped) {
         this.collections = Object.entries(collectionsGrouped).map(
           ([type, collections]: [string, string[]]) => ({
             type,
             collections,
           }),
         );
-      }),
+      }
+    };
+
+    updateCollections();
+
+    this.unsubscribes.push(
+      this.eventDisplay.listenToDisplayedEventChange(() => updateCollections()),
     );
 
     this.activeObject = this.eventDisplay.getActiveObjectId();

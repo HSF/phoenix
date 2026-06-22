@@ -61,5 +61,8 @@
   },
   "peerDependencies": {
     "jspdf": "*"
+  },
+  "browser": {
+    "@resvg/resvg-js": false
   }
 }
