@@ -42,7 +42,7 @@ interface PHYSLITECollectionDef {
   ) => any[];
 }
 
-// --- CONFIGURATION MAPPING
+/** Default collection definitions for PHYSLITE data. */
 const DEFAULT_COLLECTIONS: PHYSLITECollectionDef[] = [
   {
     prefix: 'AnalysisElectronsAuxDyn',
@@ -144,7 +144,9 @@ const DEFAULT_COLLECTIONS: PHYSLITECollectionDef[] = [
  * Loader for ATLAS PHYSLITE (DAOD_PHYSLITE) ROOT files.
  */
 export class PHYSLITELoader extends PhoenixLoader {
+  /** Maximum number of events to process. */
   private maxEvents: number;
+  /** Array of active collection definitions. */
   private collectionDefs: PHYSLITECollectionDef[];
   /**
    * Creates an instance of PHYSLITELoader.
@@ -409,7 +411,11 @@ export class PHYSLITELoader extends PhoenixLoader {
     }
     return clusters;
   }
-
+  /**
+   * Converts various input formats into a standard number array.
+   * @param val Input value to convert.
+   * @returns Array of numbers or null.
+   */
   private toArray(val: any): number[] | null {
     if (val == null) return null;
     if (Array.isArray(val)) return val;
