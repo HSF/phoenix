@@ -2,6 +2,7 @@ import { PhoenixLoader } from './phoenix-loader';
 import { openFile, settings as jsrootSettings } from 'jsroot';
 import { TSelector, treeProcess } from 'jsroot/tree';
 import { CoordinateHelper } from '../helpers/coordinate-helper';
+import { PhoenixEventData, PhoenixEventsData } from '../lib/types/event-data';
 
 /**
  * Branch mapping for a PHYSLITE collection.
@@ -132,7 +133,7 @@ export class PHYSLITELoader extends PhoenixLoader {
    * @param fileSource File object or URL of the .root file.
    * @returns Promise resolving to the events data.
    */
-  async getEventData(fileSource: File | string): Promise<any> {
+  async getEventData(fileSource: File | string): Promise<PhoenixEventsData> {
     jsrootSettings.UseStamp = false;
 
     const file = await openFile(fileSource as any);
@@ -204,7 +205,7 @@ export class PHYSLITELoader extends PhoenixLoader {
     selector.addBranch('EventInfoAuxDyn.runNumber', runNumberKey);
 
     // --- Process entries ---
-    const eventsData: any = {};
+    const eventsData: Record<string, PhoenixEventData> = {};
     let eventIndex = 0;
 
     selector.Process = (entry: number) => {
@@ -220,7 +221,7 @@ export class PHYSLITELoader extends PhoenixLoader {
 
       // Pre-initialize all active collection types so Phoenix registers
       // them from the first event (even if empty for that event).
-      const eventData: any = {
+      const eventData: PhoenixEventData = {
         'event number': eventNumber,
         'run number': runNumber,
       };
@@ -259,11 +260,10 @@ export class PHYSLITELoader extends PhoenixLoader {
     switch (def.phoenixType) {
       case 'Electrons':
       case 'Muons':
-        return this.convertCompoundObjects(keys, tgt, true);
+        return this.convertParticles(keys, tgt, -1);
       case 'Photons':
-        return this.convertCompoundObjects(keys, tgt, false);
       case 'Jets':
-        return this.convertJets(keys, tgt);
+        return this.convertParticles(keys, tgt);
       case 'Tracks':
         return this.convertTracks(keys, tgt);
       case 'MissingEnergy':
@@ -278,14 +278,13 @@ export class PHYSLITELoader extends PhoenixLoader {
   }
 
   /**
-   * Convert compound objects (Electrons, Muons, Photons).
-   * These are rendered as extrapolated tracks (charged) or clusters (neutral).
+   * Convert compound objects (Electrons, Muons, Photons) and Jets.
    * Energy is computed from pt, eta, and mass: E = sqrt((pt*cosh(eta))^2 + m^2).
    */
-  private convertCompoundObjects(
+  private convertParticles(
     keys: { [field: string]: string },
     tgt: any,
-    isCharged: boolean,
+    pdgId?: number,
   ): any[] {
     const ptArr = keys['pt'] ? this.toArray(tgt[keys['pt']]) : null;
     const etaArr = keys['eta'] ? this.toArray(tgt[keys['eta']]) : null;
@@ -295,7 +294,7 @@ export class PHYSLITELoader extends PhoenixLoader {
     if (!etaArr || !phiArr) return [];
 
     const n = etaArr.length;
-    const objects: any[] = [];
+    const particles: any[] = new Array(n);
 
     for (let i = 0; i < n; i++) {
       const eta = etaArr[i];
@@ -314,51 +313,16 @@ export class PHYSLITELoader extends PhoenixLoader {
         energy,
       };
 
-      // For charged particles, derive sign from charge if available,
-      // otherwise assume negative (electron/muon convention)
-      if (isCharged) {
-        // PHYSLITE muons don't have explicit pt — they are linked to tracks.
-        // For electrons, charge can be inferred from track qOverP sign.
-        // Default to negative charge convention for track curvature.
-        obj.pdgId = -1;
+      // For specific charged particles (like electrons/muons), a pdgId can be assigned
+      // Default to negative charge convention for track curvature.
+      if (pdgId !== undefined) {
+        obj.pdgId = pdgId;
       }
 
-      objects.push(obj);
+      particles[i] = obj;
     }
 
-    return objects;
-  }
-
-  /**
-   * Convert jet branch data into Phoenix JetParams array.
-   * Energy computed from pt, eta, m: E = sqrt((pt*cosh(eta))^2 + m^2).
-   */
-  private convertJets(keys: { [field: string]: string }, tgt: any): any[] {
-    const ptArr = keys['pt'] ? this.toArray(tgt[keys['pt']]) : null;
-    const etaArr = keys['eta'] ? this.toArray(tgt[keys['eta']]) : null;
-    const phiArr = keys['phi'] ? this.toArray(tgt[keys['phi']]) : null;
-    const mArr = keys['m'] ? this.toArray(tgt[keys['m']]) : null;
-
-    if (!etaArr || !phiArr) return [];
-
-    const n = etaArr.length;
-    const jets: any[] = [];
-
-    for (let i = 0; i < n; i++) {
-      const pt = ptArr ? ptArr[i] : 0;
-      const eta = etaArr[i];
-      const m = mArr ? mArr[i] : 0;
-      const p = pt * Math.cosh(eta);
-      const energy = Math.sqrt(p * p + m * m);
-
-      jets.push({
-        eta,
-        phi: phiArr[i],
-        energy,
-      });
-    }
-
-    return jets;
+    return particles;
   }
 
   /**
@@ -440,14 +404,14 @@ export class PHYSLITELoader extends PhoenixLoader {
     if (!xArr || !yArr || !zArr) return [];
 
     const n = xArr.length;
-    const vertices: any[] = [];
+    const vertices: any[] = new Array(n);
 
     for (let i = 0; i < n; i++) {
-      vertices.push({
+      vertices[i] = {
         x: xArr[i],
         y: yArr[i],
         z: zArr[i],
-      });
+      };
     }
 
     return vertices;
@@ -467,26 +431,26 @@ export class PHYSLITELoader extends PhoenixLoader {
     if (!eArr || !etaArr || !phiArr) return [];
 
     const n = eArr.length;
-    const clusters: any[] = [];
+    const clusters: any[] = new Array(n);
 
     for (let i = 0; i < n; i++) {
-      clusters.push({
+      clusters[i] = {
         energy: eArr[i],
         eta: etaArr[i],
         phi: phiArr[i],
-      });
+      };
     }
 
     return clusters;
   }
 
   /**
-   * Ensure a value is a plain array (jsroot may return typed arrays).
+   * Ensure a value is accessible like an array (jsroot may return typed arrays).
    */
-  private toArray(val: any): number[] | null {
+  private toArray(val: any): ArrayLike<number> | null {
     if (val == null) return null;
     if (Array.isArray(val)) return val;
-    if (ArrayBuffer.isView(val)) return Array.from(val as any);
+    if (ArrayBuffer.isView(val)) return val as unknown as ArrayLike<number>;
     if (typeof val === 'number') return [val];
     return null;
   }
