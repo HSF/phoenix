@@ -3,7 +3,9 @@ import { openFile, settings as jsrootSettings } from 'jsroot';
 import { TSelector, treeProcess } from 'jsroot/tree';
 import { CoordinateHelper } from '../helpers/coordinate-helper';
 
-// --- NAYE INTERFACES (Type Safety ke liye) ---
+/**
+ * Interface representing a particle in Phoenix with basic kinematic properties.
+ */
 export interface PhoenixParticle {
   pt: number;
   eta: number;
@@ -11,7 +13,9 @@ export interface PhoenixParticle {
   energy: number;
   pdgId?: number;
 }
-
+/**
+ * Interface representing a track in Phoenix with its physical parameters.
+ */
 export interface PhoenixTrack {
   dparams: [number, number, number, number, number];
   phi: number;
@@ -38,7 +42,7 @@ interface PHYSLITECollectionDef {
   ) => any[];
 }
 
-// --- CONFIGURATION MAPPING (Parser logic yahan shift kiya gaya hai) ---
+// --- CONFIGURATION MAPPING
 const DEFAULT_COLLECTIONS: PHYSLITECollectionDef[] = [
   {
     prefix: 'AnalysisElectronsAuxDyn',
@@ -149,7 +153,13 @@ export class PHYSLITELoader extends PhoenixLoader {
     this.collectionDefs = DEFAULT_COLLECTIONS;
   }
 
-  // --- NAYA HELPER FUNCTION (DRY Principle) ---
+  /**
+   * Calculates the total energy of a particle based on its kinematics.
+   * @param pt Transverse momentum
+   * @param eta Pseudorapidity
+   * @param m Mass
+   * @returns Calculated energy
+   */
   public calculateEnergy(pt: number, eta: number, m: number = 0): number {
     const p = pt * Math.cosh(eta);
     return Math.sqrt(p * p + m * m);
@@ -246,7 +256,7 @@ export class PHYSLITELoader extends PhoenixLoader {
     return eventsData;
   }
 
-  // --- NAYE OPTIMIZED PARSERS (Memory Pre-allocation) ---
+  // ---  OPTIMIZED PARSERS (Memory Pre-allocation) ---
   public convertCompoundObjects(
     keys: Record<string, string>,
     tgt: any,
@@ -278,7 +288,7 @@ export class PHYSLITELoader extends PhoenixLoader {
     }
     return objects;
   }
-
+  /** Converts jet objects to Phoenix particles. */
   public convertJets(
     keys: Record<string, string>,
     tgt: any,
@@ -306,7 +316,7 @@ export class PHYSLITELoader extends PhoenixLoader {
     }
     return jets;
   }
-
+  /** Converts track objects to Phoenix tracks. */
   public convertTracks(keys: Record<string, string>, tgt: any): PhoenixTrack[] {
     const d0Arr = keys['d0'] ? this.toArray(tgt[keys['d0']]) : null;
     const z0Arr = keys['z0'] ? this.toArray(tgt[keys['z0']]) : null;
@@ -342,7 +352,7 @@ export class PHYSLITELoader extends PhoenixLoader {
     }
     return tracks;
   }
-
+  /** Converts Missing Energy (MET) objects. */
   public convertMET(keys: Record<string, string>, tgt: any): any[] {
     const mpx = keys['mpx'] ? tgt[keys['mpx']] : null;
     const mpy = keys['mpy'] ? tgt[keys['mpy']] : null;
@@ -354,7 +364,7 @@ export class PHYSLITELoader extends PhoenixLoader {
       },
     ];
   }
-
+  /** Converts primary vertices. */
   public convertVertices(keys: Record<string, string>, tgt: any): any[] {
     const xArr = keys['x'] ? this.toArray(tgt[keys['x']]) : null;
     const yArr = keys['y'] ? this.toArray(tgt[keys['y']]) : null;
@@ -368,7 +378,7 @@ export class PHYSLITELoader extends PhoenixLoader {
     }
     return vertices;
   }
-
+  /** Converts calorimeter clusters. */
   public convertCaloClusters(keys: Record<string, string>, tgt: any): any[] {
     const eArr = keys['calE'] ? this.toArray(tgt[keys['calE']]) : null;
     const etaArr = keys['calEta'] ? this.toArray(tgt[keys['calEta']]) : null;
