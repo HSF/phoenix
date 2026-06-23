@@ -146,7 +146,10 @@ const DEFAULT_COLLECTIONS: PHYSLITECollectionDef[] = [
 export class PHYSLITELoader extends PhoenixLoader {
   private maxEvents: number;
   private collectionDefs: PHYSLITECollectionDef[];
-
+  /**
+   * Creates an instance of PHYSLITELoader.
+   * @param maxEvents Maximum number of events to process from the file.
+   */
   constructor(maxEvents: number = 100) {
     super();
     this.maxEvents = maxEvents;
@@ -164,7 +167,11 @@ export class PHYSLITELoader extends PhoenixLoader {
     const p = pt * Math.cosh(eta);
     return Math.sqrt(p * p + m * m);
   }
-
+  /**
+   * Reads the ROOT file and extracts event data for all active collections.
+   * @param fileSource The input file or file URL.
+   * @returns A promise resolving to the structured events data object.
+   */
   async getEventData(fileSource: File | string): Promise<any> {
     jsrootSettings.UseStamp = false;
 
@@ -256,7 +263,17 @@ export class PHYSLITELoader extends PhoenixLoader {
     return eventsData;
   }
 
-  // ---  OPTIMIZED PARSERS (Memory Pre-allocation) ---
+  // --- OPTIMIZED PARSERS (Memory Pre-allocation) ---
+  /**
+   * Converts compound objects into standard PhoenixParticle objects.
+
+   * Converts compound objects into standard PhoenixParticle objects.
+   * @param keys Map of field names to target keys.
+   * @param tgt Target event object from TSelector.
+   * @param isCharged Flag to determine if the particle is charged.
+   * @returns Array of parsed Phoenix particles.
+   */
+
   public convertCompoundObjects(
     keys: Record<string, string>,
     tgt: any,
