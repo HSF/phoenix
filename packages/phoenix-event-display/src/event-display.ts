@@ -993,15 +993,15 @@ export class EventDisplay {
       document.removeEventListener('keydown', this.sessionRecordKeydownHandler);
     }
 
-    // Ctrl+Alt+V = toggle session recording
+    // Shift+S = toggle session recording
     this.sessionRecordKeydownHandler = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
       const isTyping = ['input', 'textarea', 'select'].includes(
         target?.tagName.toLowerCase(),
       );
       if (isTyping) return;
-      if (!(e.ctrlKey || e.metaKey) || !e.altKey) return;
-      if (e.code !== 'KeyV') return;
+      if (!e.shiftKey || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.code !== 'KeyS') return;
 
       e.preventDefault();
       this.getSessionManager().toggleRecording();
