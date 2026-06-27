@@ -56,7 +56,7 @@ export class EventDisplay {
     new Set();
   /** Session recorder/player coordinator for #883 (lazy initialized). */
   private sessionManager: SessionManager | null = null;
-  /** Stored keydown handler for session recording shortcut (Shift+Ctrl+R). */
+  /** Stored keydown handler for session recording shortcut. */
   private sessionRecordKeydownHandler: ((e: KeyboardEvent) => void) | null =
     null;
   /** Three manager for three.js operations. */
@@ -993,16 +993,16 @@ export class EventDisplay {
       document.removeEventListener('keydown', this.sessionRecordKeydownHandler);
     }
 
-    // Shift+Ctrl+R = toggle session recording (#883). Plain Ctrl+R is left
-    // alone so the browser refresh keeps working.
+    // Shift+S = toggle session recording
     this.sessionRecordKeydownHandler = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
       const isTyping = ['input', 'textarea', 'select'].includes(
         target?.tagName.toLowerCase(),
       );
       if (isTyping) return;
-      if (!e.shiftKey || !(e.ctrlKey || e.metaKey)) return;
-      if (e.code !== 'KeyR') return;
+      if (!e.shiftKey || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.code !== 'KeyS') return;
+
       e.preventDefault();
       this.getSessionManager().toggleRecording();
     };
