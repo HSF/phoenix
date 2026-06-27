@@ -88,7 +88,12 @@ import { ExperimentLinkComponent } from './embed-menu/experiment-link/experiment
 import { FileExplorerComponent } from './file-explorer/file-explorer.component';
 import { RingLoaderComponent } from './ring-loader/ring-loader.component';
 
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NotificationToastComponent } from './ui-menu/notification-toast/notification-toast.component';
+import { NotificationService } from '../services/notification.service';
+
 const PHOENIX_COMPONENTS: Type<any>[] = [
+  NotificationToastComponent,
   NavComponent,
   UiMenuWrapperComponent,
   UiMenuComponent,
@@ -152,6 +157,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
 @NgModule({
   declarations: PHOENIX_COMPONENTS,
   imports: [
+    MatSnackBarModule,
     AttributePipe, // Correct: standalone items must be in imports
     CommonModule,
     RouterModule,
@@ -176,6 +182,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     AttributePipe, // Export it so components in other modules can use it
   ],
   providers: [
+    NotificationService,
     EventDisplayService,
     ErrorMessageService,
     {
