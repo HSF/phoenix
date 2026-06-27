@@ -6835,6 +6835,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/dom-webcodecs@npm:^0.1.6":
+  version: 0.1.18
+  resolution: "@types/dom-webcodecs@npm:0.1.18"
+  checksum: da823cc0e6d4eeb3beb87c44d24c1f57aefab3fbcbf6f5ba82f4197928cc9fbe02812d1f938bdacaa6fba5f84a241b4ced350e1bb4f9005d481c19f960d9c42a
+  languageName: node
+  linkType: hard
+
 "@types/emscripten@npm:^1.39.4":
   version: 1.39.13
   resolution: "@types/emscripten@npm:1.39.13"
@@ -7096,6 +7103,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/recordrtc@npm:^5.6.15":
+  version: 5.6.15
+  resolution: "@types/recordrtc@npm:5.6.15"
+  checksum: 25db0487be31e4a4c3106b36837c5101e16fad1ed3edc0fb9411cb8b09cf55f41fa0e6dd4d83862c90be1c90f06b176f17cebb955859b701d9b049b5ebf22bce
+  languageName: node
+  linkType: hard
+
 "@types/retry@npm:0.12.2":
   version: 0.12.2
   resolution: "@types/retry@npm:0.12.2"
@@ -7209,6 +7223,13 @@ __metadata:
   version: 0.5.24
   resolution: "@types/webxr@npm:0.5.24"
   checksum: 3c87ea6a06cabb3023dc353363733763237c9d8f45d0402b07074823575805830133c0de00d34b4f73e9a6ba9a2ed2de204f62b33f6d820e14970a61a3333c36
+  languageName: node
+  linkType: hard
+
+"@types/wicg-file-system-access@npm:^2020.9.5":
+  version: 2020.9.8
+  resolution: "@types/wicg-file-system-access@npm:2020.9.8"
+  checksum: 08ef73d68e9a5596d0d17f0f9651745cb9edf98afdee3f9fe852c44123e7b5254ede38c151ebea5127e4a4a59fcd850ce762e56b1278079afff3aadf53dc0776
   languageName: node
   linkType: hard
 
@@ -15846,6 +15867,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mp4-muxer@npm:^5.2.2":
+  version: 5.2.2
+  resolution: "mp4-muxer@npm:5.2.2"
+  dependencies:
+    "@types/dom-webcodecs": ^0.1.6
+    "@types/wicg-file-system-access": ^2020.9.5
+  checksum: 7072a6dc11343cca93a40061cd9cd04368030246fe26e12a76ee613fd60b11878c063e4e83098fbd8a26bc8e234a67d404800501ae55df1370fb72bc20ea7be0
+  languageName: node
+  linkType: hard
+
 "mrmime@npm:2.0.1, mrmime@npm:^2.0.0":
   version: 2.0.1
   resolution: "mrmime@npm:2.0.1"
@@ -17321,16 +17352,19 @@ __metadata:
     "@angular/router": ^20.3.23
     "@frsource/cypress-plugin-visual-regression-diff": ^3.3.10
     "@types/qrcode": ^1.5.6
+    "@types/recordrtc": ^5.6.15
     concurrently: ^9.2.1
     css-element-queries: ^1.2.3
     cypress: ^15.7.1
     jest: ^29.7.0
     jest-preset-angular: ^14.6.2
     jszip: ^3.10.1
+    mp4-muxer: ^5.2.2
     ng-packagr: ^20.3.2
     phoenix-event-display: ^4.0.0
     phoenix-ui-components: ^4.0.1
     qrcode: 1.5.4
+    recordrtc: ^5.6.2
     rxjs: ^7.8.2
     three: ~0.184.0
     ts-jest: ^29.3.4
@@ -18138,6 +18172,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"recordrtc@npm:^5.6.2":
+  version: 5.6.2
+  resolution: "recordrtc@npm:5.6.2"
+  checksum: 4be66e42fd427a86e5726afcf061963a5a16d7900d535debd2754d63ee9768d6fda8b5a7592e9835ac4b98b37d4dd73490b793f82c038d45e95dcdcc27f57d2c
+  languageName: node
+  linkType: hard
+
 "redent@npm:^3.0.0":
   version: 3.0.0
   resolution: "redent@npm:3.0.0"
@@ -18624,6 +18665,7 @@ __metadata:
     "@eslint/js": ^9.39.1
     "@types/jest": ~29.5.14
     "@types/node": ^24.10.1
+    "@types/recordrtc": ^5.6.15
     "@typescript-eslint/eslint-plugin": ^8.48.1
     "@typescript-eslint/parser": ^8.48.1
     eslint: ^9.39.1
@@ -18635,6 +18677,7 @@ __metadata:
     lerna: ^9.0.3
     lint-staged: ^16.2.7
     prettier: ^3.7.4
+    recordrtc: ^5.6.2
     rimraf: ^6.1.2
     ts-jest-mock-import-meta: ^1.2.1
     ts-node: ^10.9.2

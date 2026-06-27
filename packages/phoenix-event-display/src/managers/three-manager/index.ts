@@ -324,6 +324,14 @@ export class ThreeManager {
   }
 
   /**
+   * Get the renderer manager for accessing renderer-related functions.
+   * @returns The renderer manager.
+   */
+  public getRendererManager(): RendererManager {
+    return this.rendererManager;
+  }
+
+  /**
    * Get the controls manager for accessing camera controls.
    * @returns The controls manager.
    */

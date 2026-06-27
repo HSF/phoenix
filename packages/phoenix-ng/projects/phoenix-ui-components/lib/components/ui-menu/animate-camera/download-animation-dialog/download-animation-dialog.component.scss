@@ -1,0 +1,40 @@
+.loader-wrapper {
+  background-color: rgba(33, 37, 41, 0.95); // match bootstrap dark bg
+  border-radius: 8px;
+
+  img {
+    width: 100px;
+    height: auto;
+    animation: pulse 2s infinite;
+  }
+
+  .loading-bar-container {
+    width: 80%;
+    margin-top: 1rem;
+
+    mat-progress-bar {
+      height: 10px;
+      border-radius: 5px;
+    }
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
