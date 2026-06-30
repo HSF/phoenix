@@ -38,7 +38,7 @@
     "eslint:fix": "yarn eslint --fix"
   },
   "dependencies": {
-    "@babel/core": "^7.28.5",
+    "@babel/core": "^8.0.0",
     "@tweenjs/tween.js": "^25.0.0",
     "dat.gui": "^0.7.9",
     "html2canvas": "^1.4.1",
