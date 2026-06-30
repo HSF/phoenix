@@ -16,6 +16,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { NavComponent } from './nav/nav.component';
 
@@ -54,6 +55,7 @@ import {
   TreeMenuComponent,
   TreeMenuItemComponent,
   AnimateCameraComponent,
+  DownloadAnimationDialogComponent,
   AnimateEventComponent,
   VrToggleComponent,
   ArToggleComponent,
@@ -127,6 +129,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   PhoenixMenuItemComponent,
   ConfigSliderComponent,
   AnimateCameraComponent,
+  DownloadAnimationDialogComponent,
   AnimateEventComponent,
   VrToggleComponent,
   ArToggleComponent,
@@ -176,6 +179,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     MatIconModule,
     CdkTreeModule,
     MatTabsModule,
+    MatProgressBarModule,
   ],
   exports: [
     ...PHOENIX_COMPONENTS,

@@ -1,5 +1,6 @@
 export { NotificationToastComponent } from './notification-toast/notification-toast.component';
 export * from './animate-camera/animate-camera.component';
+export * from './animate-camera/download-animation-dialog/download-animation-dialog.component';
 export * from './animate-event/animate-event.component';
 export * from './auto-rotate/auto-rotate.component';
 export * from './collections-info/collections-info.component';
