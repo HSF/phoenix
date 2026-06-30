@@ -95,12 +95,29 @@ export class MasterclassPanelOverlayComponent implements OnInit, OnDestroy {
 
   private loadCollections() {
     const grouped = this.eventDisplay.getCollections();
+    // Restrict to taggable types (default 'Tracks') so detector-level
+    // collections (hits like CSCs, calo cells) do not show up. See #923.
+    const types = this.config?.collectionTypes ?? ['Tracks'];
     this.collectionNames = [];
-    for (const [, names] of Object.entries(grouped) as [string, string[]][]) {
-      this.collectionNames.push(...names);
+    for (const type of types) {
+      if (grouped[type]) {
+        this.collectionNames.push(...grouped[type]);
+      }
     }
-    if (this.collectionNames.length > 0 && !this.selectedCollection) {
+
+    if (this.collectionNames.length === 0) {
+      this.selectedCollection = '';
+      this.collectionItems = [];
+      return;
+    }
+
+    if (
+      !this.selectedCollection ||
+      !this.collectionNames.includes(this.selectedCollection)
+    ) {
       this.selectCollection(this.collectionNames[0]);
+    } else {
+      this.selectCollection(this.selectedCollection);
     }
   }
 
