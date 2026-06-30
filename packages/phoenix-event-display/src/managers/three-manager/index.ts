@@ -39,6 +39,7 @@ import { XRManager, XRSessionType } from './xr/xr-manager';
 import { VRManager } from './xr/vr-manager';
 import { ARManager } from './xr/ar-manager';
 import type { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters';
+import type { PileupEvent } from '../../lib/types/event-data';
 
 (function () {
   const _updateMatrixWorld = Object3D.prototype.updateMatrixWorld;
@@ -1397,6 +1398,22 @@ export class ThreeManager {
     onEnd?: () => void,
   ) {
     this.animationsManager.animateClippingWithCollision(tweenDuration, onEnd);
+  }
+
+  /**
+   * Animate multiple pp interactions (pileup) from a single bunch crossing,
+   * sequenced in time order using the timestamp on each interaction.
+   * Delegates to AnimationsManager.animatePileup().
+   * @param pileupEvent Object containing all pileup interactions with timestamps.
+   * @param totalDuration Total duration of the full animation in ms. Default 6000.
+   * @param onEnd Callback fired when all interactions have finished animating.
+   */
+  public animatePileup(
+    pileupEvent: PileupEvent,
+    totalDuration: number = 6000,
+    onEnd?: () => void,
+  ): void {
+    this.animationsManager.animatePileup(pileupEvent, totalDuration, onEnd);
   }
 
   /** Saves a blob */

@@ -286,3 +286,37 @@ export interface PhoenixEventsData {
   /** Individual event data. */
   [eventKey: string]: PhoenixEventData;
 }
+
+// ─────────────────────────────────────────────
+// Pileup types (added for issue #235)
+// ─────────────────────────────────────────────
+
+/**
+ * Represents a single pp interaction in a pileup bunch crossing.
+ * Each interaction has a timestamp (in picoseconds) that is used
+ * to sequence its animation relative to the other interactions.
+ */
+export interface PileupInteraction {
+  /**
+   * Timestamp of this interaction in picoseconds, relative to
+   * the bunch crossing reference time (t=0).
+   */
+  timestamp: number;
+  /** 3D position of the primary vertex for this interaction. */
+  vertex: { x: number; y: number; z: number };
+  /** Tracks originating from this interaction (Phoenix TrackParams format). */
+  tracks?: TrackParams[];
+  /** Jets originating from this interaction (Phoenix JetParams format). */
+  jets?: JetParams[];
+}
+
+/**
+ * A full pileup event containing multiple simultaneous pp interactions
+ * from a single bunch crossing (up to ~200 at HL-LHC).
+ * Feed this to AnimationsManager.animatePileup() to visualise the
+ * time-ordered sequence of collisions.
+ */
+export interface PileupEvent {
+  /** All pp interactions in this bunch crossing. */
+  interactions: PileupInteraction[];
+}

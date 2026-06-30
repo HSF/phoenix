@@ -18,6 +18,7 @@ import {
 import { SceneManager } from './scene-manager';
 import { RendererManager } from './renderer-manager';
 import { TracksMesh } from '../../loaders/objects/tracks';
+import type { PileupEvent } from '../../lib/types/event-data';
 
 /** Type for animation preset. */
 export interface AnimationPreset {
@@ -153,7 +154,7 @@ export class AnimationsManager {
     onEnd?: () => void,
     onAnimationStart?: () => void,
   ) {
-    // 🔥 Hide labels at the start of the animation
+    // Hide labels at the start of the animation
     const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
     if (labelsGroup) labelsGroup.visible = false;
 
@@ -319,11 +320,11 @@ export class AnimationsManager {
       tween.easing(Easing.Quartic.Out).start();
     }
 
-    // 🔥 FINAL animation end handler
+    // FINAL animation end handler
     animationSphereTweenClone.onComplete(() => {
       onAnimationSphereUpdate(new Sphere(new Vector3(), Infinity));
 
-      // 🔥 Show labels again when the animation ends
+      // Show labels again when the animation ends
       const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
       if (labelsGroup) labelsGroup.visible = true;
 
@@ -349,7 +350,7 @@ export class AnimationsManager {
       return;
     }
 
-    // 🔥 Hide labels at the start of the animation
+    // Hide labels at the start of the animation
     const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
     if (labelsGroup) labelsGroup.visible = false;
 
@@ -570,7 +571,7 @@ export class AnimationsManager {
     const { positions, animateEventAfterInterval, collisionDuration } =
       animationPreset;
 
-    // 🔥 Hide labels at the start of the preset animation
+    // Hide labels at the start of the preset animation
     const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
     if (labelsGroup) labelsGroup.visible = false;
 
@@ -598,14 +599,194 @@ export class AnimationsManager {
       previousTween = tween;
     });
 
-    // 🔥 When animation finishes, show labels again
+    // When animation finishes, show labels again
     previousTween.onComplete(() => {
       const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
       if (labelsGroup) labelsGroup.visible = true;
 
-      onEnd?.(); // Call original callback
+      onEnd?.();
     });
 
     firstTween.start();
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Pileup animation (added for issue #235)
+  // ─────────────────────────────────────────────────────────────────────────
+
+  /**
+   * Animate multiple pp interactions (pileup) from a single bunch crossing,
+   * sequenced in time order using the timestamp stored on each interaction.
+   *
+   * Each interaction gets a brief vertex flash (collideParticles) and then
+   * its associated tracks are drawn out via draw-range tweens — exactly the
+   * same mechanism used in animateEvent(), but fired at a delay proportional
+   * to the interaction's relative timestamp.
+   *
+   * @param pileupEvent Object containing all pileup interactions with timestamps.
+   * @param totalDuration Total wall-clock duration of the full animation in ms.
+   * @param onEnd Callback fired when the last interaction has finished animating.
+   */
+  // ─────────────────────────────────────────────────────────────────────────
+  // Pileup animation (final corrected version)
+  // ─────────────────────────────────────────────────────────────────────────
+
+  public animatePileup(
+    pileupEvent: PileupEvent,
+    totalDuration: number = 8000,
+    onEnd?: () => void,
+  ): void {
+    const { interactions } = pileupEvent;
+
+    if (!interactions || interactions.length === 0) {
+      onEnd?.();
+      return;
+    }
+
+    // Hide labels during animation
+    const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
+    if (labelsGroup) labelsGroup.visible = false;
+
+    // Sort interactions by timestamp
+    const sorted = [...interactions].sort((a, b) => a.timestamp - b.timestamp);
+
+    const minT = sorted[0].timestamp;
+    const maxT = sorted[sorted.length - 1].timestamp;
+    const timeRange = maxT - minT || 1;
+
+    // More spacing for better visual clarity
+    const sequencingWindow = totalDuration * 0.8;
+    const trackDuration = totalDuration * 0.5;
+
+    let completedCount = 0;
+    const totalCount = sorted.length;
+
+    const onInteractionComplete = () => {
+      completedCount++;
+      if (completedCount === totalCount) {
+        if (labelsGroup) labelsGroup.visible = true;
+        onEnd?.();
+      }
+    };
+
+    for (const interaction of sorted) {
+      const delay =
+        ((interaction.timestamp - minT) / timeRange) * sequencingWindow;
+
+      setTimeout(() => {
+        // Flash at actual vertex position (FIXED)
+        const { x, y, z } = interaction.vertex;
+
+        const flashGeo = new SphereGeometry(10, 16, 16);
+        const flashMat = new MeshBasicMaterial({
+          color: new Color(0x88ccff),
+          transparent: true,
+          opacity: 1,
+        });
+
+        const flash = new Mesh(flashGeo, flashMat);
+        flash.position.set(x, y, z);
+
+        this.scene.add(flash);
+
+        new Tween(flashMat, this.tweenGroup)
+          .to({ opacity: 0 }, 500)
+          .onComplete(() => {
+            this.scene.remove(flash);
+          })
+          .start();
+
+        // Animate tracks (if available)
+        this._animateInteractionTracks(
+          interaction,
+          trackDuration,
+          onInteractionComplete,
+        );
+      }, delay);
+    }
+  }
+
+  /**
+   * Animate tracks near a specific interaction vertex
+   */
+  private _animateInteractionTracks(
+    interaction: PileupEvent['interactions'][number],
+    duration: number,
+    onEnd?: () => void,
+  ): void {
+    const eventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
+    if (!eventData) {
+      onEnd?.();
+      return;
+    }
+
+    const vertexPos = new Vector3(
+      interaction.vertex.x,
+      interaction.vertex.y,
+      interaction.vertex.z,
+    );
+
+    const PROXIMITY_THRESHOLD = 50;
+    const allTweens: any[] = [];
+
+    eventData.traverse((obj: any) => {
+      if (!obj.geometry) return;
+      if (obj.name !== 'Track' && obj.name !== 'LineHit') return;
+
+      const worldPos = new Vector3();
+      obj.getWorldPosition(worldPos);
+
+      if (worldPos.distanceTo(vertexPos) > PROXIMITY_THRESHOLD) return;
+
+      if (obj.geometry instanceof TracksMesh) {
+        obj.material.progress = 0;
+
+        const tween = new Tween(obj.material, this.tweenGroup)
+          .to({ progress: 1 }, duration)
+          .easing(Easing.Quartic.Out);
+
+        tween.onComplete(() => {
+          obj.material.progress = 1;
+        });
+
+        allTweens.push(tween);
+      } else if (obj.geometry instanceof BufferGeometry) {
+        let count = obj.geometry?.attributes?.position?.count ?? 0;
+        if (obj.geometry instanceof TubeGeometry) count *= 6;
+        if (count === 0) return;
+
+        const savedCount = obj.geometry.drawRange.count;
+        obj.geometry.setDrawRange(0, 0);
+
+        const tween = new Tween(obj.geometry.drawRange, this.tweenGroup)
+          .to({ count }, duration)
+          .easing(Easing.Quartic.Out);
+
+        tween.onComplete(() => {
+          obj.geometry.drawRange.count = savedCount;
+        });
+
+        allTweens.push(tween);
+      }
+    });
+
+    if (allTweens.length === 0) {
+      onEnd?.();
+      return;
+    }
+
+    // Correct async completion handling
+    let completed = 0;
+    const total = allTweens.length;
+
+    for (const tween of allTweens) {
+      tween.onComplete(() => {
+        completed++;
+        if (completed === total) {
+          onEnd?.();
+        }
+      });
+      tween.start();
+    }
   }
 }
