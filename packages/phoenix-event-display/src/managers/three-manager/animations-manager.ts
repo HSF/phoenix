@@ -35,6 +35,11 @@ export interface AnimationPreset {
  * Manager for managing animation related operations using three.js and tween.js.
  */
 export class AnimationsManager {
+  /** Optional event-level time in nanoseconds. */
+  private eventTimeNs?: number;
+  /** Current animation time in nanoseconds. */
+  private currentTimeNs = 0;
+
   /**
    * Constructor for the animation manager.
    * @param scene Three.js scene containing all the objects and event data.
@@ -52,6 +57,41 @@ export class AnimationsManager {
   }
 
   /**
+   * Set event-level time (in nanoseconds) for time-driven animations.
+   * @param timeNs Event time in nanoseconds.
+   */
+  public setEventTime(timeNs?: number): void {
+    if (typeof timeNs === 'number' && timeNs > 0) {
+      this.eventTimeNs = timeNs;
+      this.currentTimeNs = 0;
+    } else {
+      this.eventTimeNs = undefined;
+      this.currentTimeNs = 0;
+    }
+  }
+
+  /**
+   * Get normalized animation progress based on event time.
+   * @returns Value in range [0, 1].
+   */
+  public getTimeProgress(): number {
+    if (!this.eventTimeNs || this.eventTimeNs <= 0) {
+      return 0;
+    }
+    return Math.min(this.currentTimeNs / this.eventTimeNs, 1);
+  }
+
+  /**
+   * Update the animation state.
+   * @param deltaSeconds Time delta since last update in seconds.
+   */
+  public update(deltaSeconds: number): void {
+    if (this.eventTimeNs) {
+      this.currentTimeNs += deltaSeconds * 1e9; // seconds → nanoseconds
+    }
+  }
+
+  /**
    * Get the camera tween for animating camera to a position.
    * @param pos End position of the camera tween.
    * @param duration Duration of the tween.
@@ -61,7 +101,7 @@ export class AnimationsManager {
   public getCameraTween(
     pos: number[],
     duration: number = 1000,
-    easing?: typeof Easing.Linear.None,
+    easing?: (k: number) => number,
   ) {
     const tween = new Tween(this.activeCamera.position, this.tweenGroup).to(
       { x: pos[0], y: pos[1], z: pos[2] },
@@ -153,7 +193,7 @@ export class AnimationsManager {
     onEnd?: () => void,
     onAnimationStart?: () => void,
   ) {
-    // 🔥 Hide labels at the start of the animation
+    // Hide labels at the start of the animation
     const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
     if (labelsGroup) labelsGroup.visible = false;
 
@@ -319,11 +359,11 @@ export class AnimationsManager {
       tween.easing(Easing.Quartic.Out).start();
     }
 
-    // 🔥 FINAL animation end handler
+    // FINAL animation end handler
     animationSphereTweenClone.onComplete(() => {
       onAnimationSphereUpdate(new Sphere(new Vector3(), Infinity));
 
-      // 🔥 Show labels again when the animation ends
+      // Show labels again when the animation ends
       const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
       if (labelsGroup) labelsGroup.visible = true;
 
@@ -570,7 +610,7 @@ export class AnimationsManager {
     const { positions, animateEventAfterInterval, collisionDuration } =
       animationPreset;
 
-    // 🔥 Hide labels at the start of the preset animation
+    // Hide labels at the start of the preset animation
     const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
     if (labelsGroup) labelsGroup.visible = false;
 
@@ -598,7 +638,7 @@ export class AnimationsManager {
       previousTween = tween;
     });
 
-    // 🔥 When animation finishes, show labels again
+    // When animation finishes, show labels again
     previousTween.onComplete(() => {
       const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
       if (labelsGroup) labelsGroup.visible = true;
