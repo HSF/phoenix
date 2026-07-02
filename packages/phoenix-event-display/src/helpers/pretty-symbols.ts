@@ -15,6 +15,8 @@ export class PrettySymbols {
     Energy: ['energy'],
     ET: ['et'],
     '|p|': ['momentum', 'mom'],
+    DCA: ['dca'],
+    Angle: ['angle'],
   };
 
   /**
