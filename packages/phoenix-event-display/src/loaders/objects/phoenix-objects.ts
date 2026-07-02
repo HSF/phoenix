@@ -40,6 +40,69 @@ import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUti
  */
 export class PhoenixObjects {
   /**
+   * Calculates and populates missing track properties (d0, z0, phi, eta, dca, angle) for cuts.
+   */
+  private static calculateTrackParams(track: any) {
+    if (track?.dparams) {
+      if (!track?.phi) {
+        track.phi = track.dparams[2];
+      }
+      if (!track?.eta) {
+        track.eta = CoordinateHelper.thetaToEta(track.dparams[3]);
+      }
+      if (!track?.d0) {
+        track.d0 = track.dparams[0];
+      }
+      if (!track?.z0) {
+        track.z0 = track.dparams[1];
+      }
+    }
+
+    const positions = track.pos;
+    if (positions && positions.length >= 2) {
+      const p0 = positions[0];
+      const p1 = positions[1];
+      const dx = p1[0] - p0[0];
+      const dy = p1[1] - p0[1];
+      const dz = p1[2] - p0[2];
+      const d_xy = Math.sqrt(dx * dx + dy * dy);
+      const v_len = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+      if (!track.phi) {
+        track.phi = Math.atan2(dy, dx);
+      }
+      if (!track.eta && v_len > 0) {
+        const theta = Math.acos(dz / v_len);
+        track.eta = CoordinateHelper.thetaToEta(theta);
+      }
+      if (!track.d0) {
+        if (d_xy > 0) {
+          track.d0 = (p0[0] * dy - p0[1] * dx) / d_xy;
+        } else {
+          track.d0 = Math.sqrt(p0[0] * p0[0] + p0[1] * p0[1]);
+        }
+      }
+      if (!track.z0) {
+        if (d_xy > 0) {
+          track.z0 = p0[2] - (dz * (p0[0] * dx + p0[1] * dy)) / (d_xy * d_xy);
+        } else {
+          track.z0 = p0[2];
+        }
+      }
+      if (!track.dca) {
+        track.dca = Math.abs(track.d0);
+      }
+      if (!track.angle) {
+        if (track.dparams && track.dparams[3] !== undefined) {
+          track.angle = track.dparams[3] * (180 / Math.PI);
+        } else if (v_len > 0) {
+          track.angle = Math.acos(dz / v_len) * (180 / Math.PI);
+        }
+      }
+    }
+  }
+
+  /**
    * Get tracks as three.js obejct.
    * @param tracks Tracks params to construct tacks from.
    * @returns The object containing tracks.
@@ -68,20 +131,7 @@ export class PhoenixObjects {
       }
 
       // For cuts etc we currently need to have the cut parameters on the track
-      if (track?.dparams) {
-        if (!track?.phi) {
-          track.phi = track.dparams[2];
-        }
-        if (!track?.eta) {
-          track.eta = CoordinateHelper.thetaToEta(track.dparams[3]);
-        }
-        if (!track?.d0) {
-          track.d0 = track.dparams[0];
-        }
-        if (!track?.z0) {
-          track.z0 = track.dparams[1];
-        }
-      }
+      PhoenixObjects.calculateTrackParams(track);
 
       const points = track.pos.map(
         (p: (number | undefined)[]) => new Vector3(p[0], p[1], p[2]),
@@ -133,20 +183,7 @@ export class PhoenixObjects {
     }
 
     // For cuts etc we currently need to have the cut parameters on the track
-    if (trackParams?.dparams) {
-      if (!trackParams?.phi) {
-        trackParams.phi = trackParams.dparams[2];
-      }
-      if (!trackParams?.eta) {
-        trackParams.eta = CoordinateHelper.thetaToEta(trackParams.dparams[3]);
-      }
-      if (!trackParams?.d0) {
-        trackParams.d0 = trackParams.dparams[0];
-      }
-      if (!trackParams?.z0) {
-        trackParams.z0 = trackParams.dparams[1];
-      }
-    }
+    PhoenixObjects.calculateTrackParams(trackParams);
 
     // const length = 100;
     const objectColor = trackParams.color

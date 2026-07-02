@@ -51,6 +51,8 @@ export function getDefaultObjectTypeConfigs(): ObjectTypeConfig[] {
         new Cut('pT', 0, 50000, 0.1),
         new Cut('z0', -30, 30, 0.1),
         new Cut('d0', -30, 30, 0.1),
+        new Cut('dca', 0, 5000, 0.1),
+        new Cut('angle', 0, 180, 0.1),
       ],
     },
     {

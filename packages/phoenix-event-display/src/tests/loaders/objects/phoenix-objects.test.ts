@@ -85,6 +85,29 @@ describe('PhoenixObjects', () => {
     expect(trackParams).toMatchObject(trackObject.userData);
   });
 
+  it('should dynamically calculate track parameters (dca, angle, d0, z0, phi, eta) from pos when missing', () => {
+    const trackParams: any = {
+      pos: [
+        [0.0, 10.0, 0.0],
+        [10.0, 10.0, 10.0],
+      ],
+      color: '0xffffff',
+    };
+
+    const trackObject = PhoenixObjects.getTrack(trackParams);
+
+    expect(trackParams).toHaveProperty('d0');
+    expect(trackParams).toHaveProperty('z0');
+    expect(trackParams).toHaveProperty('phi');
+    expect(trackParams).toHaveProperty('eta');
+    expect(trackParams).toHaveProperty('dca');
+    expect(trackParams).toHaveProperty('angle');
+
+    expect(trackParams.d0).toBeCloseTo(-10, 4);
+    expect(trackParams.dca).toBeCloseTo(10, 4);
+    expect(trackParams.angle).toBeCloseTo(45, 4);
+  });
+
   it('should create a Jet from the given parameters and get it as an object', () => {
     const jetParams = {
       eta: 1,
