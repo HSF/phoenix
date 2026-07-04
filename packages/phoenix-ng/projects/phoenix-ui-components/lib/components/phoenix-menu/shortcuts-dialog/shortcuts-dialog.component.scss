@@ -1,0 +1,16 @@
+.dialog {
+  min-width: 400px;
+  max-height: 80vh;
+  background-color: var(--phoenix-background-color-secondary, #222);
+  color: var(--phoenix-text-color, #fff);
+
+  .dialog-content {
+    overflow-y: auto;
+    max-height: calc(80vh - 120px);
+
+    span {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

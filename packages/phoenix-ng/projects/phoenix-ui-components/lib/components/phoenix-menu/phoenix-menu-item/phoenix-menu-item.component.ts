@@ -24,8 +24,17 @@ export class PhoenixMenuItemComponent {
 
   calculateConfigTop() {
     if (this.phoenixMenuItem) {
-      this.configTop =
-        this.phoenixMenuItem.nativeElement.getBoundingClientRect().top;
+      const itemRect =
+        this.phoenixMenuItem.nativeElement.getBoundingClientRect();
+      const dragContainer = document.querySelector(
+        '.phoenix-menu-drag-container',
+      );
+      if (dragContainer) {
+        const containerRect = dragContainer.getBoundingClientRect();
+        this.configTop = itemRect.top - containerRect.top;
+      } else {
+        this.configTop = itemRect.top;
+      }
       this.cdr.detectChanges();
     }
   }

@@ -18,3 +18,26 @@
     top: 4rem;
   }
 }
+
+.shortcuts-button-wrapper {
+  text-align: right;
+  pointer-events: auto;
+}
+
+.shortcuts-btn {
+  background-color: var(--phoenix-background-color-secondary);
+  color: var(--phoenix-text-color);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--phoenix-box-shadow);
+  transition: background-color 0.2s ease;
+}
+
+.shortcuts-btn:hover {
+  background-color: var(--phoenix-menu-item-hover-color, #444);
+}

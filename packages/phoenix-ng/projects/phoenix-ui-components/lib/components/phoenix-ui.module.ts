@@ -23,6 +23,7 @@ import {
   PhoenixMenuComponent,
   PhoenixMenuItemComponent,
   ConfigSliderComponent,
+  ShortcutsDialogComponent,
 } from './phoenix-menu';
 
 import {
@@ -147,6 +148,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   MasterclassPanelComponent,
   MasterclassPanelOverlayComponent,
   SessionPillComponent,
+  ShortcutsDialogComponent,
 ];
 
 @NgModule({
