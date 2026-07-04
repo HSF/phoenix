@@ -10,9 +10,4 @@
   <div class="loading-bar" *ngIf="progress !== undefined">
     <span [style]="{ width: progress + '%' }"></span>
   </div>
-
-  <p *ngIf="error" class="text-danger mt-4" style="max-width: 80%">
-    An error occurred while loading the application. Please try refreshing the
-    page if it does not load.
-  </p>
 </div>
