@@ -111,39 +111,41 @@
               />
 
               <div *ngSwitchCase="'rangeSlider'" class="range-slider">
-                <div class="range-slider-inputs d-flex justify-content-between">
-                  <mat-checkbox
-                    [(ngModel)]="config.enableMin"
-                    (change)="config.setEnableMin($event.checked)"
-                  ></mat-checkbox>
-                  <mat-checkbox
-                    [(ngModel)]="config.enableMax"
-                    (change)="config.setEnableMax($event.checked)"
-                  ></mat-checkbox>
-                </div>
-                <div class="range-slider-inputs d-flex justify-content-between">
-                  <input
-                    type="number"
-                    placeholder="Min"
-                    class="form-control form-control-sm"
-                    [(ngModel)]="config.value"
-                    (input)="
-                      config.value = $event.target.value;
-                      config.onChange(config)
-                    "
-                    step="config.step"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Max"
-                    class="form-control form-control-sm"
-                    [(ngModel)]="config.highValue"
-                    (input)="
-                      config.highValue = $event.target.value;
-                      config.onChange(config)
-                    "
-                    step="config.step"
-                  />
+                <div class="range-slider-inputs d-flex align-items-center">
+                  <div class="range-slider-side">
+                    <mat-checkbox
+                      [(ngModel)]="config.enableMin"
+                      (change)="config.setEnableMin($event.checked)"
+                    ></mat-checkbox>
+                    <input
+                      type="number"
+                      placeholder="Min"
+                      class="form-control form-control-sm"
+                      [(ngModel)]="config.value"
+                      (input)="
+                        config.value = $event.target.value;
+                        config.onChange(config)
+                      "
+                      [step]="config.step"
+                    />
+                  </div>
+                  <div class="range-slider-side">
+                    <mat-checkbox
+                      [(ngModel)]="config.enableMax"
+                      (change)="config.setEnableMax($event.checked)"
+                    ></mat-checkbox>
+                    <input
+                      type="number"
+                      placeholder="Max"
+                      class="form-control form-control-sm"
+                      [(ngModel)]="config.highValue"
+                      (input)="
+                        config.highValue = $event.target.value;
+                        config.onChange(config)
+                      "
+                      [step]="config.step"
+                    />
+                  </div>
                 </div>
               </div>
 
