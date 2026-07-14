@@ -1,3 +1,4 @@
+import { NotificationService } from '../../../../services/notification.service';
 import { type OnInit, Component, Input } from '@angular/core';
 import {
   CMSLoader,
@@ -68,6 +69,7 @@ export class IOOptionsDialogComponent implements OnInit {
   constructor(
     private eventDisplay: EventDisplayService,
     public dialogRef: MatDialogRef<IOOptionsDialogComponent>,
+    private notificationService: NotificationService,
   ) {}
 
   ngOnInit() {
@@ -121,6 +123,9 @@ export class IOOptionsDialogComponent implements OnInit {
             'Could not parse JSON event file. Please ensure it is valid JSON.',
             'Error',
           );
+        this.notificationService.error(
+          'Could not parse JSON event file. Please ensure it is valid JSON.',
+        );
         console.error('Error parsing JSON event file:', error);
       }
     };
@@ -143,6 +148,9 @@ export class IOOptionsDialogComponent implements OnInit {
             'Could not parse EDM4HEP JSON file. Please ensure it is valid JSON.',
             'Error',
           );
+        this.notificationService.error(
+          'Could not parse EDM4HEP JSON file. Please ensure it is valid JSON.',
+        );
         console.error('Error parsing EDM4HEP JSON file:', error);
       }
     };
@@ -260,6 +268,9 @@ export class IOOptionsDialogComponent implements OnInit {
       this.eventDisplay
         .getInfoLogger()
         .add('Failed to load PHYSLITE file: ' + error.message, 'Error');
+      this.notificationService.error(
+        'Failed to load PHYSLITE file: ' + error.message,
+      );
     }
 
     this.onClose();
@@ -288,6 +299,7 @@ export class IOOptionsDialogComponent implements OnInit {
     } catch (error) {
       console.error('Error while reading zip', error);
       this.eventDisplay.getInfoLogger().add('Could not read zip file', 'Error');
+      this.notificationService.error('Could not read zip file.');
       return;
     }
 
@@ -332,6 +344,7 @@ export class IOOptionsDialogComponent implements OnInit {
         const errorMessage = `Failed to read file "${file.name}". The file may be corrupted, too large, or inaccessible.`;
         console.error('FileReader error:', reader.error);
         this.eventDisplay.getInfoLogger().add(errorMessage, 'Error');
+        this.notificationService.error(errorMessage);
       };
       reader.readAsText(file);
     }
@@ -354,6 +367,7 @@ export class IOOptionsDialogComponent implements OnInit {
       accepted;
     console.error('Error: ' + msg);
     this.eventDisplay.getInfoLogger().add(msg, 'Error');
+    this.notificationService.error(msg);
 
     return false;
   }
