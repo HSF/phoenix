@@ -1,0 +1,55 @@
+<div class="dialog">
+  <h1 mat-dialog-title>Keyboard Shortcuts</h1>
+  <div mat-dialog-content class="dialog-content pb-3">
+    <p class="text-center mt-2 mb-3"><b>Event & Session Controls</b></p>
+    <div class="d-flex justify-content-between mb-2">
+      <span>Next event</span>
+      <span class="badge badge-secondary p-2">Shift + ArrowRight</span>
+    </div>
+    <div class="d-flex justify-content-between mb-2">
+      <span>Previous event</span>
+      <span class="badge badge-secondary p-2">Shift + ArrowLeft</span>
+    </div>
+    <div class="d-flex justify-content-between mb-2">
+      <span>Toggle session recording</span>
+      <span class="badge badge-secondary p-2">Shift + S</span>
+    </div>
+
+    <hr />
+    <p class="text-center mb-3"><b>Camera & Viewport Controls</b></p>
+    <div class="d-flex justify-content-between mb-2">
+      <span>Toggle auto-rotation</span>
+      <span class="badge badge-secondary p-2">Shift + R</span>
+    </div>
+    <div class="d-flex justify-content-between mb-2">
+      <span>Zoom in</span>
+      <span class="badge badge-secondary p-2">Shift + +</span>
+    </div>
+    <div class="d-flex justify-content-between mb-2">
+      <span>Zoom out</span>
+      <span class="badge badge-secondary p-2">Shift + -</span>
+    </div>
+    <div class="d-flex justify-content-between mb-2">
+      <span>Revert main camera</span>
+      <span class="badge badge-secondary p-2">Shift + V</span>
+    </div>
+    <div class="d-flex justify-content-between mb-2">
+      <span>Toggle local clipping</span>
+      <span class="badge badge-secondary p-2">Shift + C</span>
+    </div>
+
+    <hr />
+    <p class="text-center mb-3"><b>UI & Theming Controls</b></p>
+    <div class="d-flex justify-content-between mb-2">
+      <span>Toggle dark theme</span>
+      <span class="badge badge-secondary p-2">Shift + T</span>
+    </div>
+    <div class="d-flex justify-content-between mb-2">
+      <span>Preset views (if configured)</span>
+      <span class="badge badge-secondary p-2">Shift + 1-9</span>
+    </div>
+  </div>
+  <div mat-dialog-actions class="d-flex justify-content-end">
+    <button mat-button (click)="onClose()">Close</button>
+  </div>
+</div>

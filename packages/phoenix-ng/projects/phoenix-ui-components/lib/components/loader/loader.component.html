@@ -2,20 +2,12 @@
   class="loader-wrapper d-flex position-absolute flex-column justify-content-center align-items-center w-100 h-100 p-5 text-center"
   [ngClass]="{ 'load-complete': loaded }"
 >
-  <ng-container *ngIf="error === undefined; else errorContainer">
-    <img src="assets/images/logo-small.svg" alt="Loader" />
-    <p class="mt-5">
-      Loading...<br />
-      <small class="text-muted">(This may take a while)</small>
-    </p>
-    <div class="loading-bar" *ngIf="progress !== undefined">
-      <span [style]="{ width: progress + '%' }"></span>
-    </div>
-  </ng-container>
-  <ng-template #errorContainer>
-    <p>
-      An error occurred while loading the application. Please try refreshing the
-      page.
-    </p>
-  </ng-template>
+  <img src="assets/images/logo-small.svg" alt="Loader" />
+  <p class="mt-5">
+    Loading...<br />
+    <small class="text-muted">(This may take a while)</small>
+  </p>
+  <div class="loading-bar" *ngIf="progress !== undefined">
+    <span [style]="{ width: progress + '%' }"></span>
+  </div>
 </div>
