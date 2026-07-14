@@ -20,9 +20,12 @@
     "deploy:web": "yarn workspace phoenix-ng deploy:web",
     "lint": "lerna run eslint && lerna run prettier:check",
     "lint:fix": "lerna run eslint:fix && lerna run prettier:write",
-    "docs:coverage": "yarn workspace phoenix-event-display docs:coverage"
+    "docs:coverage": "yarn workspace phoenix-event-display docs:coverage",
+    "commitlint": "commitlint --edit"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.0.2",
+    "@commitlint/config-conventional": "^21.0.2",
     "@eslint/compat": "^1.4.1",
     "@eslint/eslintrc": "^3.3.3",
     "@eslint/js": "^9.39.1",
