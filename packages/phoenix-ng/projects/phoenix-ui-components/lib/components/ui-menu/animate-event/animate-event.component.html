@@ -5,3 +5,11 @@
   (click)="toggleAnimateEvent()"
 >
 </app-menu-toggle>
+
+<app-menu-toggle
+  tooltip="Animate pileup"
+  icon="event-folder"
+  [active]="isPileupAnimating"
+  (click)="toggleAnimatePileup()"
+>
+</app-menu-toggle>
