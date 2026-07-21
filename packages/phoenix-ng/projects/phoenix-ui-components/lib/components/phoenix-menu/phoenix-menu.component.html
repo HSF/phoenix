@@ -1,9 +1,9 @@
-<div class="phoenix-menu-drag-container" cdkDrag cdkDragBoundary="body">
-  <div id="phoenixMenu" cdkDragHandle>
+<div class="phoenix-menu-drag-container">
+  <div id="phoenixMenu">
     <app-phoenix-menu-item [currentNode]="rootNode"></app-phoenix-menu-item>
   </div>
 </div>
-<div class="shortcuts-button-wrapper mt-2" cdkDrag cdkDragBoundary="body">
+<div class="shortcuts-button-wrapper mt-2">
   <button class="shortcuts-btn" (click)="openShortcutsDialog()">
     <mat-icon
       style="font-size: 16px; width: 16px; height: 16px; vertical-align: middle"
