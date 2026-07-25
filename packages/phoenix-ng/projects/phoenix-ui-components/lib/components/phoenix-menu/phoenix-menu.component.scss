@@ -36,6 +36,8 @@
   justify-content: center;
   box-shadow: var(--phoenix-box-shadow);
   transition: background-color 0.2s ease;
+  font-family: inherit;
+  font-size: 0.8rem;
 }
 
 .shortcuts-btn:hover {
