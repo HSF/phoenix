@@ -152,3 +152,40 @@ A custom duration can be passed as an optional second argument:
 this.notificationService.warning('Large file detected.', 12000);
 this.notificationService.error('Connection lost.', 10000);
 ```
+
+## Components & Overlays
+
+### Event Dataset Browser (`EventBrowserOverlayComponent`)
+
+The **Event Dataset Browser** pre-scans all loaded events in the session and renders a sortable, filterable summary table with physics object counts per collection type, Missing Energy (MET), and run/event metadata.
+
+#### Features
+
+- **Physics-Aware Column Ordering**: Reconstructed physics objects (Jets, Muons, Electrons, Photons, Tracks) are ordered first, followed by detector-level collections (`CaloCells`, `Hits`).
+- **Sortable & Filterable**: Support for column filters (`>=`, `<=`, `=`), minimum MET filters, and live search by event number.
+- **Direct Event Navigation**: Clicking any event row jumps directly to that event in the 3D display.
+- **Keyboard Navigation**: Arrow keys to navigate table rows + `Shift + Left/Right` to switch events globally.
+
+#### Template Usage
+
+```html
+<app-event-browser-overlay></app-event-browser-overlay>
+```
+
+---
+
+### Event Autoloader & Live Cycling (`CycleEventsComponent`)
+
+`CycleEventsComponent` provides automated event cycling and live event feed reloading for beam monitoring and event slideshows.
+
+#### Operational Modes
+
+1. **Inactive**: Cycling paused.
+2. **Active (Looping)**: Automatically advances through the list of loaded events at a fixed interval.
+3. **Active + Reloading**: Automatically fetches/reloads new event data upon reaching the end of the event list (ideal for live event feeds).
+
+#### Template Usage
+
+```html
+<app-cycle-events [interval]="3000" tooltip="Cycle through loaded events" icon="play"> </app-cycle-events>
+```
