@@ -34,6 +34,9 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
   /** Registry of active cuts per collection name for re-application on event switch. */
   private collectionCuts: { [collectionName: string]: Cut[] } = {};
 
+  /** Callback fired when UI state / visibility / cuts change. */
+  public onStateChange?: () => void;
+
   /**
    * Create Phoenix menu UI with different controls related to detector geometry and event data.
    * @param phoenixMenuRoot Root node of the Phoenix menu.
@@ -246,9 +249,10 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       (value: boolean) => {
         const collectionObject = this.sceneManager
           .getObjectByName(SceneManager.EVENT_DATA_ID)
-          .getObjectByName(collectionName);
+          ?.getObjectByName(collectionName);
         if (collectionObject)
           this.sceneManager.objectVisibility(collectionObject, value);
+        this.onStateChange?.();
       },
     );
 
@@ -314,15 +318,17 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           for (const cut of cuts) {
             cut.reset();
           }
+          this.onStateChange?.();
         },
       });
 
     // Add range sliders for cuts
     for (const cut of cuts) {
       cutsOptionsNode.addConfig(
-        cut.getConfigRangeSlider(() =>
-          this.sceneManager.collectionFilter(collectionName, cuts),
-        ),
+        cut.getConfigRangeSlider(() => {
+          this.sceneManager.collectionFilter(collectionName, cuts);
+          this.onStateChange?.();
+        }),
       );
     }
   }
@@ -546,6 +552,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     for (const [collectionName, cuts] of Object.entries(this.collectionCuts)) {
       this.sceneManager.collectionFilter(collectionName, cuts);
     }
+    this.onStateChange?.();
   }
 
   /**
