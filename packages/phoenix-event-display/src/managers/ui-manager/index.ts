@@ -89,6 +89,8 @@ export class UIManager {
   private stateManager: StateManager;
   /** Stored keydown handler for cleanup. */
   private keydownHandler: ((e: KeyboardEvent) => void) | null = null;
+  /** Callback fired on UI state / visibility / cut changes. */
+  public onStateChange?: () => void;
 
   /**
    * Constructor for the UI manager.
@@ -111,12 +113,17 @@ export class UIManager {
     // UI Menus
     this.uiMenus = [];
     if (configuration.enableDatGUIMenu) {
-      this.uiMenus.push(new DatGUIMenuUI(configuration.elementId, this.three));
+      const datGui = new DatGUIMenuUI(configuration.elementId, this.three);
+      datGui.onStateChange = () => this.onStateChange?.();
+      this.uiMenus.push(datGui);
     }
     if (configuration.phoenixMenuRoot) {
-      this.uiMenus.push(
-        new PhoenixMenuUI(configuration.phoenixMenuRoot, this.three),
+      const phoenixMenu = new PhoenixMenuUI(
+        configuration.phoenixMenuRoot,
+        this.three,
       );
+      phoenixMenu.onStateChange = () => this.onStateChange?.();
+      this.uiMenus.push(phoenixMenu);
     }
     if (!configuration.forceColourTheme) {
       // Detect UI color scheme
@@ -618,8 +625,7 @@ export class UIManager {
    */
   public getPhoenixMenuUI(): PhoenixMenuUI | undefined {
     return this.uiMenus.find((uiMenu) => uiMenu instanceof PhoenixMenuUI) as
-      | PhoenixMenuUI
-      | undefined;
+      PhoenixMenuUI | undefined;
   }
 
   /**
