@@ -165,10 +165,16 @@ export class ColorManager {
         return;
       }
 
-      // Deterministic distinct color per vertex (golden ratio hue steps),
-      // unless the vertex has an explicit color.
+      // Use explicit vertex color if set in event data, otherwise the current
+      // material color (e.g. set by the user via the UI), otherwise deterministic
+      // distinct color per vertex (golden ratio hue steps).
+      const materialColor =
+        vertexObject instanceof Mesh
+          ? ((vertexObject.material as any)?.color as Color | undefined)
+          : undefined;
       const vertexColor =
         vertexObject.userData.color ??
+        materialColor ??
         new Color().setHSL((vertexIndex * 0.618034) % 1, 0.9, 0.55);
 
       setColorForObject(vertexObject, vertexColor);
