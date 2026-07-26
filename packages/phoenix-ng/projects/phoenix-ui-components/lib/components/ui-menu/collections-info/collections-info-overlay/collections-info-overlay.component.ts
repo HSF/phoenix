@@ -28,6 +28,7 @@ export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
     'labelText',
     '_instanceId',
     '_position',
+    'index',
   ];
   hideInvisible: boolean;
   collections: { type: string; collections: string[] }[];
@@ -152,6 +153,18 @@ export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
 
   toggleInvisible(checked: boolean) {
     this.hideInvisible = checked;
+  }
+
+  formatValue(value: any): string {
+    if (typeof value === 'number' && !Number.isInteger(value)) {
+      return value.toFixed(2);
+    }
+    if (Array.isArray(value)) {
+      return value
+        .map((v) => (typeof v === 'number' ? v.toFixed(2) : v))
+        .join(', ');
+    }
+    return value;
   }
 
   addLabel(index: number, uuid: string) {
