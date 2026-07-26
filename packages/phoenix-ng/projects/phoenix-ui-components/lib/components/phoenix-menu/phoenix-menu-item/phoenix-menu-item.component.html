@@ -153,6 +153,7 @@
                 *ngSwitchCase="'select'"
                 id="item-config-field"
                 class="w-100"
+                [value]="config.value ?? config.options[0]"
                 (change)="config.onChange($event.target.value)"
               >
                 <option
