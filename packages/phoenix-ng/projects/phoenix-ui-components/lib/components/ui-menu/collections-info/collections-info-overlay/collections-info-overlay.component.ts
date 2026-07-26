@@ -170,7 +170,31 @@ export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
         )
         .join(', ')}]`;
     }
-    return String(value);
+    // Handle stringified numbers and arrays
+    const str = String(value).trim();
+    const numValue = parseFloat(str);
+    if (!isNaN(numValue) && str !== '') {
+      return Number.isInteger(numValue)
+        ? String(numValue)
+        : numValue.toFixed(2);
+    }
+    // Try to parse as stringified array: remove brackets and split by comma
+    if ((str.includes('[') && str.includes(']')) || str.includes(',')) {
+      const cleaned = str.replaceAll('[', '').replaceAll(']', '').trim();
+      const parts = cleaned.split(',').map((s) => s.trim());
+      const formatted = parts
+        .map((p) => {
+          const n = parseFloat(p);
+          return !isNaN(n)
+            ? Number.isInteger(n)
+              ? String(n)
+              : n.toFixed(2)
+            : p;
+        })
+        .filter((p) => p !== '');
+      return formatted.length > 0 ? `[${formatted.join(', ')}]` : str;
+    }
+    return str;
   }
 
   addLabel(index: number, uuid: string) {
