@@ -180,7 +180,7 @@ export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
     }
     // Try to parse as stringified array: remove brackets and split by comma
     if ((str.includes('[') && str.includes(']')) || str.includes(',')) {
-      const cleaned = str.replaceAll('[', '').replaceAll(']', '').trim();
+      const cleaned = str.split('[').join('').split(']').join('').trim();
       const parts = cleaned.split(',').map((s) => s.trim());
       const formatted = parts
         .map((p) => {
