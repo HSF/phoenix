@@ -28,6 +28,7 @@ export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
     'labelText',
     '_instanceId',
     '_position',
+    'index',
   ];
   hideInvisible: boolean;
   collections: { type: string; collections: string[] }[];
@@ -152,6 +153,31 @@ export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
 
   toggleInvisible(checked: boolean) {
     this.hideInvisible = checked;
+  }
+
+  formatValue(value: any): string {
+    if (typeof value === 'number') {
+      return Number.isInteger(value) ? String(value) : value.toFixed(2);
+    }
+    if (Array.isArray(value)) {
+      // Handles nested arrays too, e.g. track `pos`: an array of [x, y, z]
+      // points, so each element is itself an array, not a number.
+      return `[${value.map((v) => this.formatValue(v)).join(', ')}]`;
+    }
+    // Vector-like objects (e.g. THREE.Vector3), which otherwise stringify
+    // to the unhelpful "[object Object]".
+    if (
+      value &&
+      typeof value === 'object' &&
+      typeof value.x === 'number' &&
+      typeof value.y === 'number'
+    ) {
+      const parts = [value.x, value.y, value.z].filter(
+        (v) => typeof v === 'number',
+      );
+      return `[${parts.map((v) => this.formatValue(v)).join(', ')}]`;
+    }
+    return String(value);
   }
 
   addLabel(index: number, uuid: string) {
