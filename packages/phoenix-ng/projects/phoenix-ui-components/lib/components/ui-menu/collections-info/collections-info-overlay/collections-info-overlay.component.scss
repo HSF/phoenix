@@ -57,7 +57,7 @@
 
 .boxBody {
   height: 85%;
-  overflow: auto;
+  overflow: scroll;
 
   p.emptyBox {
     max-width: 21em;
@@ -76,10 +76,6 @@
 #collectionTable {
   position: relative;
   color: var(--phoenix-text-color-secondary);
-  // Content (e.g. long pos arrays) must not wrap - it should force the
-  // table wider than its container so .boxBody's scrollbar engages,
-  // rather than wrapping and clipping.
-  white-space: nowrap;
 
   thead tr th {
     position: sticky;
