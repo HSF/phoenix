@@ -22,6 +22,41 @@ export class PhoenixMenuItemComponent {
 
   constructor(private cdr: ChangeDetectorRef) {}
 
+  /**
+   * Whether a node is a leaf holding only configs (like the collections'
+   * "Draw/Cut/Color Options"), which is displayed as a compact icon button
+   * in a toolbar instead of a full menu row.
+   */
+  isCompactOptionsNode(node: PhoenixMenuNode): boolean {
+    return (
+      !!node.icon &&
+      !node.onToggle &&
+      node.children.length === 0 &&
+      node.configs.length > 0
+    );
+  }
+
+  get isCompact(): boolean {
+    return this.isCompactOptionsNode(this.currentNode);
+  }
+
+  /** Label for the compact icon button, e.g. "Draw Options" -> "Draw". */
+  get compactLabel(): string {
+    return this.currentNode.name.replace(/\s+Options$/, '');
+  }
+
+  get compactChildren(): PhoenixMenuNode[] {
+    return this.currentNode.children.filter((child) =>
+      this.isCompactOptionsNode(child),
+    );
+  }
+
+  get regularChildren(): PhoenixMenuNode[] {
+    return this.currentNode.children.filter(
+      (child) => !this.isCompactOptionsNode(child),
+    );
+  }
+
   calculateConfigTop() {
     if (this.phoenixMenuItem) {
       const itemRect =

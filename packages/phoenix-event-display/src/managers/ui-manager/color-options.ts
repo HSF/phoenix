@@ -88,7 +88,11 @@ export class ColorOptions {
     colorByOptionsToInclude?: ColorByOptionKeys[],
   ) {
     this.collectionName = collectionFolder.name;
-    this.colorOptionsFolder = collectionFolder.addChild('Color Options');
+    this.colorOptionsFolder = collectionFolder.addChild(
+      'Color Options',
+      undefined,
+      'color-options',
+    );
 
     this.colorOptionsFolder.addConfig({
       type: 'color',
