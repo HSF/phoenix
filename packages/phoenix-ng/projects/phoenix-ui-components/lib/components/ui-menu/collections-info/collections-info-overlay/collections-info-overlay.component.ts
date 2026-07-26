@@ -156,15 +156,21 @@ export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
   }
 
   formatValue(value: any): string {
-    if (typeof value === 'number' && !Number.isInteger(value)) {
-      return value.toFixed(2);
+    if (typeof value === 'number') {
+      return Number.isInteger(value) ? String(value) : value.toFixed(2);
     }
     if (Array.isArray(value)) {
-      return value
-        .map((v) => (typeof v === 'number' ? v.toFixed(2) : v))
-        .join(', ');
+      return `[${value
+        .map((v) =>
+          typeof v === 'number'
+            ? Number.isInteger(v)
+              ? String(v)
+              : v.toFixed(2)
+            : v,
+        )
+        .join(', ')}]`;
     }
-    return value;
+    return String(value);
   }
 
   addLabel(index: number, uuid: string) {
