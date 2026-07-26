@@ -298,7 +298,11 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     collectionName: string,
     cuts: Cut[],
   ) {
-    const cutsOptionsNode = collectionNode.addChild('Cut Options');
+    const cutsOptionsNode = collectionNode.addChild(
+      'Cut Options',
+      undefined,
+      'cut-options',
+    );
 
     cutsOptionsNode
       .addConfig({
@@ -340,7 +344,11 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     collectionNode: PhoenixMenuNode,
     collectionName: string,
   ) {
-    const drawOptionsNode = collectionNode.addChild('Draw Options');
+    const drawOptionsNode = collectionNode.addChild(
+      'Draw Options',
+      undefined,
+      'draw-options',
+    );
 
     drawOptionsNode.addConfig({
       type: 'slider',

@@ -1,191 +1,236 @@
-<div class="phoenix-menu-item" #phoenixMenuItem>
-  <div class="phoenix-menu-item-left align-items-center">
-    <!-- If the item has some toggle function -->
-    <ng-container *ngIf="currentNode.onToggle; else nodeName">
-      <mat-slide-toggle
-        [checked]="currentNode.toggleState"
-        (change)="currentNode.toggleSelfAndDescendants($event.checked)"
-      >
-        <ng-container *ngTemplateOutlet="nodeName"></ng-container>
-      </mat-slide-toggle>
-    </ng-container>
-    <!-- If the item has no toggle function -->
-    <ng-template #nodeName>
-      <span class="d-flex w-100 align-items-center">
-        <span *ngIf="currentNode.icon" class="icon-wrapper item-icon">
-          <svg>
-            <use
-              attr.href="assets/icons/{{ currentNode.icon }}.svg#{{
-                currentNode.icon
-              }}"
-            ></use>
-          </svg>
+<!-- Leaf nodes holding only configs (Draw/Cut/Color Options) are shown as a
+     compact icon button; everything else as a full menu row. -->
+<div
+  *ngIf="isCompact; else fullItem"
+  class="phoenix-menu-item-compact"
+  #phoenixMenuItem
+>
+  <button
+    class="btn-blank compact-option-button"
+    [title]="currentNode.name"
+    (click)="
+      calculateConfigTop(); currentNode.configActive = !currentNode.configActive
+    "
+  >
+    <span class="icon-wrapper">
+      <svg>
+        <use
+          attr.href="assets/icons/{{ currentNode.icon }}.svg#{{
+            currentNode.icon
+          }}"
+        ></use>
+      </svg>
+    </span>
+    <span class="compact-option-label">{{ compactLabel }}</span>
+  </button>
+  <ng-container *ngTemplateOutlet="configPopup"></ng-container>
+</div>
+
+<ng-template #fullItem>
+  <div class="phoenix-menu-item" #phoenixMenuItem>
+    <div class="phoenix-menu-item-left align-items-center">
+      <!-- If the item has some toggle function -->
+      <ng-container *ngIf="currentNode.onToggle; else nodeName">
+        <mat-slide-toggle
+          [checked]="currentNode.toggleState"
+          (change)="currentNode.toggleSelfAndDescendants($event.checked)"
+        >
+          <ng-container *ngTemplateOutlet="nodeName"></ng-container>
+        </mat-slide-toggle>
+      </ng-container>
+      <!-- If the item has no toggle function -->
+      <ng-template #nodeName>
+        <span class="d-flex w-100 align-items-center">
+          <span *ngIf="currentNode.icon" class="icon-wrapper item-icon">
+            <svg>
+              <use
+                attr.href="assets/icons/{{ currentNode.icon }}.svg#{{
+                  currentNode.icon
+                }}"
+              ></use>
+            </svg>
+          </span>
+          <span class="item-name" [title]="currentNode.name">{{
+            currentNode.name
+          }}</span>
         </span>
-        <span class="item-name" [title]="currentNode.name">{{
-          currentNode.name
-        }}</span>
-      </span>
-    </ng-template>
-  </div>
-  <div class="phoenix-menu-item-right">
-    <div *ngIf="currentNode.configs.length > 0">
+      </ng-template>
+    </div>
+    <div class="phoenix-menu-item-right">
+      <div *ngIf="currentNode.configs.length > 0">
+        <button
+          class="icon-wrapper icon-button btn-blank item-settings"
+          (click)="
+            calculateConfigTop();
+            currentNode.configActive = !currentNode.configActive
+          "
+        >
+          <svg>
+            <use href="assets/icons/gear.svg#gear"></use>
+          </svg>
+        </button>
+        <ng-container *ngTemplateOutlet="configPopup"></ng-container>
+      </div>
       <button
-        class="icon-wrapper icon-button btn-blank item-settings"
-        (click)="
-          calculateConfigTop();
-          currentNode.configActive = !currentNode.configActive
-        "
+        class="icon-wrapper icon-button btn-blank item-expand"
+        *ngIf="currentNode.children.length > 0"
+        (click)="currentNode.childrenActive = !currentNode.childrenActive"
+        [ngClass]="{ expanded: currentNode.childrenActive }"
+        data-testid="dropdown"
       >
         <svg>
-          <use href="assets/icons/gear.svg#gear"></use>
+          <use href="assets/icons/expand.svg#expand"></use>
         </svg>
       </button>
-      <div
-        class="item-config-backdrop"
-        *ngIf="currentNode.configActive"
-        (click)="currentNode.configActive = false"
-      ></div>
-      <div
-        class="item-config"
-        [hidden]="!currentNode.configActive"
-        [ngStyle]="{ 'top.px': configTop }"
-      >
-        <ng-container
-          *ngFor="let config of castConfigsToAny(currentNode.configs)"
-          [ngSwitch]="config.type"
-        >
-          <!-- Config types -->
-          <div class="item-config-single" *ngIf="!config.hidden">
-            <label
-              class="item-config-label"
-              for="item-config-field"
-              *ngIf="config.type !== 'button'"
-              [ngClass]="{ 'font-weight-bold w-100': config.type === 'label' }"
-            >
-              {{ config.label }}
-            </label>
-            <div
-              class="item-config-data"
-              [ngClass]="{ 'p-0': config.type === 'button' }"
-              *ngIf="config.type !== 'label'"
-            >
-              <mat-checkbox
-                *ngSwitchCase="'checkbox'"
-                [checked]="config.isChecked"
-                (change)="
-                  config.onChange($event.checked);
-                  config.isChecked = $event.checked
-                "
-              ></mat-checkbox>
-
-              <app-config-slider
-                *ngSwitchCase="'slider'"
-                [value]="config.value"
-                (onChange)="config.onChange($event); config.value = $event"
-                [min]="config.min"
-                [max]="config.max"
-                [step]="config.step"
-                [allowCustomValue]="config.allowCustomValue"
-              >
-              </app-config-slider>
-
-              <button
-                *ngSwitchCase="'button'"
-                class="w-100"
-                (click)="config.onClick()"
-                mat-button
-                mat-stroked-button
-              >
-                {{ config.label }}
-              </button>
-
-              <input
-                *ngSwitchCase="'color'"
-                id="item-config-field"
-                type="color"
-                [value]="config.color"
-                (input)="
-                  config.onChange($event.target.value);
-                  config.color = $event.target.value
-                "
-              />
-
-              <div *ngSwitchCase="'rangeSlider'" class="range-slider">
-                <div class="range-slider-inputs d-flex align-items-center">
-                  <div class="range-slider-side">
-                    <mat-checkbox
-                      [(ngModel)]="config.enableMin"
-                      (change)="config.setEnableMin($event.checked)"
-                    ></mat-checkbox>
-                    <input
-                      type="number"
-                      placeholder="Min"
-                      class="form-control form-control-sm"
-                      [(ngModel)]="config.value"
-                      (input)="
-                        config.value = $event.target.value;
-                        config.onChange(config)
-                      "
-                      [step]="config.step"
-                    />
-                  </div>
-                  <div class="range-slider-side">
-                    <mat-checkbox
-                      [(ngModel)]="config.enableMax"
-                      (change)="config.setEnableMax($event.checked)"
-                    ></mat-checkbox>
-                    <input
-                      type="number"
-                      placeholder="Max"
-                      class="form-control form-control-sm"
-                      [(ngModel)]="config.highValue"
-                      (input)="
-                        config.highValue = $event.target.value;
-                        config.onChange(config)
-                      "
-                      [step]="config.step"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <select
-                *ngSwitchCase="'select'"
-                id="item-config-field"
-                class="w-100"
-                [value]="config.value ?? config.options[0]"
-                (change)="config.onChange($event.target.value)"
-              >
-                <option
-                  *ngFor="let singleOption of config.options"
-                  [value]="singleOption"
-                >
-                  {{ singleOption }}
-                </option>
-              </select>
-            </div>
-          </div>
-          <!-- Config types END -->
-        </ng-container>
-      </div>
     </div>
-    <button
-      class="icon-wrapper icon-button btn-blank item-expand"
-      *ngIf="currentNode.children.length > 0"
-      (click)="currentNode.childrenActive = !currentNode.childrenActive"
-      [ngClass]="{ expanded: currentNode.childrenActive }"
-      data-testid="dropdown"
-    >
-      <svg>
-        <use href="assets/icons/expand.svg#expand"></use>
-      </svg>
-    </button>
   </div>
-</div>
+</ng-template>
+
 <div class="phoenix-menu-children" *ngIf="currentNode.childrenActive">
+  <div class="phoenix-menu-options-bar" *ngIf="compactChildren.length > 0">
+    <app-phoenix-menu-item
+      *ngFor="let childNode of compactChildren"
+      [currentNode]="childNode"
+    >
+    </app-phoenix-menu-item>
+  </div>
   <app-phoenix-menu-item
-    *ngFor="let childNode of currentNode.children"
+    *ngFor="let childNode of regularChildren"
     [currentNode]="childNode"
   >
   </app-phoenix-menu-item>
 </div>
+
+<!-- Config popup shared by the full row (gear button) and the compact icon button -->
+<ng-template #configPopup>
+  <div
+    class="item-config-backdrop"
+    *ngIf="currentNode.configActive"
+    (click)="currentNode.configActive = false"
+  ></div>
+  <div
+    class="item-config"
+    [hidden]="!currentNode.configActive"
+    [ngStyle]="{ 'top.px': configTop }"
+  >
+    <ng-container
+      *ngFor="let config of castConfigsToAny(currentNode.configs)"
+      [ngSwitch]="config.type"
+    >
+      <!-- Config types -->
+      <div
+        class="item-config-single"
+        [ngClass]="{ 'range-slider-row': config.type === 'rangeSlider' }"
+        *ngIf="!config.hidden"
+      >
+        <label
+          class="item-config-label"
+          for="item-config-field"
+          *ngIf="config.type !== 'button'"
+          [ngClass]="{ 'font-weight-bold w-100': config.type === 'label' }"
+        >
+          {{ config.label }}
+        </label>
+        <div
+          class="item-config-data"
+          [ngClass]="{ 'p-0': config.type === 'button' }"
+          *ngIf="config.type !== 'label'"
+        >
+          <mat-checkbox
+            *ngSwitchCase="'checkbox'"
+            [checked]="config.isChecked"
+            (change)="
+              config.onChange($event.checked); config.isChecked = $event.checked
+            "
+          ></mat-checkbox>
+
+          <app-config-slider
+            *ngSwitchCase="'slider'"
+            [value]="config.value"
+            (onChange)="config.onChange($event); config.value = $event"
+            [min]="config.min"
+            [max]="config.max"
+            [step]="config.step"
+            [allowCustomValue]="config.allowCustomValue"
+          >
+          </app-config-slider>
+
+          <button
+            *ngSwitchCase="'button'"
+            class="w-100"
+            (click)="config.onClick()"
+            mat-button
+            mat-stroked-button
+          >
+            {{ config.label }}
+          </button>
+
+          <input
+            *ngSwitchCase="'color'"
+            id="item-config-field"
+            type="color"
+            [value]="config.color"
+            (input)="
+              config.onChange($event.target.value);
+              config.color = $event.target.value
+            "
+          />
+
+          <div *ngSwitchCase="'rangeSlider'" class="range-slider">
+            <div class="range-slider-inputs d-flex align-items-center">
+              <div class="range-slider-side">
+                <mat-checkbox
+                  [(ngModel)]="config.enableMin"
+                  (change)="config.setEnableMin($event.checked)"
+                ></mat-checkbox>
+                <input
+                  type="number"
+                  placeholder="Min"
+                  class="form-control form-control-sm"
+                  [(ngModel)]="config.value"
+                  (input)="
+                    config.value = $event.target.value; config.onChange(config)
+                  "
+                  [step]="config.step"
+                />
+              </div>
+              <div class="range-slider-side">
+                <mat-checkbox
+                  [(ngModel)]="config.enableMax"
+                  (change)="config.setEnableMax($event.checked)"
+                ></mat-checkbox>
+                <input
+                  type="number"
+                  placeholder="Max"
+                  class="form-control form-control-sm"
+                  [(ngModel)]="config.highValue"
+                  (input)="
+                    config.highValue = $event.target.value;
+                    config.onChange(config)
+                  "
+                  [step]="config.step"
+                />
+              </div>
+            </div>
+          </div>
+
+          <select
+            *ngSwitchCase="'select'"
+            id="item-config-field"
+            class="w-100"
+            [value]="config.value ?? config.options[0]"
+            (change)="config.onChange($event.target.value)"
+          >
+            <option
+              *ngFor="let singleOption of config.options"
+              [value]="singleOption"
+            >
+              {{ singleOption }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <!-- Config types END -->
+    </ng-container>
+  </div>
+</ng-template>

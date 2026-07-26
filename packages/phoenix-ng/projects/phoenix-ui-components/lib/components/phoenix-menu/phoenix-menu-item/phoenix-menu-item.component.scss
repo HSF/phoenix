@@ -42,58 +42,130 @@
     .item-settings {
       margin-right: 0.2rem;
     }
+  }
 
-    .item-config-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 110;
+  @media screen and (max-width: 768px) {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+}
+
+// Compact icon-button variant for leaf nodes holding only configs
+// (the collections' Draw/Cut/Color Options).
+.phoenix-menu-item-compact {
+  flex: 1;
+  min-width: 0;
+  color: var(--phoenix-text-color);
+
+  .compact-option-button {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.3rem 0.2rem;
+    color: inherit;
+    border-radius: 0.3rem;
+    transition: all 0.4s;
+
+    &:hover {
+      background: var(--phoenix-options-icon-bg);
+      cursor: pointer;
     }
 
-    .item-config {
-      position: absolute;
-      right: 100%;
-      width: 14rem;
-      padding: 0.5rem;
-      background: var(--phoenix-background-color-secondary);
-      color: var(--phoenix-text-color-secondary);
-      box-shadow: var(--phoenix-box-shadow);
+    .compact-option-label {
+      font-size: 0.65rem;
+      line-height: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+  }
+}
+
+.phoenix-menu-options-bar {
+  display: flex;
+  align-items: stretch;
+  gap: 0.25rem;
+  padding: 0.25rem 0.4rem;
+  background: var(--phoenix-background-color-secondary);
+
+  app-phoenix-menu-item {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+// Rules shared by the full row and the compact variant (the config popup is
+// rendered inside both).
+.phoenix-menu-item,
+.phoenix-menu-item-compact {
+  .item-config-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 110;
+  }
+
+  .item-config {
+    position: absolute;
+    right: 100%;
+    width: 14rem;
+    padding: 0.5rem;
+    background: var(--phoenix-background-color-secondary);
+    color: var(--phoenix-text-color-secondary);
+    box-shadow: var(--phoenix-box-shadow);
+    display: flex;
+    flex-direction: column;
+    z-index: 120;
+    max-height: 60vh;
+    overflow-y: auto;
+    font-size: 0.8rem;
+
+    /* Custom thin scrollbar to avoid clutter */
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--phoenix-text-color-secondary, #999);
+      border-radius: 4px;
+    }
+
+    & > * {
+      margin-bottom: 0.4rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .item-config-single {
       display: flex;
-      flex-direction: column;
-      z-index: 120;
-      max-height: 60vh;
-      overflow-y: auto;
+      flex-direction: row;
 
-      /* Custom thin scrollbar to avoid clutter */
-      &::-webkit-scrollbar {
-        width: 4px;
-      }
-      &::-webkit-scrollbar-thumb {
-        background: var(--phoenix-text-color-secondary, #999);
-        border-radius: 4px;
+      .item-config-label {
+        width: 30%;
       }
 
-      & > * {
-        margin-bottom: 0.4rem;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
+      .item-config-data {
+        flex-grow: 1;
+        padding-left: 0.5rem;
+        min-width: 0;
       }
 
-      .item-config-single {
-        display: flex;
-        flex-direction: row;
+      // Cut rows have short symbol labels; give the space to the inputs.
+      &.range-slider-row {
+        align-items: center;
 
         .item-config-label {
-          width: 30%;
-        }
-
-        .item-config-data {
-          flex-grow: 1;
-          padding-left: 0.5rem;
+          width: auto;
+          min-width: 1.6rem;
+          flex-shrink: 0;
+          margin-bottom: 0;
         }
       }
     }
@@ -146,9 +218,6 @@
   }
 
   @media screen and (max-width: 768px) {
-    font-size: 0.75rem;
-    padding: 0.5rem;
-
     .icon-wrapper {
       width: 1rem;
       height: 1rem;
@@ -187,13 +256,25 @@
 
     mat-checkbox {
       flex-shrink: 0;
+      // Shrink the Material checkbox touch target so the inputs get the space.
+      --mdc-checkbox-state-layer-size: 24px;
     }
 
     input[type='number'] {
       min-width: 0;
       width: 100%;
-      padding: 0.1rem 0.2rem;
-      font-size: 0.7rem;
+      padding: 0.15rem 0.25rem;
+      font-size: 0.75rem;
+
+      // Hide the native spinner buttons which clip the numbers.
+      appearance: textfield;
+      -moz-appearance: textfield;
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
     }
   }
 }
