@@ -160,41 +160,24 @@ export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
       return Number.isInteger(value) ? String(value) : value.toFixed(2);
     }
     if (Array.isArray(value)) {
-      return `[${value
-        .map((v) =>
-          typeof v === 'number'
-            ? Number.isInteger(v)
-              ? String(v)
-              : v.toFixed(2)
-            : v,
-        )
-        .join(', ')}]`;
+      // Handles nested arrays too, e.g. track `pos`: an array of [x, y, z]
+      // points, so each element is itself an array, not a number.
+      return `[${value.map((v) => this.formatValue(v)).join(', ')}]`;
     }
-    // Handle stringified numbers and arrays
-    const str = String(value).trim();
-    const numValue = parseFloat(str);
-    if (!isNaN(numValue) && str !== '') {
-      return Number.isInteger(numValue)
-        ? String(numValue)
-        : numValue.toFixed(2);
+    // Vector-like objects (e.g. THREE.Vector3), which otherwise stringify
+    // to the unhelpful "[object Object]".
+    if (
+      value &&
+      typeof value === 'object' &&
+      typeof value.x === 'number' &&
+      typeof value.y === 'number'
+    ) {
+      const parts = [value.x, value.y, value.z].filter(
+        (v) => typeof v === 'number',
+      );
+      return `[${parts.map((v) => this.formatValue(v)).join(', ')}]`;
     }
-    // Try to parse as stringified array: remove brackets and split by comma
-    if ((str.includes('[') && str.includes(']')) || str.includes(',')) {
-      const cleaned = str.split('[').join('').split(']').join('').trim();
-      const parts = cleaned.split(',').map((s) => s.trim());
-      const formatted = parts
-        .map((p) => {
-          const n = parseFloat(p);
-          return !isNaN(n)
-            ? Number.isInteger(n)
-              ? String(n)
-              : n.toFixed(2)
-            : p;
-        })
-        .filter((p) => p !== '');
-      return formatted.length > 0 ? `[${formatted.join(', ')}]` : str;
-    }
-    return str;
+    return String(value);
   }
 
   addLabel(index: number, uuid: string) {
