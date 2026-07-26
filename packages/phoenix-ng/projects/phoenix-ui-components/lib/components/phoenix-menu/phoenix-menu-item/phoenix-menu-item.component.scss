@@ -154,6 +154,19 @@
       .item-config-data {
         flex-grow: 1;
         padding-left: 0.5rem;
+        min-width: 0;
+      }
+
+      // Cut rows have short symbol labels; give the space to the inputs.
+      &.range-slider-row {
+        align-items: center;
+
+        .item-config-label {
+          width: auto;
+          min-width: 1.6rem;
+          flex-shrink: 0;
+          margin-bottom: 0;
+        }
       }
     }
   }
@@ -243,13 +256,25 @@
 
     mat-checkbox {
       flex-shrink: 0;
+      // Shrink the Material checkbox touch target so the inputs get the space.
+      --mdc-checkbox-state-layer-size: 24px;
     }
 
     input[type='number'] {
       min-width: 0;
       width: 100%;
-      padding: 0.1rem 0.2rem;
-      font-size: 0.7rem;
+      padding: 0.15rem 0.25rem;
+      font-size: 0.75rem;
+
+      // Hide the native spinner buttons which clip the numbers.
+      appearance: textfield;
+      -moz-appearance: textfield;
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
     }
   }
 }

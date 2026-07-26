@@ -118,7 +118,11 @@
       [ngSwitch]="config.type"
     >
       <!-- Config types -->
-      <div class="item-config-single" *ngIf="!config.hidden">
+      <div
+        class="item-config-single"
+        [ngClass]="{ 'range-slider-row': config.type === 'rangeSlider' }"
+        *ngIf="!config.hidden"
+      >
         <label
           class="item-config-label"
           for="item-config-field"
