@@ -1,10 +1,8 @@
 import {
   Color,
   MeshPhongMaterial,
-  LineBasicMaterial,
   Mesh,
   Object3D,
-  Material,
   type Object3DEventMap,
   Line,
   Points,
@@ -39,6 +37,29 @@ export class ColorManager {
       objects.traverse((object: any) => {
         if (object.material?.color && customCheck(object.userData)) {
           object.material.color.set(color);
+        }
+      });
+    }
+  }
+
+  /**
+   * Color objects by a color computed from each object's parameters.
+   * @param objectsGroup Name of the object(s) group to color.
+   * @param getColor Function computing the color from object params, or
+   * `undefined` to leave the object's color unchanged.
+   */
+  colorObjectsByComputedColor(
+    objectsGroup: string,
+    getColor: (objectUserData: any) => Color | string | undefined,
+  ) {
+    const objects = this.sceneManager.getScene().getObjectByName(objectsGroup);
+    if (objects) {
+      objects.traverse((object: any) => {
+        if (object.material?.color) {
+          const color = getColor(object.userData);
+          if (color !== undefined) {
+            object.material.color.set(color);
+          }
         }
       });
     }
@@ -104,37 +125,66 @@ export class ColorManager {
   }
 
   /**
-   * Randomly color tracks by the vertex they are associated with.
-   * @param collectionName Name of the collection.
+   * Color tracks by the vertex they are associated with, giving each vertex
+   * (and its linked tracks) a distinct color.
+   * @param collectionName Name of the track collection.
+   * @returns The number of tracks that were colored.
    */
-  public colorTracksByVertex(collectionName: string) {
+  public colorTracksByVertex(collectionName: string): number {
     const scene = this.sceneManager.getScene();
     const vertices = scene.getObjectByName('Vertices');
     if (!vertices) {
-      return;
+      return 0;
     }
+
+    const vertexObjects: Object3D[] = [];
     vertices.traverse((object) => {
-      const { linkedTrackCollection, linkedTracks } = object.userData;
-      if (
-        object.name === 'Vertex' &&
-        linkedTrackCollection === collectionName &&
-        linkedTracks
-      ) {
-        const mat = (object as Mesh).material as Material;
-        if ('color' in mat) {
-          // Should always be true, but basetype doesn't have color property
-          const colorForTracksVertex = mat.color;
-          const trackCollection = scene.getObjectByName(linkedTrackCollection);
-          if (trackCollection) {
-            linkedTracks.forEach((trackIndex: number) => {
-              trackCollection.children[trackIndex].traverse((trackObject) => {
-                setColorForObject(trackObject, colorForTracksVertex);
-              });
-            });
-          }
-        }
+      if (object.name === 'Vertex') {
+        vertexObjects.push(object);
       }
     });
+
+    const trackCollection = scene.getObjectByName(collectionName);
+    // Tracks can be dropped on load, so prefer matching by the original index
+    // stored in userData over the position in the collection.
+    const tracksByIndex = new Map<number, Object3D>();
+    trackCollection?.children.forEach((track) => {
+      if (track.userData.index !== undefined) {
+        tracksByIndex.set(track.userData.index, track);
+      }
+    });
+
+    let coloredTracks = 0;
+    vertexObjects.forEach((vertexObject, vertexIndex) => {
+      const { linkedTrackCollection, linkedTracks } = vertexObject.userData;
+      if (
+        !trackCollection ||
+        linkedTrackCollection !== collectionName ||
+        !linkedTracks
+      ) {
+        return;
+      }
+
+      // Deterministic distinct color per vertex (golden ratio hue steps),
+      // unless the vertex has an explicit color.
+      const vertexColor =
+        vertexObject.userData.color ??
+        new Color().setHSL((vertexIndex * 0.618034) % 1, 0.9, 0.55);
+
+      setColorForObject(vertexObject, vertexColor);
+      linkedTracks.forEach((trackIndex: number) => {
+        const track =
+          tracksByIndex.get(trackIndex) ?? trackCollection.children[trackIndex];
+        track?.traverse((trackObject) => {
+          setColorForObject(trackObject, vertexColor);
+        });
+        if (track) {
+          coloredTracks++;
+        }
+      });
+    });
+
+    return coloredTracks;
   }
 }
 /**

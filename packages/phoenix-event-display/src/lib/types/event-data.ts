@@ -193,6 +193,10 @@ export interface VertexParams {
   vertexType?: number;
   /** Color for rendering. */
   color?: string | number;
+  /** Indices of the tracks associated with this vertex, used to color tracks by vertex. */
+  linkedTracks?: number[];
+  /** Name of the track collection the linked track indices refer to. */
+  linkedTrackCollection?: string;
   /** UUID assigned after object creation. Set internally. */
   uuid?: string;
   /** Extra experiment-specific properties. */

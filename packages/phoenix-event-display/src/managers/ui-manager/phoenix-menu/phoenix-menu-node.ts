@@ -143,8 +143,10 @@ export class PhoenixMenuNode {
   /**
    * Apply the current values of config by calling the change function.
    * @param config Config whose values are to be applied.
+   * @param fromStateLoad Whether the config is being applied from a saved
+   * state, as opposed to being newly added to the menu.
    */
-  applyConfigState(config: any) {
+  applyConfigState(config: any, fromStateLoad: boolean = false) {
     // Apply configs of different config types - manual
     if (config.type === 'checkbox' && config?.['isChecked']) {
       config.onChange?.(config?.['isChecked']);
@@ -152,11 +154,16 @@ export class PhoenixMenuNode {
       if (this.name === 'Labels' || this.parent?.name === 'Labels') {
         // Exception for Labels node (and sub labels), which should always have color applied
         config.onChange?.(config?.['color']);
-      } else if (config.group !== undefined) {
-        // Ignore color by options with `!config.group`, otherwise the collection color is overridden
+      } else if (fromStateLoad && config.group !== undefined) {
+        // Only apply grouped "color by" configs when restoring a saved state,
+        // otherwise the collection color is overridden on creation. Their
+        // change functions only color the collection if the config's "color by"
+        // option is the selected one.
         config.onChange?.(config?.['color']);
       }
     } else if (config.type === 'slider' && config?.['value']) {
+      config.onChange?.(config?.['value']);
+    } else if (config.type === 'select' && config?.['value']) {
       config.onChange?.(config?.['value']);
     } else if (
       config.type === 'rangeSlider' &&
@@ -232,12 +239,18 @@ export class PhoenixMenuNode {
       // console.log('nodeConfig', nodeConfig);
       if (nodeConfig) {
         for (const prop in configState) {
+          if (prop === 'options') {
+            // The available options of a `select` are structural (derived from
+            // the loaded event data), not user state - a saved state must not
+            // overwrite them.
+            continue;
+          }
           const key = prop as keyof typeof nodeConfig;
           // console.log('prop',prop, 'key', key, 'nodeConfig[key]', nodeConfig[key]);
           (nodeConfig as any)[key] = configState[key];
         }
 
-        this.applyConfigState(nodeConfig);
+        this.applyConfigState(nodeConfig, true);
       }
     }
 
