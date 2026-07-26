@@ -13,6 +13,7 @@ import { CoordinateHelper } from '../helpers/coordinate-helper';
 import { getLabelTitle } from '../helpers/labels';
 import { DatGUIMenuUI } from '../managers/ui-manager/dat-gui-ui';
 import { PhoenixMenuUI } from '../managers/ui-manager/phoenix-menu/phoenix-menu-ui';
+import { ColorByOptionKeys } from '../managers/ui-manager/color-options';
 import {
   getDefaultObjectTypeConfigs,
   ObjectTypeConfig,
@@ -285,6 +286,7 @@ export class PhoenixLoader implements EventDataLoader {
         collectionName,
         collectionCuts,
         collectionColor,
+        this.getColorByOptions(typeName, collectionName),
       );
     }
 
@@ -301,6 +303,40 @@ export class PhoenixLoader implements EventDataLoader {
       eventDataTypeFolderDatGUI,
       eventDataTypeFolderPhoenixMenu,
     );
+  }
+
+  /**
+   * Get the options a collection can be colored by, depending on the event data.
+   * @param typeName Name of the event data type the collection belongs to.
+   * @param collectionName Name of the collection.
+   * @returns Options to color the collection by, or `undefined` for
+   * non-track collections which have no color by options.
+   */
+  private getColorByOptions(
+    typeName: string,
+    collectionName: string,
+  ): ColorByOptionKeys[] | undefined {
+    if (typeName !== 'Tracks') {
+      return undefined;
+    }
+
+    const colorByOptions = [ColorByOptionKeys.CHARGE, ColorByOptionKeys.MOM];
+
+    // Only offer coloring by vertex if some vertices actually link to this collection.
+    const vertexCollections = this.eventData?.Vertices ?? {};
+    const hasLinkedVertices = Object.values(vertexCollections).some(
+      (vertexCollection) =>
+        vertexCollection?.some(
+          (vertex) =>
+            vertex.linkedTrackCollection === collectionName &&
+            vertex.linkedTracks?.length,
+        ),
+    );
+    if (hasLinkedVertices) {
+      colorByOptions.push(ColorByOptionKeys.VERTEX);
+    }
+
+    return colorByOptions;
   }
 
   /**

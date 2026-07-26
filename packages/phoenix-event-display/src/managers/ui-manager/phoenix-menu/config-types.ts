@@ -50,6 +50,7 @@ export type ConfigRangeSlider = ConfigLabel & {
 /** Type for Phoenix menu node "select" config. */
 export type ConfigSelect = ConfigLabel & {
   options: string[];
+  value?: string;
   onChange: (selectedOption: string) => void;
 };
 

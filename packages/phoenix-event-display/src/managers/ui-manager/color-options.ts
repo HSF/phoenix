@@ -2,6 +2,7 @@ import { Color } from 'three';
 import { PrettySymbols } from '../../helpers/pretty-symbols';
 import { ColorManager } from '../three-manager/color-manager';
 import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
+import { type ConfigSelect } from './phoenix-menu/config-types';
 
 /** Keys for options available for coloring event data by. */
 export enum ColorByOptionKeys {
@@ -55,8 +56,8 @@ export class ColorOptions {
   // Charge options.
   /** Default values for colors for color by charge. */
   private chargeColors = {
-    '-1': '#ff0000',
-    '0': '#ff0000',
+    '-1': '#0000ff',
+    '0': '#d3d3d3',
     '1': '#ff0000',
   };
 
@@ -65,7 +66,7 @@ export class ColorOptions {
   private momColors: { [key: string]: { value: number; color: string } } = {
     min: {
       value: 0,
-      color: '#ff0000',
+      color: '#0000ff',
     },
     max: {
       value: 50000,
@@ -135,7 +136,10 @@ export class ColorOptions {
 
     // Configurations
 
-    this.colorOptionsFolder.addConfig({
+    // `value` is deliberately not set initially so that applying the config
+    // state on creation does not override the collection color. It is set on
+    // user selection so the choice survives saving/loading the menu state.
+    const colorByConfig: ConfigSelect = {
       type: 'select',
       label: 'Color by',
       options: this.colorByOptions.map((colorByOption) => colorByOption.name),
@@ -144,13 +148,17 @@ export class ColorOptions {
           (colorByOption) => colorByOption.name === updatedColorByOption,
         );
 
-        if (newColorByOption?.key)
+        if (newColorByOption?.key) {
           this.selectedColorByOption = newColorByOption.key;
+          colorByConfig.value = newColorByOption.name;
+        }
         newColorByOption?.apply?.();
 
         this.onlySelectedColorByOption();
       },
-    });
+    };
+
+    this.colorOptionsFolder.addConfig(colorByConfig);
   }
 
   // Charge options.
@@ -237,8 +245,7 @@ export class ColorOptions {
           this.momColors[key].value = sliderValue;
 
           if (this.selectedColorByOption === ColorByOptionKeys.MOM) {
-            this.colorByMomentum('min');
-            this.colorByMomentum('max');
+            this.colorByMomentum();
           }
         },
       });
@@ -252,7 +259,7 @@ export class ColorOptions {
           this.momColors[key].color = color;
 
           if (this.selectedColorByOption === ColorByOptionKeys.MOM) {
-            this.colorByMomentum(key);
+            this.colorByMomentum();
           }
         },
       });
@@ -263,33 +270,32 @@ export class ColorOptions {
    * Apply momentum color options.
    */
   private applyMomColorOptions() {
-    this.colorByMomentum('min');
-    this.colorByMomentum('max');
+    this.colorByMomentum();
   }
 
   /**
-   * Color event data based on the momentum property of each object.
-   * @param minOrMax If the momentum to color objects by is minimum or maximum momentum.
-   * This is to apply the stored momentum colors for minimum and maximum separated at the mid value.
+   * Color event data with a gradient based on the momentum property of each object.
+   * Objects are colored by interpolating between the min and max colors according
+   * to where their momentum lies in the min/max range (clamped at the ends).
    */
-  private colorByMomentum(minOrMax: string) {
-    this.colorManager.colorObjectsByProperty(
-      this.momColors[minOrMax].color,
+  private colorByMomentum() {
+    const minColor = new Color(this.momColors.min.color);
+    const maxColor = new Color(this.momColors.max.color);
+    const range = this.momColors.max.value - this.momColors.min.value;
+
+    this.colorManager.colorObjectsByComputedColor(
       this.collectionName,
       (objectParams) => {
         const mom = this.getMomentum(objectParams);
-        const mid = (this.momColors.min.value + this.momColors.max.value) / 2;
-
-        if (minOrMax === 'max' && mom > mid && mom < this.momColors.max.value) {
-          return true;
-        } else if (
-          minOrMax === 'min' &&
-          mom < mid &&
-          mom > this.momColors.min.value
-        ) {
-          return true;
+        if (mom === undefined || range <= 0) {
+          return undefined;
         }
-        return false;
+
+        const lerpFactor = Math.min(
+          Math.max((mom - this.momColors.min.value) / range, 0),
+          1,
+        );
+        return minColor.clone().lerp(maxColor, lerpFactor);
       },
     );
   }
@@ -311,7 +317,15 @@ export class ColorOptions {
    * Apply color by vertex to tracks.
    */
   private applyVertexColorOptions() {
-    this.colorManager.colorTracksByVertex(this.collectionName);
+    const coloredTracks = this.colorManager.colorTracksByVertex(
+      this.collectionName,
+    );
+    if (coloredTracks === 0) {
+      console.warn(
+        `No tracks in "${this.collectionName}" could be colored by vertex. ` +
+          'This requires vertices with "linkedTracks" and "linkedTrackCollection" data.',
+      );
+    }
   }
 
   /**

@@ -226,12 +226,14 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
    * @param collectionColor Default color of the collection.
+   * @param colorByOptions Options to color the collection by. If not provided, defaults based on the event data type are used.
    */
   public addCollection(
     eventDataType: string,
     collectionName: string,
     cuts?: Cut[],
     collectionColor?: Color,
+    colorByOptions?: ColorByOptionKeys[],
   ) {
     const typeFolder = this.eventFolder.children.find(
       (eventDataTypeNode) => eventDataTypeNode.name === eventDataType,
@@ -265,15 +267,17 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       }
     }
 
-    const colorByOptions: ColorByOptionKeys[] = [];
+    if (colorByOptions === undefined) {
+      colorByOptions = [];
 
-    // Extra config options specific to tracks
-    if (typeFolder.name === 'Tracks') {
-      colorByOptions.push(
-        ColorByOptionKeys.CHARGE,
-        ColorByOptionKeys.MOM,
-        ColorByOptionKeys.VERTEX,
-      );
+      // Extra config options specific to tracks
+      if (typeFolder.name === 'Tracks') {
+        colorByOptions.push(
+          ColorByOptionKeys.CHARGE,
+          ColorByOptionKeys.MOM,
+          ColorByOptionKeys.VERTEX,
+        );
+      }
     }
 
     new ColorOptions(
