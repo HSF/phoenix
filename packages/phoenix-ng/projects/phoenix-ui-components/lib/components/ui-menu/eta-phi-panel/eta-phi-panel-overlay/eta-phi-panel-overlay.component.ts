@@ -78,6 +78,9 @@ export class EtaPhiPanelOverlayComponent
       this.eventDisplay.listenToDisplayedEventChange(() => {
         this.rebuildData();
       }),
+      this.eventDisplay.listenToStateChange?.(() => {
+        this.rebuildData();
+      }),
     );
   }
 
@@ -215,6 +218,9 @@ export class EtaPhiPanelOverlayComponent
     for (const caloType of caloTypes) {
       if (!collections[caloType]) continue;
       for (const collName of collections[caloType]) {
+        if (this.eventDisplay.isCollectionVisible?.(collName) === false) {
+          continue;
+        }
         const items = this.eventDisplay.getCollection(collName);
         if (!items) continue;
         for (const cell of items) {
@@ -222,6 +228,9 @@ export class EtaPhiPanelOverlayComponent
             continue;
           }
           if (cell.energy <= energyThreshold) continue;
+          if (this.eventDisplay.isItemVisible?.(collName, cell) === false) {
+            continue;
+          }
 
           const ei = Math.floor(
             ((cell.eta - etaRange[0]) / (etaRange[1] - etaRange[0])) * etaBins,
@@ -255,10 +264,16 @@ export class EtaPhiPanelOverlayComponent
     // Jets
     if (collections['Jets']) {
       for (const collName of collections['Jets']) {
+        if (this.eventDisplay.isCollectionVisible?.(collName) === false) {
+          continue;
+        }
         const jets = this.eventDisplay.getCollection(collName);
         if (!jets) continue;
         jets.forEach((jet: any, i: number) => {
           if (jet.eta == null || jet.phi == null) return;
+          if (this.eventDisplay.isItemVisible?.(collName, jet) === false) {
+            return;
+          }
           this.markers.push({
             eta: jet.eta,
             phi: jet.phi,
@@ -275,10 +290,16 @@ export class EtaPhiPanelOverlayComponent
     // Muons
     if (collections['Muons']) {
       for (const collName of collections['Muons']) {
+        if (this.eventDisplay.isCollectionVisible?.(collName) === false) {
+          continue;
+        }
         const muons = this.eventDisplay.getCollection(collName);
         if (!muons) continue;
         muons.forEach((mu: any, i: number) => {
           if (mu.eta == null || mu.phi == null) return;
+          if (this.eventDisplay.isItemVisible?.(collName, mu) === false) {
+            return;
+          }
           this.markers.push({
             eta: mu.eta,
             phi: mu.phi,
@@ -294,10 +315,16 @@ export class EtaPhiPanelOverlayComponent
     // Electrons
     if (collections['Electrons']) {
       for (const collName of collections['Electrons']) {
+        if (this.eventDisplay.isCollectionVisible?.(collName) === false) {
+          continue;
+        }
         const electrons = this.eventDisplay.getCollection(collName);
         if (!electrons) continue;
         electrons.forEach((el: any, i: number) => {
           if (el.eta == null || el.phi == null) return;
+          if (this.eventDisplay.isItemVisible?.(collName, el) === false) {
+            return;
+          }
           this.markers.push({
             eta: el.eta,
             phi: el.phi,
@@ -313,10 +340,16 @@ export class EtaPhiPanelOverlayComponent
     // Photons
     if (collections['Photons']) {
       for (const collName of collections['Photons']) {
+        if (this.eventDisplay.isCollectionVisible?.(collName) === false) {
+          continue;
+        }
         const photons = this.eventDisplay.getCollection(collName);
         if (!photons) continue;
         photons.forEach((ph: any, i: number) => {
           if (ph.eta == null || ph.phi == null) return;
+          if (this.eventDisplay.isItemVisible?.(collName, ph) === false) {
+            return;
+          }
           this.markers.push({
             eta: ph.eta,
             phi: ph.phi,
@@ -332,6 +365,9 @@ export class EtaPhiPanelOverlayComponent
     // Tracks (derive eta/phi from dparams if needed)
     if (collections['Tracks']) {
       for (const collName of collections['Tracks']) {
+        if (this.eventDisplay.isCollectionVisible?.(collName) === false) {
+          continue;
+        }
         const tracks = this.eventDisplay.getCollection(collName);
         if (!tracks) continue;
         tracks.forEach((trk: any, i: number) => {
@@ -343,6 +379,9 @@ export class EtaPhiPanelOverlayComponent
             phi = trk.dparams[2];
           }
           if (eta == null || phi == null) return;
+          if (this.eventDisplay.isItemVisible?.(collName, trk) === false) {
+            return;
+          }
           this.markers.push({
             eta,
             phi,
@@ -358,10 +397,16 @@ export class EtaPhiPanelOverlayComponent
     // MET
     if (collections['MissingEnergy']) {
       for (const collName of collections['MissingEnergy']) {
+        if (this.eventDisplay.isCollectionVisible?.(collName) === false) {
+          continue;
+        }
         const metItems = this.eventDisplay.getCollection(collName);
         if (!metItems) continue;
         for (const met of metItems) {
           if (met.etx == null || met.ety == null) continue;
+          if (this.eventDisplay.isItemVisible?.(collName, met) === false) {
+            continue;
+          }
           const metPhi = Math.atan2(met.ety, met.etx);
           const metMag = Math.sqrt(met.etx * met.etx + met.ety * met.ety);
           this.markers.push({

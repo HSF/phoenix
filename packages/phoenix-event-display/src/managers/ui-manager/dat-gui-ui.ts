@@ -34,6 +34,8 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
   private eventFolder: GUI;
   /** dat.GUI menu folder containing labels. */
   private labelsFolder: GUI;
+  /** Callback fired when UI state / visibility / cuts change. */
+  public onStateChange?: () => void;
 
   /** Max changeable position of an object along the x-axis. */
   private maxPositionX = 4000;
@@ -292,9 +294,10 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     showMenu.onChange((value) => {
       const collectionObject = this.sceneManager
         .getObjectByName(SceneManager.EVENT_DATA_ID)
-        .getObjectByName(collectionName);
+        ?.getObjectByName(collectionName);
       if (collectionObject)
         this.sceneManager.objectVisibility(collectionObject, value);
+      this.onStateChange?.();
     });
 
     // A color picker is added to the collection's folder
@@ -345,6 +348,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
         minCut.onChange((value) => {
           cut.minValue = value;
           this.sceneManager.collectionFilter(collectionName, cuts);
+          this.onStateChange?.();
         });
         const maxCut = cutsFolder
           .add(
@@ -357,6 +361,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
         maxCut.onChange((value) => {
           cut.maxValue = value;
           this.sceneManager.collectionFilter(collectionName, cuts);
+          this.onStateChange?.();
         });
       }
     }
