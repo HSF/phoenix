@@ -6,6 +6,7 @@ import {
   readZipFile,
   Edm4hepJsonLoader,
   PHYSLITELoader,
+  ATLASESDLoader,
 } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -52,10 +53,18 @@ export class IOOptionsDialogComponent implements OnInit {
       this.handleZipEventDataInput.bind(this),
       '.zip',
     ),
+    // Both ROOT formats accept '.root', so the button labels have to say which
+    // is which — the template renders "Load {{ fileType }}".
     new ImportOption(
       EventDataFormat.PHYSLITE,
-      '.root',
+      'PHYSLITE (.root)',
       this.handlePHYSLITEInput.bind(this),
+      '.root',
+    ),
+    new ImportOption(
+      EventDataFormat.ATLASESD,
+      'ATLAS ESD (.root)',
+      this.handleATLASESDInput.bind(this),
       '.root',
     ),
     new ImportOption(
@@ -270,6 +279,33 @@ export class IOOptionsDialogComponent implements OnInit {
         .add('Failed to load PHYSLITE file: ' + error.message, 'Error');
       this.notificationService.error(
         'Failed to load PHYSLITE file: ' + error.message,
+      );
+    }
+
+    this.onClose();
+  }
+
+  async handleATLASESDInput(files: FileList) {
+    if (
+      !this.isFileOfExtension(
+        files[0].name,
+        'root,root.1,pool.root,pool.root.1',
+      )
+    ) {
+      return;
+    }
+
+    const loader = new ATLASESDLoader();
+
+    try {
+      const eventsData = await loader.getEventData(files[0] as any);
+      this.eventDisplay.parsePhoenixEvents(eventsData);
+    } catch (error) {
+      this.eventDisplay
+        .getInfoLogger()
+        .add('Failed to load ATLAS ESD file: ' + error.message, 'Error');
+      this.notificationService.error(
+        'Failed to load ATLAS ESD file: ' + error.message,
       );
     }
 
