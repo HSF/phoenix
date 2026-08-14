@@ -149,20 +149,88 @@ describe('ATLASESDLoader branch resolution', () => {
   });
 });
 
+describe('ATLASESDLoader skip reporting', () => {
+  it('summarises skipped objects and collections on the console', async () => {
+    const info = jest.spyOn(console, 'info').mockImplementation(() => {});
+
+    mockFile(
+      makeTree([
+        TRACK_BRANCH,
+        'xAOD::MuonAuxContainer_v5_MuonsAux.',
+        EVENTINFO_BRANCH,
+      ]),
+    );
+    mockEntry({
+      esd__InDetTrackParticles: {
+        // second track has qOverP 0, third has theta out of range
+        phi: [0.5, 0.5, 0.5],
+        theta: [1.2, 1.2, 0],
+        qOverP: [0.001, 0, 0.001],
+      },
+      esd__Muons: { pt: [], eta: [], phi: [] },
+      esd__EventInfo: eventInfoStore,
+    });
+
+    await new ATLASESDLoader({
+      containers: ['InDetTrackParticles', 'Muons', 'AntiKt4EMPFlowJets'],
+    }).getEventData('file.root');
+
+    const calls = info.mock.calls;
+    const summary = calls[calls.length - 1][0] as string;
+
+    expect(summary).toContain('read 2 collection(s) from 1 event(s)');
+    expect(summary).toContain(
+      'InDetTrackParticles — zero or non-finite qOverP: 1 object(s)',
+    );
+    expect(summary).toContain(
+      'InDetTrackParticles — theta outside (0, pi): 1 object(s)',
+    );
+    // Present but empty, versus not in the file at all — different reasons.
+    expect(summary).toContain('Muons — empty in this event: 1 event(s)');
+    expect(summary).toContain(
+      'AntiKt4EMPFlowJets — not present in this file: 1 collection(s)',
+    );
+
+    info.mockRestore();
+  });
+
+  it('says so explicitly when nothing was skipped', async () => {
+    const info = jest.spyOn(console, 'info').mockImplementation(() => {});
+
+    mockFile(makeTree([TRACK_BRANCH, EVENTINFO_BRANCH]));
+    mockEntry({
+      esd__InDetTrackParticles: { phi: [0.5], theta: [1.2], qOverP: [0.001] },
+      esd__EventInfo: eventInfoStore,
+    });
+
+    await new ATLASESDLoader({
+      containers: ['InDetTrackParticles'],
+    }).getEventData('file.root');
+
+    const calls = info.mock.calls;
+    expect(calls[calls.length - 1][0]).toContain('nothing skipped');
+
+    info.mockRestore();
+  });
+});
+
 describe('ATLASESDLoader converters', () => {
   const loader = new ATLASESDLoader() as any;
 
   describe('tracks', () => {
     it('orders dparams as d0, z0, phi, theta, qOverP and names cuts chi2/dof', () => {
-      const tracks = loader.convertTracks({
-        d0: [1.5],
-        z0: [-2.5],
-        phi: [0.4],
-        theta: [1.0],
-        qOverP: [0.002],
-        chiSquared: [28.4],
-        numberDoF: [21],
-      });
+      const tracks = loader.convertTracks(
+        {
+          d0: [1.5],
+          z0: [-2.5],
+          phi: [0.4],
+          theta: [1.0],
+          qOverP: [0.002],
+          chiSquared: [28.4],
+          numberDoF: [21],
+        },
+        'InDetTrackParticles',
+      );
 
       expect(tracks).toHaveLength(1);
       expect(tracks[0].dparams).toEqual([1.5, -2.5, 0.4, 1.0, 0.002]);
@@ -171,19 +239,36 @@ describe('ATLASESDLoader converters', () => {
       expect(tracks[0].pT).toBeCloseTo(Math.sin(1.0) / 0.002, 6);
     });
 
-    it('skips tracks whose parameters would produce NaN', () => {
-      const tracks = loader.convertTracks({
-        d0: [0, 0, 0, 0],
-        z0: [0, 0, 0, 0],
-        phi: [0, 0, 0, 0],
-        theta: [1.0, 0, Math.PI, 1.0],
-        qOverP: [0.002, 0.002, 0.002, 0],
-      });
+    it('skips tracks whose parameters would produce NaN, by reason', () => {
+      loader.skips.clear();
 
-      // Only the first is valid: theta must be strictly inside (0, PI) and
-      // qOverP must be non-zero.
+      const tracks = loader.convertTracks(
+        {
+          d0: [0, 0, 0, 0, NaN],
+          z0: [0, 0, 0, 0, 0],
+          phi: [0, 0, 0, 0, 0],
+          theta: [1.0, 0, Math.PI, 1.0, 1.0],
+          qOverP: [0.002, 0.002, 0.002, 0, 0.002],
+        },
+        'InDetTrackParticles',
+      );
+
+      // Only the first is valid: theta must be strictly inside (0, PI), qOverP
+      // must be non-zero, and the perigee parameters must be finite.
       expect(tracks).toHaveLength(1);
       expect(tracks[0].dparams[3]).toBe(1.0);
+
+      const skips = Object.fromEntries(
+        [...loader.skips.entries()].map(([k, v]: [string, any]) => [
+          k,
+          v.count,
+        ]),
+      );
+      expect(skips).toEqual({
+        'InDetTrackParticles — theta outside (0, pi)': 2,
+        'InDetTrackParticles — zero or non-finite qOverP': 1,
+        'InDetTrackParticles — non-finite d0, z0 or phi': 1,
+      });
     });
   });
 

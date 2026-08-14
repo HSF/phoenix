@@ -126,6 +126,9 @@ const DEFAULT_MET_TERMS = ['Final', 'FinalTrk', 'FinalClus'];
  */
 const AUX_BRANCH_RE = /^(xAOD::[A-Za-z0-9]+?)(?:_v\d+)?_([A-Za-z0-9_]+)Aux\.$/;
 
+/** What a skip tally counts, so the summary can name the unit. */
+type SkipUnit = 'object' | 'event' | 'collection';
+
 /** A collection resolved against the branches actually present in the file. */
 interface ESDResolvedCollection {
   def: ESDAuxClassDef;
@@ -184,6 +187,12 @@ export class ATLASESDLoader extends PhoenixLoader {
   private containers: Set<string>;
   /** MET terms to prefer, most complete first. */
   private metTerms: string[];
+  /**
+   * Everything the loader chose not to convert, keyed by
+   * `<container> — <reason>`. Reported once at the end of a load, so that a
+   * collection missing from the menu always has a traceable explanation.
+   */
+  private skips = new Map<string, { count: number; unit: SkipUnit }>();
 
   /**
    * Create an ATLAS ESD loader.
@@ -209,6 +218,7 @@ export class ATLASESDLoader extends PhoenixLoader {
    */
   async getEventData(fileSource: File | string): Promise<PhoenixEventsData> {
     jsrootSettings.UseStamp = false;
+    this.skips.clear();
 
     let tree: any;
     try {
@@ -286,6 +296,8 @@ export class ATLASESDLoader extends PhoenixLoader {
         const objects = this.convertCollection(collection, tgt[collection.key]);
         if (objects && objects.length > 0) {
           eventData[collection.def.phoenixType][collection.container] = objects;
+        } else if (objects) {
+          this.noteSkip(collection.container, 'empty in this event', 'event');
         }
       }
 
@@ -295,7 +307,64 @@ export class ATLASESDLoader extends PhoenixLoader {
 
     await treeProcess(tree, selector, { numentries: nToProcess });
 
+    this.reportSkips(collections.length, eventIndex);
+
     return eventsData;
+  }
+
+  /**
+   * Record something that was not converted.
+   * @param container Container it relates to.
+   * @param reason Why it was skipped, phrased to complete "<container> — ...".
+   * @param unit What is being counted.
+   * @param count How many to add.
+   */
+  private noteSkip(
+    container: string,
+    reason: string,
+    unit: SkipUnit,
+    count = 1,
+  ) {
+    const key = `${container} — ${reason}`;
+    const entry = this.skips.get(key);
+    if (entry) {
+      entry.count += count;
+    } else {
+      this.skips.set(key, { count, unit });
+    }
+  }
+
+  /**
+   * Print a summary of everything that was skipped, and why.
+   * @param nCollections How many collections were read.
+   * @param nEvents How many events were read.
+   */
+  private reportSkips(nCollections: number, nEvents: number) {
+    const totals: { [unit: string]: number } = {};
+    for (const { count, unit } of this.skips.values()) {
+      totals[unit] = (totals[unit] ?? 0) + count;
+    }
+
+    const headline =
+      `ATLASESDLoader: read ${nCollections} collection(s) from ${nEvents} event(s)` +
+      (this.skips.size === 0
+        ? ', nothing skipped'
+        : '; skipped ' +
+          (['object', 'collection', 'event'] as SkipUnit[])
+            .filter((unit) => totals[unit])
+            .map((unit) => `${totals[unit]} ${unit}(s)`)
+            .join(', '));
+
+    if (this.skips.size === 0) {
+      console.info(headline);
+      return;
+    }
+
+    const lines = [...this.skips.entries()]
+      .sort((a, b) => b[1].count - a[1].count)
+      .map(([key, { count, unit }]) => `  ${key}: ${count} ${unit}(s)`);
+
+    console.info([headline, ...lines].join('\n'));
   }
 
   /**
@@ -316,16 +385,16 @@ export class ATLASESDLoader extends PhoenixLoader {
 
       const def = ESD_AUX_CLASSES[auxClass];
       if (!def) {
-        console.warn(
-          `ATLASESDLoader: ignoring ${container}, unsupported aux class ${auxClass}`,
+        this.noteSkip(
+          container,
+          `unsupported aux class ${auxClass}`,
+          'collection',
         );
         continue;
       }
 
       if (seen.has(container)) {
-        console.warn(
-          `ATLASESDLoader: ignoring duplicate branch for ${container}`,
-        );
+        this.noteSkip(container, 'duplicate branch', 'collection');
         continue;
       }
       seen.add(container);
@@ -336,6 +405,14 @@ export class ATLASESDLoader extends PhoenixLoader {
         branchName: branch.fName,
         key: `esd__${container}`,
       });
+    }
+
+    // Anything asked for but absent is worth reporting: it is the usual reason
+    // a collection a user expected is missing from the menu.
+    for (const container of this.containers) {
+      if (!seen.has(container)) {
+        this.noteSkip(container, 'not present in this file', 'collection');
+      }
     }
 
     return resolved;
@@ -367,16 +444,22 @@ export class ATLASESDLoader extends PhoenixLoader {
     collection: ESDResolvedCollection,
     store: any,
   ): any[] | null {
-    const { def } = collection;
+    const { def, container } = collection;
 
-    if (!store) return null;
+    if (!store) {
+      this.noteSkip(container, 'aux store not read for this event', 'event');
+      return null;
+    }
     for (const name of def.required) {
-      if (!this.member(store, name)) return null;
+      if (!this.member(store, name)) {
+        this.noteSkip(container, `aux store has no '${name}'`, 'collection');
+        return null;
+      }
     }
 
     switch (def.converter) {
       case 'tracks':
-        return this.convertTracks(store);
+        return this.convertTracks(store, container);
       case 'particles':
         return this.convertParticles(store, def.pdgId);
       case 'jets':
@@ -395,9 +478,10 @@ export class ATLASESDLoader extends PhoenixLoader {
   /**
    * Convert an xAOD::TrackParticleAuxContainer into Phoenix tracks.
    * @param store The aux store.
+   * @param container Container name, for attributing skipped tracks.
    * @returns Phoenix track objects.
    */
-  private convertTracks(store: any): any[] {
+  private convertTracks(store: any, container: string): any[] {
     const d0Arr = this.member(store, 'd0');
     const z0Arr = this.member(store, 'z0');
     const thetaArr = this.member(store, 'theta');
@@ -417,13 +501,18 @@ export class ATLASESDLoader extends PhoenixLoader {
       const theta = thetaArr[i];
       const qOverP = qOverPArr[i];
 
-      // Skip tracks with invalid parameters to avoid NaN in Runge-Kutta
-      if (
-        !qOverP ||
-        !isFinite(1.0 / qOverP) ||
-        theta <= 0 ||
-        theta >= Math.PI
-      ) {
+      // Skip tracks with invalid parameters to avoid NaN in Runge-Kutta.
+      // The reasons are kept apart so the summary says which one bit.
+      if (!qOverP || !isFinite(1.0 / qOverP)) {
+        this.noteSkip(container, 'zero or non-finite qOverP', 'object');
+        continue;
+      }
+      if (!(theta > 0 && theta < Math.PI)) {
+        this.noteSkip(container, 'theta outside (0, pi)', 'object');
+        continue;
+      }
+      if (!isFinite(d0) || !isFinite(z0) || !isFinite(phi)) {
+        this.noteSkip(container, 'non-finite d0, z0 or phi', 'object');
         continue;
       }
 
