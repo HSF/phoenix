@@ -6,7 +6,7 @@
     "packages/phoenix-ng/projects/*"
   ],
   "scripts": {
-    "postinstall": "node scripts/patch-jsroot-three.js && yarn workspace phoenix-event-display prepare && husky",
+    "postinstall": "node scripts/patch-jsroot.js && yarn workspace phoenix-event-display prepare && husky",
     "start": "yarn workspace phoenix-event-display tsc:build && lerna run start",
     "start:ssl": "yarn workspace phoenix-ng start:ssl",
     "test:ci": "lerna run test:ci",
