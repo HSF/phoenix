@@ -178,7 +178,13 @@ describe('ATLASESDLoader skip reporting', () => {
     const calls = info.mock.calls;
     const summary = calls[calls.length - 1][0] as string;
 
-    expect(summary).toContain('read 2 collection(s) from 1 event(s)');
+    // The headline must not claim events were skipped: none were. Two
+    // collections came back empty, in the one event that was read.
+    expect(summary).toContain(
+      'read 2 collection(s) from 1 event(s); skipped 2 object(s), ' +
+        '1 collection(s) unavailable, 1 collection(s) empty',
+    );
+    expect(summary).not.toContain('skipped 1 event');
     expect(summary).toContain(
       'InDetTrackParticles — zero or non-finite qOverP: 1 object(s)',
     );
@@ -186,10 +192,8 @@ describe('ATLASESDLoader skip reporting', () => {
       'InDetTrackParticles — theta outside (0, pi): 1 object(s)',
     );
     // Present but empty, versus not in the file at all — different reasons.
-    expect(summary).toContain('Muons — empty in this event: 1 event(s)');
-    expect(summary).toContain(
-      'AntiKt4EMPFlowJets — not present in this file: 1 collection(s)',
-    );
+    expect(summary).toContain('Muons — empty: 1/1 events');
+    expect(summary).toContain('AntiKt4EMPFlowJets — not present in this file');
 
     info.mockRestore();
   });

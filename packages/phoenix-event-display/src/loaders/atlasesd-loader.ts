@@ -297,7 +297,7 @@ export class ATLASESDLoader extends PhoenixLoader {
         if (objects && objects.length > 0) {
           eventData[collection.def.phoenixType][collection.container] = objects;
         } else if (objects) {
-          this.noteSkip(collection.container, 'empty in this event', 'event');
+          this.noteSkip(collection.container, 'empty', 'event');
         }
       }
 
@@ -336,35 +336,49 @@ export class ATLASESDLoader extends PhoenixLoader {
 
   /**
    * Print a summary of everything that was skipped, and why.
+   *
+   * The three units are counted differently on purpose. Objects are summed,
+   * because dropping 12 tracks is worth stating as 12. Collections are counted
+   * once each, whether they were missing outright or merely empty — an entry
+   * with `unit: 'event'` is one collection that came back empty in N events,
+   * so summing its count would report "skipped N events" when no event was
+   * skipped at all.
    * @param nCollections How many collections were read.
    * @param nEvents How many events were read.
    */
   private reportSkips(nCollections: number, nEvents: number) {
-    const totals: { [unit: string]: number } = {};
-    for (const { count, unit } of this.skips.values()) {
-      totals[unit] = (totals[unit] ?? 0) + count;
-    }
+    const entries = [...this.skips.entries()];
+    const read = `ATLASESDLoader: read ${nCollections} collection(s) from ${nEvents} event(s)`;
 
-    const headline =
-      `ATLASESDLoader: read ${nCollections} collection(s) from ${nEvents} event(s)` +
-      (this.skips.size === 0
-        ? ', nothing skipped'
-        : '; skipped ' +
-          (['object', 'collection', 'event'] as SkipUnit[])
-            .filter((unit) => totals[unit])
-            .map((unit) => `${totals[unit]} ${unit}(s)`)
-            .join(', '));
-
-    if (this.skips.size === 0) {
-      console.info(headline);
+    if (entries.length === 0) {
+      console.info(`${read}, nothing skipped`);
       return;
     }
 
-    const lines = [...this.skips.entries()]
-      .sort((a, b) => b[1].count - a[1].count)
-      .map(([key, { count, unit }]) => `  ${key}: ${count} ${unit}(s)`);
+    const objects = entries.filter(([, e]) => e.unit === 'object');
+    const unavailable = entries.filter(([, e]) => e.unit === 'collection');
+    const empty = entries.filter(([, e]) => e.unit === 'event');
 
-    console.info([headline, ...lines].join('\n'));
+    const nObjects = objects.reduce((sum, [, e]) => sum + e.count, 0);
+
+    const clauses: string[] = [];
+    if (nObjects) clauses.push(`skipped ${nObjects} object(s)`);
+    if (unavailable.length) {
+      clauses.push(`${unavailable.length} collection(s) unavailable`);
+    }
+    if (empty.length) clauses.push(`${empty.length} collection(s) empty`);
+
+    const lines = [
+      ...objects
+        .sort((a, b) => b[1].count - a[1].count)
+        .map(([key, { count }]) => `  ${key}: ${count} object(s)`),
+      ...unavailable.map(([key]) => `  ${key}`),
+      ...empty.map(
+        ([key, { count }]) => `  ${key}: ${count}/${nEvents} events`,
+      ),
+    ];
+
+    console.info([`${read}; ${clauses.join(', ')}`, ...lines].join('\n'));
   }
 
   /**
@@ -447,7 +461,7 @@ export class ATLASESDLoader extends PhoenixLoader {
     const { def, container } = collection;
 
     if (!store) {
-      this.noteSkip(container, 'aux store not read for this event', 'event');
+      this.noteSkip(container, 'aux store not read', 'event');
       return null;
     }
     for (const name of def.required) {
