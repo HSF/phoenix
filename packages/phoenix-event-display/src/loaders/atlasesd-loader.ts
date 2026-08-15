@@ -7,6 +7,7 @@ import { PhoenixEventData, PhoenixEventsData } from '../lib/types/event-data';
 /** Converter to run for a given aux container class family. */
 type ESDConverter =
   | 'tracks'
+  | 'trkTracks'
   | 'particles'
   | 'jets'
   | 'clusters'
@@ -121,10 +122,29 @@ const DEFAULT_MET_TERMS = ['Final', 'FinalTrk', 'FinalClus'];
  *
  * Requiring the trailing `Aux.` excludes the per-decoration `...AuxDyn.<var>`
  * branches, and requiring the `xAOD::` prefix excludes the POOL
- * type/persistent-separated collections such as `Trk::TrackCollection_tlp7_*`,
- * which cannot be read this way.
+ * type/persistent-separated collections, which are matched by
+ * {@link TRK_BRANCH_RE} instead.
  */
 const AUX_BRANCH_RE = /^(xAOD::[A-Za-z0-9]+?)(?:_v\d+)?_([A-Za-z0-9_]+)Aux\.$/;
+
+/**
+ * Matches a POOL type/persistent-separated track collection, e.g.
+ * `Trk::TrackCollection_tlp7_CombinedInDetTracks` → 'CombinedInDetTracks'.
+ * The `tlp` version is accepted rather than pinned, but note that the member
+ * layout is version-specific — see {@link ATLASESDLoader.convertTrkTracks}.
+ */
+const TRK_BRANCH_RE = /^Trk::TrackCollection_tlp\d+_([A-Za-z0-9_]+)$/;
+
+/**
+ * Phoenix type for a `Trk::TrackCollection`. These are not auxiliary stores, so
+ * they have no class family to key on; `m_tracks` stands in as the required
+ * member so a malformed container is reported through the usual path.
+ */
+const TRK_TRACK_DEF: ESDAuxClassDef = {
+  phoenixType: 'Tracks',
+  converter: 'trkTracks',
+  required: ['m_tracks'],
+};
 
 /** What a skip tally counts, so the summary can name the unit. */
 type SkipUnit = 'object' | 'event' | 'collection';
@@ -174,11 +194,26 @@ export interface ATLASESDLoaderOptions {
  * - Converters copy values into fresh plain objects and never retain the
  *   streamed store, so each entry's aux objects can be collected immediately.
  *
- * Not handled: POOL type/persistent-separated collections
- * (`Trk::TrackCollection_tlp7_*`), calorimeter cells, and `ElementLink`
- * resolution — so compound objects carry no `LinkedTracks`/`LinkedClusters` and
- * Phoenix extrapolates a track from their kinematics instead, exactly as for
- * PHYSLITE.
+ * `Trk::TrackCollection` is also supported, but is **not** in the default
+ * allow-list: in practice each one duplicates an xAOD TrackParticle container
+ * (CombinedInDetTracks and InDetTrackParticles are the same 762 tracks), and
+ * reading all 13 costs ~460 ms. Opt in per collection:
+ *
+ * ```ts
+ * new ATLASESDLoader({ extraContainers: ['CombinedInDetTracks'] })
+ * ```
+ *
+ * Note this makes them API-only for now — the IO options dialog constructs the
+ * loader with no options, so they cannot be reached from the Phoenix menu until
+ * that call passes `extraContainers` or a UI toggle is added.
+ *
+ * Not handled: calorimeter cells, PrepRawData, and `ElementLink` resolution.
+ * The first two store only local coordinates plus detector identifiers — cells
+ * are bit-packed at ~0.58 int32 words each in calorimeter-hash order, and PRDs
+ * hold local positions against a detector element — so placing either in 3D
+ * needs the ATLAS detector description, which the ESD does not carry. Without
+ * ElementLinks, compound objects have no `LinkedTracks`/`LinkedClusters` and
+ * Phoenix extrapolates from their kinematics, exactly as for PHYSLITE.
  */
 export class ATLASESDLoader extends PhoenixLoader {
   /** Maximum number of events to load from the file. */
@@ -391,13 +426,15 @@ export class ATLASESDLoader extends PhoenixLoader {
     const seen = new Set<string>();
 
     for (const branch of tree.fBranches.arr) {
-      const match = AUX_BRANCH_RE.exec(branch.fName);
-      if (!match) continue;
+      const auxMatch = AUX_BRANCH_RE.exec(branch.fName);
+      const trkMatch = auxMatch ? null : TRK_BRANCH_RE.exec(branch.fName);
+      if (!auxMatch && !trkMatch) continue;
 
-      const [, auxClass, container] = match;
+      const container = auxMatch ? auxMatch[2] : trkMatch![1];
       if (!this.containers.has(container)) continue;
 
-      const def = ESD_AUX_CLASSES[auxClass];
+      const auxClass = auxMatch ? auxMatch[1] : null;
+      const def = auxClass ? ESD_AUX_CLASSES[auxClass] : TRK_TRACK_DEF;
       if (!def) {
         this.noteSkip(
           container,
@@ -474,6 +511,8 @@ export class ATLASESDLoader extends PhoenixLoader {
     switch (def.converter) {
       case 'tracks':
         return this.convertTracks(store, container);
+      case 'trkTracks':
+        return this.convertTrkTracks(store, container);
       case 'particles':
         return this.convertParticles(store, def.pdgId);
       case 'jets':
@@ -509,48 +548,171 @@ export class ATLASESDLoader extends PhoenixLoader {
     const tracks: any[] = [];
 
     for (let i = 0; i < phiArr.length; i++) {
-      const d0 = d0Arr ? d0Arr[i] : 0;
-      const z0 = z0Arr ? z0Arr[i] : 0;
-      const phi = phiArr[i];
-      const theta = thetaArr[i];
-      const qOverP = qOverPArr[i];
-
-      // Skip tracks with invalid parameters to avoid NaN in Runge-Kutta.
-      // The reasons are kept apart so the summary says which one bit.
-      if (!qOverP || !isFinite(1.0 / qOverP)) {
-        this.noteSkip(container, 'zero or non-finite qOverP', 'object');
-        continue;
-      }
-      if (!(theta > 0 && theta < Math.PI)) {
-        this.noteSkip(container, 'theta outside (0, pi)', 'object');
-        continue;
-      }
-      if (!isFinite(d0) || !isFinite(z0) || !isFinite(phi)) {
-        this.noteSkip(container, 'non-finite d0, z0 or phi', 'object');
-        continue;
-      }
-
-      const p = Math.abs(1.0 / qOverP);
-
-      const track: any = {
-        dparams: [d0, z0, phi, theta, qOverP],
-        phi,
-        eta: CoordinateHelper.thetaToEta(theta),
-        pT: p * Math.sin(theta),
-        d0,
-        z0,
-      };
-
-      // Field names must be 'chi2' and 'dof' to match the default Tracks cuts
-      // in object-type-registry.ts, which are filtered against the fields
-      // present on the first object of the collection.
-      if (chi2Arr) track.chi2 = chi2Arr[i];
-      if (dofArr) track.dof = dofArr[i];
-
-      tracks.push(track);
+      const track = this.makeTrack(
+        container,
+        d0Arr ? d0Arr[i] : 0,
+        z0Arr ? z0Arr[i] : 0,
+        phiArr[i],
+        thetaArr[i],
+        qOverPArr[i],
+        chi2Arr ? chi2Arr[i] : undefined,
+        dofArr ? dofArr[i] : undefined,
+      );
+      if (track) tracks.push(track);
     }
 
     return tracks;
+  }
+
+  /**
+   * Build one Phoenix track from perigee parameters, or reject it.
+   *
+   * Shared by the xAOD and `Trk::Track` converters so the validity guards and
+   * their skip reasons live in exactly one place.
+   * @param container Container name, for attributing skipped tracks.
+   * @param d0 Transverse impact parameter, mm.
+   * @param z0 Longitudinal impact parameter, mm.
+   * @param phi Azimuthal angle, radians.
+   * @param theta Polar angle, radians.
+   * @param qOverP Charge over momentum, 1/MeV.
+   * @param chi2 Fit chi squared, if known.
+   * @param dof Fit degrees of freedom, if known.
+   * @returns The Phoenix track, or null if it was rejected.
+   */
+  private makeTrack(
+    container: string,
+    d0: number,
+    z0: number,
+    phi: number,
+    theta: number,
+    qOverP: number,
+    chi2?: number,
+    dof?: number,
+  ): any | null {
+    // Skip tracks with invalid parameters to avoid NaN in Runge-Kutta.
+    // The reasons are kept apart so the summary says which one bit.
+    if (!qOverP || !isFinite(1.0 / qOverP)) {
+      this.noteSkip(container, 'zero or non-finite qOverP', 'object');
+      return null;
+    }
+    if (!(theta > 0 && theta < Math.PI)) {
+      this.noteSkip(container, 'theta outside (0, pi)', 'object');
+      return null;
+    }
+    if (!isFinite(d0) || !isFinite(z0) || !isFinite(phi)) {
+      this.noteSkip(container, 'non-finite d0, z0 or phi', 'object');
+      return null;
+    }
+
+    const p = Math.abs(1.0 / qOverP);
+
+    const track: any = {
+      dparams: [d0, z0, phi, theta, qOverP],
+      phi,
+      eta: CoordinateHelper.thetaToEta(theta),
+      pT: p * Math.sin(theta),
+      d0,
+      z0,
+    };
+
+    // Field names must be 'chi2' and 'dof' to match the default Tracks cuts
+    // in object-type-registry.ts, which are filtered against the fields
+    // present on the first object of the collection.
+    if (chi2 !== undefined) track.chi2 = chi2;
+    if (dof !== undefined) track.dof = dof;
+
+    return track;
+  }
+
+  /**
+   * Convert a `Trk::TrackCollection_tlpN` into Phoenix tracks.
+   *
+   * Unlike the xAOD containers this is a POOL type/persistent-separated object:
+   * a set of parallel arrays joined by `TPObjRef`, which is
+   * `{ m_typeID: { m_TLCnvID, m_cnvID }, m_index }` where `m_index` indexes the
+   * target array and `m_cnvID === 0` marks a null reference. The walk is
+   *
+   *   m_trackCollections[0] -> refs -> m_tracks -> m_trackState
+   *     -> m_trackStates -> m_trackParameters -> m_parameters
+   *
+   * and the perigee is the parameter with `m_surfaceType === 3`. There is
+   * exactly one per track; the other surface types are measurement surfaces,
+   * whose transforms are not persisted (`m_surfaces` and `m_detElementSurfaces`
+   * are empty), so no measured polyline can be reconstructed and the track is
+   * extrapolated from the perigee just like an xAOD one.
+   *
+   * Reading a collection streams the whole persistent object, including large
+   * arrays this never touches (`m_hepSymMatrices` is 32k entries for
+   * CombinedInDetTracks) — which is why these collections are off by default.
+   * @param store The streamed persistent container.
+   * @param container Container name, for attributing skipped tracks.
+   * @returns Phoenix track objects.
+   */
+  private convertTrkTracks(store: any, container: string): any[] {
+    const collection = store.m_trackCollections?.[0];
+    // jsroot exposes the ref vector under a generated key ('vector<TPObjRef>'),
+    // so find it structurally rather than by name.
+    const trackRefs = collection
+      ? Object.values(collection).find((v) => Array.isArray(v))
+      : null;
+
+    if (!Array.isArray(trackRefs)) {
+      this.noteSkip(
+        container,
+        'no track collection in container',
+        'collection',
+      );
+      return [];
+    }
+
+    const tracks: any[] = [];
+
+    for (const ref of trackRefs) {
+      const persistent = store.m_tracks?.[ref?.m_index];
+      if (!persistent) continue;
+
+      const perigee = this.findPerigee(store, persistent);
+      if (!perigee) {
+        this.noteSkip(container, 'no perigee parameters', 'object');
+        continue;
+      }
+
+      const track = this.makeTrack(
+        container,
+        perigee[0],
+        perigee[1],
+        perigee[2],
+        perigee[3],
+        perigee[4],
+        persistent.m_chiSquared,
+        persistent.m_numberDoF,
+      );
+      if (track) tracks.push(track);
+    }
+
+    return tracks;
+  }
+
+  /**
+   * Find a persistent track's perigee parameters.
+   * @param store The streamed persistent container.
+   * @param persistent One `Trk::Track_pN`.
+   * @returns [d0, z0, phi, theta, qOverP], or null if the track has no perigee.
+   */
+  private findPerigee(store: any, persistent: any): ArrayLike<number> | null {
+    for (const stateRef of persistent.m_trackState ?? []) {
+      const state = store.m_trackStates?.[stateRef?.m_index];
+      const paramRef = state?.m_trackParameters;
+      // m_cnvID 0 is a null reference, not index 0 of the parameters array.
+      if (!paramRef || paramRef.m_typeID?.m_cnvID === 0) continue;
+
+      const params = store.m_parameters?.[paramRef.m_index];
+      // Surface type 3 is the perigee; 4 and 5 are measurement surfaces.
+      if (params?.m_surfaceType === 3 && params.m_parameters?.length >= 5) {
+        return params.m_parameters;
+      }
+    }
+    return null;
   }
 
   /**

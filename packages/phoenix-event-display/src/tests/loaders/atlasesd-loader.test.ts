@@ -149,6 +149,117 @@ describe('ATLASESDLoader branch resolution', () => {
   });
 });
 
+describe('ATLASESDLoader Trk::TrackCollection', () => {
+  const TRK_BRANCH = 'Trk::TrackCollection_tlp7_CombinedInDetTracks';
+
+  /**
+   * Two persistent tracks. The first reaches its perigee only after a null
+   * TPObjRef and a measurement-surface parameter; the second has no perigee.
+   */
+  const trkStore = () => ({
+    m_trackCollections: [
+      { 'vector<TPObjRef>': [{ m_index: 0 }, { m_index: 1 }] },
+    ],
+    m_tracks: [
+      {
+        m_chiSquared: 28.4,
+        m_numberDoF: 21,
+        m_trackState: [{ m_index: 0 }, { m_index: 1 }],
+      },
+      { m_chiSquared: 5, m_numberDoF: 3, m_trackState: [{ m_index: 2 }] },
+    ],
+    m_trackStates: [
+      // m_cnvID 0 is a null reference — must not be read as m_parameters[9].
+      { m_trackParameters: { m_typeID: { m_cnvID: 0 }, m_index: 9 } },
+      { m_trackParameters: { m_typeID: { m_cnvID: 8 }, m_index: 1 } },
+      { m_trackParameters: { m_typeID: { m_cnvID: 8 }, m_index: 0 } },
+    ],
+    m_parameters: [
+      // Surface type 4 is a measurement surface; picking it would be wrong.
+      { m_surfaceType: 4, m_parameters: [9, 9, 9, 9, 9] },
+      { m_surfaceType: 3, m_parameters: [1.5, -2.5, 0.4, 1.0, 0.002] },
+    ],
+  });
+
+  it('is not read unless explicitly opted into', async () => {
+    mockFile(makeTree([TRACK_BRANCH, TRK_BRANCH, EVENTINFO_BRANCH]));
+    mockEntry({
+      esd__InDetTrackParticles: { phi: [0.5], theta: [1.2], qOverP: [0.001] },
+      esd__EventInfo: eventInfoStore,
+    });
+
+    await new ATLASESDLoader().getEventData('file.root');
+
+    const selector = (treeProcess as jest.Mock).mock.calls[0][1];
+    expect(selector.branches.map((b: any) => b.branch)).not.toContain(
+      TRK_BRANCH,
+    );
+  });
+
+  it('resolves the perigee by surface type, not by array position', async () => {
+    mockFile(makeTree([TRK_BRANCH, EVENTINFO_BRANCH]));
+    mockEntry({
+      esd__CombinedInDetTracks: trkStore(),
+      esd__EventInfo: eventInfoStore,
+    });
+
+    const events = await new ATLASESDLoader({
+      extraContainers: ['CombinedInDetTracks'],
+    }).getEventData('file.root');
+
+    const tracks = events['Event 968132624']['Tracks']['CombinedInDetTracks'];
+
+    // Only the first track has a perigee; the second is dropped.
+    expect(tracks).toHaveLength(1);
+    expect(tracks[0].dparams).toEqual([1.5, -2.5, 0.4, 1.0, 0.002]);
+    // chi2/dof come from Trk::Track_pN, not from the parameters.
+    expect(tracks[0].chi2).toBe(28.4);
+    expect(tracks[0].dof).toBe(21);
+  });
+
+  it('counts a track with no perigee under its own reason', async () => {
+    const info = jest.spyOn(console, 'info').mockImplementation(() => {});
+
+    mockFile(makeTree([TRK_BRANCH, EVENTINFO_BRANCH]));
+    mockEntry({
+      esd__CombinedInDetTracks: trkStore(),
+      esd__EventInfo: eventInfoStore,
+    });
+
+    await new ATLASESDLoader({
+      containers: ['CombinedInDetTracks'],
+    }).getEventData('file.root');
+
+    const calls = info.mock.calls;
+    expect(calls[calls.length - 1][0]).toContain(
+      'CombinedInDetTracks — no perigee parameters: 1 object(s)',
+    );
+
+    info.mockRestore();
+  });
+
+  it('reports a container holding no track collection', async () => {
+    const info = jest.spyOn(console, 'info').mockImplementation(() => {});
+
+    mockFile(makeTree([TRK_BRANCH, EVENTINFO_BRANCH]));
+    mockEntry({
+      esd__CombinedInDetTracks: { m_tracks: [], m_trackCollections: [] },
+      esd__EventInfo: eventInfoStore,
+    });
+
+    await new ATLASESDLoader({
+      containers: ['CombinedInDetTracks'],
+    }).getEventData('file.root');
+
+    const calls = info.mock.calls;
+    expect(calls[calls.length - 1][0]).toContain(
+      'CombinedInDetTracks — no track collection in container',
+    );
+
+    info.mockRestore();
+  });
+});
+
 describe('ATLASESDLoader skip reporting', () => {
   it('summarises skipped objects and collections on the console', async () => {
     const info = jest.spyOn(console, 'info').mockImplementation(() => {});
