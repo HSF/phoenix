@@ -170,6 +170,15 @@ export interface ATLASESDLoaderOptions {
   extraContainers?: string[];
   /** MET terms to prefer, most complete first. */
   metTerms?: string[];
+  /**
+   * Draw `Trk::Track`s through their measured positions where those are
+   * recoverable, rather than extrapolating from the perigee. Default true.
+   *
+   * Truthful, but the measured extent is only as long as the fit: a muon
+   * spectrometer track spans metres, while a forward track can be a 250 mm
+   * stub near the beamline. Set false to extrapolate everything instead.
+   */
+  measuredPositions?: boolean;
 }
 
 /**
@@ -222,6 +231,8 @@ export class ATLASESDLoader extends PhoenixLoader {
   private containers: Set<string>;
   /** MET terms to prefer, most complete first. */
   private metTerms: string[];
+  /** Draw Trk::Tracks through measured positions where recoverable. */
+  private measuredPositions: boolean;
   /**
    * Everything the loader chose not to convert, keyed by
    * `<container> — <reason>`. Reported once at the end of a load, so that a
@@ -243,6 +254,7 @@ export class ATLASESDLoader extends PhoenixLoader {
       ],
     );
     this.metTerms = options.metTerms ?? DEFAULT_MET_TERMS;
+    this.measuredPositions = options.measuredPositions ?? true;
   }
 
   /**
@@ -636,10 +648,11 @@ export class ATLASESDLoader extends PhoenixLoader {
    *     -> m_trackStates -> m_trackParameters -> m_parameters
    *
    * and the perigee is the parameter with `m_surfaceType === 3`. There is
-   * exactly one per track; the other surface types are measurement surfaces,
-   * whose transforms are not persisted (`m_surfaces` and `m_detElementSurfaces`
-   * are empty), so no measured polyline can be reconstructed and the track is
-   * extrapolated from the perigee just like an xAOD one.
+   * exactly one per track.
+   *
+   * Where the trajectory itself is recoverable — see {@link globalPosition} —
+   * the track also carries a `pos` polyline, which Phoenix draws in place of
+   * extrapolating from the perigee.
    *
    * Reading a collection streams the whole persistent object, including large
    * arrays this never touches (`m_hepSymMatrices` is 32k entries for
@@ -666,6 +679,7 @@ export class ATLASESDLoader extends PhoenixLoader {
     }
 
     const tracks: any[] = [];
+    let measured = 0;
 
     for (const ref of trackRefs) {
       const persistent = store.m_tracks?.[ref?.m_index];
@@ -687,10 +701,107 @@ export class ATLASESDLoader extends PhoenixLoader {
         persistent.m_chiSquared,
         persistent.m_numberDoF,
       );
-      if (track) tracks.push(track);
+      if (!track) continue;
+
+      // PhoenixObjects.getTrack only uses pos when it has more than two points,
+      // and falls back to Runge-Kutta from dparams otherwise.
+      if (this.measuredPositions) {
+        const positions = this.trackPositions(store, persistent);
+        if (positions.length > 2) {
+          track.pos = positions;
+          measured++;
+        }
+      }
+
+      tracks.push(track);
+    }
+
+    if (measured) {
+      console.info(
+        `ATLASESDLoader: ${container} — ${measured}/${tracks.length} track(s) ` +
+          'drawn from measured positions, the rest extrapolated',
+      );
     }
 
     return tracks;
+  }
+
+  /**
+   * Collect a persistent track's trajectory in track-state order.
+   * @param store The streamed persistent container.
+   * @param persistent One `Trk::Track_pN`.
+   * @returns Global points, mm; empty when none are recoverable.
+   */
+  private trackPositions(store: any, persistent: any): number[][] {
+    const points: number[][] = [];
+
+    for (const stateRef of persistent.m_trackState ?? []) {
+      const state = store.m_trackStates?.[stateRef?.m_index];
+      const paramRef = state?.m_trackParameters;
+      if (!paramRef || paramRef.m_typeID?.m_cnvID === 0) continue;
+
+      const point = this.globalPosition(store.m_parameters?.[paramRef.m_index]);
+      if (!point) continue;
+
+      // Phoenix fits a CatmullRomCurve3 through these, which yields NaN
+      // tangents on repeated points — and consecutive duplicates do occur.
+      const last = points[points.length - 1];
+      if (
+        last &&
+        Math.abs(last[0] - point[0]) < 1e-6 &&
+        Math.abs(last[1] - point[1]) < 1e-6 &&
+        Math.abs(last[2] - point[2]) < 1e-6
+      ) {
+        continue;
+      }
+
+      points.push(point);
+    }
+
+    return points;
+  }
+
+  /**
+   * Global position of one persistent track parameter, where it is recoverable.
+   *
+   * Two cases carry enough information; everything else is expressed on a
+   * detector-element surface whose transform is not persisted, and is skipped.
+   *
+   * - **Curvilinear** (`m_surfaceType === 6`) stores seven values rather than
+   *   five: global position, global momentum and charge. The frame is defined
+   *   by the track itself, so the position is right there.
+   * - **Plane** (`m_surfaceType === 4`) sometimes carries its surface
+   *   transform, 9 row-major rotation elements followed by a translation. The
+   *   local parameters are Cartesian in that plane, so the global point is
+   *   `R · (loc1, loc2, 0) + T`.
+   *
+   * Line surfaces are excluded deliberately: their first local parameter is a
+   * signed drift distance perpendicular to the wire, not a Cartesian offset.
+   * @param params One `Trk::TrackParameters_pN`.
+   * @returns [x, y, z] in mm, or null if the position is not recoverable.
+   */
+  private globalPosition(params: any): number[] | null {
+    const p = params?.m_parameters;
+    if (!p) return null;
+
+    let point: number[] | null = null;
+
+    if (params.m_surfaceType === 6 && p.length >= 7) {
+      point = [p[0], p[1], p[2]];
+    } else if (
+      params.m_surfaceType === 4 &&
+      params.m_transform?.length === 12 &&
+      p.length >= 2
+    ) {
+      const t = params.m_transform;
+      point = [
+        t[0] * p[0] + t[1] * p[1] + t[9],
+        t[3] * p[0] + t[4] * p[1] + t[10],
+        t[6] * p[0] + t[7] * p[1] + t[11],
+      ];
+    }
+
+    return point?.every((v) => isFinite(v)) ? point : null;
   }
 
   /**

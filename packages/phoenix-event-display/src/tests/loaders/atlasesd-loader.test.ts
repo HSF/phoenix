@@ -217,6 +217,95 @@ describe('ATLASESDLoader Trk::TrackCollection', () => {
     expect(tracks[0].dof).toBe(21);
   });
 
+  it('draws through measured positions when they are recoverable', async () => {
+    // Curvilinear parameters (surface type 6) hold seven values: global
+    // position, global momentum and charge. A plane (type 4) carrying its
+    // transform is recoverable too, as R * (loc1, loc2, 0) + T.
+    mockFile(makeTree([TRK_BRANCH, EVENTINFO_BRANCH]));
+    mockEntry({
+      esd__CombinedInDetTracks: {
+        m_trackCollections: [{ 'vector<TPObjRef>': [{ m_index: 0 }] }],
+        m_tracks: [
+          {
+            m_chiSquared: 1,
+            m_numberDoF: 1,
+            m_trackState: [
+              { m_index: 0 },
+              { m_index: 1 },
+              { m_index: 2 },
+              { m_index: 3 },
+              { m_index: 4 },
+            ],
+          },
+        ],
+        m_trackStates: [0, 1, 2, 3, 4].map((i) => ({
+          m_trackParameters: { m_typeID: { m_cnvID: 8 }, m_index: i },
+        })),
+        m_parameters: [
+          { m_surfaceType: 3, m_parameters: [0, 0, 0.4, 1.0, 0.002] },
+          { m_surfaceType: 6, m_parameters: [10, 20, 30, 1, 2, 3, -1] },
+          // A repeat: CatmullRomCurve3 gives NaN tangents on duplicates.
+          { m_surfaceType: 6, m_parameters: [10, 20, 30, 1, 2, 3, -1] },
+          { m_surfaceType: 6, m_parameters: [40, 50, 60, 1, 2, 3, -1] },
+          {
+            m_surfaceType: 4,
+            m_parameters: [2, 3, 0, 0, 0],
+            // identity rotation, translated to (100, 200, 300)
+            m_transform: [1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 200, 300],
+          },
+        ],
+      },
+      esd__EventInfo: eventInfoStore,
+    });
+
+    const events = await new ATLASESDLoader({
+      containers: ['CombinedInDetTracks'],
+    }).getEventData('file.root');
+
+    const [track] = events['Event 968132624']['Tracks']['CombinedInDetTracks'];
+
+    expect(track.pos).toEqual([
+      [10, 20, 30],
+      [40, 50, 60],
+      [102, 203, 300],
+    ]);
+    // dparams stays, so the cut values remain the perigee ones.
+    expect(track.dparams).toEqual([0, 0, 0.4, 1.0, 0.002]);
+  });
+
+  it('extrapolates instead when measuredPositions is off', async () => {
+    mockFile(makeTree([TRK_BRANCH, EVENTINFO_BRANCH]));
+    mockEntry({
+      esd__CombinedInDetTracks: {
+        m_trackCollections: [{ 'vector<TPObjRef>': [{ m_index: 0 }] }],
+        m_tracks: [
+          {
+            m_chiSquared: 1,
+            m_numberDoF: 1,
+            m_trackState: [{ m_index: 0 }, { m_index: 1 }, { m_index: 2 }],
+          },
+        ],
+        m_trackStates: [0, 1, 2].map((i) => ({
+          m_trackParameters: { m_typeID: { m_cnvID: 8 }, m_index: i },
+        })),
+        m_parameters: [
+          { m_surfaceType: 3, m_parameters: [0, 0, 0.4, 1.0, 0.002] },
+          { m_surfaceType: 6, m_parameters: [10, 20, 30, 1, 2, 3, -1] },
+          { m_surfaceType: 6, m_parameters: [40, 50, 60, 1, 2, 3, -1] },
+        ],
+      },
+      esd__EventInfo: eventInfoStore,
+    });
+
+    const events = await new ATLASESDLoader({
+      containers: ['CombinedInDetTracks'],
+      measuredPositions: false,
+    }).getEventData('file.root');
+
+    const [track] = events['Event 968132624']['Tracks']['CombinedInDetTracks'];
+    expect(track.pos).toBeUndefined();
+  });
+
   it('counts a track with no perigee under its own reason', async () => {
     const info = jest.spyOn(console, 'info').mockImplementation(() => {});
 
