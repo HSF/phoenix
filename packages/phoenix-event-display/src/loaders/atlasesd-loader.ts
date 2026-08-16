@@ -164,6 +164,16 @@ const TRK_BRANCH_RE = /^Trk::TrackCollection_tlp\d+_([A-Za-z0-9_]+)$/;
 const TRIGGER_CONTAINER_RE = /^(HLT_|L1_|LVL1)/;
 
 /**
+ * Momentum above which a track is treated as having none measured, in MeV.
+ *
+ * A fit that did not determine the momentum writes `qOverP` as roughly 1e-8,
+ * which works out as |p| ~ 100 TeV — ATLAS's way of saying "straight line, no
+ * measurement". No real LHC track comes near the ~7 TeV beam energy, so
+ * anything above this bound is a sentinel rather than a measurement.
+ */
+const MAX_PHYSICAL_MOMENTUM = 1e7;
+
+/**
  * Phoenix type for a `Trk::TrackCollection`. These are not auxiliary stores, so
  * they have no class family to key on; `m_tracks` stands in as the required
  * member so a malformed container is reported through the usual path.
@@ -654,6 +664,8 @@ export class ATLASESDLoader extends PhoenixLoader {
       if (track) tracks.push(track);
     }
 
+    this.reportTrackNotes(container, tracks, 0);
+
     return tracks;
   }
 
@@ -703,10 +715,20 @@ export class ATLASESDLoader extends PhoenixLoader {
       dparams: [d0, z0, phi, theta, qOverP],
       phi,
       eta: CoordinateHelper.thetaToEta(theta),
-      pT: p * Math.sin(theta),
       d0,
       z0,
     };
+
+    // Only report a momentum that is actually a measurement. Emitting the
+    // sentinel as pT would be worse than emitting nothing: it is meaningless,
+    // and being far outside the default pT cut it makes the track vanish from
+    // the display with no indication why. Cuts skip absent fields, so leaving
+    // pT off means the pT cut simply does not apply to this track.
+    if (p <= MAX_PHYSICAL_MOMENTUM) {
+      track.pT = p * Math.sin(theta);
+    } else {
+      track.momentumMeasured = false;
+    }
 
     // Field names must be 'chi2' and 'dof' to match the default Tracks cuts
     // in object-type-registry.ts, which are filtered against the fields
@@ -797,14 +819,38 @@ export class ATLASESDLoader extends PhoenixLoader {
       tracks.push(track);
     }
 
+    this.reportTrackNotes(container, tracks, measured);
+
+    return tracks;
+  }
+
+  /**
+   * Note anything about a track collection worth saying out loud.
+   * @param container Container name.
+   * @param tracks The converted tracks.
+   * @param measured How many are drawn from measured positions.
+   */
+  private reportTrackNotes(container: string, tracks: any[], measured: number) {
+    const notes: string[] = [];
+
     if (measured) {
-      console.info(
-        `ATLASESDLoader: ${container} — ${measured}/${tracks.length} track(s) ` +
-          'drawn from measured positions, the rest extrapolated',
+      notes.push(
+        `${measured}/${tracks.length} drawn from measured positions, the rest extrapolated`,
       );
     }
 
-    return tracks;
+    const unmeasured = tracks.filter(
+      (t) => t.momentumMeasured === false,
+    ).length;
+    if (unmeasured) {
+      notes.push(
+        `${unmeasured} with no momentum measurement, so no pT and no pT cut`,
+      );
+    }
+
+    if (notes.length) {
+      console.info(`ATLASESDLoader: ${container} — ${notes.join('; ')}`);
+    }
   }
 
   /**

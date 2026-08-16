@@ -511,6 +511,36 @@ describe('ATLASESDLoader converters', () => {
       expect(tracks[0].pT).toBeCloseTo(Math.sin(1.0) / 0.002, 6);
     });
 
+    it('omits pT when the momentum was not measured', () => {
+      // A fit with no momentum measurement writes qOverP ~ 1e-8, i.e. |p| of
+      // about 100 TeV. Emitting that as pT would put the track outside the
+      // default pT cut and make it silently vanish.
+      const [unmeasured] = loader.convertTracks(
+        {
+          d0: [0],
+          z0: [0],
+          phi: [0.4],
+          theta: [1.0],
+          qOverP: [1e-8],
+        },
+        'MuonSpectrometerTracks',
+      );
+
+      expect(unmeasured).toBeDefined();
+      expect(unmeasured.pT).toBeUndefined();
+      expect(unmeasured.momentumMeasured).toBe(false);
+      // The track is still drawable: only the momentum was missing.
+      expect(unmeasured.dparams).toEqual([0, 0, 0.4, 1.0, 1e-8]);
+
+      // A plausible momentum is reported as usual.
+      const [measured] = loader.convertTracks(
+        { d0: [0], z0: [0], phi: [0.4], theta: [1.0], qOverP: [0.002] },
+        'InDetTrackParticles',
+      );
+      expect(measured.pT).toBeCloseTo(Math.sin(1.0) / 0.002, 6);
+      expect(measured.momentumMeasured).toBeUndefined();
+    });
+
     it('skips tracks whose parameters would produce NaN, by reason', () => {
       loader.skips.clear();
 
