@@ -172,7 +172,10 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "phoenix-app:build"
+            "buildTarget": "phoenix-app:build",
+            "prebundle": {
+              "exclude": ["phoenix-event-display"]
+            }
           },
           "configurations": {
             "production": {

@@ -35,7 +35,9 @@ yarn workspace phoenix-event-display tsc:build
 # then restart ng serve
 ```
 
-`yarn start` from the repository root runs the library in watch mode alongside the dev server, but the two start concurrently and `ng serve` frequently bundles before the first library build lands — so the restart is still needed. See [the root README](../../README.md#picking-up-changes-to-phoenix-event-display) for how to spot it.
+`yarn start` from the repository root runs the library in watch mode alongside the dev server, but the two start concurrently and `ng serve` frequently bundles before the first library build lands — so the restart is still needed.
+
+For the same reason the dev server would otherwise pre-bundle `phoenix-event-display` as a third-party dependency and cache it under `.angular/cache`, where a `dist` rebuild does not invalidate it and even a restart keeps serving the stale copy. `angular.json` excludes it from pre-bundling to prevent that. See [the root README](../../README.md#picking-up-changes-to-phoenix-event-display) for the details and how to spot it.
 
 ## Deploy the application
 
