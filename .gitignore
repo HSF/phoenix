@@ -67,3 +67,7 @@ packages/phoenix-ng/projects/phoenix-app/cypress/downloads
 
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
+
+# Local ATLAS event data samples — far too large to commit
+*.pool.root
+*.pool.root.1
