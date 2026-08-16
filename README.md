@@ -70,7 +70,32 @@ yarn start
 # e.g. if you are using an older version of node (we are currently using v20), then it may not work
 ```
 
-Now both the `phoenix-event-display` and `phoenix-app` will start in development/watch mode. Any changes made to the `phoenix-event-display` will rebuild and hot reload the `phoenix-app`. You can access the app by navigating to [`http://localhost:4200`](http://localhost:4200) on the browser.
+Now both the `phoenix-event-display` and `phoenix-app` will start in development/watch mode. You can access the app by navigating to [`http://localhost:4200`](http://localhost:4200) on the browser.
+
+### Picking up changes to `phoenix-event-display`
+
+The two libraries reach the app by different routes, and only one of them hot reloads:
+
+| Package                 | Resolved via                                                                    | Hot reloads |
+| ----------------------- | ------------------------------------------------------------------------------- | ----------- |
+| `phoenix-ui-components` | a TypeScript path mapping straight to its source (`public_api.ts`)              | yes         |
+| `phoenix-event-display` | the `node_modules` symlink, whose `main` is `dist/index` — the **built** output | no          |
+
+So a change to `phoenix-event-display` needs its `dist` rebuilt _and_ the dev server restarted, because Angular's watcher does not watch inside `node_modules`:
+
+```sh
+yarn workspace phoenix-event-display tsc:build
+# then restart ng serve
+```
+
+`yarn start` does run the library in watch mode, so `dist` is rebuilt automatically — but the two run concurrently, and `ng serve` often finishes bundling before the first library build has written `dist`. When that happens the app serves the previous build and nothing you do in the browser will show the change.
+
+The symptom is a change that is present in `dist` but absent from the running app. To confirm, compare the timestamps — if `dist` is newer than the server, restart it:
+
+```sh
+stat -f '%Sm' packages/phoenix-event-display/dist/loaders/<your-file>.js
+ps -eo pid,lstart,args | grep '[n]g serve'
+```
 
 ## Docker
 

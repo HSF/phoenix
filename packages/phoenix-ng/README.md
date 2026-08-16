@@ -26,7 +26,16 @@ This application uses the [`phoenix-event-display`](https://www.npmjs.com/packag
 
 ## Development flow
 
-The source code of packages `phoenix-event-display` and `phoenix-ui-components` is linked to this application (`phoenix-ng`) through [TypeScript configuration](./tsconfig.json). So running this application in development mode (`yarn start`) and making any changes to either of the packages will rebuild and hot reload the application.
+`phoenix-ui-components` is linked to this application through a [TypeScript path mapping](./tsconfig.json) that points at its source, so running in development mode (`yarn start`) and changing it will rebuild and hot reload the application.
+
+`phoenix-event-display` is **not** path mapped. It resolves through the `node_modules` symlink to its `main`, `dist/index`, so the app consumes its built output. Angular's watcher does not watch inside `node_modules`, which means a change there needs the library rebuilt _and_ the dev server restarted:
+
+```sh
+yarn workspace phoenix-event-display tsc:build
+# then restart ng serve
+```
+
+`yarn start` from the repository root runs the library in watch mode alongside the dev server, but the two start concurrently and `ng serve` frequently bundles before the first library build lands — so the restart is still needed. See [the root README](../../README.md#picking-up-changes-to-phoenix-event-display) for how to spot it.
 
 ## Deploy the application
 
