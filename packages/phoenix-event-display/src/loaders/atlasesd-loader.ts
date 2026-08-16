@@ -160,6 +160,9 @@ const AUX_BRANCH_RE = /^(xAOD::[A-Za-z0-9]+?)(?:_v\d+)?_([A-Za-z0-9_]+)Aux\.$/;
  */
 const TRK_BRANCH_RE = /^Trk::TrackCollection_tlp\d+_([A-Za-z0-9_]+)$/;
 
+/** Trigger containers, which are counted rather than named when reporting. */
+const TRIGGER_CONTAINER_RE = /^(HLT_|L1_|LVL1)/;
+
 /**
  * Phoenix type for a `Trk::TrackCollection`. These are not auxiliary stores, so
  * they have no class family to key on; `m_tracks` stands in as the required
@@ -258,6 +261,12 @@ export class ATLASESDLoader extends PhoenixLoader {
    * collection missing from the menu always has a traceable explanation.
    */
   private skips = new Map<string, { count: number; unit: SkipUnit }>();
+  /**
+   * Containers this loader has a converter for but which the allow-list left
+   * out, as container name to Phoenix type. Reported so the allow-list is
+   * discoverable rather than something to be read out of the source.
+   */
+  private available = new Map<string, string>();
 
   /**
    * Create an ATLAS ESD loader.
@@ -285,6 +294,7 @@ export class ATLASESDLoader extends PhoenixLoader {
   async getEventData(fileSource: File | string): Promise<PhoenixEventsData> {
     jsrootSettings.UseStamp = false;
     this.skips.clear();
+    this.available.clear();
 
     let tree: any;
     try {
@@ -374,6 +384,7 @@ export class ATLASESDLoader extends PhoenixLoader {
     await treeProcess(tree, selector, { numentries: nToProcess });
 
     this.reportSkips(collections.length, eventIndex);
+    this.reportAvailable();
 
     return eventsData;
   }
@@ -448,6 +459,50 @@ export class ATLASESDLoader extends PhoenixLoader {
   }
 
   /**
+   * List the containers this file offers that the allow-list left out.
+   *
+   * Trigger containers are counted rather than named: an ESD carries dozens of
+   * HLT and L1 collections, and naming them all would bury the handful of
+   * offline ones anyone is likely to want.
+   */
+  private reportAvailable() {
+    if (this.available.size === 0) return;
+
+    const offline = new Map<string, string[]>();
+    let trigger = 0;
+
+    for (const [container, phoenixType] of this.available) {
+      if (TRIGGER_CONTAINER_RE.test(container)) {
+        trigger++;
+        continue;
+      }
+      const group = offline.get(phoenixType) ?? [];
+      group.push(container);
+      offline.set(phoenixType, group);
+    }
+
+    const width = Math.max(...[...offline.keys()].map((k) => k.length), 0);
+    const lines = [...offline.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(
+        ([type, names]) =>
+          `  ${type.padEnd(width)}  ${names.sort().join(', ')}`,
+      );
+
+    if (trigger) {
+      lines.push(`  (${trigger} trigger container(s) not listed: HLT_*, L1_*)`);
+    }
+
+    console.info(
+      [
+        `ATLASESDLoader: ${this.available.size} readable container(s) not in the ` +
+          'allow-list; add any of these with the containers or extraContainers option',
+        ...lines,
+      ].join('\n'),
+    );
+  }
+
+  /**
    * Find the collections in the allow-list that this file actually provides.
    * @param tree The CollectionTree.
    * @returns One entry per resolved collection.
@@ -462,9 +517,16 @@ export class ATLASESDLoader extends PhoenixLoader {
       if (!auxMatch && !trkMatch) continue;
 
       const container = auxMatch ? auxMatch[2] : trkMatch![1];
-      if (!this.containers.has(container)) continue;
-
       const auxClass = auxMatch ? auxMatch[1] : null;
+
+      if (!this.containers.has(container)) {
+        // Only worth mentioning if there is a converter for it — an ESD holds
+        // hundreds of containers this loader has no way to draw.
+        const def = auxClass ? ESD_AUX_CLASSES[auxClass] : TRK_TRACK_DEF;
+        if (def) this.available.set(container, def.phoenixType);
+        continue;
+      }
+
       const def = auxClass ? ESD_AUX_CLASSES[auxClass] : TRK_TRACK_DEF;
       if (!def) {
         this.noteSkip(

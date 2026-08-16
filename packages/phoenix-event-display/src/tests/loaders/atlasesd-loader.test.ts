@@ -425,6 +425,47 @@ describe('ATLASESDLoader skip reporting', () => {
     info.mockRestore();
   });
 
+  it('lists readable containers the allow-list left out', async () => {
+    const info = jest.spyOn(console, 'info').mockImplementation(() => {});
+
+    mockFile(
+      makeTree([
+        TRACK_BRANCH,
+        // readable, but not requested
+        'xAOD::TrackParticleAuxContainer_v5_InDetLargeD0TrackParticlesAux.',
+        'xAOD::VertexAuxContainer_v1_GSFConversionVerticesAux.',
+        // a trigger container: counted, not named
+        'xAOD::TrackParticleAuxContainer_v5_HLT_IDTrack_Muon_FTFAux.',
+        // no converter for this class, so not actionable and not mentioned
+        'xAOD::TrigCompositeAuxContainer_v2_HLT_TrackCountAux.',
+        EVENTINFO_BRANCH,
+      ]),
+    );
+    mockEntry({
+      esd__InDetTrackParticles: { phi: [0.5], theta: [1.2], qOverP: [0.001] },
+      esd__EventInfo: eventInfoStore,
+    });
+
+    await new ATLASESDLoader({
+      containers: ['InDetTrackParticles'],
+    }).getEventData('file.root');
+
+    const summary = info.mock.calls
+      .map((c) => c[0] as string)
+      .find((line) => line.includes('not in the allow-list'))!;
+
+    expect(summary).toContain('3 readable container(s) not in the allow-list');
+    expect(summary).toContain('InDetLargeD0TrackParticles');
+    expect(summary).toContain('GSFConversionVertices');
+    // Trigger containers are counted rather than named.
+    expect(summary).not.toContain('HLT_IDTrack_Muon_FTF');
+    expect(summary).toContain('(1 trigger container(s) not listed');
+    // A container with no converter is not actionable, so it is never counted.
+    expect(summary).not.toContain('HLT_TrackCount');
+
+    info.mockRestore();
+  });
+
   it('says so explicitly when nothing was skipped', async () => {
     const info = jest.spyOn(console, 'info').mockImplementation(() => {});
 
