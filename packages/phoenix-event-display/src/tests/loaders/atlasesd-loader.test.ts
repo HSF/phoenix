@@ -65,11 +65,10 @@ describe('ATLASESDLoader branch resolution', () => {
     expect(event['Vertices']['PrimaryVertices']).toHaveLength(1);
   });
 
-  it('ignores AuxDyn decoration branches and POOL T/P collections', async () => {
+  it('ignores AuxDyn decoration and DataVector interface branches', async () => {
     const tree = makeTree([
       TRACK_BRANCH,
       'xAOD::TrackParticleAuxContainer_v5_InDetTrackParticlesAuxDyn.TRTdEdx',
-      'Trk::TrackCollection_tlp7_CombinedInDetTracks',
       'DataVector<xAOD::TrackParticle_v1>_InDetTrackParticles',
       EVENTINFO_BRANCH,
     ]);
@@ -132,8 +131,15 @@ describe('ATLASESDLoader branch resolution', () => {
     ).toHaveLength(1);
   });
 
-  it('throws when no readable aux container is present', async () => {
-    mockFile(makeTree(['Trk::TrackCollection_tlp7_CombinedInDetTracks']));
+  it('throws when nothing readable is present', async () => {
+    // Real ESD branches the loader has no converter for: cells are bit-packed
+    // and PRDs hold local coordinates, so neither can be placed in 3D.
+    mockFile(
+      makeTree([
+        'CaloCompactCellContainer_AllCalo',
+        'InDet::PixelClusterContainer_p3_PixelClusters',
+      ]),
+    );
 
     await expect(
       new ATLASESDLoader().getEventData('file.root'),
@@ -181,14 +187,35 @@ describe('ATLASESDLoader Trk::TrackCollection', () => {
     ],
   });
 
-  it('is not read unless explicitly opted into', async () => {
+  it('is read by default, alongside the xAOD tracks', async () => {
+    mockFile(makeTree([TRACK_BRANCH, TRK_BRANCH, EVENTINFO_BRANCH]));
+    mockEntry({
+      esd__InDetTrackParticles: { phi: [0.5], theta: [1.2], qOverP: [0.001] },
+      esd__CombinedInDetTracks: trkStore(),
+      esd__EventInfo: eventInfoStore,
+    });
+
+    const events = await new ATLASESDLoader().getEventData('file.root');
+    const tracks = events['Event 968132624']['Tracks'];
+
+    // The two are the same tracks in a real file, so both must appear rather
+    // than one shadowing the other.
+    expect(Object.keys(tracks).sort()).toEqual([
+      'CombinedInDetTracks',
+      'InDetTrackParticles',
+    ]);
+  });
+
+  it('can be excluded via the containers option', async () => {
     mockFile(makeTree([TRACK_BRANCH, TRK_BRANCH, EVENTINFO_BRANCH]));
     mockEntry({
       esd__InDetTrackParticles: { phi: [0.5], theta: [1.2], qOverP: [0.001] },
       esd__EventInfo: eventInfoStore,
     });
 
-    await new ATLASESDLoader().getEventData('file.root');
+    await new ATLASESDLoader({
+      containers: ['InDetTrackParticles'],
+    }).getEventData('file.root');
 
     const selector = (treeProcess as jest.Mock).mock.calls[0][1];
     expect(selector.branches.map((b: any) => b.branch)).not.toContain(

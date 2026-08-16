@@ -86,6 +86,30 @@ const ESD_AUX_CLASSES: { [auxClass: string]: ESDAuxClassDef } = {
 };
 
 /**
+ * `Trk::TrackCollection` containers read by default.
+ *
+ * Most of these duplicate an xAOD TrackParticle container — CombinedInDetTracks
+ * and InDetTrackParticles are the same tracks — but they are the only source of
+ * the ones that have no xAOD counterpart, and of measured trajectories where
+ * those are recoverable (see {@link ATLASESDLoader.globalPosition}).
+ */
+const DEFAULT_TRK_COLLECTIONS: string[] = [
+  'CombinedInDetTracks',
+  'CombinedMuonTracks',
+  'CombinedMuonsLRTTracks',
+  'CombinedStauTracks',
+  'DisappearingTracks',
+  'ExtraPolatedMuonsLRTTracks',
+  'ExtrapolatedMuonTracks',
+  'ExtrapolatedStauTracks',
+  'GSFTracks',
+  'MSOnlyExtraPolatedMuonsLRTTrackParticlesTracks',
+  'MSOnlyExtrapolatedTracks',
+  'MuonSpectrometerTracks',
+  'ResolvedForwardTracks',
+];
+
+/**
  * Containers read by default. An ESD holds dozens of track, jet and cluster
  * containers; reading them all would be needlessly slow and would bury the
  * interesting ones in the collections menu, so the loader works from an
@@ -109,6 +133,7 @@ const DEFAULT_ESD_CONTAINERS: string[] = [
   'AntiKt4LCTopoJets',
   'AntiKt10LCTopoJets',
   'TauJets',
+  ...DEFAULT_TRK_COLLECTIONS,
 ];
 
 /** MET terms to prefer, most complete first. */
@@ -203,18 +228,12 @@ export interface ATLASESDLoaderOptions {
  * - Converters copy values into fresh plain objects and never retain the
  *   streamed store, so each entry's aux objects can be collected immediately.
  *
- * `Trk::TrackCollection` is also supported, but is **not** in the default
- * allow-list: in practice each one duplicates an xAOD TrackParticle container
- * (CombinedInDetTracks and InDetTrackParticles are the same 762 tracks), and
- * reading all 13 costs ~460 ms. Opt in per collection:
- *
- * ```ts
- * new ATLASESDLoader({ extraContainers: ['CombinedInDetTracks'] })
- * ```
- *
- * Note this makes them API-only for now — the IO options dialog constructs the
- * loader with no options, so they cannot be reached from the Phoenix menu until
- * that call passes `extraContainers` or a UI toggle is added.
+ * `Trk::TrackCollection` containers are read as well. Most duplicate an xAOD
+ * TrackParticle container — CombinedInDetTracks and InDetTrackParticles are the
+ * same 762 tracks — so expect paired entries in the collections menu, and about
+ * 460 ms of extra reading. They earn their place by covering the collections
+ * with no xAOD counterpart and by carrying measured trajectories. Drop them
+ * with `containers` if that trade is not worth it for a given file.
  *
  * Not handled: calorimeter cells, PrepRawData, and `ElementLink` resolution.
  * The first two store only local coordinates plus detector identifiers — cells
