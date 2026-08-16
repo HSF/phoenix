@@ -189,6 +189,7 @@ type SkipUnit = 'object' | 'event' | 'collection';
 
 /** A collection resolved against the branches actually present in the file. */
 interface ESDResolvedCollection {
+  /** How to convert it, and which Phoenix type it becomes. */
   def: ESDAuxClassDef;
   /** StoreGate container name, used as the Phoenix collection name. */
   container: string;
