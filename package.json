@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "postinstall": "node scripts/patch-jsroot-three.js && yarn workspace phoenix-event-display prepare && husky",
-    "start": "lerna run start",
+    "start": "yarn workspace phoenix-event-display tsc:build && lerna run start",
     "start:ssl": "yarn workspace phoenix-ng start:ssl",
     "test:ci": "lerna run test:ci",
     "test:coverage": "lerna run test:coverage",

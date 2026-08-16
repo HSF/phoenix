@@ -70,7 +70,52 @@ yarn start
 # e.g. if you are using an older version of node (we are currently using v20), then it may not work
 ```
 
-Now both the `phoenix-event-display` and `phoenix-app` will start in development/watch mode. Any changes made to the `phoenix-event-display` will rebuild and hot reload the `phoenix-app`. You can access the app by navigating to [`http://localhost:4200`](http://localhost:4200) on the browser.
+Now both the `phoenix-event-display` and `phoenix-app` will start in development/watch mode. You can access the app by navigating to [`http://localhost:4200`](http://localhost:4200) on the browser.
+
+### Picking up changes to `phoenix-event-display`
+
+The two libraries reach the app by different routes, and only one of them hot reloads:
+
+| Package                 | Resolved via                                                                    | Hot reloads |
+| ----------------------- | ------------------------------------------------------------------------------- | ----------- |
+| `phoenix-ui-components` | a TypeScript path mapping straight to its source (`public_api.ts`)              | yes         |
+| `phoenix-event-display` | the `node_modules` symlink, whose `main` is `dist/index` — the **built** output | no          |
+
+So a change to `phoenix-event-display` needs its `dist` rebuilt, and the dev server restarted, because Angular's watcher does not watch inside `node_modules`:
+
+```sh
+yarn workspace phoenix-event-display tsc:build
+# then restart ng serve
+```
+
+`yarn start` builds the library once before handing over to the watch build and the dev server, so a fresh start always serves current code. That one-shot build matters: the watch build and `ng serve` run concurrently, and `ng serve` reliably wins the race, which used to leave it bundling a `dist` from the previous session.
+
+If a change is in `dist` but not in the running app, compare the timestamps — if `dist` is newer than the server, restart it:
+
+```sh
+stat -f '%Sm' packages/phoenix-event-display/dist/loaders/<your-file>.js
+ps -eo pid,lstart,args | grep '[n]g serve'
+```
+
+#### Dependency pre-bundling
+
+Because `phoenix-event-display` resolves through `node_modules`, the dev server would treat it as a third-party dependency and pre-bundle it into `.angular/cache/**/vite/deps/`. That cache is keyed on package metadata rather than file contents, so rebuilding `dist` does not invalidate it and **even restarting the server keeps serving the stale copy** — a change can sit in `dist` for days while the browser shows the old code, with nothing to explain it.
+
+`packages/phoenix-ng/angular.json` therefore excludes it from pre-bundling:
+
+```jsonc
+"serve": {
+  "options": {
+    "prebundle": { "exclude": ["phoenix-event-display"] }
+  }
+}
+```
+
+If you ever see a change that is in `dist`, survives a restart, and still does not appear in the browser debugger, check whether that exclusion is still in place, and clear the cache:
+
+```sh
+rm -rf packages/phoenix-ng/.angular/cache
+```
 
 ## Docker
 
