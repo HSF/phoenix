@@ -88,7 +88,7 @@ yarn workspace phoenix-event-display tsc:build
 # then restart ng serve
 ```
 
-`yarn start` runs the library in watch mode alongside the dev server, so `dist` is rebuilt automatically — but the two start concurrently and `ng serve` often finishes bundling before the first library build has written `dist`, so the restart is still needed.
+`yarn start` builds the library once before handing over to the watch build and the dev server, so a fresh start always serves current code. That one-shot build matters: the watch build and `ng serve` run concurrently, and `ng serve` reliably wins the race, which used to leave it bundling a `dist` from the previous session.
 
 If a change is in `dist` but not in the running app, compare the timestamps — if `dist` is newer than the server, restart it:
 
