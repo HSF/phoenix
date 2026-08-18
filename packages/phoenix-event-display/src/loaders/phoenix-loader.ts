@@ -281,6 +281,7 @@ export class PhoenixLoader implements EventDataLoader {
           ? object[collectionName][0].color
           : 0xffffff,
       );
+
       this.ui.addCollection(
         typeName,
         collectionName,
@@ -328,7 +329,7 @@ export class PhoenixLoader implements EventDataLoader {
       (vertexCollection) =>
         vertexCollection?.some(
           (vertex) =>
-            vertex.linkedTrackCollection === collectionName &&
+            vertex.linkedTrackCollection?.includes(collectionName) &&
             vertex.linkedTracks?.length,
         ),
     );
