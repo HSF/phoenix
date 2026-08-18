@@ -159,12 +159,13 @@ export class ColorManager {
       const { linkedTrackCollection, linkedTracks } = vertexObject.userData;
       if (
         !trackCollection ||
-        linkedTrackCollection !== collectionName ||
+        !linkedTrackCollection?.includes(collectionName) ||
         !linkedTracks
       ) {
         return;
       }
 
+      const collectionIndex = linkedTrackCollection.indexOf(collectionName);
       // Use explicit vertex color if set in event data, otherwise the current
       // material color (e.g. set by the user via the UI), otherwise deterministic
       // distinct color per vertex (golden ratio hue steps).
@@ -178,7 +179,7 @@ export class ColorManager {
         new Color().setHSL((vertexIndex * 0.618034) % 1, 0.9, 0.55);
 
       setColorForObject(vertexObject, vertexColor);
-      linkedTracks.forEach((trackIndex: number) => {
+      linkedTracks[collectionIndex].forEach((trackIndex: number) => {
         const track =
           tracksByIndex.get(trackIndex) ?? trackCollection.children[trackIndex];
         track?.traverse((trackObject) => {
