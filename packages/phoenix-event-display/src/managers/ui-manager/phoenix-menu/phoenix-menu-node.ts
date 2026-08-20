@@ -239,10 +239,11 @@ export class PhoenixMenuNode {
       // console.log('nodeConfig', nodeConfig);
       if (nodeConfig) {
         for (const prop in configState) {
-          if (prop === 'options') {
+          if (prop === 'options' || prop === 'onChange') {
             // The available options of a `select` are structural (derived from
             // the loaded event data), not user state - a saved state must not
             // overwrite them.
+            // The function 'onChange' depends on the available options.
             continue;
           }
           const key = prop as keyof typeof nodeConfig;
