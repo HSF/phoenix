@@ -9,6 +9,7 @@ import { LoadingManager } from './managers/loading-manager';
 import { StateManager } from './managers/state-manager';
 import type { AnimationPreset } from './managers/three-manager/animations-manager';
 import { ThreeManager } from './managers/three-manager/index';
+import { SceneManager } from './managers/three-manager/scene-manager';
 import { XRSessionType } from './managers/three-manager/xr/xr-manager';
 import { UIManager } from './managers/ui-manager/index';
 import { URLOptionsManager } from './managers/url-options-manager';
@@ -49,6 +50,8 @@ export class EventDisplay {
   private onEventsChange: ((events: any) => void)[] = [];
   /** Array containing callbacks to be called when the displayed event changes. */
   private onDisplayedEventChange: ((nowDisplayingEvent: any) => void)[] = [];
+  /** Callbacks to be called on scene state / visibility / cut changes. */
+  private onStateChange: (() => void)[] = [];
   /** Generic event bus for integration with external frameworks. */
   private eventBus: Map<string, Set<(data: any) => void>> = new Map();
   /** Wildcard subscribers fired on every emit (recorders, external bridges). */
@@ -85,6 +88,7 @@ export class EventDisplay {
     this.infoLogger = new InfoLogger();
     this.graphicsLibrary = new ThreeManager(this.infoLogger);
     this.ui = new UIManager(this.graphicsLibrary);
+    this.ui.onStateChange = () => this.triggerStateChange();
     if (configuration) {
       this.init(configuration);
     }
@@ -340,6 +344,7 @@ export class EventDisplay {
     this.onDisplayedEventChange.forEach((callback) => callback(eventData));
     // Reload the event data state in Phoenix menu
     this.ui.loadEventFolderPhoenixMenuState();
+    this.triggerStateChange();
   }
 
   /**
@@ -820,6 +825,119 @@ export class EventDisplay {
         this.onEventsChange.splice(index, 1);
       }
     };
+  }
+
+  /**
+   * Add a callback to onStateChange array to call
+   * when visibility or cuts change.
+   * @param callback Callback to be added to the onStateChange array.
+   * @returns Unsubscribe function to remove the callback.
+   */
+  public listenToStateChange(callback: () => void): () => void {
+    this.onStateChange.push(callback);
+    return () => {
+      const index = this.onStateChange.indexOf(callback);
+      if (index > -1) {
+        this.onStateChange.splice(index, 1);
+      }
+    };
+  }
+
+  private stateChangeTimeout: any = null;
+
+  /**
+   * Trigger state change callbacks (e.g. on visibility or cut change).
+   * Debounced to prevent performance degradation during loading or rapid UI changes.
+   */
+  public triggerStateChange(): void {
+    if (this.loadingManager?.isCurrentlyLoading()) {
+      return;
+    }
+    if (this.stateChangeTimeout) {
+      return;
+    }
+    this.stateChangeTimeout = setTimeout(() => {
+      this.stateChangeTimeout = null;
+      this.onStateChange.forEach((callback) => callback());
+    }, 0);
+  }
+
+  /**
+   * Check if a collection group is visible in the 3D scene.
+   * @param collectionName Name of the collection.
+   * @returns Whether the collection group is visible.
+   */
+  public isCollectionVisible(collectionName: string): boolean {
+    const sceneManager = this.getThreeManager()?.getSceneManager();
+    if (!sceneManager) return true;
+    const eventDataGroup = sceneManager
+      .getScene()
+      .getObjectByName(SceneManager.EVENT_DATA_ID);
+    if (!eventDataGroup || !eventDataGroup.visible) return false;
+    const collectionObject = eventDataGroup.getObjectByName(collectionName);
+    if (!collectionObject) return false;
+
+    let curr: any = collectionObject;
+    while (curr && curr !== eventDataGroup) {
+      if (curr.visible === false) return false;
+      curr = curr.parent;
+    }
+    return true;
+  }
+
+  /**
+   * Check if a specific event data object item is visible in the 3D scene (and passes cuts).
+   * @param collectionName Name of the collection.
+   * @param item The event data item.
+   * @returns Whether the item is visible.
+   */
+  public isItemVisible(collectionName: string, item: any): boolean {
+    if (!item) return false;
+    if (!this.isCollectionVisible(collectionName)) {
+      return false;
+    }
+    // Check 3D object visibility if object with item.uuid exists in scene
+    const sceneManager = this.getThreeManager()?.getSceneManager();
+    if (sceneManager && item.uuid) {
+      const eventDataGroup = sceneManager
+        .getScene()
+        .getObjectByName(SceneManager.EVENT_DATA_ID);
+      const collectionObject = eventDataGroup?.getObjectByName(collectionName);
+      if (collectionObject) {
+        const obj =
+          collectionObject.getObjectByName(item.uuid) ||
+          collectionObject.children.find(
+            (child: any) =>
+              child.userData?.uuid === item.uuid || child.uuid === item.uuid,
+          );
+        if (obj && obj.visible === false) {
+          return false;
+        }
+      }
+    }
+
+    // Check active cuts for this collection
+    const cutsMap = this.getUIManager()
+      ?.getPhoenixMenuUI()
+      ?.getCollectionCuts();
+    const cuts = cutsMap?.[collectionName];
+    if (cuts && cuts.length > 0) {
+      for (const cut of cuts) {
+        let val = item[cut.field];
+        if (val === undefined && cut.field === 'pT') {
+          if (item.dparams && item.dparams.length >= 5) {
+            val = Math.abs(1 / item.dparams[4]) * Math.sin(item.dparams[3]);
+          }
+        }
+        if (val !== undefined && val !== null) {
+          if (!cut.cutPassed(val)) {
+            return false;
+          }
+        }
+      }
+    }
+
+    return true;
   }
 
   /**
