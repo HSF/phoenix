@@ -102,3 +102,38 @@ Without building, you can include the bundle directly from [CDN](https://cdn.jsd
 
 - [Usage in Angular (as a service)](https://github.com/HSF/phoenix/blob/main/packages/phoenix-ng/projects/phoenix-app/src/app/sections/lhcb/lhcb.component.ts)
 - [Usage in React](https://github.com/9inpachi/phoenix-react/blob/main/src/App.js#L6-L31)
+
+## Event Data Loaders
+
+Phoenix supports multiple event data formats through specialized loader classes.
+
+### PHYSLITELoader
+
+`PHYSLITELoader` parses ATLAS DAOD_PHYSLITE `.root` files directly in the browser using [JSROOT](https://root.cern/js/). It reads calibrated physics objects from the ROOT `CollectionTree` branch and converts them into Phoenix event format.
+
+#### Supported Collections
+
+- **Jets**: Calibrated jet momentum and energy.
+- **Tracks**: InDetTrackParticles, MuonSpectrometerTrackParticles, CombinedMuonTrackParticles, GSFTrackParticles.
+- **Electrons & Muons**: Four-momentum ($p_T, \eta, \phi, m$).
+- **Photons**: Energy clusters and trajectories.
+- **Missing Energy (MET)**: `AnalysisMET` transverse energy vector ($E_{Tx}, E_{Ty}$).
+- **Primary Vertices & Calorimeter Clusters**.
+
+#### Usage Example
+
+```js
+import { EventDisplay, PHYSLITELoader } from 'phoenix-event-display';
+
+const eventDisplay = new EventDisplay();
+const physliteLoader = new PHYSLITELoader();
+
+// Load ROOT file buffer
+fetch('path/to/DAOD_PHYSLITE.root')
+  .then((res) => res.arrayBuffer())
+  .then((buffer) => {
+    physliteLoader.loadEvents(buffer, (events) => {
+      eventDisplay.parsePhoenixEvents(events);
+    });
+  });
+```
