@@ -2,10 +2,12 @@
  * @jest-environment jsdom
  */
 import { JSRootEventLoader } from '../../loaders/jsroot-event-loader';
+import { decompress } from 'some-compression-library'; // Add the necessary import for the compression library
 
 describe('JSRootEventLoader', () => {
   let jsrootLoader: JSRootEventLoader;
   const TEST_ROOT_FILE = 'assets/tracks_hits.root';
+  const TEST_ATLAS_AOD_FILE = 'assets/atlas_aod.root';
 
   beforeEach(() => {
     jsrootLoader = new JSRootEventLoader(TEST_ROOT_FILE);
@@ -93,5 +95,24 @@ describe('JSRootEventLoader', () => {
   it('should not get TEveTrack', () => {
     expect((jsrootLoader as any).getTEveTrack(undefined)).toBeFalsy();
     expect((jsrootLoader as any).getTEveTrack({ fN: [] })).toBeFalsy();
+  });
+
+  it('should handle unsupported compression for ATLAS AOD files', async () => {
+    jsrootLoader = new JSRootEventLoader(TEST_ATLAS_AOD_FILE);
+    const mockDecompressedData = new ArrayBuffer(8);
+    const mockFetchResponse = {
+      arrayBuffer: jest.fn().mockResolvedValue(mockDecompressedData),
+    };
+    global.fetch = jest.fn().mockResolvedValue(mockFetchResponse as any);
+    (decompress as jest.Mock) = jest.fn().mockReturnValue(mockDecompressedData);
+
+    const objects = ['tracks;1', 'hits;1'];
+    const onEventData = jest.fn();
+
+    await jsrootLoader.getEventData(objects, onEventData);
+
+    expect(fetch).toHaveBeenCalledWith(TEST_ATLAS_AOD_FILE);
+    expect(decompress).toHaveBeenCalledWith(mockDecompressedData);
+    expect(onEventData).toHaveBeenCalled();
   });
 });
