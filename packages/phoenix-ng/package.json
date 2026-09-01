@@ -3,11 +3,12 @@
   "version": "4.0.1",
   "private": true,
   "scripts": {
-    "start": "ng serve phoenix-app",
-    "start:ssl": "ng serve phoenix-app --ssl --host 0.0.0.0",
-    "start:single": "ng serve phoenix-app --configuration singleEvent",
+    "generate:version": "node ../../scripts/generate-version.js",
+    "start": "yarn generate:version && ng serve phoenix-app",
+    "start:ssl": "yarn generate:version && ng serve phoenix-app --ssl --host 0.0.0.0",
+    "start:single": "yarn generate:version && ng serve phoenix-app --configuration singleEvent",
     "build:prod": "ng build --configuration production",
-    "build:app": "yarn build:prod phoenix-app",
+    "build:app": "yarn generate:version && yarn build:prod phoenix-app",
     "build:ui-components": "yarn build:prod phoenix-ui-components",
     "test": "jest --no-cache",
     "test:coverage": "yarn test --coverage",
@@ -18,10 +19,10 @@
     "prettier:write": "yarn prettier --write .",
     "eslint": "eslint projects/**/*.ts",
     "eslint:fix": "yarn eslint --fix",
-    "deploy": "mv ../../docs/api-docs ../../api-docs && ng build phoenix-app --configuration production,ghpages && cp ../../docs/index.html ../../docs/404.html && mv ../../api-docs ../../docs/api-docs",
+    "deploy": "yarn generate:version && mv ../../docs/api-docs ../../api-docs && ng build phoenix-app --configuration production,ghpages && cp ../../docs/index.html ../../docs/404.html && mv ../../api-docs ../../docs/api-docs",
     "version": "yarn deploy",
-    "deploy:web": "ng build phoenix-app --configuration production,web && cp ./docs/index.html ./docs/404.html",
-    "deploy:web:single": "ng build phoenix-app --configuration singleEvent,web && cp ./docs/index.html ./docs/404.html"
+    "deploy:web": "yarn generate:version && ng build phoenix-app --configuration production,web && cp ./docs/index.html ./docs/404.html",
+    "deploy:web:single": "yarn generate:version && ng build phoenix-app --configuration singleEvent,web && cp ./docs/index.html ./docs/404.html"
   },
   "dependencies": {
     "@angular/animations": "^20.3.28",

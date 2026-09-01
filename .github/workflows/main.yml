@@ -1,6 +1,10 @@
 name: phoenix-ci
 
-on: [pull_request, workflow_dispatch]
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build-and-test:
@@ -15,6 +19,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
+        with:
+          # Full history and tags, so the build can derive the version/commit.
+          fetch-depth: 0
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@main
@@ -50,7 +57,7 @@ jobs:
         if: ${{ steps.if_pr.outputs.number || github.ref == 'refs/heads/main' }}
         env:
           PR_URL: http://phoenix-pr-${{ steps.if_pr.outputs.number }}.surge.sh
-          DEV_URL: http://phoenix-dev2.surge.sh
+          DEV_URL: http://phoenix-dev.surge.sh
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN2 }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN2 }}
         run: |
@@ -62,9 +69,6 @@ jobs:
             export DEPLOYMENT_URL=$PR_URL
             export DEPLOYMENT_ENV=pull-request
           fi
-          echo "About to push to surge"
-          echo ${{secrets.SURGE_LOGIN}} | sed 's/./& /g'
-          echo ${{secrets.SURGE_TOKEN}} | sed 's/./& /g'
           npx surge --project ./packages/phoenix-ng/docs/ --domain $DEPLOYMENT_URL
           echo "{deployment_url}={$DEPLOYMENT_URL}" >> $GITHUB_OUTPUT
           echo "{deployment_env}={$DEPLOYMENT_ENV}" >> $GITHUB_OUTPUT

@@ -7,6 +7,8 @@ out-tsc/
 # only exists if Bazel was run
 bazel-out/
 docs/
+# written at build time by scripts/generate-version.js
+packages/phoenix-ng/projects/phoenix-app/src/environments/version.ts
 
 # dependencies
 node_modules/
