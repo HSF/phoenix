@@ -22,7 +22,7 @@ Phoenix is supported by the [HEP Software Foundation](https://hepsoftwarefoundat
 
 It was selected for Google Summer of Code support in 2019, 2020 and 2021.
 
-You can see the stable version at [https://hepsoftwarefoundation.org/phoenix](https://hepsoftwarefoundation.org/phoenix/) and the development version at [http://phoenix-dev.surge.sh](http://phoenix-dev.surge.sh).
+You can see the stable version at [https://hepsoftwarefoundation.org/phoenix](https://hepsoftwarefoundation.org/phoenix/) and the development version at [http://phoenix-dev2.surge.sh](http://phoenix-dev2.surge.sh).
 
 ## Demo
 
