@@ -1,0 +1,1631 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  ESDResolvedCollection</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/loaders/atlasesd-loader.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>A collection resolved against the branches actually present in the file.</p>
+
+            </p>
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#branchName" 
+>
+                                            branchName
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#container" 
+>
+                                            container
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#def" 
+>
+                                            def
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#key" 
+>
+                                            key
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="branchName"></a>
+                                        <span class="name "><b>branchName</b>
+                                            <a href="#branchName">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>branchName:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Full ROOT branch name.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="container"></a>
+                                        <span class="name "><b>container</b>
+                                            <a href="#container">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>container:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>StoreGate container name, used as the Phoenix collection name.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="def"></a>
+                                        <span class="name "><b>def</b>
+                                            <a href="#def">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>def:         <code><a href="../interfaces/ESDAuxClassDef.html" target="_self" >ESDAuxClassDef</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/ESDAuxClassDef.html" target="_self" >ESDAuxClassDef</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>How to convert it, and which Phoenix type it becomes.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="key"></a>
+                                        <span class="name "><b>key</b>
+                                            <a href="#key">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>key:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Key under which jsroot writes the streamed aux store into <code>tgtobj</code>.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PhoenixLoader } from &#x27;./phoenix-loader&#x27;;
+import { openFile, settings as jsrootSettings } from &#x27;jsroot&#x27;;
+import { TSelector, treeProcess } from &#x27;jsroot/tree&#x27;;
+import { CoordinateHelper } from &#x27;../helpers/coordinate-helper&#x27;;
+import { PhoenixEventData, PhoenixEventsData } from &#x27;../lib/types/event-data&#x27;;
+
+/** Converter to run for a given aux container class family. */
+type ESDConverter &#x3D;
+  | &#x27;tracks&#x27;
+  | &#x27;trkTracks&#x27;
+  | &#x27;particles&#x27;
+  | &#x27;jets&#x27;
+  | &#x27;clusters&#x27;
+  | &#x27;vertices&#x27;
+  | &#x27;met&#x27;;
+
+/** Describes one persistent xAOD auxiliary container class family. */
+interface ESDAuxClassDef {
+  /** Phoenix object type key, e.g. &#x27;Tracks&#x27;. */
+  phoenixType: string;
+  /** Which converter to run. */
+  converter: ESDConverter;
+  /** Aux store members without which the collection cannot be drawn. */
+  required: string[];
+  /**
+   * PDG code used for compound objects. Only its sign is consumed, and Phoenix
+   * reads that sign as the sign of the charge — see &#x60;signedPdgId&#x60;.
+   */
+  pdgId?: number;
+}
+
+/**
+ * ESD aux containers keyed by class family, i.e. the class name with its &#x60;_vN&#x60;
+ * version suffix removed. Keying on the class rather than on the branch name is
+ * what lets the loader survive a container being written with a newer aux
+ * version in a future ESD production.
+ */
+const ESD_AUX_CLASSES: { [auxClass: string]: ESDAuxClassDef } &#x3D; {
+  &#x27;xAOD::TrackParticleAuxContainer&#x27;: {
+    phoenixType: &#x27;Tracks&#x27;,
+    converter: &#x27;tracks&#x27;,
+    required: [&#x27;phi&#x27;, &#x27;theta&#x27;, &#x27;qOverP&#x27;],
+  },
+  &#x27;xAOD::VertexAuxContainer&#x27;: {
+    phoenixType: &#x27;Vertices&#x27;,
+    converter: &#x27;vertices&#x27;,
+    required: [&#x27;x&#x27;, &#x27;y&#x27;, &#x27;z&#x27;],
+  },
+  &#x27;xAOD::CaloClusterAuxContainer&#x27;: {
+    phoenixType: &#x27;CaloClusters&#x27;,
+    converter: &#x27;clusters&#x27;,
+    required: [&#x27;calE&#x27;, &#x27;calEta&#x27;, &#x27;calPhi&#x27;],
+  },
+  &#x27;xAOD::MissingETAuxContainer&#x27;: {
+    phoenixType: &#x27;MissingEnergy&#x27;,
+    converter: &#x27;met&#x27;,
+    required: [&#x27;mpx&#x27;, &#x27;mpy&#x27;],
+  },
+  &#x27;xAOD::ElectronAuxContainer&#x27;: {
+    phoenixType: &#x27;Electrons&#x27;,
+    converter: &#x27;particles&#x27;,
+    required: [&#x27;pt&#x27;, &#x27;eta&#x27;, &#x27;phi&#x27;],
+    pdgId: 11,
+  },
+  &#x27;xAOD::PhotonAuxContainer&#x27;: {
+    phoenixType: &#x27;Photons&#x27;,
+    converter: &#x27;particles&#x27;,
+    required: [&#x27;pt&#x27;, &#x27;eta&#x27;, &#x27;phi&#x27;],
+  },
+  &#x27;xAOD::MuonAuxContainer&#x27;: {
+    phoenixType: &#x27;Muons&#x27;,
+    converter: &#x27;particles&#x27;,
+    required: [&#x27;pt&#x27;, &#x27;eta&#x27;, &#x27;phi&#x27;],
+    pdgId: 13,
+  },
+  &#x27;xAOD::JetAuxContainer&#x27;: {
+    phoenixType: &#x27;Jets&#x27;,
+    converter: &#x27;jets&#x27;,
+    required: [&#x27;pt&#x27;, &#x27;eta&#x27;, &#x27;phi&#x27;],
+  },
+  &#x27;xAOD::TauJetAuxContainer&#x27;: {
+    phoenixType: &#x27;Jets&#x27;,
+    converter: &#x27;jets&#x27;,
+    required: [&#x27;pt&#x27;, &#x27;eta&#x27;, &#x27;phi&#x27;],
+  },
+};
+
+/**
+ * &#x60;Trk::TrackCollection&#x60; containers read by default.
+ *
+ * Most of these duplicate an xAOD TrackParticle container — CombinedInDetTracks
+ * and InDetTrackParticles are the same tracks — but they are the only source of
+ * the ones that have no xAOD counterpart, and of measured trajectories where
+ * those are recoverable (see {@link ATLASESDLoader.globalPosition}).
+ */
+const DEFAULT_TRK_COLLECTIONS: string[] &#x3D; [
+  &#x27;CombinedInDetTracks&#x27;,
+  &#x27;CombinedMuonTracks&#x27;,
+  &#x27;CombinedMuonsLRTTracks&#x27;,
+  &#x27;CombinedStauTracks&#x27;,
+  &#x27;DisappearingTracks&#x27;,
+  &#x27;ExtraPolatedMuonsLRTTracks&#x27;,
+  &#x27;ExtrapolatedMuonTracks&#x27;,
+  &#x27;ExtrapolatedStauTracks&#x27;,
+  &#x27;GSFTracks&#x27;,
+  &#x27;MSOnlyExtraPolatedMuonsLRTTrackParticlesTracks&#x27;,
+  &#x27;MSOnlyExtrapolatedTracks&#x27;,
+  &#x27;MuonSpectrometerTracks&#x27;,
+  &#x27;ResolvedForwardTracks&#x27;,
+];
+
+/**
+ * Containers read by default. An ESD holds dozens of track, jet and cluster
+ * containers; reading them all would be needlessly slow and would bury the
+ * interesting ones in the collections menu, so the loader works from an
+ * allow-list. Pass &#x60;containers&#x60; or &#x60;extraContainers&#x60; to change it.
+ */
+const DEFAULT_ESD_CONTAINERS: string[] &#x3D; [
+  &#x27;InDetTrackParticles&#x27;,
+  &#x27;GSFTrackParticles&#x27;,
+  &#x27;CombinedMuonTrackParticles&#x27;,
+  &#x27;ExtrapolatedMuonTrackParticles&#x27;,
+  &#x27;MuonSpectrometerTrackParticles&#x27;,
+  &#x27;PrimaryVertices&#x27;,
+  &#x27;CaloCalTopoClusters&#x27;,
+  &#x27;egammaClusters&#x27;,
+  &#x27;MET_Reference_AntiKt4EMPFlow&#x27;,
+  &#x27;Electrons&#x27;,
+  &#x27;Photons&#x27;,
+  &#x27;Muons&#x27;,
+  &#x27;AntiKt4EMPFlowJets&#x27;,
+  &#x27;AntiKt4EMTopoJets&#x27;,
+  &#x27;AntiKt4LCTopoJets&#x27;,
+  &#x27;AntiKt10LCTopoJets&#x27;,
+  &#x27;TauJets&#x27;,
+  ...DEFAULT_TRK_COLLECTIONS,
+];
+
+/** MET terms to prefer, most complete first. */
+const DEFAULT_MET_TERMS &#x3D; [&#x27;Final&#x27;, &#x27;FinalTrk&#x27;, &#x27;FinalClus&#x27;];
+
+/**
+ * Matches a static auxiliary store branch and splits it into class family and
+ * container name. ESD branch names carry the persistent class, e.g.
+ * &#x60;xAOD::TrackParticleAuxContainer_v5_InDetTrackParticlesAux.&#x60; →
+ * (&#x27;xAOD::TrackParticleAuxContainer&#x27;, &#x27;InDetTrackParticles&#x27;).
+ *
+ * Requiring the trailing &#x60;Aux.&#x60; excludes the per-decoration &#x60;...AuxDyn.&lt;var&gt;&#x60;
+ * branches, and requiring the &#x60;xAOD::&#x60; prefix excludes the POOL
+ * type/persistent-separated collections, which are matched by
+ * {@link TRK_BRANCH_RE} instead.
+ */
+const AUX_BRANCH_RE &#x3D; /^(xAOD::[A-Za-z0-9]+?)(?:_v\d+)?_([A-Za-z0-9_]+)Aux\.$/;
+
+/**
+ * Matches a POOL type/persistent-separated track collection, e.g.
+ * &#x60;Trk::TrackCollection_tlp7_CombinedInDetTracks&#x60; → &#x27;CombinedInDetTracks&#x27;.
+ * The &#x60;tlp&#x60; version is accepted rather than pinned, but note that the member
+ * layout is version-specific — see {@link ATLASESDLoader.convertTrkTracks}.
+ */
+const TRK_BRANCH_RE &#x3D; /^Trk::TrackCollection_tlp\d+_([A-Za-z0-9_]+)$/;
+
+/** Trigger containers, which are counted rather than named when reporting. */
+const TRIGGER_CONTAINER_RE &#x3D; /^(HLT_|L1_|LVL1)/;
+
+/**
+ * Momentum above which a track is treated as having none measured, in MeV.
+ *
+ * A fit that did not determine the momentum writes &#x60;qOverP&#x60; as roughly 1e-8,
+ * which works out as |p| ~ 100 TeV — ATLAS&#x27;s way of saying &quot;straight line, no
+ * measurement&quot;. No real LHC track comes near the ~7 TeV beam energy, so
+ * anything above this bound is a sentinel rather than a measurement.
+ */
+const MAX_PHYSICAL_MOMENTUM &#x3D; 1e7;
+
+/**
+ * Phoenix type for a &#x60;Trk::TrackCollection&#x60;. These are not auxiliary stores, so
+ * they have no class family to key on; &#x60;m_tracks&#x60; stands in as the required
+ * member so a malformed container is reported through the usual path.
+ */
+const TRK_TRACK_DEF: ESDAuxClassDef &#x3D; {
+  phoenixType: &#x27;Tracks&#x27;,
+  converter: &#x27;trkTracks&#x27;,
+  required: [&#x27;m_tracks&#x27;],
+};
+
+/** What a skip tally counts, so the summary can name the unit. */
+type SkipUnit &#x3D; &#x27;object&#x27; | &#x27;event&#x27; | &#x27;collection&#x27;;
+
+/** A collection resolved against the branches actually present in the file. */
+interface ESDResolvedCollection {
+  /** How to convert it, and which Phoenix type it becomes. */
+  def: ESDAuxClassDef;
+  /** StoreGate container name, used as the Phoenix collection name. */
+  container: string;
+  /** Full ROOT branch name. */
+  branchName: string;
+  /** Key under which jsroot writes the streamed aux store into &#x60;tgtobj&#x60;. */
+  key: string;
+}
+
+/** Options accepted by {@link ATLASESDLoader}. */
+export interface ATLASESDLoaderOptions {
+  /** Maximum number of events to read. Default 10. */
+  maxEvents?: number;
+  /** Replaces the default container allow-list entirely. */
+  containers?: string[];
+  /** Appended to the default container allow-list. */
+  extraContainers?: string[];
+  /** MET terms to prefer, most complete first. */
+  metTerms?: string[];
+  /**
+   * Draw &#x60;Trk::Track&#x60;s through their measured positions where those are
+   * recoverable, rather than extrapolating from the perigee. Default true.
+   *
+   * Truthful, but the measured extent is only as long as the fit: a muon
+   * spectrometer track spans metres, while a forward track can be a 250 mm
+   * stub near the beamline. Set false to extrapolate everything instead.
+   */
+  measuredPositions?: boolean;
+}
+
+/**
+ * Loader for ATLAS ESD (&#x60;.pool.root&#x60;) files.
+ *
+ * Like {@link PHYSLITELoader} this reads the &#x60;CollectionTree&#x60; with jsroot, but
+ * an ESD stores its kinematics differently. In PHYSLITE each variable is its own
+ * flat branch (&#x60;AnalysisJetsAuxDyn.pt&#x60;); in an ESD they live in the *static*
+ * auxiliary store, which is a single unsplit branch holding a streamed C++
+ * object whose members are the aux vectors. Branch names are also prefixed with
+ * the persistent class name and version, so branches are found by pattern
+ * rather than by exact name.
+ *
+ * Two consequences worth knowing before extending this:
+ *
+ * - Reading an unsplit aux container materialises *all* of its members (74 for
+ *   &#x60;xAOD::TrackParticleAuxContainer_v5&#x60;), not just the handful used here. That
+ *   is inherent — the basket has to be streamed in full before any member is
+ *   addressable — so the cost is per container, not per variable. Adding
+ *   containers to the allow-list is what makes loading slow; adding fields is
+ *   free.
+ * - Converters copy values into fresh plain objects and never retain the
+ *   streamed store, so each entry&#x27;s aux objects can be collected immediately.
+ *
+ * &#x60;Trk::TrackCollection&#x60; containers are read as well. Most duplicate an xAOD
+ * TrackParticle container — CombinedInDetTracks and InDetTrackParticles are the
+ * same 762 tracks — so expect paired entries in the collections menu, and about
+ * 460 ms of extra reading. They earn their place by covering the collections
+ * with no xAOD counterpart and by carrying measured trajectories. Drop them
+ * with &#x60;containers&#x60; if that trade is not worth it for a given file.
+ *
+ * Not handled: calorimeter cells, PrepRawData, and &#x60;ElementLink&#x60; resolution.
+ * The first two store only local coordinates plus detector identifiers — cells
+ * are bit-packed at ~0.58 int32 words each in calorimeter-hash order, and PRDs
+ * hold local positions against a detector element — so placing either in 3D
+ * needs the ATLAS detector description, which the ESD does not carry. Without
+ * ElementLinks, compound objects have no &#x60;LinkedTracks&#x60;/&#x60;LinkedClusters&#x60; and
+ * Phoenix extrapolates from their kinematics, exactly as for PHYSLITE.
+ */
+export class ATLASESDLoader extends PhoenixLoader {
+  /** Maximum number of events to load from the file. */
+  private maxEvents: number;
+  /** Containers to read. */
+  private containers: Set&lt;string&gt;;
+  /** MET terms to prefer, most complete first. */
+  private metTerms: string[];
+  /** Draw Trk::Tracks through measured positions where recoverable. */
+  private measuredPositions: boolean;
+  /**
+   * Everything the loader chose not to convert, keyed by
+   * &#x60;&lt;container&gt; — &lt;reason&gt;&#x60;. Reported once at the end of a load, so that a
+   * collection missing from the menu always has a traceable explanation.
+   */
+  private skips &#x3D; new Map&lt;string, { count: number; unit: SkipUnit }&gt;();
+  /**
+   * Containers this loader has a converter for but which the allow-list left
+   * out, as container name to Phoenix type. Reported so the allow-list is
+   * discoverable rather than something to be read out of the source.
+   */
+  private available &#x3D; new Map&lt;string, string&gt;();
+
+  /**
+   * Create an ATLAS ESD loader.
+   * @param options Loader options, see {@link ATLASESDLoaderOptions}.
+   */
+  constructor(options: ATLASESDLoaderOptions &#x3D; {}) {
+    super();
+    this.maxEvents &#x3D; options.maxEvents ?? 10;
+    this.containers &#x3D; new Set(
+      options.containers ?? [
+        ...DEFAULT_ESD_CONTAINERS,
+        ...(options.extraContainers ?? []),
+      ],
+    );
+    this.metTerms &#x3D; options.metTerms ?? DEFAULT_MET_TERMS;
+    this.measuredPositions &#x3D; options.measuredPositions ?? true;
+  }
+
+  /**
+   * Open an ATLAS ESD file and return all events as a PhoenixEventsData object
+   * (keyed by event name).
+   * @param fileSource File object or URL of the .root file.
+   * @returns Promise resolving to the events data.
+   */
+  async getEventData(fileSource: File | string): Promise&lt;PhoenixEventsData&gt; {
+    jsrootSettings.UseStamp &#x3D; false;
+    this.skips.clear();
+    this.available.clear();
+
+    let tree: any;
+    try {
+      const file &#x3D; await openFile(fileSource as any);
+      tree &#x3D; await file.readObject(&#x27;CollectionTree&#x27;);
+    } catch (error: any) {
+      throw new Error(this.describeOpenFailure(error));
+    }
+
+    if (!tree) {
+      throw new Error(
+        &#x27;No CollectionTree found in this ROOT file. It may not be an ATLAS ESD.&#x27;,
+      );
+    }
+
+    const nEntries: number &#x3D; tree.fEntries ?? 0;
+    const nToProcess &#x3D; Math.min(nEntries, this.maxEvents);
+
+    if (nToProcess &#x3D;&#x3D;&#x3D; 0) {
+      throw new Error(&#x27;CollectionTree has no entries.&#x27;);
+    }
+
+    const collections &#x3D; this.resolveCollections(tree);
+
+    if (collections.length &#x3D;&#x3D;&#x3D; 0) {
+      throw new Error(
+        &#x27;No readable xAOD auxiliary containers found in CollectionTree. &#x27; +
+          &#x27;It may not be an ATLAS ESD.&#x27;,
+      );
+    }
+
+    const selector &#x3D; new TSelector();
+    for (const collection of collections) {
+      selector.addBranch(collection.branchName, collection.key);
+    }
+
+    const eventInfoKey &#x3D; &#x27;esd__EventInfo&#x27;;
+    const eventInfoBranch &#x3D; this.findBranch(tree, &#x27;EventInfo&#x27;);
+    if (eventInfoBranch) {
+      selector.addBranch(eventInfoBranch, eventInfoKey);
+    }
+
+    const eventsData: Record&lt;string, PhoenixEventData&gt; &#x3D; {};
+    let eventIndex &#x3D; 0;
+
+    selector.Process &#x3D; () &#x3D;&gt; {
+      if (eventIndex &gt;&#x3D; nToProcess) {
+        selector.Abort();
+        return;
+      }
+
+      const tgt &#x3D; selector.tgtobj;
+      const eventInfo &#x3D; eventInfoBranch ? tgt[eventInfoKey] : null;
+      const eventNumber &#x3D; Number(eventInfo?.eventNumber ?? eventIndex);
+      const runNumber &#x3D; Number(eventInfo?.runNumber ?? 0);
+
+      const eventData: PhoenixEventData &#x3D; {
+        &#x27;event number&#x27;: eventNumber,
+        &#x27;run number&#x27;: runNumber,
+      };
+      // &#x27;lumiBlock&#x27; is one of the keys PhoenixLoader.getEventMetadata looks for.
+      if (eventInfo?.lumiBlock !&#x3D;&#x3D; undefined) {
+        eventData[&#x27;lumiBlock&#x27;] &#x3D; Number(eventInfo.lumiBlock);
+      }
+
+      // Pre-initialise every type so Phoenix registers it from the first event,
+      // even where this event happens to have nothing in it.
+      for (const { def } of collections) {
+        if (!eventData[def.phoenixType]) {
+          eventData[def.phoenixType] &#x3D; {};
+        }
+      }
+
+      for (const collection of collections) {
+        const objects &#x3D; this.convertCollection(collection, tgt[collection.key]);
+        if (objects &amp;&amp; objects.length &gt; 0) {
+          eventData[collection.def.phoenixType][collection.container] &#x3D; objects;
+        } else if (objects) {
+          this.noteSkip(collection.container, &#x27;empty&#x27;, &#x27;event&#x27;);
+        }
+      }
+
+      eventsData[&#x60;Event ${eventNumber}&#x60;] &#x3D; eventData;
+      eventIndex++;
+    };
+
+    await treeProcess(tree, selector, { numentries: nToProcess });
+
+    this.reportSkips(collections.length, eventIndex);
+    this.reportAvailable();
+
+    return eventsData;
+  }
+
+  /**
+   * Record something that was not converted.
+   * @param container Container it relates to.
+   * @param reason Why it was skipped, phrased to complete &quot;&lt;container&gt; — ...&quot;.
+   * @param unit What is being counted.
+   * @param count How many to add.
+   */
+  private noteSkip(
+    container: string,
+    reason: string,
+    unit: SkipUnit,
+    count &#x3D; 1,
+  ) {
+    const key &#x3D; &#x60;${container} — ${reason}&#x60;;
+    const entry &#x3D; this.skips.get(key);
+    if (entry) {
+      entry.count +&#x3D; count;
+    } else {
+      this.skips.set(key, { count, unit });
+    }
+  }
+
+  /**
+   * Print a summary of everything that was skipped, and why.
+   *
+   * The three units are counted differently on purpose. Objects are summed,
+   * because dropping 12 tracks is worth stating as 12. Collections are counted
+   * once each, whether they were missing outright or merely empty — an entry
+   * with &#x60;unit: &#x27;event&#x27;&#x60; is one collection that came back empty in N events,
+   * so summing its count would report &quot;skipped N events&quot; when no event was
+   * skipped at all.
+   * @param nCollections How many collections were read.
+   * @param nEvents How many events were read.
+   */
+  private reportSkips(nCollections: number, nEvents: number) {
+    const entries &#x3D; [...this.skips.entries()];
+    const read &#x3D; &#x60;ATLASESDLoader: read ${nCollections} collection(s) from ${nEvents} event(s)&#x60;;
+
+    if (entries.length &#x3D;&#x3D;&#x3D; 0) {
+      console.info(&#x60;${read}, nothing skipped&#x60;);
+      return;
+    }
+
+    const objects &#x3D; entries.filter(([, e]) &#x3D;&gt; e.unit &#x3D;&#x3D;&#x3D; &#x27;object&#x27;);
+    const unavailable &#x3D; entries.filter(([, e]) &#x3D;&gt; e.unit &#x3D;&#x3D;&#x3D; &#x27;collection&#x27;);
+    const empty &#x3D; entries.filter(([, e]) &#x3D;&gt; e.unit &#x3D;&#x3D;&#x3D; &#x27;event&#x27;);
+
+    const nObjects &#x3D; objects.reduce((sum, [, e]) &#x3D;&gt; sum + e.count, 0);
+
+    const clauses: string[] &#x3D; [];
+    if (nObjects) clauses.push(&#x60;skipped ${nObjects} object(s)&#x60;);
+    if (unavailable.length) {
+      clauses.push(&#x60;${unavailable.length} collection(s) unavailable&#x60;);
+    }
+    if (empty.length) clauses.push(&#x60;${empty.length} collection(s) empty&#x60;);
+
+    const lines &#x3D; [
+      ...objects
+        .sort((a, b) &#x3D;&gt; b[1].count - a[1].count)
+        .map(([key, { count }]) &#x3D;&gt; &#x60;  ${key}: ${count} object(s)&#x60;),
+      ...unavailable.map(([key]) &#x3D;&gt; &#x60;  ${key}&#x60;),
+      ...empty.map(
+        ([key, { count }]) &#x3D;&gt; &#x60;  ${key}: ${count}/${nEvents} events&#x60;,
+      ),
+    ];
+
+    console.info([&#x60;${read}; ${clauses.join(&#x27;, &#x27;)}&#x60;, ...lines].join(&#x27;\n&#x27;));
+  }
+
+  /**
+   * List the containers this file offers that the allow-list left out.
+   *
+   * Trigger containers are counted rather than named: an ESD carries dozens of
+   * HLT and L1 collections, and naming them all would bury the handful of
+   * offline ones anyone is likely to want.
+   */
+  private reportAvailable() {
+    if (this.available.size &#x3D;&#x3D;&#x3D; 0) return;
+
+    const offline &#x3D; new Map&lt;string, string[]&gt;();
+    let trigger &#x3D; 0;
+
+    for (const [container, phoenixType] of this.available) {
+      if (TRIGGER_CONTAINER_RE.test(container)) {
+        trigger++;
+        continue;
+      }
+      const group &#x3D; offline.get(phoenixType) ?? [];
+      group.push(container);
+      offline.set(phoenixType, group);
+    }
+
+    const width &#x3D; Math.max(...[...offline.keys()].map((k) &#x3D;&gt; k.length), 0);
+    const lines &#x3D; [...offline.entries()]
+      .sort(([a], [b]) &#x3D;&gt; a.localeCompare(b))
+      .map(
+        ([type, names]) &#x3D;&gt;
+          &#x60;  ${type.padEnd(width)}  ${names.sort().join(&#x27;, &#x27;)}&#x60;,
+      );
+
+    if (trigger) {
+      lines.push(&#x60;  (${trigger} trigger container(s) not listed: HLT_*, L1_*)&#x60;);
+    }
+
+    console.info(
+      [
+        &#x60;ATLASESDLoader: ${this.available.size} readable container(s) not in the &#x60; +
+          &#x27;allow-list; add any of these with the containers or extraContainers option&#x27;,
+        ...lines,
+      ].join(&#x27;\n&#x27;),
+    );
+  }
+
+  /**
+   * Find the collections in the allow-list that this file actually provides.
+   * @param tree The CollectionTree.
+   * @returns One entry per resolved collection.
+   */
+  private resolveCollections(tree: any): ESDResolvedCollection[] {
+    const resolved: ESDResolvedCollection[] &#x3D; [];
+    const seen &#x3D; new Set&lt;string&gt;();
+
+    for (const branch of tree.fBranches.arr) {
+      const auxMatch &#x3D; AUX_BRANCH_RE.exec(branch.fName);
+      const trkMatch &#x3D; auxMatch ? null : TRK_BRANCH_RE.exec(branch.fName);
+      if (!auxMatch &amp;&amp; !trkMatch) continue;
+
+      const container &#x3D; auxMatch ? auxMatch[2] : trkMatch![1];
+      const auxClass &#x3D; auxMatch ? auxMatch[1] : null;
+
+      if (!this.containers.has(container)) {
+        // Only worth mentioning if there is a converter for it — an ESD holds
+        // hundreds of containers this loader has no way to draw.
+        const def &#x3D; auxClass ? ESD_AUX_CLASSES[auxClass] : TRK_TRACK_DEF;
+        if (def) this.available.set(container, def.phoenixType);
+        continue;
+      }
+
+      const def &#x3D; auxClass ? ESD_AUX_CLASSES[auxClass] : TRK_TRACK_DEF;
+      if (!def) {
+        this.noteSkip(
+          container,
+          &#x60;unsupported aux class ${auxClass}&#x60;,
+          &#x27;collection&#x27;,
+        );
+        continue;
+      }
+
+      if (seen.has(container)) {
+        this.noteSkip(container, &#x27;duplicate branch&#x27;, &#x27;collection&#x27;);
+        continue;
+      }
+      seen.add(container);
+
+      resolved.push({
+        def,
+        container,
+        branchName: branch.fName,
+        key: &#x60;esd__${container}&#x60;,
+      });
+    }
+
+    // Anything asked for but absent is worth reporting: it is the usual reason
+    // a collection a user expected is missing from the menu.
+    for (const container of this.containers) {
+      if (!seen.has(container)) {
+        this.noteSkip(container, &#x27;not present in this file&#x27;, &#x27;collection&#x27;);
+      }
+    }
+
+    return resolved;
+  }
+
+  /**
+   * Find the static aux store branch for a container.
+   * @param tree The CollectionTree.
+   * @param container Container name, e.g. &#x27;EventInfo&#x27;.
+   * @returns The full branch name, or null if absent.
+   */
+  private findBranch(tree: any, container: string): string | null {
+    for (const branch of tree.fBranches.arr) {
+      const match &#x3D; AUX_BRANCH_RE.exec(branch.fName);
+      if (match &amp;&amp; match[2] &#x3D;&#x3D;&#x3D; container) {
+        return branch.fName;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Convert one aux store into Phoenix objects.
+   * @param collection The resolved collection.
+   * @param store The streamed aux store object for this entry.
+   * @returns Phoenix objects, or null if the store is unusable.
+   */
+  private convertCollection(
+    collection: ESDResolvedCollection,
+    store: any,
+  ): any[] | null {
+    const { def, container } &#x3D; collection;
+
+    if (!store) {
+      this.noteSkip(container, &#x27;aux store not read&#x27;, &#x27;event&#x27;);
+      return null;
+    }
+    for (const name of def.required) {
+      if (!this.member(store, name)) {
+        this.noteSkip(container, &#x60;aux store has no &#x27;${name}&#x27;&#x60;, &#x27;collection&#x27;);
+        return null;
+      }
+    }
+
+    switch (def.converter) {
+      case &#x27;tracks&#x27;:
+        return this.convertTracks(store, container);
+      case &#x27;trkTracks&#x27;:
+        return this.convertTrkTracks(store, container);
+      case &#x27;particles&#x27;:
+        return this.convertParticles(store, def.pdgId);
+      case &#x27;jets&#x27;:
+        return this.convertJets(store);
+      case &#x27;clusters&#x27;:
+        return this.convertCaloClusters(store);
+      case &#x27;vertices&#x27;:
+        return this.convertVertices(store);
+      case &#x27;met&#x27;:
+        return this.convertMET(store);
+      default:
+        return null;
+    }
+  }
+
+  /**
+   * Convert an xAOD::TrackParticleAuxContainer into Phoenix tracks.
+   * @param store The aux store.
+   * @param container Container name, for attributing skipped tracks.
+   * @returns Phoenix track objects.
+   */
+  private convertTracks(store: any, container: string): any[] {
+    const d0Arr &#x3D; this.member(store, &#x27;d0&#x27;);
+    const z0Arr &#x3D; this.member(store, &#x27;z0&#x27;);
+    const thetaArr &#x3D; this.member(store, &#x27;theta&#x27;);
+    const phiArr &#x3D; this.member(store, &#x27;phi&#x27;);
+    const qOverPArr &#x3D; this.member(store, &#x27;qOverP&#x27;);
+    const chi2Arr &#x3D; this.member(store, &#x27;chiSquared&#x27;);
+    const dofArr &#x3D; this.member(store, &#x27;numberDoF&#x27;);
+
+    if (!phiArr || !thetaArr || !qOverPArr) return [];
+
+    const tracks: any[] &#x3D; [];
+
+    for (let i &#x3D; 0; i &lt; phiArr.length; i++) {
+      const track &#x3D; this.makeTrack(
+        container,
+        d0Arr ? d0Arr[i] : 0,
+        z0Arr ? z0Arr[i] : 0,
+        phiArr[i],
+        thetaArr[i],
+        qOverPArr[i],
+        chi2Arr ? chi2Arr[i] : undefined,
+        dofArr ? dofArr[i] : undefined,
+      );
+      if (track) tracks.push(track);
+    }
+
+    this.reportTrackNotes(container, tracks, 0);
+
+    return tracks;
+  }
+
+  /**
+   * Build one Phoenix track from perigee parameters, or reject it.
+   *
+   * Shared by the xAOD and &#x60;Trk::Track&#x60; converters so the validity guards and
+   * their skip reasons live in exactly one place.
+   * @param container Container name, for attributing skipped tracks.
+   * @param d0 Transverse impact parameter, mm.
+   * @param z0 Longitudinal impact parameter, mm.
+   * @param phi Azimuthal angle, radians.
+   * @param theta Polar angle, radians.
+   * @param qOverP Charge over momentum, 1/MeV.
+   * @param chi2 Fit chi squared, if known.
+   * @param dof Fit degrees of freedom, if known.
+   * @returns The Phoenix track, or null if it was rejected.
+   */
+  private makeTrack(
+    container: string,
+    d0: number,
+    z0: number,
+    phi: number,
+    theta: number,
+    qOverP: number,
+    chi2?: number,
+    dof?: number,
+  ): any | null {
+    // Skip tracks with invalid parameters to avoid NaN in Runge-Kutta.
+    // The reasons are kept apart so the summary says which one bit.
+    if (!qOverP || !isFinite(1.0 / qOverP)) {
+      this.noteSkip(container, &#x27;zero or non-finite qOverP&#x27;, &#x27;object&#x27;);
+      return null;
+    }
+    if (!(theta &gt; 0 &amp;&amp; theta &lt; Math.PI)) {
+      this.noteSkip(container, &#x27;theta outside (0, pi)&#x27;, &#x27;object&#x27;);
+      return null;
+    }
+    if (!isFinite(d0) || !isFinite(z0) || !isFinite(phi)) {
+      this.noteSkip(container, &#x27;non-finite d0, z0 or phi&#x27;, &#x27;object&#x27;);
+      return null;
+    }
+
+    const p &#x3D; Math.abs(1.0 / qOverP);
+
+    const track: any &#x3D; {
+      dparams: [d0, z0, phi, theta, qOverP],
+      phi,
+      eta: CoordinateHelper.thetaToEta(theta),
+      d0,
+      z0,
+    };
+
+    // Only report a momentum that is actually a measurement. Emitting the
+    // sentinel as pT would be worse than emitting nothing: it is meaningless,
+    // and being far outside the default pT cut it makes the track vanish from
+    // the display with no indication why. Cuts skip absent fields, so leaving
+    // pT off means the pT cut simply does not apply to this track.
+    if (p &lt;&#x3D; MAX_PHYSICAL_MOMENTUM) {
+      track.pT &#x3D; p * Math.sin(theta);
+    } else {
+      track.momentumMeasured &#x3D; false;
+    }
+
+    // Field names must be &#x27;chi2&#x27; and &#x27;dof&#x27; to match the default Tracks cuts
+    // in object-type-registry.ts, which are filtered against the fields
+    // present on the first object of the collection.
+    if (chi2 !&#x3D;&#x3D; undefined) track.chi2 &#x3D; chi2;
+    if (dof !&#x3D;&#x3D; undefined) track.dof &#x3D; dof;
+
+    return track;
+  }
+
+  /**
+   * Convert a &#x60;Trk::TrackCollection_tlpN&#x60; into Phoenix tracks.
+   *
+   * Unlike the xAOD containers this is a POOL type/persistent-separated object:
+   * a set of parallel arrays joined by &#x60;TPObjRef&#x60;, which is
+   * &#x60;{ m_typeID: { m_TLCnvID, m_cnvID }, m_index }&#x60; where &#x60;m_index&#x60; indexes the
+   * target array and &#x60;m_cnvID &#x3D;&#x3D;&#x3D; 0&#x60; marks a null reference. The walk is
+   *
+   *   m_trackCollections[0] -&gt; refs -&gt; m_tracks -&gt; m_trackState
+   *     -&gt; m_trackStates -&gt; m_trackParameters -&gt; m_parameters
+   *
+   * and the perigee is the parameter with &#x60;m_surfaceType &#x3D;&#x3D;&#x3D; 3&#x60;. There is
+   * exactly one per track.
+   *
+   * Where the trajectory itself is recoverable — see {@link globalPosition} —
+   * the track also carries a &#x60;pos&#x60; polyline, which Phoenix draws in place of
+   * extrapolating from the perigee.
+   *
+   * Reading a collection streams the whole persistent object, including large
+   * arrays this never touches (&#x60;m_hepSymMatrices&#x60; is 32k entries for
+   * CombinedInDetTracks) — which is why these collections are off by default.
+   * @param store The streamed persistent container.
+   * @param container Container name, for attributing skipped tracks.
+   * @returns Phoenix track objects.
+   */
+  private convertTrkTracks(store: any, container: string): any[] {
+    const collection &#x3D; store.m_trackCollections?.[0];
+    // jsroot exposes the ref vector under a generated key (&#x27;vector&lt;TPObjRef&gt;&#x27;),
+    // so find it structurally rather than by name.
+    const trackRefs &#x3D; collection
+      ? Object.values(collection).find((v) &#x3D;&gt; Array.isArray(v))
+      : null;
+
+    if (!Array.isArray(trackRefs)) {
+      this.noteSkip(
+        container,
+        &#x27;no track collection in container&#x27;,
+        &#x27;collection&#x27;,
+      );
+      return [];
+    }
+
+    const tracks: any[] &#x3D; [];
+    let measured &#x3D; 0;
+
+    for (const ref of trackRefs) {
+      const persistent &#x3D; store.m_tracks?.[ref?.m_index];
+      if (!persistent) continue;
+
+      const perigee &#x3D; this.findPerigee(store, persistent);
+      if (!perigee) {
+        this.noteSkip(container, &#x27;no perigee parameters&#x27;, &#x27;object&#x27;);
+        continue;
+      }
+
+      const track &#x3D; this.makeTrack(
+        container,
+        perigee[0],
+        perigee[1],
+        perigee[2],
+        perigee[3],
+        perigee[4],
+        persistent.m_chiSquared,
+        persistent.m_numberDoF,
+      );
+      if (!track) continue;
+
+      // PhoenixObjects.getTrack only uses pos when it has more than two points,
+      // and falls back to Runge-Kutta from dparams otherwise.
+      if (this.measuredPositions) {
+        const positions &#x3D; this.trackPositions(store, persistent);
+        if (positions.length &gt; 2) {
+          track.pos &#x3D; positions;
+          measured++;
+        }
+      }
+
+      tracks.push(track);
+    }
+
+    this.reportTrackNotes(container, tracks, measured);
+
+    return tracks;
+  }
+
+  /**
+   * Note anything about a track collection worth saying out loud.
+   * @param container Container name.
+   * @param tracks The converted tracks.
+   * @param measured How many are drawn from measured positions.
+   */
+  private reportTrackNotes(container: string, tracks: any[], measured: number) {
+    const notes: string[] &#x3D; [];
+
+    if (measured) {
+      notes.push(
+        &#x60;${measured}/${tracks.length} drawn from measured positions, the rest extrapolated&#x60;,
+      );
+    }
+
+    const unmeasured &#x3D; tracks.filter(
+      (t) &#x3D;&gt; t.momentumMeasured &#x3D;&#x3D;&#x3D; false,
+    ).length;
+    if (unmeasured) {
+      notes.push(
+        &#x60;${unmeasured} with no momentum measurement, so no pT and no pT cut&#x60;,
+      );
+    }
+
+    if (notes.length) {
+      console.info(&#x60;ATLASESDLoader: ${container} — ${notes.join(&#x27;; &#x27;)}&#x60;);
+    }
+  }
+
+  /**
+   * Collect a persistent track&#x27;s trajectory in track-state order.
+   * @param store The streamed persistent container.
+   * @param persistent One &#x60;Trk::Track_pN&#x60;.
+   * @returns Global points, mm; empty when none are recoverable.
+   */
+  private trackPositions(store: any, persistent: any): number[][] {
+    const points: number[][] &#x3D; [];
+
+    for (const stateRef of persistent.m_trackState ?? []) {
+      const state &#x3D; store.m_trackStates?.[stateRef?.m_index];
+      const paramRef &#x3D; state?.m_trackParameters;
+      if (!paramRef || paramRef.m_typeID?.m_cnvID &#x3D;&#x3D;&#x3D; 0) continue;
+
+      const point &#x3D; this.globalPosition(store.m_parameters?.[paramRef.m_index]);
+      if (!point) continue;
+
+      // Phoenix fits a CatmullRomCurve3 through these, which yields NaN
+      // tangents on repeated points — and consecutive duplicates do occur.
+      const last &#x3D; points[points.length - 1];
+      if (
+        last &amp;&amp;
+        Math.abs(last[0] - point[0]) &lt; 1e-6 &amp;&amp;
+        Math.abs(last[1] - point[1]) &lt; 1e-6 &amp;&amp;
+        Math.abs(last[2] - point[2]) &lt; 1e-6
+      ) {
+        continue;
+      }
+
+      points.push(point);
+    }
+
+    return points;
+  }
+
+  /**
+   * Global position of one persistent track parameter, where it is recoverable.
+   *
+   * Two cases carry enough information; everything else is expressed on a
+   * detector-element surface whose transform is not persisted, and is skipped.
+   *
+   * - **Curvilinear** (&#x60;m_surfaceType &#x3D;&#x3D;&#x3D; 6&#x60;) stores seven values rather than
+   *   five: global position, global momentum and charge. The frame is defined
+   *   by the track itself, so the position is right there.
+   * - **Plane** (&#x60;m_surfaceType &#x3D;&#x3D;&#x3D; 4&#x60;) sometimes carries its surface
+   *   transform, 9 row-major rotation elements followed by a translation. The
+   *   local parameters are Cartesian in that plane, so the global point is
+   *   &#x60;R · (loc1, loc2, 0) + T&#x60;.
+   *
+   * Line surfaces are excluded deliberately: their first local parameter is a
+   * signed drift distance perpendicular to the wire, not a Cartesian offset.
+   * @param params One &#x60;Trk::TrackParameters_pN&#x60;.
+   * @returns [x, y, z] in mm, or null if the position is not recoverable.
+   */
+  private globalPosition(params: any): number[] | null {
+    const p &#x3D; params?.m_parameters;
+    if (!p) return null;
+
+    let point: number[] | null &#x3D; null;
+
+    if (params.m_surfaceType &#x3D;&#x3D;&#x3D; 6 &amp;&amp; p.length &gt;&#x3D; 7) {
+      point &#x3D; [p[0], p[1], p[2]];
+    } else if (
+      params.m_surfaceType &#x3D;&#x3D;&#x3D; 4 &amp;&amp;
+      params.m_transform?.length &#x3D;&#x3D;&#x3D; 12 &amp;&amp;
+      p.length &gt;&#x3D; 2
+    ) {
+      const t &#x3D; params.m_transform;
+      point &#x3D; [
+        t[0] * p[0] + t[1] * p[1] + t[9],
+        t[3] * p[0] + t[4] * p[1] + t[10],
+        t[6] * p[0] + t[7] * p[1] + t[11],
+      ];
+    }
+
+    return point?.every((v) &#x3D;&gt; isFinite(v)) ? point : null;
+  }
+
+  /**
+   * Find a persistent track&#x27;s perigee parameters.
+   * @param store The streamed persistent container.
+   * @param persistent One &#x60;Trk::Track_pN&#x60;.
+   * @returns [d0, z0, phi, theta, qOverP], or null if the track has no perigee.
+   */
+  private findPerigee(store: any, persistent: any): ArrayLike&lt;number&gt; | null {
+    for (const stateRef of persistent.m_trackState ?? []) {
+      const state &#x3D; store.m_trackStates?.[stateRef?.m_index];
+      const paramRef &#x3D; state?.m_trackParameters;
+      // m_cnvID 0 is a null reference, not index 0 of the parameters array.
+      if (!paramRef || paramRef.m_typeID?.m_cnvID &#x3D;&#x3D;&#x3D; 0) continue;
+
+      const params &#x3D; store.m_parameters?.[paramRef.m_index];
+      // Surface type 3 is the perigee; 4 and 5 are measurement surfaces.
+      if (params?.m_surfaceType &#x3D;&#x3D;&#x3D; 3 &amp;&amp; params.m_parameters?.length &gt;&#x3D; 5) {
+        return params.m_parameters;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Convert an electron, photon or muon aux store into Phoenix compound objects.
+   * @param store The aux store.
+   * @param pdgId PDG code of the particle, if it is charged.
+   * @returns Phoenix particle objects.
+   */
+  private convertParticles(store: any, pdgId?: number): any[] {
+    const ptArr &#x3D; this.member(store, &#x27;pt&#x27;);
+    const etaArr &#x3D; this.member(store, &#x27;eta&#x27;);
+    const phiArr &#x3D; this.member(store, &#x27;phi&#x27;);
+    const mArr &#x3D; this.member(store, &#x27;m&#x27;);
+    const chargeArr &#x3D; this.member(store, &#x27;charge&#x27;);
+
+    if (!etaArr || !phiArr) return [];
+
+    const particles: any[] &#x3D; new Array(etaArr.length);
+
+    for (let i &#x3D; 0; i &lt; etaArr.length; i++) {
+      const eta &#x3D; etaArr[i];
+      const pt &#x3D; ptArr ? ptArr[i] : 0; // MeV
+      const m &#x3D; mArr ? mArr[i] : 0;
+
+      // E &#x3D; sqrt((pt*cosh(eta))^2 + m^2)
+      const p &#x3D; pt * Math.cosh(eta);
+
+      const particle: any &#x3D; {
+        eta,
+        phi: phiArr[i],
+        pt,
+        energy: Math.sqrt(p * p + m * m),
+      };
+
+      if (chargeArr) particle.charge &#x3D; chargeArr[i];
+      if (pdgId !&#x3D;&#x3D; undefined) {
+        particle.pdgId &#x3D; this.signedPdgId(
+          pdgId,
+          chargeArr ? chargeArr[i] : undefined,
+        );
+      }
+
+      particles[i] &#x3D; particle;
+    }
+
+    return particles;
+  }
+
+  /**
+   * Convert a jet or tau aux store into Phoenix jets.
+   * @param store The aux store.
+   * @returns Phoenix jet objects.
+   */
+  private convertJets(store: any): any[] {
+    const ptArr &#x3D; this.member(store, &#x27;pt&#x27;);
+    const etaArr &#x3D; this.member(store, &#x27;eta&#x27;);
+    const phiArr &#x3D; this.member(store, &#x27;phi&#x27;);
+    const mArr &#x3D; this.member(store, &#x27;m&#x27;);
+
+    if (!ptArr || !etaArr || !phiArr) return [];
+
+    const jets: any[] &#x3D; new Array(etaArr.length);
+
+    for (let i &#x3D; 0; i &lt; etaArr.length; i++) {
+      const eta &#x3D; etaArr[i];
+      const pt &#x3D; ptArr[i];
+      const m &#x3D; mArr ? mArr[i] : 0;
+      const p &#x3D; pt * Math.cosh(eta);
+
+      jets[i] &#x3D; {
+        eta,
+        phi: phiArr[i],
+        pt,
+        energy: Math.sqrt(p * p + m * m),
+      };
+    }
+
+    return jets;
+  }
+
+  /**
+   * Convert an xAOD::CaloClusterAuxContainer into Phoenix calo clusters.
+   * @param store The aux store.
+   * @returns Phoenix cluster objects.
+   */
+  private convertCaloClusters(store: any): any[] {
+    const eArr &#x3D; this.member(store, &#x27;calE&#x27;);
+    const etaArr &#x3D; this.member(store, &#x27;calEta&#x27;);
+    const phiArr &#x3D; this.member(store, &#x27;calPhi&#x27;);
+    const timeArr &#x3D; this.member(store, &#x27;time&#x27;);
+
+    if (!eArr || !etaArr || !phiArr) return [];
+
+    const clusters: any[] &#x3D; new Array(etaArr.length);
+
+    for (let i &#x3D; 0; i &lt; etaArr.length; i++) {
+      const cluster: any &#x3D; {
+        energy: eArr[i],
+        eta: etaArr[i],
+        phi: phiArr[i],
+      };
+      if (timeArr) cluster.time &#x3D; timeArr[i];
+      clusters[i] &#x3D; cluster;
+    }
+
+    return clusters;
+  }
+
+  /**
+   * Convert an xAOD::VertexAuxContainer into Phoenix vertices.
+   * @param store The aux store.
+   * @returns Phoenix vertex objects.
+   */
+  private convertVertices(store: any): any[] {
+    const xArr &#x3D; this.member(store, &#x27;x&#x27;);
+    const yArr &#x3D; this.member(store, &#x27;y&#x27;);
+    const zArr &#x3D; this.member(store, &#x27;z&#x27;);
+    const typeArr &#x3D; this.member(store, &#x27;vertexType&#x27;);
+    const chi2Arr &#x3D; this.member(store, &#x27;chiSquared&#x27;);
+    const dofArr &#x3D; this.member(store, &#x27;numberDoF&#x27;);
+
+    if (!xArr || !yArr || !zArr) return [];
+
+    const vertices: any[] &#x3D; new Array(xArr.length);
+
+    for (let i &#x3D; 0; i &lt; xArr.length; i++) {
+      const vertex: any &#x3D; { x: xArr[i], y: yArr[i], z: zArr[i] };
+      // vertexType is the only default cut for the Vertices type.
+      if (typeArr) vertex.vertexType &#x3D; typeArr[i];
+      if (chi2Arr) vertex.chi2 &#x3D; chi2Arr[i];
+      if (dofArr) vertex.dof &#x3D; dofArr[i];
+      vertices[i] &#x3D; vertex;
+    }
+
+    return vertices;
+  }
+
+  /**
+   * Convert an xAOD::MissingETAuxContainer into a single Phoenix MET object.
+   *
+   * Unlike PHYSLITE&#x27;s single MET value, an ESD MET container holds one entry
+   * per term (RefEle, RefGamma, RefJet, ... FinalTrk, FinalClus), so the total
+   * has to be picked out by name rather than by index.
+   * @param store The aux store.
+   * @returns A one-element array holding the MET object.
+   */
+  private convertMET(store: any): any[] {
+    const mpxArr &#x3D; this.member(store, &#x27;mpx&#x27;);
+    const mpyArr &#x3D; this.member(store, &#x27;mpy&#x27;);
+    const sumetArr &#x3D; this.member(store, &#x27;sumet&#x27;);
+    const names: string[] | null &#x3D; Array.isArray(store.name)
+      ? store.name
+      : null;
+
+    if (!mpxArr || !mpyArr || mpxArr.length &#x3D;&#x3D;&#x3D; 0) return [];
+
+    let index &#x3D; -1;
+    if (names) {
+      for (const term of this.metTerms) {
+        index &#x3D; names.indexOf(term);
+        if (index &gt;&#x3D; 0) break;
+      }
+      if (index &lt; 0) {
+        console.warn(
+          &#x60;ATLASESDLoader: no MET term of ${this.metTerms.join(&#x27;/&#x27;)} found, &#x60; +
+            &#x60;using the first of ${names.join(&#x27;, &#x27;)}&#x60;,
+        );
+      }
+    }
+    if (index &lt; 0) index &#x3D; 0;
+
+    const met: any &#x3D; { etx: mpxArr[index], ety: mpyArr[index] };
+    if (names) met.name &#x3D; names[index];
+    if (sumetArr) met.sumet &#x3D; sumetArr[index];
+
+    return [met];
+  }
+
+  /**
+   * Give a PDG code the sign Phoenix expects.
+   *
+   * &#x60;PhoenixLoader.getCompound&#x60; derives the track charge as
+   * &#x60;pdgId &gt; 0 ? 1 : -1&#x60;, i.e. it reads the *sign of pdgId as the sign of the
+   * charge*. That is the opposite of the PDG convention for leptons (a mu- is
+   * +13), so the sign is flipped here to make extrapolated tracks bend the
+   * right way. Where the ESD gives no charge, fall back to the negative
+   * particle, matching the PHYSLITE loader.
+   * @param pdgId PDG code of the particle.
+   * @param charge Charge from the aux store, if available.
+   * @returns The PDG code with the sign of the charge.
+   */
+  private signedPdgId(pdgId: number, charge?: number): number {
+    const magnitude &#x3D; Math.abs(pdgId);
+    return charge !&#x3D;&#x3D; undefined &amp;&amp; charge &gt; 0 ? magnitude : -magnitude;
+  }
+
+  /**
+   * Read one aux store member as an indexable numeric sequence.
+   * @param store The aux store.
+   * @param name Member name.
+   * @returns The member, or null if absent or not indexable.
+   */
+  private member(store: any, name: string): ArrayLike&lt;number&gt; | null {
+    const value &#x3D; store?.[name];
+    if (value &#x3D;&#x3D; null) return null;
+    if (Array.isArray(value)) return value;
+    if (ArrayBuffer.isView(value)) return value as unknown as ArrayLike&lt;number&gt;;
+    if (typeof value &#x3D;&#x3D;&#x3D; &#x27;number&#x27;) return [value];
+    return null;
+  }
+
+  /**
+   * Turn a jsroot failure into something a user can act on.
+   * @param error The error thrown by jsroot.
+   * @returns The message to report.
+   */
+  private describeOpenFailure(error: any): string {
+    const message &#x3D; error?.message ?? String(error);
+
+    if (/LZMA|corrupted input|unpacked buffer size/i.test(message)) {
+      return (
+        &#x27;Failed to decompress this ROOT file. ATLAS ESDs are LZMA compressed, &#x27; +
+        &#x27;and jsroot cannot decode multi-chunk LZMA2 blocks without the patch &#x27; +
+        &#x27;Phoenix applies on install (scripts/patch-jsroot.js). If you are &#x27; +
+        &#x60;using phoenix-event-display from npm, this fix may not be in your &#x60; +
+        &#x60;jsroot version yet. Original error: ${message}&#x60;
+      );
+    }
+
+    return &#x60;Failed to open ROOT file: ${message}&#x60;;
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'ESDResolvedCollection.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

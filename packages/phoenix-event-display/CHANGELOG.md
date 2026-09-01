@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/HSF/phoenix/compare/v4.0.1...v4.1.0) (2026-09-01)
+
+
+### Bug Fixes
+
+* **app,event-display:** removed deprecated tsconfig.json options to fix build errors ([09d9ea9](https://github.com/HSF/phoenix/commit/09d9ea92f633b0c601fd771f713debe5773daf45))
+* **app:** improvements to how collections are shown ([#972](https://github.com/HSF/phoenix/issues/972)) ([111adb2](https://github.com/HSF/phoenix/commit/111adb254187b0a654b0143735595b7016916001))
+* **color-manager:** preserve manually-set vertex colors in Color by Vertex ([e50ee6a](https://github.com/HSF/phoenix/commit/e50ee6aa1430172f8a2bc6a9c7494f33acbc8ce3))
+* **event-display:** fix track 'Color by' when loading JSON with linked tracks after one without ([#978](https://github.com/HSF/phoenix/issues/978)) ([f27eded](https://github.com/HSF/phoenix/commit/f27eded89113ffd7b0c64eb7304a1d2b3c96f5ca))
+* **event-display:** make track "Color by" options work ([62d129a](https://github.com/HSF/phoenix/commit/62d129ae4f40b3ef356e4c43e27ea9f59b4b60ab)), closes [#948](https://github.com/HSF/phoenix/issues/948) [#948](https://github.com/HSF/phoenix/issues/948)
+* **event-display:** sync eta-phi view with 3d view visibility and cuts ([#966](https://github.com/HSF/phoenix/issues/966)) ([38d262c](https://github.com/HSF/phoenix/commit/38d262c4416306379f797bdc67aa5c5177f0b801))
+* require confirmation before replaying shared sessions, harden remote fetch ([#883](https://github.com/HSF/phoenix/issues/883)) ([1c60e19](https://github.com/HSF/phoenix/commit/1c60e19138e55f3176d03894d76c19cae9f19d4a))
+* restrict masterclass track selection to track-type collections (closes [#923](https://github.com/HSF/phoenix/issues/923)) ([de82cc9](https://github.com/HSF/phoenix/commit/de82cc92fe2cc16c8a84e696f7c1efd5f2250fbc))
+
+
+### Features
+
+* Add download preset animations with curtain loader ([4bea4fa](https://github.com/HSF/phoenix/commit/4bea4fae5bf300aa96f1d6ef674f48e83b67d1ff))
+* add session recording and replay for event exploration (closes [#883](https://github.com/HSF/phoenix/issues/883)) ([d639946](https://github.com/HSF/phoenix/commit/d63994635ea3be1be65c9b93a362c1cf7465f92d))
+* **event-display,ui:** Add a loader for ATLAS ESD/AOD files ([#975](https://github.com/HSF/phoenix/issues/975)) ([9654fb6](https://github.com/HSF/phoenix/commit/9654fb6891dc273e77b1a396e9e708875ebf118d))
+* **event-display:** allow vertices to be linked to different track types ([#977](https://github.com/HSF/phoenix/issues/977)) ([ad2d08a](https://github.com/HSF/phoenix/commit/ad2d08a86acc828daf962ad54bc360d2054f857a))
+* **event-display:** refactor handling of unsafe collection names ([e6a583c](https://github.com/HSF/phoenix/commit/e6a583ccaf2738d46772949effc12427406f8899))
+* **ui:** show collection options as a compact icon toolbar ([3e937cb](https://github.com/HSF/phoenix/commit/3e937cbcedfe8ed4f7981316a904f4dc706ee9ff))
+
+
+### Performance Improvements
+
+* **loaders:** optimize PHYSLITE memory allocation and array parsing ([6f3bf38](https://github.com/HSF/phoenix/commit/6f3bf3879107c39ebf17d89de666d29ad691b0bf))
+
+
+
+
+
 # [4.0.0](https://github.com/HSF/phoenix/compare/v3.0.5...v4.0.0) (2026-06-06)
 
 

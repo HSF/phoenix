@@ -1,6 +1,6 @@
 {
   "name": "phoenix-ng",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "private": true,
   "scripts": {
     "generate:version": "node ../../scripts/generate-version.js",
@@ -39,8 +39,8 @@
     "css-element-queries": "^1.2.3",
     "jszip": "^3.10.1",
     "mp4-muxer": "^5.2.2",
-    "phoenix-event-display": "^4.0.0",
-    "phoenix-ui-components": "^4.0.1",
+    "phoenix-event-display": "^4.1.0",
+    "phoenix-ui-components": "^4.1.0",
     "qrcode": "1.5.4",
     "recordrtc": "^5.6.2",
     "rxjs": "^7.8.2",

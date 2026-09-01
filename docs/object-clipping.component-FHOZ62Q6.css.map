@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/object-clipping/object-clipping.component.scss"],
+  "sourcesContent": [".slider-btn {\n  overflow: visible;\n}\n\n.angle-label {\n  padding: 0.5rem 1rem 0;\n  font-size: 0.75rem;\n  opacity: 0.6;\n}\n\nmat-slider {\n  margin-left: 0.75rem;\n  margin-right: 0.75rem;\n}\n\n.angle-input {\n  width: 4.5rem;\n  margin-right: 0.5rem;\n  padding: 0.25rem 0.35rem;\n  text-align: right;\n  box-sizing: border-box;\n}\n"],
+  "mappings": "AAAA,CAAA,WACE,SAAA,QAGF,CAAA,YAJA,QAKE,MAAA,KAAA,EACA,UAAA,OACA,QAAA,GAGF,WACE,YAAA,OACA,aAAA,OAGF,CAAA,YACE,MAAA,OACA,aAAA,MAjBF,QAkBE,OAAA,OACA,WAAA,MACA,WAAA",
+  "names": []
+}

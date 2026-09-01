@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/HSF/phoenix/compare/v4.0.1...v4.1.0) (2026-09-01)
+
+
+### Bug Fixes
+
+* **app:** improvements to how collections are shown ([#972](https://github.com/HSF/phoenix/issues/972)) ([111adb2](https://github.com/HSF/phoenix/commit/111adb254187b0a654b0143735595b7016916001))
+* **app:** make the shortcuts font match the phoenix menu etc ([8e823a1](https://github.com/HSF/phoenix/commit/8e823a1741d6002bd079a786ad2c421f5679b993))
+* **app:** missing icons in import pop up ([814ea2d](https://github.com/HSF/phoenix/commit/814ea2dc015302f7776f05e4d838d691eb3f9581))
+* **event-display:** sync eta-phi view with 3d view visibility and cuts ([#966](https://github.com/HSF/phoenix/issues/966)) ([38d262c](https://github.com/HSF/phoenix/commit/38d262c4416306379f797bdc67aa5c5177f0b801))
+* require confirmation before replaying shared sessions, harden remote fetch ([#883](https://github.com/HSF/phoenix/issues/883)) ([1c60e19](https://github.com/HSF/phoenix/commit/1c60e19138e55f3176d03894d76c19cae9f19d4a))
+* restrict masterclass track selection to track-type collections (closes [#923](https://github.com/HSF/phoenix/issues/923)) ([de82cc9](https://github.com/HSF/phoenix/commit/de82cc92fe2cc16c8a84e696f7c1efd5f2250fbc))
+* **ui:** make the cut menu numbers fully visible ([0d69ced](https://github.com/HSF/phoenix/commit/0d69ced3b0a95201008283e18bc25ba84da52f9b))
+* **ui:** prevent loader from replacing progress bar with error overlay ([0e9bb8b](https://github.com/HSF/phoenix/commit/0e9bb8bbaa6946a53cd905074b33a89a2174aad5))
+* **ui:** reflect the stored select value in phoenix menu dropdowns ([3a391b0](https://github.com/HSF/phoenix/commit/3a391b0c4574893791c87f59f6dfef99950dadb1))
+* **ui:** remove non-fatal error display from loader completely ([6517ed4](https://github.com/HSF/phoenix/commit/6517ed473ac9e0615c52a8dd05116ebc2bc753ed))
+* **ui:** revert cdkDrag on phoenix menu to fix color picker bug ([84770ea](https://github.com/HSF/phoenix/commit/84770eabf1013f3e16fa3efb67b5baa2c6664aff))
+
+
+### Features
+
+* Add download preset animations with curtain loader ([4bea4fa](https://github.com/HSF/phoenix/commit/4bea4fae5bf300aa96f1d6ef674f48e83b67d1ff))
+* add session recording and replay for event exploration (closes [#883](https://github.com/HSF/phoenix/issues/883)) ([d639946](https://github.com/HSF/phoenix/commit/d63994635ea3be1be65c9b93a362c1cf7465f92d))
+* **app:** fix for [#950](https://github.com/HSF/phoenix/issues/950), allows setting of precise clipping angles ([38c92c5](https://github.com/HSF/phoenix/commit/38c92c5a3697577d26fcb1411528c103f7f3d2ef))
+* **event-display,ui:** Add a loader for ATLAS ESD/AOD files ([#975](https://github.com/HSF/phoenix/issues/975)) ([9654fb6](https://github.com/HSF/phoenix/commit/9654fb6891dc273e77b1a396e9e708875ebf118d))
+* **io-options-dialog:** wire NotificationService to surface IO errors as toasts ([e6fde5e](https://github.com/HSF/phoenix/commit/e6fde5e480f2b27dc76417c02576941fdfe62326))
+* **notification-toast:** add NotificationToastComponent to display service notifications via MatSnackBar (WA1 Step 3) ([c44c050](https://github.com/HSF/phoenix/commit/c44c05070d3211b350e8c6b096955189f1b57cad))
+* **ui:** add shortcuts dialog and enable independent drag ([d8e8803](https://github.com/HSF/phoenix/commit/d8e880382ebc38c63b6bdf859478a49744780971))
+* **ui:** show collection options as a compact icon toolbar ([3e937cb](https://github.com/HSF/phoenix/commit/3e937cbcedfe8ed4f7981316a904f4dc706ee9ff))
+
+
+
+
+
 ## [4.0.1](https://github.com/HSF/phoenix/compare/v4.0.0...v4.0.1) (2026-06-06)
 
 **Note:** Version bump only for package phoenix-ui-components

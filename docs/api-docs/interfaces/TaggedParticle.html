@@ -509,6 +509,12 @@ export interface MasterclassConfig {
    * Returns a short label like &quot;e&quot;, &quot;4e&quot;, &quot;2e2m&quot;.
    */
   classifyEvent: (tagCounts: Record&lt;string, number&gt;) &#x3D;&gt; string;
+  /**
+   * Collection types shown in the &quot;Select tracks&quot; dropdown, e.g. [&#x27;Tracks&#x27;].
+   * Restricts the list to taggable types so detector-level collections (hits
+   * such as CSCs, calo cells) do not appear. Defaults to [&#x27;Tracks&#x27;] when unset.
+   */
+  collectionTypes?: string[];
 }
 
 /**

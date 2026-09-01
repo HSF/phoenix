@@ -1,0 +1,1488 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Classes</li>
+  <li class="breadcrumb-item" >SessionRecorder</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/managers/session-manager/session-recorder.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Records event-bus emissions and periodic camera samples into a SessionV1
+payload. Captures the initial state snapshot at start. Sanitizes payloads
+to JSON-safe values. Auto-stops on size or duration overflow.</p>
+
+            </p>
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_autoStopReason" >_autoStopReason</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_isRecording" >_isRecording</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#cameraIntervalId" >cameraIntervalId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#cameraSamples" >cameraSamples</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#createdAt" >createdAt</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#events" >events</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#initialState" >initialState</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#lastSample" >lastSample</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#source" >source</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#startWallTime" >startWallTime</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#unsubscribeFromBus" >unsubscribeFromBus</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#captureEvent" >captureEvent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#sampleCamera" >sampleCamera</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#start" >start</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#stop" >stop</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#isRecording" >isRecording</a>
+                                </li>
+                                <li>
+                                    <a href="#duration" >duration</a>
+                                </li>
+                                <li>
+                                    <a href="#eventCount" >eventCount</a>
+                                </li>
+                                <li>
+                                    <a href="#autoStopReason" >autoStopReason</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(host: <a href="../interfaces/RecorderHost.html" target="_self">RecorderHost</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/managers/session-manager/session-recorder.ts:65</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Create a recorder bound to a host adapter.</p>
+</div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>host</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/RecorderHost.html" target="_self" >RecorderHost</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <p>Adapter exposing the event bus, state snapshot, and camera.</p>
+
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_autoStopReason"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_autoStopReason</b></span>
+                        <a href="#_autoStopReason"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;cap-events&quot; | &quot;cap-duration&quot; | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/managers/session-manager/session-recorder.ts:63</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Reason the recorder auto-stopped, or null if still running / stopped manually.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_isRecording"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_isRecording</b></span>
+                        <a href="#_isRecording"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/managers/session-manager/session-recorder.ts:61</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Whether the recorder is currently capturing.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cameraIntervalId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>cameraIntervalId</b></span>
+                        <a href="#cameraIntervalId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ReturnType&lt;unknown&gt; | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/managers/session-manager/session-recorder.ts:57</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Handle for the camera sampling interval, or null when not recording.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cameraSamples"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>cameraSamples</b></span>
+                        <a href="#cameraSamples"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/CameraSample.html" target="_self" >CameraSample[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/managers/session-manager/session-recorder.ts:47</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Captured camera keyframes (deduplicated against the previous sample).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createdAt"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>createdAt</b></span>
+                        <a href="#createdAt"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/managers/session-manager/session-recorder.ts:53</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>ISO timestamp of when recording started.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="events"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>events</b></span>
+                        <a href="#events"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/SessionEvent.html" target="_self" >SessionEvent[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/managers/session-manager/session-recorder.ts:45</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Captured event-bus emissions in chronological order.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initialState"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>initialState</b></span>
+                        <a href="#initialState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/managers/session-manager/session-recorder.ts:49</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>State snapshot taken at the moment recording started.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lastSample"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>lastSample</b></span>
+                        <a href="#lastSample"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/CameraSample.html" target="_self" >CameraSample | null</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/managers/session-manager/session-recorder.ts:65</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Most recent camera sample, used to skip identical consecutive samples.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="source"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>source</b></span>
+                        <a href="#source"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/SessionSource.html" target="_self" >SessionSource</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/managers/session-manager/session-recorder.ts:51</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Dataset and experiment metadata recorded with the session.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="startWallTime"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>startWallTime</b></span>
+                        <a href="#startWallTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/managers/session-manager/session-recorder.ts:55</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Wall-clock start time in milliseconds, used to compute event offsets.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unsubscribeFromBus"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>unsubscribeFromBus</b></span>
+                        <a href="#unsubscribeFromBus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/managers/session-manager/session-recorder.ts:59</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Unsubscribe function for the wildcard event-bus subscription.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="captureEvent"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>captureEvent</b></span>
+                        <a href="#captureEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>captureEvent(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="177"
+                                    class="link-to-prism">src/managers/session-manager/session-recorder.ts:177</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Handle a single event-bus emission: skip replay-marked payloads, enforce
+size/duration caps, sanitize the payload to a JSON-safe value, and buffer it.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>name</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Event name from the bus.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Event payload (may be undefined or non-serializable).</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sampleCamera"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>sampleCamera</b></span>
+                        <a href="#sampleCamera"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>sampleCamera()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="206"
+                                    class="link-to-prism">src/managers/session-manager/session-recorder.ts:206</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Read the current camera state and buffer it unless it is identical to the
+previous sample. Silently ignores failures (e.g. no active camera yet).</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="start"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>start</b></span>
+                        <a href="#start"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>start(options: <a href="../interfaces/RecorderStartOptions.html" target="_self">RecorderStartOptions</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="102"
+                                    class="link-to-prism">src/managers/session-manager/session-recorder.ts:102</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Begin a new recording. Snapshots the initial state, subscribes to the
+event bus, and starts the camera sampler.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../interfaces/RecorderStartOptions.html" target="_self" >RecorderStartOptions</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>{}</code>
+                                            </td>
+
+                                            <td>
+                                                    <p>Optional source metadata and sampler interval override.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stop"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>stop</b></span>
+                        <a href="#stop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>stop()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="136"
+                                    class="link-to-prism">src/managers/session-manager/session-recorder.ts:136</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Stop the recording and return the finalized session payload.
+Safe to call when not recording (returns an empty session).</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/SessionV1.html" target="_self" >SessionV1</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+            <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isRecording"></a>
+                        <span class="name"><b>isRecording</b><a href="#isRecording"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>isRecording()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/managers/session-manager/session-recorder.ts:74</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>True while the recorder is actively capturing events and camera samples.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="duration"></a>
+                        <span class="name"><b>duration</b><a href="#duration"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>duration()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/managers/session-manager/session-recorder.ts:79</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Wall-clock milliseconds since the recording started. Zero if not recording.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="eventCount"></a>
+                        <span class="name"><b>eventCount</b><a href="#eventCount"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>eventCount()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/managers/session-manager/session-recorder.ts:84</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Number of event-bus emissions captured so far.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="autoStopReason"></a>
+                        <span class="name"><b>autoStopReason</b><a href="#autoStopReason"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>autoStopReason()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/managers/session-manager/session-recorder.ts:92</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Reason recording auto-stopped, or null while still recording / stopped
+manually. Surfaces hard caps to the UI for an explanation toast.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>&quot;cap-events&quot; | &quot;cap-duration&quot; | null</code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+</section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  CAMERA_SAMPLE_INTERVAL_MS,
+  CameraSample,
+  MAX_EVENTS_PER_SESSION,
+  MAX_RECORDING_DURATION_MS,
+  REPLAY_PAYLOAD_MARKER,
+  SESSION_VERSION,
+  SessionEvent,
+  SessionSource,
+  SessionV1,
+} from &#x27;./session-format&#x27;;
+
+/**
+ * Minimal subset of the EventDisplay surface the recorder needs.
+ * Decoupled to keep the recorder framework-agnostic and testable without
+ * spinning up a full Phoenix instance.
+ */
+export interface RecorderHost {
+  /** Subscribe to every event-bus emission. */
+  onAny(callback: (eventName: string, data: any) &#x3D;&gt; void): () &#x3D;&gt; void;
+  /** Read the current state snapshot (camera, clipping, menu, cuts). */
+  getStateSnapshot(): { [key: string]: any };
+  /** Read the current camera position + controls target, if available. */
+  getCameraSample(): {
+    pos: [number, number, number];
+    target: [number, number, number];
+  } | null;
+}
+
+/** Options accepted by {@link SessionRecorder.start}. */
+export interface RecorderStartOptions {
+  /** Metadata about the dataset and experiment route. */
+  source?: SessionSource;
+  /** Override the camera sample interval. Tests use a shorter value. */
+  cameraSampleIntervalMs?: number;
+}
+
+/**
+ * Records event-bus emissions and periodic camera samples into a SessionV1
+ * payload. Captures the initial state snapshot at start. Sanitizes payloads
+ * to JSON-safe values. Auto-stops on size or duration overflow.
+ */
+export class SessionRecorder {
+  /** Captured event-bus emissions in chronological order. */
+  private events: SessionEvent[] &#x3D; [];
+  /** Captured camera keyframes (deduplicated against the previous sample). */
+  private cameraSamples: CameraSample[] &#x3D; [];
+  /** State snapshot taken at the moment recording started. */
+  private initialState: { [key: string]: any } &#x3D; {};
+  /** Dataset and experiment metadata recorded with the session. */
+  private source: SessionSource &#x3D; {};
+  /** ISO timestamp of when recording started. */
+  private createdAt &#x3D; &#x27;&#x27;;
+  /** Wall-clock start time in milliseconds, used to compute event offsets. */
+  private startWallTime &#x3D; 0;
+  /** Handle for the camera sampling interval, or null when not recording. */
+  private cameraIntervalId: ReturnType&lt;typeof setInterval&gt; | null &#x3D; null;
+  /** Unsubscribe function for the wildcard event-bus subscription. */
+  private unsubscribeFromBus: (() &#x3D;&gt; void) | null &#x3D; null;
+  /** Whether the recorder is currently capturing. */
+  private _isRecording &#x3D; false;
+  /** Reason the recorder auto-stopped, or null if still running / stopped manually. */
+  private _autoStopReason: &#x27;cap-events&#x27; | &#x27;cap-duration&#x27; | null &#x3D; null;
+  /** Most recent camera sample, used to skip identical consecutive samples. */
+  private lastSample: CameraSample | null &#x3D; null;
+
+  /**
+   * Create a recorder bound to a host adapter.
+   * @param host Adapter exposing the event bus, state snapshot, and camera.
+   */
+  constructor(private host: RecorderHost) {}
+
+  /** True while the recorder is actively capturing events and camera samples. */
+  public get isRecording(): boolean {
+    return this._isRecording;
+  }
+
+  /** Wall-clock milliseconds since the recording started. Zero if not recording. */
+  public get duration(): number {
+    return this._isRecording ? Date.now() - this.startWallTime : 0;
+  }
+
+  /** Number of event-bus emissions captured so far. */
+  public get eventCount(): number {
+    return this.events.length;
+  }
+
+  /**
+   * Reason recording auto-stopped, or null while still recording / stopped
+   * manually. Surfaces hard caps to the UI for an explanation toast.
+   */
+  public get autoStopReason(): &#x27;cap-events&#x27; | &#x27;cap-duration&#x27; | null {
+    return this._autoStopReason;
+  }
+
+  /**
+   * Begin a new recording. Snapshots the initial state, subscribes to the
+   * event bus, and starts the camera sampler.
+   * @param options Optional source metadata and sampler interval override.
+   * @throws Error if already recording.
+   */
+  public start(options: RecorderStartOptions &#x3D; {}): void {
+    if (this._isRecording) {
+      throw new Error(
+        &#x27;SessionRecorder.start() called while already recording.&#x27;,
+      );
+    }
+    this._isRecording &#x3D; true;
+    this._autoStopReason &#x3D; null;
+    this.events &#x3D; [];
+    this.cameraSamples &#x3D; [];
+    this.source &#x3D; options.source ?? {};
+    this.createdAt &#x3D; new Date().toISOString();
+    this.startWallTime &#x3D; Date.now();
+
+    try {
+      this.initialState &#x3D; this.host.getStateSnapshot() ?? {};
+    } catch {
+      this.initialState &#x3D; {};
+    }
+
+    this.unsubscribeFromBus &#x3D; this.host.onAny((name, data) &#x3D;&gt; {
+      this.captureEvent(name, data);
+    });
+
+    const interval &#x3D;
+      options.cameraSampleIntervalMs ?? CAMERA_SAMPLE_INTERVAL_MS;
+    this.cameraIntervalId &#x3D; setInterval(() &#x3D;&gt; this.sampleCamera(), interval);
+    this.sampleCamera();
+  }
+
+  /**
+   * Stop the recording and return the finalized session payload.
+   * Safe to call when not recording (returns an empty session).
+   */
+  public stop(): SessionV1 {
+    if (this._isRecording) {
+      this.sampleCamera();
+    }
+    this._isRecording &#x3D; false;
+    if (this.unsubscribeFromBus) {
+      this.unsubscribeFromBus();
+      this.unsubscribeFromBus &#x3D; null;
+    }
+    if (this.cameraIntervalId !&#x3D;&#x3D; null) {
+      clearInterval(this.cameraIntervalId);
+      this.cameraIntervalId &#x3D; null;
+    }
+
+    const duration &#x3D;
+      this.events.length &gt; 0 || this.cameraSamples.length &gt; 0
+        ? Math.max(
+            this.events.length ? this.events[this.events.length - 1].t : 0,
+            this.cameraSamples.length
+              ? this.cameraSamples[this.cameraSamples.length - 1].t
+              : 0,
+          )
+        : 0;
+
+    return {
+      version: SESSION_VERSION,
+      createdAt: this.createdAt || new Date().toISOString(),
+      duration,
+      source: this.source,
+      initialState: this.initialState,
+      events: this.events,
+      cameraSamples: this.cameraSamples,
+    };
+  }
+
+  /**
+   * Handle a single event-bus emission: skip replay-marked payloads, enforce
+   * size/duration caps, sanitize the payload to a JSON-safe value, and buffer it.
+   * @param name Event name from the bus.
+   * @param data Event payload (may be undefined or non-serializable).
+   */
+  private captureEvent(name: string, data: any): void {
+    if (!this._isRecording) return;
+    if (data &amp;&amp; typeof data &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; data[REPLAY_PAYLOAD_MARKER]) return;
+
+    const elapsed &#x3D; Date.now() - this.startWallTime;
+    if (elapsed &gt; MAX_RECORDING_DURATION_MS) {
+      this._autoStopReason &#x3D; &#x27;cap-duration&#x27;;
+      this.stop();
+      return;
+    }
+    if (this.events.length &gt;&#x3D; MAX_EVENTS_PER_SESSION) {
+      this._autoStopReason &#x3D; &#x27;cap-events&#x27;;
+      this.stop();
+      return;
+    }
+
+    let safe: any;
+    try {
+      safe &#x3D; data &#x3D;&#x3D;&#x3D; undefined ? undefined : JSON.parse(JSON.stringify(data));
+    } catch {
+      return;
+    }
+    this.events.push({ t: elapsed, name, payload: safe });
+  }
+
+  /**
+   * Read the current camera state and buffer it unless it is identical to the
+   * previous sample. Silently ignores failures (e.g. no active camera yet).
+   */
+  private sampleCamera(): void {
+    if (!this._isRecording) return;
+    let sample: {
+      pos: [number, number, number];
+      target: [number, number, number];
+    } | null &#x3D; null;
+    try {
+      sample &#x3D; this.host.getCameraSample();
+    } catch {
+      sample &#x3D; null;
+    }
+    if (!sample) return;
+
+    if (this.lastSample) {
+      const samePos &#x3D;
+        this.lastSample.pos[0] &#x3D;&#x3D;&#x3D; sample.pos[0] &amp;&amp;
+        this.lastSample.pos[1] &#x3D;&#x3D;&#x3D; sample.pos[1] &amp;&amp;
+        this.lastSample.pos[2] &#x3D;&#x3D;&#x3D; sample.pos[2];
+      const sameTarget &#x3D;
+        this.lastSample.target[0] &#x3D;&#x3D;&#x3D; sample.target[0] &amp;&amp;
+        this.lastSample.target[1] &#x3D;&#x3D;&#x3D; sample.target[1] &amp;&amp;
+        this.lastSample.target[2] &#x3D;&#x3D;&#x3D; sample.target[2];
+      if (samePos &amp;&amp; sameTarget) return;
+    }
+    const next: CameraSample &#x3D; {
+      t: Date.now() - this.startWallTime,
+      pos: sample.pos,
+      target: sample.target,
+    };
+    this.cameraSamples.push(next);
+    this.lastSample &#x3D; next;
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'SessionRecorder.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

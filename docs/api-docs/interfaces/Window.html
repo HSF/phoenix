@@ -237,6 +237,7 @@ import { LoadingManager } from &#x27;./managers/loading-manager&#x27;;
 import { StateManager } from &#x27;./managers/state-manager&#x27;;
 import type { AnimationPreset } from &#x27;./managers/three-manager/animations-manager&#x27;;
 import { ThreeManager } from &#x27;./managers/three-manager/index&#x27;;
+import { SceneManager } from &#x27;./managers/three-manager/scene-manager&#x27;;
 import { XRSessionType } from &#x27;./managers/three-manager/xr/xr-manager&#x27;;
 import { UIManager } from &#x27;./managers/ui-manager/index&#x27;;
 import { URLOptionsManager } from &#x27;./managers/url-options-manager&#x27;;
@@ -248,6 +249,10 @@ import {
   buildEventSummaries,
   type EventSummary,
 } from &#x27;./helpers/event-summary&#x27;;
+import {
+  SessionManager,
+  type SessionManagerHost,
+} from &#x27;./managers/session-manager&#x27;;
 
 declare global {
   /**
@@ -273,8 +278,18 @@ export class EventDisplay {
   private onEventsChange: ((events: any) &#x3D;&gt; void)[] &#x3D; [];
   /** Array containing callbacks to be called when the displayed event changes. */
   private onDisplayedEventChange: ((nowDisplayingEvent: any) &#x3D;&gt; void)[] &#x3D; [];
+  /** Callbacks to be called on scene state / visibility / cut changes. */
+  private onStateChange: (() &#x3D;&gt; void)[] &#x3D; [];
   /** Generic event bus for integration with external frameworks. */
   private eventBus: Map&lt;string, Set&lt;(data: any) &#x3D;&gt; void&gt;&gt; &#x3D; new Map();
+  /** Wildcard subscribers fired on every emit (recorders, external bridges). */
+  private eventBusWildcard: Set&lt;(eventName: string, data: any) &#x3D;&gt; void&gt; &#x3D;
+    new Set();
+  /** Session recorder/player coordinator for #883 (lazy initialized). */
+  private sessionManager: SessionManager | null &#x3D; null;
+  /** Stored keydown handler for session recording shortcut. */
+  private sessionRecordKeydownHandler: ((e: KeyboardEvent) &#x3D;&gt; void) | null &#x3D;
+    null;
   /** Three manager for three.js operations. */
   private graphicsLibrary: ThreeManager;
   /** Info logger for storing event display logs. */
@@ -301,6 +316,7 @@ export class EventDisplay {
     this.infoLogger &#x3D; new InfoLogger();
     this.graphicsLibrary &#x3D; new ThreeManager(this.infoLogger);
     this.ui &#x3D; new UIManager(this.graphicsLibrary);
+    this.ui.onStateChange &#x3D; () &#x3D;&gt; this.triggerStateChange();
     if (configuration) {
       this.init(configuration);
     }
@@ -357,10 +373,18 @@ export class EventDisplay {
       document.removeEventListener(&#x27;keydown&#x27;, this.eventNavKeydownHandler);
       this.eventNavKeydownHandler &#x3D; null;
     }
+    // Clean up session recording keyboard handler
+    if (this.sessionRecordKeydownHandler) {
+      document.removeEventListener(&#x27;keydown&#x27;, this.sessionRecordKeydownHandler);
+      this.sessionRecordKeydownHandler &#x3D; null;
+    }
+    // Stop any active session recording or playback
+    this.sessionManager?.cleanup();
     // Clear accumulated callbacks
     this.onEventsChange &#x3D; [];
     this.onDisplayedEventChange &#x3D; [];
     this.eventBus.clear();
+    this.eventBusWildcard.clear();
     // Reset singletons for clean view transition
     this.loadingManager?.reset();
     this.stateManager?.resetForViewTransition();
@@ -398,6 +422,7 @@ export class EventDisplay {
 
   /**
    * Emit a named event on the integration event bus.
+   * Named subscribers fire first, then wildcard subscribers.
    * @param eventName The event name to emit.
    * @param data Data to pass to listeners.
    */
@@ -406,6 +431,84 @@ export class EventDisplay {
     if (listeners) {
       listeners.forEach((cb) &#x3D;&gt; cb(data));
     }
+    if (this.eventBusWildcard.size &gt; 0) {
+      this.eventBusWildcard.forEach((cb) &#x3D;&gt; cb(eventName, data));
+    }
+  }
+
+  /**
+   * Subscribe to every event-bus emission, regardless of name.
+   * Used by the session recorder (#883) and external bridges that want a
+   * single hook into all integration events.
+   * @param callback Invoked with (eventName, data) on every emit.
+   * @returns Unsubscribe function to remove the listener.
+   */
+  public onAny(callback: (eventName: string, data: any) &#x3D;&gt; void): () &#x3D;&gt; void {
+    this.eventBusWildcard.add(callback);
+    return () &#x3D;&gt; {
+      this.eventBusWildcard.delete(callback);
+    };
+  }
+
+  /**
+   * Get the SessionManager (#883) for recording and replaying exploration.
+   * Lazily instantiated so the manager is only created when the feature is used.
+   * @returns The SessionManager singleton for this EventDisplay.
+   */
+  public getSessionManager(): SessionManager {
+    if (!this.sessionManager) {
+      this.sessionManager &#x3D; new SessionManager(this.buildSessionHost());
+    }
+    return this.sessionManager;
+  }
+
+  /**
+   * Build the host adapter that bridges SessionManager to the live
+   * EventDisplay (event bus, state snapshot, camera apply).
+   */
+  private buildSessionHost(): SessionManagerHost {
+    return {
+      onAny: (cb) &#x3D;&gt; this.onAny(cb),
+      emit: (name, data) &#x3D;&gt; this.emit(name, data),
+      getStateSnapshot: () &#x3D;&gt; {
+        try {
+          return this.getStateManager()?.getStateAsJSON() ?? {};
+        } catch {
+          return {};
+        }
+      },
+      applyStateSnapshot: (state) &#x3D;&gt; {
+        try {
+          this.getStateManager()?.loadStateFromJSON(state);
+        } catch {
+          // ignore: replay still proceeds even if state apply fails
+        }
+      },
+      getCameraSample: () &#x3D;&gt; {
+        const stateManager &#x3D; this.getStateManager();
+        const activeCamera &#x3D; stateManager?.activeCamera;
+        const controls &#x3D; this.graphicsLibrary
+          ?.getControlsManager?.()
+          ?.getMainControls?.();
+        if (!activeCamera || !controls) return null;
+        const pos &#x3D; activeCamera.position;
+        const target &#x3D; controls.target;
+        return {
+          pos: [pos.x, pos.y, pos.z],
+          target: [target.x, target.y, target.z],
+        };
+      },
+      applyCamera: (pos, target) &#x3D;&gt; {
+        const activeCamera &#x3D; this.getStateManager()?.activeCamera;
+        const controls &#x3D; this.graphicsLibrary
+          ?.getControlsManager?.()
+          ?.getMainControls?.();
+        if (!activeCamera || !controls) return;
+        activeCamera.position.set(pos[0], pos[1], pos[2]);
+        controls.target.set(target[0], target[1], target[2]);
+        controls.update();
+      },
+    };
   }
 
   /**
@@ -469,6 +572,7 @@ export class EventDisplay {
     this.onDisplayedEventChange.forEach((callback) &#x3D;&gt; callback(eventData));
     // Reload the event data state in Phoenix menu
     this.ui.loadEventFolderPhoenixMenuState();
+    this.triggerStateChange();
   }
 
   /**
@@ -952,6 +1056,120 @@ export class EventDisplay {
   }
 
   /**
+   * Add a callback to onStateChange array to call
+   * when visibility or cuts change.
+   * @param callback Callback to be added to the onStateChange array.
+   * @returns Unsubscribe function to remove the callback.
+   */
+  public listenToStateChange(callback: () &#x3D;&gt; void): () &#x3D;&gt; void {
+    this.onStateChange.push(callback);
+    return () &#x3D;&gt; {
+      const index &#x3D; this.onStateChange.indexOf(callback);
+      if (index &gt; -1) {
+        this.onStateChange.splice(index, 1);
+      }
+    };
+  }
+
+  /** Timeout handle for debouncing state change triggers. */
+  private stateChangeTimeout: any &#x3D; null;
+
+  /**
+   * Trigger state change callbacks (e.g. on visibility or cut change).
+   * Debounced to prevent performance degradation during loading or rapid UI changes.
+   */
+  public triggerStateChange(): void {
+    if (this.loadingManager?.isCurrentlyLoading()) {
+      return;
+    }
+    if (this.stateChangeTimeout) {
+      return;
+    }
+    this.stateChangeTimeout &#x3D; setTimeout(() &#x3D;&gt; {
+      this.stateChangeTimeout &#x3D; null;
+      this.onStateChange.forEach((callback) &#x3D;&gt; callback());
+    }, 0);
+  }
+
+  /**
+   * Check if a collection group is visible in the 3D scene.
+   * @param collectionName Name of the collection.
+   * @returns Whether the collection group is visible.
+   */
+  public isCollectionVisible(collectionName: string): boolean {
+    const sceneManager &#x3D; this.getThreeManager()?.getSceneManager();
+    if (!sceneManager) return true;
+    const eventDataGroup &#x3D; sceneManager
+      .getScene()
+      .getObjectByName(SceneManager.EVENT_DATA_ID);
+    if (!eventDataGroup || !eventDataGroup.visible) return false;
+    const collectionObject &#x3D; eventDataGroup.getObjectByName(collectionName);
+    if (!collectionObject) return false;
+
+    let curr: any &#x3D; collectionObject;
+    while (curr &amp;&amp; curr !&#x3D;&#x3D; eventDataGroup) {
+      if (curr.visible &#x3D;&#x3D;&#x3D; false) return false;
+      curr &#x3D; curr.parent;
+    }
+    return true;
+  }
+
+  /**
+   * Check if a specific event data object item is visible in the 3D scene (and passes cuts).
+   * @param collectionName Name of the collection.
+   * @param item The event data item.
+   * @returns Whether the item is visible.
+   */
+  public isItemVisible(collectionName: string, item: any): boolean {
+    if (!item) return false;
+    if (!this.isCollectionVisible(collectionName)) {
+      return false;
+    }
+    // Check 3D object visibility if object with item.uuid exists in scene
+    const sceneManager &#x3D; this.getThreeManager()?.getSceneManager();
+    if (sceneManager &amp;&amp; item.uuid) {
+      const eventDataGroup &#x3D; sceneManager
+        .getScene()
+        .getObjectByName(SceneManager.EVENT_DATA_ID);
+      const collectionObject &#x3D; eventDataGroup?.getObjectByName(collectionName);
+      if (collectionObject) {
+        const obj &#x3D;
+          collectionObject.getObjectByName(item.uuid) ||
+          collectionObject.children.find(
+            (child: any) &#x3D;&gt;
+              child.userData?.uuid &#x3D;&#x3D;&#x3D; item.uuid || child.uuid &#x3D;&#x3D;&#x3D; item.uuid,
+          );
+        if (obj &amp;&amp; obj.visible &#x3D;&#x3D;&#x3D; false) {
+          return false;
+        }
+      }
+    }
+
+    // Check active cuts for this collection
+    const cutsMap &#x3D; this.getUIManager()
+      ?.getPhoenixMenuUI()
+      ?.getCollectionCuts();
+    const cuts &#x3D; cutsMap?.[collectionName];
+    if (cuts &amp;&amp; cuts.length &gt; 0) {
+      for (const cut of cuts) {
+        let val &#x3D; item[cut.field];
+        if (val &#x3D;&#x3D;&#x3D; undefined &amp;&amp; cut.field &#x3D;&#x3D;&#x3D; &#x27;pT&#x27;) {
+          if (item.dparams &amp;&amp; item.dparams.length &gt;&#x3D; 5) {
+            val &#x3D; Math.abs(1 / item.dparams[4]) * Math.sin(item.dparams[3]);
+          }
+        }
+        if (val !&#x3D;&#x3D; undefined &amp;&amp; val !&#x3D;&#x3D; null) {
+          if (!cut.cutPassed(val)) {
+            return false;
+          }
+        }
+      }
+    }
+
+    return true;
+  }
+
+  /**
    * Get metadata associated to the displayed event (experiment info, time, run, event...).
    * @returns Metadata of the displayed event.
    */
@@ -1116,6 +1334,26 @@ export class EventDisplay {
       }
     };
     document.addEventListener(&#x27;keydown&#x27;, this.eventNavKeydownHandler);
+
+    // Remove previous session recording listener if exists
+    if (this.sessionRecordKeydownHandler) {
+      document.removeEventListener(&#x27;keydown&#x27;, this.sessionRecordKeydownHandler);
+    }
+
+    // Shift+S &#x3D; toggle session recording
+    this.sessionRecordKeydownHandler &#x3D; (e: KeyboardEvent) &#x3D;&gt; {
+      const target &#x3D; e.target as HTMLElement;
+      const isTyping &#x3D; [&#x27;input&#x27;, &#x27;textarea&#x27;, &#x27;select&#x27;].includes(
+        target?.tagName.toLowerCase(),
+      );
+      if (isTyping) return;
+      if (!e.shiftKey || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.code !&#x3D;&#x3D; &#x27;KeyS&#x27;) return;
+
+      e.preventDefault();
+      this.getSessionManager().toggleRecording();
+    };
+    document.addEventListener(&#x27;keydown&#x27;, this.sessionRecordKeydownHandler);
   }
 
   /**

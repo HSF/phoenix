@@ -173,6 +173,13 @@ Each experiment (ATLAS, LHCb, CMS, ...) provides its own config.</p>
                                         </a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#collectionTypes" 
+>
+                                            collectionTypes
+                                        </a>
+                                </li>
+                                <li>
                                         <a href="#hints" 
 >
                                             hints
@@ -237,6 +244,52 @@ Each experiment (ATLAS, LHCb, CMS, ...) provides its own config.</p>
                                     <div class="io-description"><p>Classify an event from the tag counts.
 Receives a map of tag id to count, e.g. { electron: 2, muon: 0 }.
 Returns a short label like &quot;e&quot;, &quot;4e&quot;, &quot;2e2m&quot;.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="collectionTypes"></a>
+                                        <span class="name "><b>collectionTypes</b>
+                                            <a href="#collectionTypes">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>collectionTypes:     <code>string[]</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string[]</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Collection types shown in the &quot;Select tracks&quot; dropdown, e.g. [&#39;Tracks&#39;].
+Restricts the list to taggable types so detector-level collections (hits
+such as CSCs, calo cells) do not appear. Defaults to [&#39;Tracks&#39;] when unset.</p>
 </div>
                                 </td>
                             </tr>
@@ -422,6 +475,12 @@ export interface MasterclassConfig {
    * Returns a short label like &quot;e&quot;, &quot;4e&quot;, &quot;2e2m&quot;.
    */
   classifyEvent: (tagCounts: Record&lt;string, number&gt;) &#x3D;&gt; string;
+  /**
+   * Collection types shown in the &quot;Select tracks&quot; dropdown, e.g. [&#x27;Tracks&#x27;].
+   * Restricts the list to taggable types so detector-level collections (hits
+   * such as CSCs, calo cells) do not appear. Defaults to [&#x27;Tracks&#x27;] when unset.
+   */
+  collectionTypes?: string[];
 }
 
 /**

@@ -142,6 +142,21 @@
                             <a href="#countCollections" title="src/helpers/event-summary.ts" ><b>countCollections</b>&nbsp;&nbsp;&nbsp;(src/.../event-summary.ts)</a>
                         </li>
                         <li>
+                            <a href="#decodeSessionFromBase64" title="src/managers/session-manager/session-codec.ts" ><b>decodeSessionFromBase64</b>&nbsp;&nbsp;&nbsp;(src/.../session-codec.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#decodeSessionFromJson" title="src/managers/session-manager/session-codec.ts" ><b>decodeSessionFromJson</b>&nbsp;&nbsp;&nbsp;(src/.../session-codec.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#encodeSessionToBase64" title="src/managers/session-manager/session-codec.ts" ><b>encodeSessionToBase64</b>&nbsp;&nbsp;&nbsp;(src/.../session-codec.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#encodeSessionToBlob" title="src/managers/session-manager/session-codec.ts" ><b>encodeSessionToBlob</b>&nbsp;&nbsp;&nbsp;(src/.../session-codec.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#errorMessage" title="src/managers/session-manager/session-manager.ts" ><b>errorMessage</b>&nbsp;&nbsp;&nbsp;(src/.../session-manager.ts)</a>
+                        </li>
+                        <li>
                             <a href="#fourMomentumFromCluster" title="src/helpers/invariant-mass.ts" ><b>fourMomentumFromCluster</b>&nbsp;&nbsp;&nbsp;(src/.../invariant-mass.ts)</a>
                         </li>
                         <li>
@@ -157,10 +172,19 @@
                             <a href="#invariantMass" title="src/helpers/invariant-mass.ts" ><b>invariantMass</b>&nbsp;&nbsp;&nbsp;(src/.../invariant-mass.ts)</a>
                         </li>
                         <li>
+                            <a href="#lerp" title="src/managers/session-manager/session-player.ts" ><b>lerp</b>&nbsp;&nbsp;&nbsp;(src/.../session-player.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#pipeThroughStream" title="src/managers/session-manager/session-codec.ts" ><b>pipeThroughStream</b>&nbsp;&nbsp;&nbsp;(src/.../session-codec.ts)</a>
+                        </li>
+                        <li>
                             <a href="#setColorForObject" title="src/managers/three-manager/color-manager.ts" ><b>setColorForObject</b>&nbsp;&nbsp;&nbsp;(src/.../color-manager.ts)</a>
                         </li>
                         <li>
                             <a href="#summarizeEvent" title="src/helpers/event-summary.ts" ><b>summarizeEvent</b>&nbsp;&nbsp;&nbsp;(src/.../event-summary.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#validateSession" title="src/managers/session-manager/session-format.ts" ><b>validateSession</b>&nbsp;&nbsp;&nbsp;(src/.../session-format.ts)</a>
                         </li>
                     </ul>
                 </td>
@@ -773,6 +797,441 @@ Reconstructed physics objects are listed first, detector-level types last.</p>
             </tr>
         </tbody>
     </table>
+</section>    <h3>src/managers/session-manager/session-codec.ts</h3>
+    <section data-compodoc="block-methods">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="decodeSessionFromBase64"></a>
+                    <span class="name">
+                        <span ><b>decodeSessionFromBase64</b></span>
+                        <a href="#decodeSessionFromBase64"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>decodeSessionFromBase64(base64: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Decode a base64 deflate-compressed session payload, validate it, and
+cap the decompressed output to defend against compression bombs.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>base64</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Base64 input from a URL parameter or share link.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/SessionV1.html" target="_self" >Promise&lt;SessionV1&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Validated SessionV1.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="decodeSessionFromJson"></a>
+                    <span class="name">
+                        <span ><b>decodeSessionFromJson</b></span>
+                        <a href="#decodeSessionFromJson"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>decodeSessionFromJson(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Parse a raw JSON <code>.phnxreplay</code> file payload and validate it.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>text</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>JSON text from a file upload.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/SessionV1.html" target="_self" >SessionV1</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Validated SessionV1.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="encodeSessionToBase64"></a>
+                    <span class="name">
+                        <span ><b>encodeSessionToBase64</b></span>
+                        <a href="#encodeSessionToBase64"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>encodeSessionToBase64(session: <a href="../interfaces/SessionV1.html" target="_self">SessionV1</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Encode a session as a URL-safe base64 string of deflate-compressed JSON.
+Mirrors the share-link-dialog state encoding so the decoder can use the
+existing DecompressionStream(&#39;deflate&#39;) plumbing.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>session</td>
+                                            <td>
+                                                            <code><a href="../interfaces/SessionV1.html" target="_self" >SessionV1</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The session payload to encode.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Base64 string suitable for <code>?replay=</code> URLs.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="encodeSessionToBlob"></a>
+                    <span class="name">
+                        <span ><b>encodeSessionToBlob</b></span>
+                        <a href="#encodeSessionToBlob"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>encodeSessionToBlob(session: <a href="../interfaces/SessionV1.html" target="_self">SessionV1</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Serialize a session to a downloadable JSON Blob (compact, uncompressed) for
+sharing as a <code>.phnxreplay</code> file. Compact (not pretty-printed) keeps the file
+small while staying valid JSON that the <code>?session=</code> loader can re-read.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>session</td>
+                                            <td>
+                                                            <code><a href="../interfaces/SessionV1.html" target="_self" >SessionV1</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The session payload to serialize.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Blob</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Blob with MIME type application/json.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pipeThroughStream"></a>
+                    <span class="name">
+                        <span ><b>pipeThroughStream</b></span>
+                        <a href="#pipeThroughStream"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>pipeThroughStream(input: Uint8Array, stream)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Pipe a Uint8Array through a transform stream and collect the output.
+Avoids Blob.stream() and Response, both of which jsdom lacks.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>input</td>
+                                            <td>
+                                                        <code>Uint8Array</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Source bytes.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>stream</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Transform stream (compression or decompression).</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;Uint8Array&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Concatenated output bytes.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/managers/session-manager/session-manager.ts</h3>
+    <section data-compodoc="block-methods">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="errorMessage"></a>
+                    <span class="name">
+                        <span ><b>errorMessage</b></span>
+                        <a href="#errorMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>errorMessage(e)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Extract a human-readable message from an unknown thrown value.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>e</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The caught value.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>The error message string.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>    <h3>src/loaders/object-type-registry.ts</h3>
     <section data-compodoc="block-methods">
     <h3></h3>    <table class="table table-sm table-bordered">
@@ -804,6 +1263,109 @@ Reconstructed physics objects are listed first, detector-level types last.</p>
                             <b>Returns : </b>        <code><a href="../interfaces/ObjectTypeConfig.html" target="_self" >ObjectTypeConfig[]</a></code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/managers/session-manager/session-player.ts</h3>
+    <section data-compodoc="block-methods">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lerp"></a>
+                    <span class="name">
+                        <span ><b>lerp</b></span>
+                        <a href="#lerp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>lerp(a: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, b: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, alpha: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Linear interpolation between two numbers.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>a</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Start value.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>b</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>End value.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>alpha</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Fraction in [0, 1].</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>The interpolated value.</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -882,6 +1444,75 @@ Reconstructed physics objects are listed first, detector-level types last.</p>
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/managers/session-manager/session-format.ts</h3>
+    <section data-compodoc="block-methods">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validateSession"></a>
+                    <span class="name">
+                        <span ><b>validateSession</b></span>
+                        <a href="#validateSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>validateSession(value)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Validate that an arbitrary value is a structurally-valid SessionV1.
+Defensive against malformed JSON, untrusted URL payloads and version
+skew from older or newer producers.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The parsed-JSON value to validate.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/SessionV1.html" target="_self" >SessionV1 | null</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>The value typed as SessionV1, or null when invalid.</p>
+
                             </div>
                 </td>
             </tr>

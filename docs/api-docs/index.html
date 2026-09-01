@@ -174,7 +174,33 @@ eventDisplay.loadOBJGeometry(
 <li><a href="https://github.com/HSF/phoenix/blob/main/packages/phoenix-ng/projects/phoenix-app/src/app/sections/lhcb/lhcb.component.ts">Usage in Angular (as a service)</a></li>
 <li><a href="https://github.com/9inpachi/phoenix-react/blob/main/src/App.js#L6-L31">Usage in React</a></li>
 </ul>
+<h2>Event Data Loaders</h2>
+<p>Phoenix supports multiple event data formats through specialized loader classes.</p>
+<h3>PHYSLITELoader</h3>
+<p><code>PHYSLITELoader</code> parses ATLAS DAOD_PHYSLITE <code>.root</code> files directly in the browser using <a href="https://root.cern/js/">JSROOT</a>. It reads calibrated physics objects from the ROOT <code>CollectionTree</code> branch and converts them into Phoenix event format.</p>
+<h4>Supported Collections</h4>
+<ul>
+<li><strong>Jets</strong>: Calibrated jet momentum and energy.</li>
+<li><strong>Tracks</strong>: InDetTrackParticles, MuonSpectrometerTrackParticles, CombinedMuonTrackParticles, GSFTrackParticles.</li>
+<li><strong>Electrons &amp; Muons</strong>: Four-momentum ($p_T, \eta, \phi, m$).</li>
+<li><strong>Photons</strong>: Energy clusters and trajectories.</li>
+<li><strong>Missing Energy (MET)</strong>: <code>AnalysisMET</code> transverse energy vector ($E_{Tx}, E_{Ty}$).</li>
+<li><strong>Primary Vertices &amp; Calorimeter Clusters</strong>.</li>
+</ul>
+<h4>Usage Example</h4>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-js">import { EventDisplay, PHYSLITELoader } from &#39;phoenix-event-display&#39;;
 
+const eventDisplay = new EventDisplay();
+const physliteLoader = new PHYSLITELoader();
+
+// Load ROOT file buffer
+fetch(&#39;path/to/DAOD_PHYSLITE.root&#39;)
+  .then((res) =&gt; res.arrayBuffer())
+  .then((buffer) =&gt; {
+    physliteLoader.loadEvents(buffer, (events) =&gt; {
+      eventDisplay.parsePhoenixEvents(events);
+    });
+  });</code></pre></div>
 
 
 

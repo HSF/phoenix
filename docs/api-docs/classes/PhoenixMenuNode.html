@@ -989,22 +989,23 @@ previous state of child can be restored if we toggle the parent back on.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>applyConfigState(config: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>applyConfigState(config: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, fromStateLoad: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="147"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:147</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="149"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:149</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Apply the current values of config by calling the change function.</p>
+                        <div class="io-description"><p>Apply the current values of config by calling the change function.
+state, as opposed to being newly added to the menu.</p>
 </div>
 
                             <div class="io-description">
@@ -1016,6 +1017,7 @@ previous state of child can be restored if we toggle the parent back on.</p>
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Default value</td>
                                                 <td>Description</td>
                                         </tr>
                                     </thead>
@@ -1030,9 +1032,31 @@ previous state of child can be restored if we toggle the parent back on.</p>
                                                     No
                                             </td>
 
+                                            <td>
+                                            </td>
 
                                             <td>
                                                     <p>Config whose values are to be applied.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>fromStateLoad</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>false</code>
+                                            </td>
+
+                                            <td>
+                                                    <p>Whether the config is being applied from a saved
+state, as opposed to being newly added to the menu.</p>
 
                                             </td>
                                         </tr>
@@ -1070,8 +1094,8 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="263"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:263</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="277"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:277</a></div>
                         </td>
                     </tr>
 
@@ -1145,8 +1169,8 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="281"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:281</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="295"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:295</a></div>
                         </td>
                     </tr>
 
@@ -1220,8 +1244,8 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="178"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:178</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="185"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:185</a></div>
                         </td>
                     </tr>
 
@@ -1263,8 +1287,8 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="199"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:199</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="206"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:206</a></div>
                         </td>
                     </tr>
 
@@ -1699,8 +1723,10 @@ export class PhoenixMenuNode {
   /**
    * Apply the current values of config by calling the change function.
    * @param config Config whose values are to be applied.
+   * @param fromStateLoad Whether the config is being applied from a saved
+   * state, as opposed to being newly added to the menu.
    */
-  applyConfigState(config: any) {
+  applyConfigState(config: any, fromStateLoad: boolean &#x3D; false) {
     // Apply configs of different config types - manual
     if (config.type &#x3D;&#x3D;&#x3D; &#x27;checkbox&#x27; &amp;&amp; config?.[&#x27;isChecked&#x27;]) {
       config.onChange?.(config?.[&#x27;isChecked&#x27;]);
@@ -1708,11 +1734,16 @@ export class PhoenixMenuNode {
       if (this.name &#x3D;&#x3D;&#x3D; &#x27;Labels&#x27; || this.parent?.name &#x3D;&#x3D;&#x3D; &#x27;Labels&#x27;) {
         // Exception for Labels node (and sub labels), which should always have color applied
         config.onChange?.(config?.[&#x27;color&#x27;]);
-      } else if (config.group !&#x3D;&#x3D; undefined) {
-        // Ignore color by options with &#x60;!config.group&#x60;, otherwise the collection color is overridden
+      } else if (fromStateLoad &amp;&amp; config.group !&#x3D;&#x3D; undefined) {
+        // Only apply grouped &quot;color by&quot; configs when restoring a saved state,
+        // otherwise the collection color is overridden on creation. Their
+        // change functions only color the collection if the config&#x27;s &quot;color by&quot;
+        // option is the selected one.
         config.onChange?.(config?.[&#x27;color&#x27;]);
       }
     } else if (config.type &#x3D;&#x3D;&#x3D; &#x27;slider&#x27; &amp;&amp; config?.[&#x27;value&#x27;]) {
+      config.onChange?.(config?.[&#x27;value&#x27;]);
+    } else if (config.type &#x3D;&#x3D;&#x3D; &#x27;select&#x27; &amp;&amp; config?.[&#x27;value&#x27;]) {
       config.onChange?.(config?.[&#x27;value&#x27;]);
     } else if (
       config.type &#x3D;&#x3D;&#x3D; &#x27;rangeSlider&#x27; &amp;&amp;
@@ -1788,12 +1819,19 @@ export class PhoenixMenuNode {
       // console.log(&#x27;nodeConfig&#x27;, nodeConfig);
       if (nodeConfig) {
         for (const prop in configState) {
+          if (prop &#x3D;&#x3D;&#x3D; &#x27;options&#x27; || prop &#x3D;&#x3D;&#x3D; &#x27;onChange&#x27;) {
+            // The available options of a &#x60;select&#x60; are structural (derived from
+            // the loaded event data), not user state - a saved state must not
+            // overwrite them.
+            // The function &#x27;onChange&#x27; depends on the available options.
+            continue;
+          }
           const key &#x3D; prop as keyof typeof nodeConfig;
           // console.log(&#x27;prop&#x27;,prop, &#x27;key&#x27;, key, &#x27;nodeConfig[key]&#x27;, nodeConfig[key]);
           (nodeConfig as any)[key] &#x3D; configState[key];
         }
 
-        this.applyConfigState(nodeConfig);
+        this.applyConfigState(nodeConfig, true);
       }
     }
 

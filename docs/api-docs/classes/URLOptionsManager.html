@@ -198,7 +198,16 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#applySessionReplayOption" >applySessionReplayOption</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#applyViewStateOption" >applyViewStateOption</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#fetchRemoteSession" >fetchRemoteSession</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -246,7 +255,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/managers/url-options-manager.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/managers/url-options-manager.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -332,7 +341,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/managers/url-options-manager.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/managers/url-options-manager.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -374,8 +383,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="289"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:289</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="295"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:295</a></div>
                         </td>
                     </tr>
 
@@ -415,8 +424,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="61"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:61</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="67"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:67</a></div>
                         </td>
                     </tr>
 
@@ -515,8 +524,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="271"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:271</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="277"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:277</a></div>
                         </td>
                     </tr>
 
@@ -556,8 +565,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="45"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:45</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="50"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:50</a></div>
                         </td>
                     </tr>
 
@@ -565,6 +574,52 @@
             <tr>
                 <td class="col-md-4">
                         <div class="io-description"><p>Initialize and apply all URL options on page load.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applySessionReplayOption"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>applySessionReplayOption</b></span>
+                        <a href="#applySessionReplayOption"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>applySessionReplayOption()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="349"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:349</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Apply session replay options from the URL: <code>?replay=&lt;base64&gt;</code> for
+inline sessions, <code>?session=&lt;url&gt;</code> for remote <code>.phnxreplay</code> JSON files.</p>
+<p>The payload is decoded and validated, then STAGED as pending; it does not
+auto-play. Link-supplied content is untrusted, so the floating pill shows
+the source and requires an explicit click before replaying. Deferred to
+the load listener so the event/config/state apply first.</p>
 </div>
 
                         <div class="io-description">
@@ -597,8 +652,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="237"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:237</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="243"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:243</a></div>
                         </td>
                     </tr>
 
@@ -614,6 +669,93 @@ Uses a load listener to ensure state applies after all other initialization comp
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fetchRemoteSession"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>fetchRemoteSession</b></span>
+                        <a href="#fetchRemoteSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>fetchRemoteSession(rawUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="389"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:389</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Fetch a remote <code>.phnxreplay</code> JSON file for the <code>?session=</code> option.
+Hardened against abuse of the URL parameter:</p>
+<ul>
+<li>scheme allowlist (http/https only), blocking javascript:/data:/file:</li>
+<li><code>credentials: &#39;omit&#39;</code> so no cookies leak cross-origin</li>
+<li><code>referrerPolicy: &#39;no-referrer&#39;</code> so the target learns nothing about us</li>
+<li>a hard request timeout so a hung server cannot pin the loader</li>
+<li>a streamed size cap so an oversized body is aborted mid-download
+instead of being fully buffered first</li>
+</ul>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>rawUrl</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The user-supplied URL from <code>?session=</code>.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>The raw JSON text and the resolved host (for the confirm UI).</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -640,8 +782,8 @@ Uses a load listener to ensure state applies after all other initialization comp
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="330"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:330</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="336"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:336</a></div>
                         </td>
                     </tr>
 
@@ -686,8 +828,8 @@ Uses a load listener to ensure state applies after all other initialization comp
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="157"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:157</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="163"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:163</a></div>
                         </td>
                     </tr>
 
@@ -764,8 +906,8 @@ Uses a load listener to ensure state applies after all other initialization comp
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="181"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:181</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="187"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:187</a></div>
                         </td>
                     </tr>
 
@@ -842,8 +984,8 @@ Uses a load listener to ensure state applies after all other initialization comp
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="192"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:192</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="198"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:198</a></div>
                         </td>
                     </tr>
 
@@ -919,8 +1061,8 @@ Uses a load listener to ensure state applies after all other initialization comp
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="314"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:314</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="320"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:320</a></div>
                         </td>
                     </tr>
 
@@ -989,6 +1131,7 @@ import type { Configuration } from &#x27;../lib/types/configuration&#x27;;
 import { EventDisplay } from &#x27;../event-display&#x27;;
 import { StateManager } from &#x27;./state-manager&#x27;;
 import { readZipFile } from &#x27;../helpers/zip&#x27;;
+import { MAX_REMOTE_SESSION_BYTES } from &#x27;./session-manager&#x27;;
 
 /**
  * Model for Phoenix URL options.
@@ -1000,6 +1143,10 @@ export const phoenixURLOptions &#x3D; {
   state: &#x27;&#x27;,
   hideWidgets: false,
   embed: false,
+  /** Inline base64-deflate session replay payload (#883). */
+  replay: &#x27;&#x27;,
+  /** Remote URL pointing at a &#x60;.phnxreplay&#x60; JSON file (#883). */
+  session: &#x27;&#x27;,
 };
 
 /**
@@ -1035,6 +1182,7 @@ export class URLOptionsManager {
     );
     this.applyHideWidgetsOptions();
     this.applyEmbedOption();
+    this.applySessionReplayOption();
   }
 
   /**
@@ -1314,6 +1462,116 @@ export class URLOptionsManager {
    */
   public getURLOptions() {
     return this.urlOptions;
+  }
+
+  /**
+   * Apply session replay options from the URL: &#x60;?replay&#x3D;&lt;base64&gt;&#x60; for
+   * inline sessions, &#x60;?session&#x3D;&lt;url&gt;&#x60; for remote &#x60;.phnxreplay&#x60; JSON files.
+   *
+   * The payload is decoded and validated, then STAGED as pending; it does not
+   * auto-play. Link-supplied content is untrusted, so the floating pill shows
+   * the source and requires an explicit click before replaying. Deferred to
+   * the load listener so the event/config/state apply first.
+   */
+  private applySessionReplayOption() {
+    const replayParam &#x3D; this.urlOptions.get(&#x27;replay&#x27;);
+    const sessionParam &#x3D; this.urlOptions.get(&#x27;session&#x27;);
+    if (!replayParam &amp;&amp; !sessionParam) return;
+
+    const stageReplay &#x3D; async () &#x3D;&gt; {
+      const sessionManager &#x3D; this.eventDisplay.getSessionManager();
+      try {
+        if (replayParam) {
+          await sessionManager.prepareFromBase64(replayParam, &#x27;shared link&#x27;);
+        } else if (sessionParam) {
+          const { text, host } &#x3D; await this.fetchRemoteSession(sessionParam);
+          sessionManager.prepareFromJsonText(text, host);
+        }
+      } catch (error) {
+        console.error(&#x27;Failed to load session replay from URL.&#x27;, error);
+        this.eventDisplay
+          .getInfoLogger()
+          .add(&#x27;Could not load session replay from URL.&#x27;, &#x27;Error&#x27;);
+      }
+    };
+
+    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() &#x3D;&gt; {
+      setTimeout(stageReplay, 400);
+    });
+  }
+
+  /**
+   * Fetch a remote &#x60;.phnxreplay&#x60; JSON file for the &#x60;?session&#x3D;&#x60; option.
+   * Hardened against abuse of the URL parameter:
+   * - scheme allowlist (http/https only), blocking javascript:/data:/file:
+   * - &#x60;credentials: &#x27;omit&#x27;&#x60; so no cookies leak cross-origin
+   * - &#x60;referrerPolicy: &#x27;no-referrer&#x27;&#x60; so the target learns nothing about us
+   * - a hard request timeout so a hung server cannot pin the loader
+   * - a streamed size cap so an oversized body is aborted mid-download
+   *   instead of being fully buffered first
+   * @param rawUrl The user-supplied URL from &#x60;?session&#x3D;&#x60;.
+   * @returns The raw JSON text and the resolved host (for the confirm UI).
+   * @throws Error on disallowed scheme, non-2xx, timeout, or oversize body.
+   */
+  private async fetchRemoteSession(
+    rawUrl: string,
+  ): Promise&lt;{ text: string; host: string }&gt; {
+    let parsed: URL;
+    try {
+      parsed &#x3D; new URL(rawUrl, window.location.origin);
+    } catch {
+      throw new Error(&#x27;Invalid session URL.&#x27;);
+    }
+    if (parsed.protocol !&#x3D;&#x3D; &#x27;http:&#x27; &amp;&amp; parsed.protocol !&#x3D;&#x3D; &#x27;https:&#x27;) {
+      throw new Error(
+        &#x60;Session URL scheme &quot;${parsed.protocol}&quot; is not allowed.&#x60;,
+      );
+    }
+
+    const controller &#x3D; new AbortController();
+    const timeout &#x3D; setTimeout(() &#x3D;&gt; controller.abort(), 15000);
+    try {
+      const res &#x3D; await fetch(parsed.toString(), {
+        credentials: &#x27;omit&#x27;,
+        referrerPolicy: &#x27;no-referrer&#x27;,
+        signal: controller.signal,
+      });
+      if (!res.ok) {
+        throw new Error(&#x60;Session fetch failed with status ${res.status}.&#x60;);
+      }
+
+      // Stream the body and abort as soon as the running total exceeds the
+      // cap, rather than buffering the whole (possibly huge) response first.
+      const reader &#x3D; res.body?.getReader();
+      if (!reader) {
+        const text &#x3D; await res.text();
+        if (text.length &gt; MAX_REMOTE_SESSION_BYTES) {
+          throw new Error(&#x27;Session file is too large.&#x27;);
+        }
+        return { text, host: parsed.host };
+      }
+      const chunks: Uint8Array[] &#x3D; [];
+      let total &#x3D; 0;
+      for (;;) {
+        const { value, done } &#x3D; await reader.read();
+        if (done) break;
+        total +&#x3D; value.byteLength;
+        if (total &gt; MAX_REMOTE_SESSION_BYTES) {
+          controller.abort();
+          throw new Error(&#x27;Session file is too large.&#x27;);
+        }
+        chunks.push(value);
+      }
+      const merged &#x3D; new Uint8Array(total);
+      let offset &#x3D; 0;
+      for (const chunk of chunks) {
+        merged.set(chunk, offset);
+        offset +&#x3D; chunk.byteLength;
+      }
+      return { text: new TextDecoder().decode(merged), host: parsed.host };
+    } finally {
+      clearTimeout(timeout);
+    }
   }
 }
 </code></pre>

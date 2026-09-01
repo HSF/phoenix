@@ -157,7 +157,19 @@
                             <a href="#ConfigSlider" title="src/managers/ui-manager/phoenix-menu/config-types.ts" ><b>ConfigSlider</b>&nbsp;&nbsp;&nbsp;(src/.../config-types.ts)</a>
                         </li>
                         <li>
+                            <a href="#ESDConverter" title="src/loaders/atlasesd-loader.ts" ><b>ESDConverter</b>&nbsp;&nbsp;&nbsp;(src/.../atlasesd-loader.ts)</a>
+                        </li>
+                        <li>
                             <a href="#PhoenixMenuConfigs" title="src/managers/ui-manager/phoenix-menu/config-types.ts" ><b>PhoenixMenuConfigs</b>&nbsp;&nbsp;&nbsp;(src/.../config-types.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PlaybackSpeed" title="src/managers/session-manager/session-player.ts" ><b>PlaybackSpeed</b>&nbsp;&nbsp;&nbsp;(src/.../session-player.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#SessionState" title="src/managers/session-manager/session-manager.ts" ><b>SessionState</b>&nbsp;&nbsp;&nbsp;(src/.../session-manager.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#SkipUnit" title="src/loaders/atlasesd-loader.ts" ><b>SkipUnit</b>&nbsp;&nbsp;&nbsp;(src/.../atlasesd-loader.ts)</a>
                         </li>
                     </ul>
                 </td>
@@ -387,6 +399,101 @@
             <tr>
                 <td class="col-md-4">
                     <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/loaders/atlasesd-loader.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ESDConverter"></a>
+                    <span class="name "><b>ESDConverter</b><a href="#ESDConverter"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Converter to run for a given aux container class family.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;tracks&quot; | &quot;trkTracks&quot; | &quot;particles&quot; | &quot;jets&quot; | &quot;clusters&quot; | &quot;vertices&quot; | &quot;met&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SkipUnit"></a>
+                    <span class="name "><b>SkipUnit</b><a href="#SkipUnit"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>What a skip tally counts, so the summary can name the unit.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;object&quot; | &quot;event&quot; | &quot;collection&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/managers/session-manager/session-player.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PlaybackSpeed"></a>
+                    <span class="name "><b>PlaybackSpeed</b><a href="#PlaybackSpeed"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Playback speed multipliers exposed to the UI.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;0.5&quot; | &quot;1&quot; | &quot;2&quot; | &quot;4&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/managers/session-manager/session-manager.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SessionState"></a>
+                    <span class="name "><b>SessionState</b><a href="#SessionState"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Discriminated union the <a href="SessionManager.state">SessionManager.state</a> observable carries.
+UI components subscribe to this to render the floating session pill.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type | literal type | literal type | literal type | literal type | literal type | literal type | literal type</code>
 </code>
                 </td>
             </tr>
