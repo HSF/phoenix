@@ -1,9 +1,4 @@
-import {
-  Component,
-  Inject,
-  type OnDestroy,
-  type OnInit,
-} from '@angular/core';
+import { Component, Inject, type OnDestroy, type OnInit } from '@angular/core';
 import { Vector3 } from 'three';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
