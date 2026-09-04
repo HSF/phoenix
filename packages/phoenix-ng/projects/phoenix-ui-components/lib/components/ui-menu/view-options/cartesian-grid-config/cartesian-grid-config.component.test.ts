@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Vector3 } from 'three';
 import { of } from 'rxjs/internal/observable/of';
+import { Subject } from 'rxjs';
 
 describe('CartesianGridConfigComponent', () => {
   let component: CartesianGridConfigComponent;
@@ -121,29 +122,85 @@ describe('CartesianGridConfigComponent', () => {
   });
 
   it('should shift cartesian grid by a mouse click', () => {
+    const translateSpy = jest.spyOn(component, 'translateGrid');
+
     component.shiftCartesianGridByPointer();
 
-    mockEventDisplay.getUIManager().shiftCartesianGridByPointer(true);
+    expect(
+      mockEventDisplay.getUIManager().shiftCartesianGridByPointer,
+    ).toHaveBeenCalled();
+    // `originChanged` is mocked with `of(gridOrigin)`, so the handler runs
+    // synchronously on subscribe.
+    expect(translateSpy).toHaveBeenCalledWith(gridOrigin);
+    // `stopShifting` is mocked with `of(true)`, so shifting stops immediately
+    // and both subscriptions are torn down.
+    expect(component.originChangedSub).toBeNull();
+    expect(component.stopShiftingSub).toBeNull();
+  });
 
-    mockEventDisplay.getThreeManager().originChanged.subscribe((intersect) => {
-      expect(component.translateGrid).toHaveBeenCalledWith(intersect);
-    });
+  it('should not throw when stopShifting emits synchronously', () => {
+    // `of(true)` emits during `subscribe`, so the handler runs before
+    // `stopShiftingSub` is assigned. Previously this threw a TypeError.
+    expect(() => component.shiftCartesianGridByPointer()).not.toThrow();
+    expect(component.originChangedSub).toBeNull();
+    expect(component.stopShiftingSub).toBeNull();
+  });
 
-    const originChangedUnSpy = jest.spyOn(
-      component.originChangedSub,
-      'unsubscribe',
-    );
-    const stopShiftingUnSpy = jest.spyOn(
-      component.stopShiftingSub,
-      'unsubscribe',
-    );
+  it('should unsubscribe on destroy when shifting never stopped', () => {
+    // A Subject never emits on its own, so the subscriptions stay live until
+    // the component is destroyed - the leak when the dialog is closed without
+    // right-clicking to stop shifting.
+    const stopShifting = new Subject<boolean>();
+    mockEventDisplay.stopShifting = stopShifting as any;
 
-    mockEventDisplay.getThreeManager().stopShifting.subscribe((stop) => {
-      if (stop) {
-        expect(originChangedUnSpy).toHaveBeenCalled();
-        expect(stopShiftingUnSpy).toHaveBeenCalled();
-      }
-    });
+    component.shiftCartesianGridByPointer();
+
+    const originChangedSub = component.originChangedSub;
+    const stopShiftingSub = component.stopShiftingSub;
+    expect(originChangedSub.closed).toBe(false);
+    expect(stopShiftingSub.closed).toBe(false);
+
+    component.ngOnDestroy();
+
+    expect(originChangedSub.closed).toBe(true);
+    expect(stopShiftingSub.closed).toBe(true);
+    expect(component.originChangedSub).toBeNull();
+    expect(component.stopShiftingSub).toBeNull();
+
+    mockEventDisplay.stopShifting = of(true) as any;
+  });
+
+  it('should not accumulate subscriptions across repeated shifts', () => {
+    const stopShifting = new Subject<boolean>();
+    mockEventDisplay.stopShifting = stopShifting as any;
+
+    component.shiftCartesianGridByPointer();
+    const firstSub = component.originChangedSub;
+
+    component.shiftCartesianGridByPointer();
+
+    // The first shift's subscription must be torn down, not left behind.
+    expect(firstSub.closed).toBe(true);
+    expect(component.originChangedSub.closed).toBe(false);
+
+    component.ngOnDestroy();
+    mockEventDisplay.stopShifting = of(true) as any;
+  });
+
+  it('should unsubscribe when stopShifting emits after subscribing', () => {
+    const stopShifting = new Subject<boolean>();
+    mockEventDisplay.stopShifting = stopShifting as any;
+
+    component.shiftCartesianGridByPointer();
+    const originChangedSub = component.originChangedSub;
+    const stopShiftingSub = component.stopShiftingSub;
+
+    stopShifting.next(true);
+
+    expect(originChangedSub.closed).toBe(true);
+    expect(stopShiftingSub.closed).toBe(true);
+
+    mockEventDisplay.stopShifting = of(true) as any;
   });
 
   it('should shift cartesian grid by values', () => {
