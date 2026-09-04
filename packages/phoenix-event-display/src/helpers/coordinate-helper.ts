@@ -5,10 +5,13 @@ import { Vector3, Quaternion } from 'three';
  */
 export class CoordinateHelper {
   /**
-   * Checks if angles are within range: -PI < phi < PI and 0 < theta < 2PI
-   * @param theta equatorial angle
-   * @param phi azimuthal angle
-   * @returns
+   * Checks if angles are within range: 0 < theta < PI and -PI < phi < PI.
+   * Theta is the polar angle, which is only defined on [0, PI] - values
+   * outside it have no real pseudorapidity, since thetaToEta computes
+   * -log(tan(theta / 2)).
+   * @param theta polar angle in radians, expected in (0, PI)
+   * @param phi azimuthal angle in radians, expected in (-PI, PI)
+   * @returns true if both angles are within their expected ranges
    */
   public static anglesAreSane(theta: number, phi: number): boolean {
     const tmp1 = -Math.PI < phi && Math.PI > phi;
