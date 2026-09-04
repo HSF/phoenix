@@ -219,11 +219,18 @@ export class IOOptionsDialogComponent implements OnInit {
   async handleROOTInput(files: FileList) {
     const rootObjectName = prompt('Enter object name in ROOT file');
 
-    await this.eventDisplay.loadRootGeometry(
-      URL.createObjectURL(files[0]),
-      rootObjectName,
-      files[0].name.split('.')[0],
-    );
+    // The object URL pins the whole file in memory, so release it once the
+    // geometry has been read - ROOT files are routinely hundreds of MB.
+    const objectUrl = URL.createObjectURL(files[0]);
+    try {
+      await this.eventDisplay.loadRootGeometry(
+        objectUrl,
+        rootObjectName,
+        files[0].name.split('.')[0],
+      );
+    } finally {
+      URL.revokeObjectURL(objectUrl);
+    }
 
     this.onClose();
   }
@@ -234,10 +241,12 @@ export class IOOptionsDialogComponent implements OnInit {
     }
 
     const name = files[0].name.split('.')[0];
-    await this.eventDisplay.loadRootJSONGeometry(
-      URL.createObjectURL(files[0]),
-      name,
-    );
+    const objectUrl = URL.createObjectURL(files[0]);
+    try {
+      await this.eventDisplay.loadRootJSONGeometry(objectUrl, name);
+    } finally {
+      URL.revokeObjectURL(objectUrl);
+    }
 
     this.onClose();
   }
