@@ -112,6 +112,60 @@ describe('SceneManager', () => {
     );
   });
 
+  it('should build the same number of grid planes at any scale', () => {
+    // The plane count must not depend on the scale: it was previously derived
+    // from a float-accumulating loop, which dropped a plane at some scales.
+    const expected = 63;
+    for (const scale of [3000, 7, 1, 0.1]) {
+      const manager = new SceneManager(ignoreList, true);
+      manager.setCartesianGrid(false, scale);
+      expect(manager['cartesianGrid'].children.length).toBe(expected);
+    }
+  });
+
+  it('should set cartesian grid at a non-default scale without throwing', () => {
+    // Regression: indexing assumed exactly 63 children, so a scale producing
+    // fewer planes dereferenced undefined.
+    for (const scale of [7, 1, 0.1, 250]) {
+      const manager = new SceneManager(ignoreList, true);
+      expect(() => manager.setCartesianGrid(true, scale)).not.toThrow();
+    }
+  });
+
+  it('should keep grid plane indices in bounds for extreme configs', () => {
+    const config = {
+      showXY: true,
+      showYZ: true,
+      showZX: true,
+      // Distances far beyond the grid extent must clamp, not overrun.
+      xDistance: 999999,
+      yDistance: 999999,
+      zDistance: 999999,
+      sparsity: 1,
+    };
+    expect(() =>
+      sceneManager.setCartesianGrid(true, 3000, config),
+    ).not.toThrow();
+    sceneManager['cartesianGrid'].children.forEach((child) =>
+      expect(child.visible).toBe(true),
+    );
+  });
+
+  it('should not hang when sparsity is zero', () => {
+    const config = {
+      showXY: true,
+      showYZ: true,
+      showZX: true,
+      xDistance: 3000,
+      yDistance: 3000,
+      zDistance: 3000,
+      sparsity: 0,
+    };
+    expect(() =>
+      sceneManager.setCartesianGrid(true, 3000, config),
+    ).not.toThrow();
+  });
+
   it('should return cartesian grid config', () => {
     const VALUE1 = sceneManager['cartesianGridConfig'];
 
