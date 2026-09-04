@@ -585,7 +585,15 @@ export class UIManager {
     if (eventDataLoader && labelsObject) {
       loadFile((data) => {
         console.log('UIManager: loading Labels');
-        const labelsObject = JSON.parse(data);
+        // The file comes from the user, so it may not be valid JSON. Report
+        // the problem instead of throwing out of the callback.
+        let labelsObject: any;
+        try {
+          labelsObject = JSON.parse(data);
+        } catch (error) {
+          console.error('Could not parse labels file - invalid JSON.', error);
+          return;
+        }
         // This contains the names of the labels, but not their colours.
         for (const eventDataType of Object.keys(labelsObject)) {
           for (const collection of Object.keys(labelsObject[eventDataType])) {

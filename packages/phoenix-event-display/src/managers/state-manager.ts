@@ -74,7 +74,19 @@ export class StateManager {
           label: 'Load state',
           onClick: () => {
             loadFile((data) => {
-              this.loadStateFromJSON(JSON.parse(data));
+              // The file comes from the user, so it may not be valid JSON.
+              // Report the problem instead of throwing out of the callback.
+              let state: any;
+              try {
+                state = JSON.parse(data);
+              } catch (error) {
+                console.error(
+                  'Could not parse state file - invalid JSON.',
+                  error,
+                );
+                return;
+              }
+              this.loadStateFromJSON(state);
             });
           },
         });
