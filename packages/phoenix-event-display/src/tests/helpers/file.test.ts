@@ -8,6 +8,9 @@ describe('saveFile', () => {
   let createObjectURL: jest.Mock;
   let revokeObjectURL: jest.Mock;
 
+  const originalCreate = (URL as any).createObjectURL;
+  const originalRevoke = (URL as any).revokeObjectURL;
+
   beforeEach(() => {
     jest.useFakeTimers();
     createObjectURL = jest.fn().mockReturnValue(OBJECT_URL);
@@ -20,6 +23,8 @@ describe('saveFile', () => {
   afterEach(() => {
     jest.useRealTimers();
     jest.restoreAllMocks();
+    (URL as any).createObjectURL = originalCreate;
+    (URL as any).revokeObjectURL = originalRevoke;
   });
 
   it('should revoke the object URL it created', () => {
