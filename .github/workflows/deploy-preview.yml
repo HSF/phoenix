@@ -1,0 +1,180 @@
+name: Deploy PR Preview
+
+# Deploys the site built by `phoenix-ci` for a pull request to surge.sh.
+#
+# This is deliberately a separate workflow: GitHub withholds secrets from
+# workflows triggered by a pull request from a fork, so `phoenix-ci` cannot
+# deploy. A `workflow_run` workflow instead runs in the context of this
+# repository (with secrets) *after* the PR build has finished, and only ever
+# consumes the already-built artifact - it never checks out or executes the
+# pull request's code.
+on:
+  workflow_run:
+    workflows: ['phoenix-ci']
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: read
+  deployments: write
+  pull-requests: write
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: >-
+      ${{ github.event.workflow_run.event == 'pull_request' &&
+          github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      # Every successful pull request run of `phoenix-ci` uploads this artifact,
+      # so a missing one is a bug and should fail loudly rather than quietly
+      # skipping the deployment.
+      - name: Download preview artifact
+        id: download
+        uses: actions/download-artifact@v8
+        with:
+          name: pr-preview
+          path: preview
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Read PR number from artifact
+        id: meta
+        run: |
+          set -euo pipefail
+
+          # The artifact is produced by an untrusted build, so strip its contents
+          # to the expected character set before using them anywhere.
+          pr_number=$(tr -dc '0-9' < preview/pr-number | head -c 10)
+
+          if [[ -z "$pr_number" ]]; then
+            echo "::error::Missing or invalid PR number in artifact"
+            exit 1
+          fi
+          if [[ ! -d preview/site ]]; then
+            echo "::error::Artifact does not contain a site directory"
+            exit 1
+          fi
+
+          echo "pr_number=$pr_number" >> "$GITHUB_OUTPUT"
+
+      # The PR number comes from the untrusted artifact, so on its own it could
+      # name *any* pull request - letting one PR overwrite another's preview or
+      # comment on it. `workflow_run.head_sha` is supplied by GitHub and cannot
+      # be forged, so require the named PR to actually be the one that was built.
+      - name: Verify the PR owns this build
+        id: verify
+        uses: actions/github-script@v9
+        env:
+          PR_NUMBER: ${{ steps.meta.outputs.pr_number }}
+        with:
+          script: |
+            const prNumber = Number(process.env.PR_NUMBER);
+            const headSha = context.payload.workflow_run.head_sha;
+            const { owner, repo } = context.repo;
+
+            const { data: pr } = await github.rest.pulls.get({
+              owner,
+              repo,
+              pull_number: prNumber,
+            });
+
+            if (pr.head.sha !== headSha) {
+              core.setFailed(
+                `PR #${prNumber} has head ${pr.head.sha}, but this build was for ` +
+                  `${headSha}. Refusing to deploy.`,
+              );
+              return;
+            }
+
+            core.setOutput('pr_number', String(prNumber));
+            core.setOutput('head_sha', headSha);
+            core.setOutput('url', `http://phoenix-pr-${prNumber}.surge.sh`);
+
+      - name: Deploy to surge.sh
+        env:
+          DEPLOYMENT_URL: ${{ steps.verify.outputs.url }}
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN2 }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN2 }}
+        run: npx surge --project ./preview/site/ --domain "$DEPLOYMENT_URL"
+
+      - name: Publish deployment status and comment
+        uses: actions/github-script@v9
+        env:
+          DEPLOYMENT_URL: ${{ steps.verify.outputs.url }}
+          PR_NUMBER: ${{ steps.verify.outputs.pr_number }}
+          PR_SHA: ${{ steps.verify.outputs.head_sha }}
+        with:
+          script: |
+            const environmentUrl = process.env.DEPLOYMENT_URL;
+            const prNumber = Number(process.env.PR_NUMBER);
+            const prSha = process.env.PR_SHA;
+            const { owner, repo } = context.repo;
+
+            // A fork's head commit does not exist in this repository, but the
+            // pull request's `refs/pull/<n>/head` ref always does.
+            try {
+              const deployment = await github.rest.repos.createDeployment({
+                owner,
+                repo,
+                ref: `refs/pull/${prNumber}/head`,
+                environment: 'pull-request',
+                required_contexts: [],
+                auto_merge: false,
+                transient_environment: true,
+              });
+              if (deployment.data.id) {
+                await github.rest.repos.createDeploymentStatus({
+                  owner,
+                  repo,
+                  deployment_id: deployment.data.id,
+                  state: 'success',
+                  target_url: environmentUrl,
+                  environment_url: environmentUrl,
+                  description: 'Deployed preview for pull request',
+                });
+              } else {
+                core.warning(
+                  `Deployment not created: ${deployment.data.message || 'unknown reason'}`,
+                );
+              }
+            } catch (error) {
+              // A missing deployment should not fail the run - the comment below
+              // still gives reviewers the preview link.
+              core.warning(`Could not create deployment: ${error.message}`);
+            }
+
+            const marker = '<!-- phoenix-preview-deployment -->';
+            const body = [
+              marker,
+              `🚀 **Preview deployed:** ${environmentUrl}`,
+              '',
+              `Built from ${prSha.slice(0, 7)}.`,
+            ].join('\n');
+
+            // Update the existing comment instead of adding one per push.
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              { owner, repo, issue_number: prNumber, per_page: 100 },
+            );
+            const existing = comments.find((comment) =>
+              comment.body?.includes(marker),
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: prNumber,
+                body,
+              });
+            }

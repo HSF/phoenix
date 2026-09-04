@@ -119,3 +119,29 @@ and you can automatically fix them with:
 yarn lint:fix
 ```
 (obviously you will then need to commit and push the fixes).
+
+## Pull request preview deployments
+
+Every pull request gets a preview of the app deployed to
+`http://phoenix-pr-<number>.surge.sh`, and a bot comment on the PR links to it.
+
+This is done by two workflows rather than one. GitHub deliberately withholds
+secrets from workflows triggered by a pull request from a fork, so the surge
+credentials are not available while the PR is being built - a fork's code is
+unreviewed, and giving it the token would let any contributor steal it.
+
+So the work is split:
+
+- `.github/workflows/main.yml` (`phoenix-ci`) builds the app and uploads the
+  result as a `pr-preview` artifact. It has no access to the secrets.
+- `.github/workflows/deploy-preview.yml` then runs on `workflow_run`, in the
+  trusted context of this repository, downloads that artifact and deploys it.
+  It never checks out or runs the pull request's code.
+
+Two consequences worth knowing:
+
+- Changes to `deploy-preview.yml` only take effect once they are merged into
+  `main`, because `workflow_run` workflows are always taken from the default
+  branch. You cannot fully test a change to it from a pull request.
+- The preview appears a little after the CI run finishes, since it is a
+  separate workflow that starts once `phoenix-ci` completes.
