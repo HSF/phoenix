@@ -6,6 +6,7 @@ import {
   type Object3DEventMap,
   Line,
   Points,
+  type ShaderMaterial,
 } from 'three';
 import { SceneManager } from './scene-manager';
 import { PhoenixMenuNode } from '../ui-manager/phoenix-menu/phoenix-menu-node';
@@ -195,32 +196,73 @@ export class ColorManager {
   }
 }
 /**
+ * Get the colour an object is currently drawn with.
+ *
+ * This is the counterpart of `setColorForObject` and has to stay in step with
+ * it: it is used to show the collection's real colour in the UI, rather than
+ * guessing it from the event data.
+ * @param object Object whose colour is to be read.
+ * @returns The colour of the first coloured object found, or `undefined` if
+ * there is none.
+ */
+export function getObjectColor(
+  object: Object3D<Object3DEventMap>,
+): Color | undefined {
+  let objectColor: Color | undefined;
+
+  object.traverse((child) => {
+    if (!objectColor) {
+      objectColor = getMaterialsColors(child)[0]?.clone();
+    }
+  });
+
+  return objectColor;
+}
+
+/**
+ * Get the colors of the materials of an object, which are the colors it is
+ * drawn with.
+ *
+ * Most materials have a `color`, but some - like the shader material jets are
+ * drawn with - keep it in a uniform instead.
+ * @param object Object whose material colors are to be found.
+ * @returns The colors of the object's materials, as references which can be
+ * changed to recolor the object.
+ */
+function getMaterialsColors(object: Object3D<Object3DEventMap>): Color[] {
+  const material = (object as Mesh | Line | Points).material;
+  if (!material) {
+    return [];
+  }
+
+  const materials = Array.isArray(material) ? material : [material];
+
+  return materials
+    .map((singleMaterial) => {
+      const color = (singleMaterial as MeshPhongMaterial)?.color;
+      if (color) {
+        return color;
+      }
+
+      const uniforms: { [key: string]: { value: any } } | undefined = (
+        singleMaterial as ShaderMaterial
+      )?.uniforms;
+      return uniforms
+        ? Object.values(uniforms).find(
+            (uniform) => uniform?.value instanceof Color,
+          )?.value
+        : undefined;
+    })
+    .filter((color): color is Color => color !== undefined);
+}
+
+/**
  * Change colour of object.
  * @param object Object to be update
  * @param color Color to set for the object.
  */
 function setColorForObject(object: Object3D<Object3DEventMap>, color: any) {
-  if (object instanceof Mesh) {
-    const mesh = object as Mesh;
-    const material = mesh.material;
-    if (Array.isArray(material)) {
-      material.forEach((mat) => {
-        (mat as MeshPhongMaterial)?.color?.set(color);
-      });
-    } else if ('color' in material) {
-      (material.color as Color).set(color);
-    }
-  } else if (object instanceof Line) {
-    const line = object as Line;
-    const material = line.material;
-    if ('color' in material) {
-      (material.color as Color).set(color);
-    }
-  } else if (object instanceof Points) {
-    const points = object as Points;
-    const material = points.material;
-    if ('color' in material) {
-      (material.color as Color).set(color);
-    }
+  for (const materialColor of getMaterialsColors(object)) {
+    materialColor.set(color);
   }
 }

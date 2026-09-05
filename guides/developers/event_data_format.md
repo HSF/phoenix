@@ -79,11 +79,13 @@ In all the descriptions, `opt` means that the attribute described is optional.
 
 Some attributes are used to build cut sliders in the collection's `Cut Options` menu folder. A cut is only shown if the attribute exists on the first object of the collection.
 
+Wherever a `color` is described below, it can be written as `"ff0000"`, `"#ff0000"` or `"0xff0000"`, as a CSS colour such as `"rgb(255, 0, 0)"`, or as one of the [named colours](https://developer.mozilla.org/en-US/docs/Web/CSS/named-color) e.g. `"red"`. A colour which cannot be interpreted is ignored, and the default colour for the object type is used instead. The colour of the first object of a collection is the one shown in the collection's `Color Options` menu folder.
+
 #### 'Tracks'
 Tracks is a list of Track objects with the following attributes :
 * `pos` - list of positions along the track, each given as a triplet [x, y, z]
 * `dparams` (opt) - perigee parameters of the track: 5 floats matching [d0, z0, phi, theta, qOverP]. If `pos` is missing or has fewer than 3 positions, the track is extrapolated from `dparams` using a Runge-Kutta propagator
-* `color` (opt) - Hexadecimal string representing the color to draw the track.
+* `color` (opt) - Color to draw the track.
 * `linewidth` (opt) - width of the track line (default 2)
 * `phi`, `eta`, `d0`, `z0` (opt) - parameters of the track, used for cuts. If not given, they are derived from `dparams` (or, for `phi`/`eta`, from the first two positions of `pos`)
 * `dca`, `angle` (opt) - distance of closest approach and polar angle in degrees, used for cuts. If not given, they are derived from the parameters above
@@ -99,7 +101,7 @@ Jets are a list of Jet objects with the following attributes :
 * `theta` (opt) - if not given, eta is used to calculate theta
 * `energy`, `et` (opt) - energy of the Jets, used to set its length
 * `coneR` (opt) - the radius of the jet cone. If not given, radius is 10% of the length
-* `color` (opt) - Hexadecimal string representing the color to draw the jet.
+* `color` (opt) - Color to draw the jet.
 * `origin_X`, `origin_Y`, `origin_Z` (opt) - origin of the jet (defaults to [0, 0, 0])
 
 Available cuts: `phi`, `eta`, `energy`.
@@ -116,7 +118,7 @@ In case of array of Hit objects, format is [ hit, hit, hit ] where the hit objec
   * for `Point` and `CircularPoint` types, it should have 3 coordinates : [x, y, z]
   * for `Line` type, it should have 6 coordinates : [x0, y0, z0, x1, y1, z1]
   * for `Box` type, it should have 6 coordinates : [x, y, z, length in x, width in y, height in z]
-* `color` (opt) - Hexadecimal string representing the color to draw the hit.
+* `color` (opt) - Color to draw the hit.
 * `size` (opt) - size of the drawn point (`CircularPoint` type only, default 10)
 
 Note that all hit objects in a given Hits collection have to be of the same type, and that `type`, `color` and `size` are read from the first hit of the collection and applied to the whole collection.
@@ -132,7 +134,7 @@ We are talking here of cylindrical calorimeters, the deposits will be displayed 
 * `z` (opt) - z position at which to draw the box, overriding the default
 * `side` (opt) - transverse size of the box (default 40 for CaloClusters, 30 for CaloCells)
 * `length` (opt) - length of the box, overriding the energy-derived length (CaloCells default to 30)
-* `color` (opt) - Hexadecimal string representing the color to draw the box.
+* `color` (opt) - Color to draw the box.
 * `opacity` (opt) - opacity of the box from 0 to 1 (CaloClusters only)
 
 Available cuts: `phi`, `eta`, `energy`.
@@ -147,7 +149,7 @@ PlanarCaloCells is an object with the following attributes :
   * `cellSize` - size of the Calorimeter cell which fired
   * `energy` - energy of the deposit, converted to length of the displayed box
   * `pos` - position of the cell within the calo plane given as a pair [x, y]
-  * `color` (opt) - Hexadecimal string representing the color to draw the cell.
+  * `color` (opt) - Color to draw the cell.
 
 Available cuts: `energy`.
 
@@ -168,7 +170,7 @@ Vertices are a list of Vertex objects with the following attributes :
 * one of the 2 following sets of attributes 
   * `x`, `y`, `z` : describing the position of the vertex
   * `pos` : array of 3 numbers (x, y, z) describing the position of the vertex
-* `color` (opt) - Hexadecimal string representing the color to draw the vertex.
+* `color` (opt) - Color to draw the vertex.
 * `size` (opt) - radius of the displayed sphere (default 3)
 * `vertexType` (opt) - type of the vertex, used for cuts
 * `linkedTracks` (opt) - list of indices of the tracks associated with this vertex
@@ -181,7 +183,7 @@ Available cuts: `vertexType`.
 #### 'MissingEnergy'
 This is a list of objects, displayed as dashed lines starting from 0 and staying in the plane z=0. Each object has the following attributes :
 * `etx`, `ety` : describing the direction of the line
-* `color` (opt) - Hexadecimal string representing the color to draw the line.
+* `color` (opt) - Color to draw the line.
 
 #### 'Muons', 'Electrons' and 'Photons'
 These are compound objects which link to existing 'Tracks' and 'CaloClusters' objects of the event. Each object has the following attributes :

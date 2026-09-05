@@ -147,18 +147,24 @@ export class PhoenixMenuNode {
    * state, as opposed to being newly added to the menu.
    */
   applyConfigState(config: any, fromStateLoad: boolean = false) {
+    if (fromStateLoad) {
+      // A saved state describes what the scene should look like, so every
+      // stored value is applied - including falsy ones like an unchecked
+      // checkbox or a zero slider. Otherwise the menu would show settings the
+      // scene does not actually have.
+      this.applySavedConfigState(config);
+      return;
+    }
+
     // Apply configs of different config types - manual
     if (config.type === 'checkbox' && config?.['isChecked']) {
       config.onChange?.(config?.['isChecked']);
     } else if (config.type === 'color' && config?.['color']) {
+      // Colors are deliberately not applied when a config is added: the
+      // collection already has its color, and the grouped "color by" swatches
+      // would repaint it. They are applied on state load instead.
       if (this.name === 'Labels' || this.parent?.name === 'Labels') {
         // Exception for Labels node (and sub labels), which should always have color applied
-        config.onChange?.(config?.['color']);
-      } else if (fromStateLoad && config.group !== undefined) {
-        // Only apply grouped "color by" configs when restoring a saved state,
-        // otherwise the collection color is overridden on creation. Their
-        // change functions only color the collection if the config's "color by"
-        // option is the selected one.
         config.onChange?.(config?.['color']);
       }
     } else if (config.type === 'slider' && config?.['value']) {
@@ -175,6 +181,42 @@ export class PhoenixMenuNode {
       });
       config.setEnableMin?.(config?.['enableMin']);
       config.setEnableMax?.(config?.['enableMax']);
+    }
+  }
+
+  /**
+   * Apply the values of a config restored from a saved state, so that the scene
+   * matches what the menu displays.
+   * @param config Config whose values are to be applied.
+   */
+  private applySavedConfigState(config: any) {
+    switch (config.type) {
+      case 'checkbox':
+        if (config['isChecked'] !== undefined) {
+          config.onChange?.(config['isChecked']);
+        }
+        break;
+      case 'color':
+        if (config['color'] !== undefined) {
+          config.onChange?.(config['color']);
+        }
+        break;
+      case 'slider':
+      case 'select':
+        if (config['value'] !== undefined) {
+          config.onChange?.(config['value']);
+        }
+        break;
+      case 'rangeSlider':
+        if (config['value'] !== undefined) {
+          config.onChange?.({
+            value: config['value'],
+            highValue: config['highValue'],
+          });
+        }
+        config.setEnableMin?.(config['enableMin']);
+        config.setEnableMax?.(config['enableMax']);
+        break;
     }
   }
 

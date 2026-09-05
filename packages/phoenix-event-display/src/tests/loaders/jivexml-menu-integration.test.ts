@@ -9,6 +9,7 @@ import { UIManager } from '../../managers/ui-manager';
 import { PhoenixMenuNode } from '../../managers/ui-manager/phoenix-menu/phoenix-menu-node';
 import { PhoenixMenuUI } from '../../managers/ui-manager/phoenix-menu/phoenix-menu-ui';
 import { type ConfigSelect } from '../../managers/ui-manager/phoenix-menu/config-types';
+import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
 
 jest.mock('../../managers/three-manager');
 
@@ -86,5 +87,53 @@ describe('JiveXML to Phoenix menu integration', () => {
       'Charge q',
       'Momentum |p|',
     ]);
+  });
+
+  it('should show the color the tracks are actually drawn with', () => {
+    // JiveXML tracks carry no color of their own, so they are drawn in the
+    // default color for tracks - which is what the menu has to show.
+    const xml = `<Event eventNumber="1" runNumber="1" lumiBlock="1" dateTime="2026-01-01">
+      <Track count="1" storeGateKey="SomeTracks">
+        <chi2>1.0</chi2>
+        <numDoF>3</numDoF>
+        <pt>10.0</pt>
+        <d0>0.1</d0>
+        <z0>1.0</z0>
+        <phi0>0.5</phi0>
+        <cotTheta>1.0</cotTheta>
+      </Track>
+    </Event>`;
+
+    const three = new ThreeManager(new InfoLogger());
+    (three.addEventDataTypeGroup as jest.Mock).mockImplementation(
+      () => new Group(),
+    );
+    (three.getSceneManager as jest.Mock).mockReturnValue({
+      collectionFilter: jest.fn(),
+      scaleJets: jest.fn(),
+      scaleChildObjects: jest.fn(),
+      scaleInstancedObjects: jest.fn(),
+    });
+
+    const phoenixMenuRoot = new PhoenixMenuNode('Phoenix Menu');
+    const phoenixMenuUI = new PhoenixMenuUI(phoenixMenuRoot, three);
+    phoenixMenuUI.addEventDataFolder();
+
+    const ui = new UIManager(three);
+    (ui as any).uiMenus = [phoenixMenuUI];
+
+    const loader = new JiveXMLLoader();
+    loader.process(xml);
+    const eventData = loader.getEventData();
+    loader.buildEventData(eventData, three, ui, new InfoLogger());
+
+    const colorConfig = phoenixMenuRoot
+      .findInTree('SomeTracks')
+      ?.findInTree('Color Options')
+      ?.configs.find((config) => config.label === 'Color');
+
+    expect(colorConfig?.['color']).toBe(
+      `#${EVENT_DATA_TYPE_COLORS.Tracks.getHexString()}`,
+    );
   });
 });

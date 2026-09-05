@@ -26,6 +26,7 @@ export * from './lib/models/cut.model';
 export * from './lib/models/preset-view.model';
 
 // Helpers
+export * from './helpers/color-utils';
 export * from './helpers/info-logger';
 export * from './helpers/rk-helper';
 export * from './helpers/runge-kutta';
