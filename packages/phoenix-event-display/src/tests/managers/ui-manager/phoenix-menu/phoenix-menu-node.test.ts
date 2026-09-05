@@ -3,6 +3,13 @@
  */
 import { PhoenixMenuNode } from '../../../../managers/ui-manager/phoenix-menu/phoenix-menu-node';
 
+/**
+ * The state of a node as it would be read back from a saved file, rather than
+ * the live configs `getNodeState` hands out references to.
+ */
+const savedState = (node: PhoenixMenuNode) =>
+  JSON.parse(JSON.stringify(node.getNodeState()));
+
 describe('PhoenixMenuNode', () => {
   describe('loadStateFromJSON', () => {
     it('should restore the value of a select config and apply it', () => {
@@ -141,6 +148,74 @@ describe('PhoenixMenuNode', () => {
 
       expect(onCheckboxChange).toHaveBeenCalledWith(false);
       expect(onSliderChange).toHaveBeenCalledWith(0);
+    });
+
+    it('should restore the rest of a node when a saved config is gone', () => {
+      // The menu is built from the event data, so a state saved with one event
+      // can hold configs another event has no equivalent of - a cut on an
+      // attribute its objects do not have, for example.
+      const onChange = jest.fn();
+      const node = new PhoenixMenuNode('Collection');
+      node.addConfig({
+        type: 'color',
+        label: 'Color',
+        color: '#ff0000',
+        onChange,
+      });
+
+      const state = savedState(node);
+      state['configs'].unshift({
+        type: 'rangeSlider',
+        label: 'A cut this event does not have',
+        value: 1,
+        highValue: 2,
+      });
+      state['configs'][1].color = '#0adb2d';
+
+      node.loadStateFromJSON(state);
+
+      expect(onChange).toHaveBeenCalledWith('#0adb2d');
+    });
+
+    it('should restore child nodes when a saved config is gone', () => {
+      const onChange = jest.fn();
+      const node = new PhoenixMenuNode('Collection');
+      const child = node.addChild('Color Options');
+      child.addConfig({
+        type: 'color',
+        label: 'Color',
+        color: '#ff0000',
+        onChange,
+      });
+
+      const state = savedState(node);
+      state['configs'].push({
+        type: 'checkbox',
+        label: 'An option this event does not have',
+        isChecked: true,
+      });
+      state['children'][0].configs[0].color = '#0adb2d';
+
+      node.loadStateFromJSON(state);
+
+      expect(onChange).toHaveBeenCalledWith('#0adb2d');
+    });
+
+    it('should restore what it can from a partial state', () => {
+      const onChange = jest.fn();
+      const node = new PhoenixMenuNode('Collection');
+      node.addConfig({
+        type: 'color',
+        label: 'Color',
+        color: '#ff0000',
+        onChange,
+      });
+
+      // A hand written config file need not spell out every node.
+      expect(() =>
+        node.loadStateFromJSON({ name: 'Collection' }),
+      ).not.toThrow();
+      expect(onChange).not.toHaveBeenCalled();
     });
 
     it('should apply the color of a Labels node when the config is added', () => {
