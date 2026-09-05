@@ -29,6 +29,7 @@ import {
 } from 'three';
 import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry.js';
 import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
+import { parseColor } from '../../helpers/color-utils';
 import { RKHelper } from '../../helpers/rk-helper';
 import { CoordinateHelper } from '../../helpers/coordinate-helper';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
@@ -139,9 +140,9 @@ export class PhoenixObjects {
       const curve = new CatmullRomCurve3(points);
       const vertices = curve.getPoints(50);
 
-      const color = track.color
-        ? parseInt(track.color, 16)
-        : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
+      const color =
+        parseColor(track.color)?.getHex() ??
+        EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
       track.tid = tracksMesh.addTrack(vertices, color, track.linewidth);
       track.material = tracksMaterial;
@@ -186,9 +187,9 @@ export class PhoenixObjects {
     PhoenixObjects.calculateTrackParams(trackParams);
 
     // const length = 100;
-    const objectColor = trackParams.color
-      ? parseInt(trackParams.color, 16)
-      : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
+    const objectColor =
+      parseColor(trackParams.color)?.getHex() ??
+      EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
     const linewidth = trackParams.linewidth ? trackParams.linewidth : 2;
     const points = [];
@@ -446,10 +447,9 @@ export class PhoenixObjects {
     geometry.setAttribute('position', new BufferAttribute(pointPos, 3));
     geometry.computeBoundingSphere();
     // material
-    const color = hitsParams[0].color ?? EVENT_DATA_TYPE_COLORS.Hits;
     const material = new PointsMaterial({
       size: 10,
-      color: parseInt(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
+      color: parseColor(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
     });
     // object
     const pointsObj = new Points(geometry, material);
@@ -575,7 +575,7 @@ export class PhoenixObjects {
     geometry.computeBoundingSphere();
     // material
     const material = new MeshPhongMaterial({
-      color: parseInt(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
+      color: parseColor(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
     });
     // object
     const box = new Mesh(geometry, material);

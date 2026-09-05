@@ -4,9 +4,11 @@ import {
   Mesh,
   Object3D,
   Points,
+  PointsMaterial,
   InstancedMesh,
 } from 'three';
 import { PhoenixObjects } from '../../../loaders/objects/phoenix-objects';
+import { EVENT_DATA_TYPE_COLORS } from '../../../helpers/constants';
 
 describe('PhoenixObjects', () => {
   let phoenixObjects: PhoenixObjects;
@@ -180,6 +182,50 @@ describe('PhoenixObjects', () => {
 
     expect(hitsParamsBox).toMatchObject(hitsObjectBox.userData);
   });
+
+  it.each([
+    ['Point', 'Points'],
+    ['Box', 'Mesh'],
+  ])(
+    'should draw %s hits without a color in the default color for hits',
+    (type) => {
+      // Hits used to end up black, as the color of hits without one of their
+      // own was parsed as NaN.
+      const hits = PhoenixObjects.getHits([
+        {
+          pos: [
+            -2545.135009765625, -2425.1064453125, 7826.09912109375,
+            -2545.135009765625, -1.1222461462020874, 7826.09912109375,
+          ],
+          type,
+        },
+      ]) as Points | Mesh;
+
+      expect((hits.material as PointsMaterial).color.getHexString()).toBe(
+        EVENT_DATA_TYPE_COLORS.Hits.getHexString(),
+      );
+    },
+  );
+
+  it.each(['00ff00', '#00ff00', '0x00ff00'])(
+    'should draw hits with the color %p given in the event data',
+    (color) => {
+      const hits = PhoenixObjects.getHits([
+        {
+          pos: [
+            -2545.135009765625, -2425.1064453125, 7826.09912109375,
+            -2545.135009765625, -1.1222461462020874, 7826.09912109375,
+          ],
+          type: 'Point',
+          color,
+        },
+      ]) as Points;
+
+      expect((hits.material as PointsMaterial).color.getHexString()).toBe(
+        '00ff00',
+      );
+    },
+  );
 
   it('should create a Cluster and get it as an object', () => {
     const clusterParams = {
