@@ -51,6 +51,27 @@ describe('StateManager', () => {
     expect(stateManager.eventMetadata.eventNumber).toBe('000');
   });
 
+  it('should not throw when the loaded state file is not valid JSON', () => {
+    const phoenixMenuRoot = new PhoenixMenuNode('root');
+    const consoleError = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+    // Feed the 'Load state' button a malformed file.
+    jest
+      .spyOn(file, 'loadFile')
+      .mockImplementation((onFileRead) => onFileRead('not json'));
+    const loadSpy = jest.spyOn(stateManager, 'loadStateFromJSON');
+
+    stateManager.setPhoenixMenuRoot(phoenixMenuRoot);
+    const loadStateButton = phoenixMenuRoot.configs.find(
+      (config: any) => config.label === 'Load state',
+    ) as any;
+
+    expect(() => loadStateButton.onClick()).not.toThrow();
+    expect(loadSpy).not.toHaveBeenCalled();
+    expect(consoleError).toHaveBeenCalled();
+  });
+
   it('should load the state of the event display from JSON', () => {
     stateManager.phoenixMenuRoot = new PhoenixMenuNode('root');
 
