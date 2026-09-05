@@ -25,6 +25,7 @@ export class ViewOptionsComponent implements OnInit, OnDestroy {
   scale: number = 3000;
   views: PresetView[];
   show3DPoints: boolean;
+  darkTheme: boolean = false;
   origin: Vector3 = new Vector3(0, 0, 0);
   sub: Subscription;
 
@@ -35,6 +36,7 @@ export class ViewOptionsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.views = this.eventDisplay.getUIManager().getPresetViews();
+    this.darkTheme = this.eventDisplay.getUIManager().getDarkTheme();
     this.sub = this.eventDisplay
       .getThreeManager()
       .originChanged.subscribe((intersect) => {
@@ -89,6 +91,11 @@ export class ViewOptionsComponent implements OnInit, OnDestroy {
   toggleShowDistance(change: MatCheckboxChange) {
     this.trigger.closeMenu();
     this.eventDisplay.getUIManager().show3DDistance(change.checked);
+  }
+
+  setDarkTheme(change: MatCheckboxChange) {
+    this.darkTheme = change.checked;
+    this.eventDisplay.getUIManager().setDarkTheme(this.darkTheme);
   }
 
   ngOnDestroy(): void {

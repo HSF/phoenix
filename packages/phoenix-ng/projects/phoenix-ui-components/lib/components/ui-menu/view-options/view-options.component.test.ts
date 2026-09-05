@@ -22,6 +22,8 @@ describe('ViewOptionsComponent', () => {
     getUIManager: jest.fn().mockReturnThis(),
     getThreeManager: jest.fn().mockReturnThis(),
     getPresetViews: jest.fn().mockReturnValue([]),
+    getDarkTheme: jest.fn().mockReturnValue(false),
+    setDarkTheme: jest.fn().mockReturnThis(),
     displayView: jest.fn().mockReturnThis(),
     setShowAxis: jest.fn().mockReturnThis(),
     setShowEtaPhiGrid: jest.fn().mockReturnThis(),
@@ -178,6 +180,19 @@ describe('ViewOptionsComponent', () => {
     component.toggleShowDistance(event);
 
     expect(mockEventDisplay.getUIManager().show3DDistance).toHaveBeenCalledWith(
+      VALUE,
+    );
+  });
+
+  it('should toggle the dark theme', () => {
+    const VALUE = true;
+    const event = new MatCheckboxChange();
+    event.checked = VALUE;
+
+    component.setDarkTheme(event);
+
+    expect(component.darkTheme).toBe(VALUE);
+    expect(mockEventDisplay.getUIManager().setDarkTheme).toHaveBeenCalledWith(
       VALUE,
     );
   });

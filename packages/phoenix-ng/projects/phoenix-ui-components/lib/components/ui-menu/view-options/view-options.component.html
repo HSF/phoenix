@@ -84,6 +84,21 @@
   </button>
   <button
     mat-menu-item
+    (click)="
+      $event.stopPropagation();
+      darkThemeCheckbox._inputElement.nativeElement.click()
+    "
+  >
+    <mat-checkbox
+      #darkThemeCheckbox
+      [checked]="darkTheme"
+      (click)="$event.stopPropagation()"
+      (change)="setDarkTheme($event)"
+      >Dark Theme
+    </mat-checkbox>
+  </button>
+  <button
+    mat-menu-item
     *ngFor="let view of views"
     (click)="displayView($event, view)"
   >
