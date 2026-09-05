@@ -10,6 +10,8 @@ import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-men
 import { LoadingManager } from '../managers/loading-manager';
 import { StateManager } from '../managers/state-manager';
 import { CoordinateHelper } from '../helpers/coordinate-helper';
+import { parseColor } from '../helpers/color-utils';
+import { getObjectColor } from '../managers/three-manager/color-manager';
 import { getLabelTitle } from '../helpers/labels';
 import { DatGUIMenuUI } from '../managers/ui-manager/dat-gui-ui';
 import { PhoenixMenuUI } from '../managers/ui-manager/phoenix-menu/phoenix-menu-ui';
@@ -262,7 +264,7 @@ export class PhoenixLoader implements EventDataLoader {
         continue;
       }
 
-      this.addCollection(
+      const collscene = this.addCollection(
         objectCollection,
         collectionName,
         getObject,
@@ -276,11 +278,14 @@ export class PhoenixLoader implements EventDataLoader {
         (cut) => cut.field in objectCollection[0],
       );
 
-      const collectionColor = new Color(
-        object[collectionName][0].color
-          ? object[collectionName][0].color
-          : 0xffffff,
-      );
+      // Read the color back from the objects which were just built, so that the
+      // menu shows the color the collection is actually drawn with. Deriving it
+      // from the event data instead would have to duplicate the default color
+      // of every object type, and would drift out of step with them.
+      const collectionColor =
+        getObjectColor(collscene) ??
+        parseColor(object[collectionName][0].color) ??
+        new Color(0xffffff);
 
       this.ui.addCollection(
         typeName,
@@ -347,6 +352,7 @@ export class PhoenixLoader implements EventDataLoader {
    * @param getObject Handles reconstructing the objects of the collection.
    * @param objectGroup Group containing the collections of the same object type.
    * @param concatonateObjs If true, don't process objects individually, but process as a group (e.g. for point hits).
+   * @returns The group containing the objects of the collection.
    */
   private addCollection(
     objectCollection: any,
@@ -355,7 +361,7 @@ export class PhoenixLoader implements EventDataLoader {
     typeName: string,
     objectGroup: Group,
     concatonateObjs: boolean,
-  ) {
+  ): Group {
     const collscene = new Group();
     collscene.name = collectionName;
 
@@ -376,6 +382,8 @@ export class PhoenixLoader implements EventDataLoader {
 
     objectGroup.add(collscene);
     // console.log("-> Adding a threejs group called "+collscene.name+" with "+collscene.children.length+" children to the group called "+objectGroup.name);
+
+    return collscene;
   }
 
   /**
