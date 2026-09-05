@@ -253,12 +253,16 @@ export class PhoenixMenuNode {
       jsonObject = json;
     }
 
-    this.childrenActive = jsonObject['childrenActive'];
-    this.toggleState = jsonObject['toggleState'];
+    if (jsonObject['childrenActive'] !== undefined) {
+      this.childrenActive = jsonObject['childrenActive'];
+    }
 
-    this.onToggle?.(this.toggleState);
+    if (jsonObject['toggleState'] !== undefined) {
+      this.toggleState = jsonObject['toggleState'];
+      this.onToggle?.(this.toggleState);
+    }
 
-    for (const configState of jsonObject['configs']) {
+    for (const configState of jsonObject['configs'] ?? []) {
       const nodeConfigs = this.configs.filter(
         (nodeConfig) =>
           nodeConfig.type === configState['type'] &&
@@ -271,10 +275,16 @@ export class PhoenixMenuNode {
       }
 
       if (nodeConfigs.length === 0) {
-        console.error(
-          'No config found with label and type in phoenix menu node. Aborting.',
+        // The menu is built from the event data, so a state saved with one
+        // event can name configs another event has no equivalent of - a cut on
+        // an attribute its objects do not have, for example. The rest of the
+        // state still describes this node and its children, so only the config
+        // which is gone is skipped.
+        console.warn(
+          `Ignoring "${configState['label']}" of "${this.name}" from the ` +
+            'saved state, as the menu has no such option.',
         );
-        return;
+        continue;
       }
 
       const nodeConfig = nodeConfigs[0];
@@ -298,7 +308,7 @@ export class PhoenixMenuNode {
     }
 
     // Now handle children
-    for (const childState of jsonObject['children']) {
+    for (const childState of jsonObject['children'] ?? []) {
       const nodeChild = this.children.filter(
         (nodeChild) =>
           nodeChild.name === childState.name &&
