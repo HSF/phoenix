@@ -1,4 +1,4 @@
-import { Component, Inject, type OnInit } from '@angular/core';
+import { Component, Inject, type OnDestroy, type OnInit } from '@angular/core';
 import { Vector3 } from 'three';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './cartesian-grid-config.component.html',
   styleUrls: ['./cartesian-grid-config.component.scss'],
 })
-export class CartesianGridConfigComponent implements OnInit {
+export class CartesianGridConfigComponent implements OnInit, OnDestroy {
   cartesianPos = new Vector3();
   originChangedSub: Subscription = null;
   stopShiftingSub: Subscription = null;
@@ -54,20 +54,49 @@ export class CartesianGridConfigComponent implements OnInit {
   shiftCartesianGridByPointer() {
     this.shiftGrid = true;
     this.eventDisplay.getUIManager().shiftCartesianGridByPointer();
+    // Drop any subscriptions from a previous shift before starting a new one.
+    this.clearShiftSubscriptions();
     this.originChangedSub = this.eventDisplay
       .getThreeManager()
       .originChanged.subscribe((intersect) => {
         this.translateGrid(intersect);
       });
+    // `stopShifting` may emit synchronously during `subscribe`, in which case
+    // the handler runs before `stopShiftingSub` has been assigned. Track that
+    // with a flag so the teardown still happens (and never dereferences null).
+    let stoppedDuringSubscribe = false;
     this.stopShiftingSub = this.eventDisplay
       .getThreeManager()
       .stopShifting.subscribe((stop) => {
-        if (stop) {
-          this.originChangedSub.unsubscribe();
-          this.stopShiftingSub.unsubscribe();
+        if (!stop) {
+          return;
+        }
+        if (this.stopShiftingSub) {
+          this.clearShiftSubscriptions();
+        } else {
+          stoppedDuringSubscribe = true;
         }
       });
+    if (stoppedDuringSubscribe) {
+      this.clearShiftSubscriptions();
+    }
     this.onClose();
+  }
+
+  /**
+   * Unsubscribe from the grid-shifting subscriptions, if any are active.
+   */
+  private clearShiftSubscriptions() {
+    this.originChangedSub?.unsubscribe();
+    this.originChangedSub = null;
+    this.stopShiftingSub?.unsubscribe();
+    this.stopShiftingSub = null;
+  }
+
+  ngOnDestroy(): void {
+    // The dialog closes as soon as pointer shifting starts, so without this the
+    // subscriptions outlive the component and leak on every reopen.
+    this.clearShiftSubscriptions();
   }
 
   shiftCartesianGridByValues(position: Vector3) {

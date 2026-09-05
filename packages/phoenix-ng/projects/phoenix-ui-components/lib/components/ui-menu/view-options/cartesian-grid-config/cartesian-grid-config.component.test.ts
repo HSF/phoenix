@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Vector3 } from 'three';
 import { of } from 'rxjs/internal/observable/of';
+import { Subject } from 'rxjs';
 
 describe('CartesianGridConfigComponent', () => {
   let component: CartesianGridConfigComponent;
@@ -39,10 +40,23 @@ describe('CartesianGridConfigComponent', () => {
     originChangedEmit: jest.fn().mockReturnThis(),
   };
 
+  // Several tests swap in Subjects so the subscriptions stay open; put the
+  // default completing observables back afterwards.
+  const restoreObservables = () => {
+    mockEventDisplay.originChanged = of(gridOrigin) as any;
+    mockEventDisplay.stopShifting = of(true) as any;
+  };
+
   const mockData = {
     gridVisible: true,
     scale: 3000,
   };
+
+  afterEach(() => {
+    // Restore the default completing observables, even if a test failed part
+    // way through, so a swapped-in Subject cannot leak into the next test.
+    restoreObservables();
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -121,29 +135,89 @@ describe('CartesianGridConfigComponent', () => {
   });
 
   it('should shift cartesian grid by a mouse click', () => {
+    const translateSpy = jest.spyOn(component, 'translateGrid');
+
     component.shiftCartesianGridByPointer();
 
-    mockEventDisplay.getUIManager().shiftCartesianGridByPointer(true);
+    expect(
+      mockEventDisplay.getUIManager().shiftCartesianGridByPointer,
+    ).toHaveBeenCalled();
+    // `originChanged` is mocked with `of(gridOrigin)`, so the handler runs
+    // synchronously on subscribe.
+    expect(translateSpy).toHaveBeenCalledWith(gridOrigin);
+    // `stopShifting` is mocked with `of(true)`, so shifting stops immediately
+    // and both subscriptions are torn down.
+    expect(component.originChangedSub).toBeNull();
+    expect(component.stopShiftingSub).toBeNull();
+  });
 
-    mockEventDisplay.getThreeManager().originChanged.subscribe((intersect) => {
-      expect(component.translateGrid).toHaveBeenCalledWith(intersect);
-    });
+  it('should not throw when stopShifting emits synchronously', () => {
+    // `of(true)` emits during `subscribe`, so the handler runs before
+    // `stopShiftingSub` is assigned. Previously this threw a TypeError.
+    expect(() => component.shiftCartesianGridByPointer()).not.toThrow();
+    expect(component.originChangedSub).toBeNull();
+    expect(component.stopShiftingSub).toBeNull();
+  });
 
-    const originChangedUnSpy = jest.spyOn(
-      component.originChangedSub,
-      'unsubscribe',
-    );
-    const stopShiftingUnSpy = jest.spyOn(
-      component.stopShiftingSub,
-      'unsubscribe',
-    );
+  it('should unsubscribe on destroy when shifting never stopped', () => {
+    // Subjects never complete on their own, so the subscriptions stay live
+    // until the component is destroyed - the leak when the dialog is closed
+    // without right-clicking to stop shifting. (`of()` completes immediately
+    // and so auto-closes its subscription, which would mask the leak.)
+    const originChanged = new Subject<Vector3>();
+    const stopShifting = new Subject<boolean>();
+    mockEventDisplay.originChanged = originChanged as any;
+    mockEventDisplay.stopShifting = stopShifting as any;
 
-    mockEventDisplay.getThreeManager().stopShifting.subscribe((stop) => {
-      if (stop) {
-        expect(originChangedUnSpy).toHaveBeenCalled();
-        expect(stopShiftingUnSpy).toHaveBeenCalled();
-      }
-    });
+    component.shiftCartesianGridByPointer();
+
+    const originChangedSub = component.originChangedSub;
+    const stopShiftingSub = component.stopShiftingSub;
+    expect(originChangedSub.closed).toBe(false);
+    expect(stopShiftingSub.closed).toBe(false);
+
+    component.ngOnDestroy();
+
+    expect(originChangedSub.closed).toBe(true);
+    expect(stopShiftingSub.closed).toBe(true);
+    expect(component.originChangedSub).toBeNull();
+    expect(component.stopShiftingSub).toBeNull();
+  });
+
+  it('should not accumulate subscriptions across repeated shifts', () => {
+    const originChanged = new Subject<Vector3>();
+    const stopShifting = new Subject<boolean>();
+    mockEventDisplay.originChanged = originChanged as any;
+    mockEventDisplay.stopShifting = stopShifting as any;
+
+    component.shiftCartesianGridByPointer();
+    const firstSub = component.originChangedSub;
+
+    component.shiftCartesianGridByPointer();
+
+    // The first shift's subscription must be torn down, not left behind.
+    expect(firstSub.closed).toBe(true);
+    expect(component.originChangedSub.closed).toBe(false);
+
+    component.ngOnDestroy();
+  });
+
+  it('should unsubscribe when stopShifting emits after subscribing', () => {
+    const originChanged = new Subject<Vector3>();
+    const stopShifting = new Subject<boolean>();
+    mockEventDisplay.originChanged = originChanged as any;
+    mockEventDisplay.stopShifting = stopShifting as any;
+
+    component.shiftCartesianGridByPointer();
+    const originChangedSub = component.originChangedSub;
+    const stopShiftingSub = component.stopShiftingSub;
+
+    stopShifting.next(true);
+
+    expect(originChangedSub.closed).toBe(true);
+    expect(stopShiftingSub.closed).toBe(true);
+    expect(component.originChangedSub).toBeNull();
+    expect(component.stopShiftingSub).toBeNull();
   });
 
   it('should shift cartesian grid by values', () => {
