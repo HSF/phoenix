@@ -27,6 +27,11 @@ jest.mock('../../event-display', () => {
   };
 });
 
+jest.mock('../../helpers/zip', () => ({
+  readZipFile: jest.fn(),
+}));
+import { readZipFile } from '../../helpers/zip';
+
 describe('URLOptionsManager', () => {
   let urlOptionsManager: URLOptionsManager;
   let urlOptionsManagerPrivate: any;
@@ -188,6 +193,43 @@ describe('URLOptionsManager', () => {
       expect(opts.credentials).toBe('omit');
       expect(opts.referrerPolicy).toBe('no-referrer');
       expect(opts.signal).toBeDefined();
+    });
+  });
+
+  describe('handleZipFileEvents', () => {
+    /** Build a manager whose event display records what it is handed. */
+    const setUpManager = () => {
+      const parsePhoenixEvents = jest.fn();
+      const infoLoggerAdd = jest.fn();
+      const display: any = {
+        parsePhoenixEvents,
+        getInfoLogger: () => ({ add: infoLoggerAdd }),
+      };
+      window.fetch = jest.fn().mockResolvedValue({
+        arrayBuffer: async () => new ArrayBuffer(8),
+      }) as any;
+      const manager: any = new URLOptionsManager(display, configuration);
+      return { manager, parsePhoenixEvents, infoLoggerAdd };
+    };
+
+    it('should skip a malformed JSON entry and still load the valid ones', async () => {
+      (readZipFile as jest.Mock).mockResolvedValue({
+        'broken.json': '{ this is not valid json',
+        'good.json': '{"validEvent": {"event number": 1}}',
+      });
+      const { manager, parsePhoenixEvents, infoLoggerAdd } = setUpManager();
+      jest.spyOn(console, 'error').mockImplementation(() => {});
+
+      await expect(
+        manager.handleZipFileEvents('https://example.com/events.zip'),
+      ).resolves.not.toThrow();
+
+      expect(parsePhoenixEvents).toHaveBeenCalled();
+      expect(parsePhoenixEvents.mock.calls[0][0]).toHaveProperty('validEvent');
+      expect(infoLoggerAdd).toHaveBeenCalledWith(
+        'Could not parse broken.json',
+        'Error',
+      );
     });
   });
 });
