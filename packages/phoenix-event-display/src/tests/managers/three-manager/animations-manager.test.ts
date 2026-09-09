@@ -56,6 +56,20 @@ describe('AnimationsManager', () => {
     expect((animationsManager as any).getHitsPositions(hits).length).toBe(2);
   });
 
+  it('should restore the labels when there is no event data to animate', () => {
+    const labelsGroup = new Object3D();
+    labelsGroup.name = SceneManager.LABELS_ID;
+    labelsGroup.visible = true;
+    scene.add(labelsGroup);
+
+    // No event data has been loaded, so the animation cannot run.
+    expect(scene.getObjectByName(SceneManager.EVENT_DATA_ID)).toBeUndefined();
+
+    animationsManager.animateEvent(500);
+
+    expect(labelsGroup.visible).toBe(true);
+  });
+
   describe('It depends on the event data', () => {
     beforeEach(() => {
       const mockEventData = new Object3D();
