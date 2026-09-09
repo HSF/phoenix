@@ -127,29 +127,47 @@ export class AnimateCameraComponent {
       });
     };
 
-    if (preset) {
-      this.animatePreset(preset, onEnd);
-    } else {
-      this.animateCamera(onEnd);
+    // `animateCamera` refuses to start while another animation is running. If
+    // it does not start, nothing will ever call `onEnd`, so the interval would
+    // run forever behind a dialog the user cannot dismiss.
+    const started = preset
+      ? this.animatePreset(preset, onEnd)
+      : this.animateCamera(onEnd);
+
+    if (!started) {
+      clearInterval(interval);
+      recorder.stopRecording(() => dialogRef.close());
     }
   }
 
-  animatePreset(preset: string, onEnd?: () => void) {
+  /**
+   * Animate through the given preset.
+   * @returns Whether the animation was started.
+   */
+  animatePreset(preset: string, onEnd?: () => void): boolean {
     this.setDetectorOpacity(0.2);
     this.eventDisplay.animatePreset(this.animationPresets[preset], () => {
       this.setDetectorOpacity(1);
       if (onEnd) onEnd();
     });
+    return true;
   }
 
-  animateCamera(onEnd?: () => void) {
-    if (!this.isAnimating) {
-      this.isAnimating = true;
-      this.eventDisplay.animateThroughEvent([11976, 7262, 11927], 3000, () => {
-        this.isAnimating = false;
-        if (onEnd) onEnd();
-      });
+  /**
+   * Animate the camera through the event.
+   * @returns Whether the animation was started. It is refused while another
+   * animation is already running.
+   */
+  animateCamera(onEnd?: () => void): boolean {
+    if (this.isAnimating) {
+      return false;
     }
+    this.isAnimating = true;
+    this.eventDisplay.animateThroughEvent([11976, 7262, 11927], 3000, () => {
+      this.isAnimating = false;
+      if (onEnd) onEnd();
+    });
+    return true;
   }
 
   private setDetectorOpacity(opacity: number) {
