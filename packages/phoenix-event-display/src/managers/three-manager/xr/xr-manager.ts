@@ -32,6 +32,8 @@ export class XRManager {
   protected currentXRSession: any = null;
   /** Callback to call when the XR session ends. */
   protected onSessionEnded: () => void;
+  /** Bound 'end' listener, kept so it can be removed again. */
+  private boundOnXRSessionEnded?: () => void;
   /** Group containing the the camera for XR. */
   public cameraGroup: Group | undefined;
   /** The camera used by XR. */
@@ -77,17 +79,33 @@ export class XRManager {
    */
   protected async onXRSessionStarted(session: any) {
     this.xrActive = true;
-    session.addEventListener('end', this.onXRSessionEnded.bind(this));
-    await this.renderer.xr.setSession(session);
+    // Keep the bound listener: `bind` returns a new function every time, so
+    // removeEventListener needs this exact reference to match.
+    this.boundOnXRSessionEnded = this.onXRSessionEnded.bind(this);
+    session.addEventListener('end', this.boundOnXRSessionEnded);
+    // Record the session before awaiting, so that a session ending while
+    // setSession is still in flight is still cleaned up.
     this.currentXRSession = session;
+    await this.renderer.xr.setSession(session);
   }
 
   /**
    * Callback when the XR session ends.
    */
   protected onXRSessionEnded() {
+    // The session ends either from `endXRSession` or from the headset itself,
+    // and both routes arrive here, so this has to be safe to run twice.
+    if (!this.currentXRSession) {
+      return;
+    }
     this.xrActive = false;
-    this.currentXRSession.removeEventListener('end', this.onXRSessionEnded);
+    if (this.boundOnXRSessionEnded) {
+      this.currentXRSession.removeEventListener(
+        'end',
+        this.boundOnXRSessionEnded,
+      );
+      this.boundOnXRSessionEnded = undefined;
+    }
     this.currentXRSession = null;
     this.cameraGroup = undefined;
     this.onSessionEnded?.();
