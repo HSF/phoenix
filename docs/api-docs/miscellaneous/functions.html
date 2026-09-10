@@ -169,10 +169,19 @@
                             <a href="#getDefaultObjectTypeConfigs" title="src/loaders/object-type-registry.ts" ><b>getDefaultObjectTypeConfigs</b>&nbsp;&nbsp;&nbsp;(src/.../object-type-registry.ts)</a>
                         </li>
                         <li>
+                            <a href="#getMaterialsColors" title="src/managers/three-manager/color-manager.ts" ><b>getMaterialsColors</b>&nbsp;&nbsp;&nbsp;(src/.../color-manager.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#getObjectColor" title="src/managers/three-manager/color-manager.ts" ><b>getObjectColor</b>&nbsp;&nbsp;&nbsp;(src/.../color-manager.ts)</a>
+                        </li>
+                        <li>
                             <a href="#invariantMass" title="src/helpers/invariant-mass.ts" ><b>invariantMass</b>&nbsp;&nbsp;&nbsp;(src/.../invariant-mass.ts)</a>
                         </li>
                         <li>
                             <a href="#lerp" title="src/managers/session-manager/session-player.ts" ><b>lerp</b>&nbsp;&nbsp;&nbsp;(src/.../session-player.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#parseColor" title="src/helpers/color-utils.ts" ><b>parseColor</b>&nbsp;&nbsp;&nbsp;(src/.../color-utils.ts)</a>
                         </li>
                         <li>
                             <a href="#pipeThroughStream" title="src/managers/session-manager/session-codec.ts" ><b>pipeThroughStream</b>&nbsp;&nbsp;&nbsp;(src/.../session-codec.ts)</a>
@@ -1267,6 +1276,231 @@ Avoids Blob.stream() and Response, both of which jsdom lacks.</p>
             </tr>
         </tbody>
     </table>
+</section>    <h3>src/managers/three-manager/color-manager.ts</h3>
+    <section data-compodoc="block-methods">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getMaterialsColors"></a>
+                    <span class="name">
+                        <span ><b>getMaterialsColors</b></span>
+                        <a href="#getMaterialsColors"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getMaterialsColors(object: Object3D)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Get the colors of the materials of an object, which are the colors it is
+drawn with.</p>
+<p>Most materials have a <code>color</code>, but some - like the shader material jets are
+drawn with - keep it in a uniform instead.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>object</td>
+                                            <td>
+                                                        <code>Object3D</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Object whose material colors are to be found.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Color[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>The colors of the object&#39;s materials, as references which can be
+changed to recolor the object.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getObjectColor"></a>
+                    <span class="name">
+                        <span ><b>getObjectColor</b></span>
+                        <a href="#getObjectColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getObjectColor(object: Object3D)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Get the colour an object is currently drawn with.</p>
+<p>This is the counterpart of <code>setColorForObject</code> and has to stay in step with
+it: it is used to show the collection&#39;s real colour in the UI, rather than
+guessing it from the event data.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>object</td>
+                                            <td>
+                                                        <code>Object3D</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Object whose colour is to be read.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Color | undefined</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>The colour of the first coloured object found, or <code>undefined</code> if
+there is none.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setColorForObject"></a>
+                    <span class="name">
+                        <span ><b>setColorForObject</b></span>
+                        <a href="#setColorForObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setColorForObject(object: Object3D, color: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Change colour of object.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>object</td>
+                                            <td>
+                                                        <code>Object3D</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Object to be update</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>color</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Color to set for the object.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>    <h3>src/managers/session-manager/session-player.ts</h3>
     <section data-compodoc="block-methods">
     <h3></h3>    <table class="table table-sm table-bordered">
@@ -1370,22 +1604,22 @@ Avoids Blob.stream() and Response, both of which jsdom lacks.</p>
             </tr>
         </tbody>
     </table>
-</section>    <h3>src/managers/three-manager/color-manager.ts</h3>
+</section>    <h3>src/helpers/color-utils.ts</h3>
     <section data-compodoc="block-methods">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="setColorForObject"></a>
+                    <a name="parseColor"></a>
                     <span class="name">
-                        <span ><b>setColorForObject</b></span>
-                        <a href="#setColorForObject"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>parseColor</b></span>
+                        <a href="#parseColor"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>setColorForObject(object: Object3D, color: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>parseColor(value: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
@@ -1394,7 +1628,14 @@ Avoids Blob.stream() and Response, both of which jsdom lacks.</p>
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Change colour of object.</p>
+                        <div class="io-description"><p>Parse a colour as it may appear in event data.</p>
+<p>Event data is written by many different producers, so the same colour turns
+up as <code>ff0000</code>, <code>#ff0000</code> or <code>0xff0000</code>. All three are accepted here, along
+with a number, an existing <code>Color</code>, and any style <code>Color.set</code> understands
+(<code>rgb(...)</code>, <code>hsl(...)</code>, or a named colour).</p>
+<p>Anything unrecognised gives <code>undefined</code> rather than a silently wrong colour,
+so callers can fall back to a sensible default of their own - see
+<code>EVENT_DATA_TYPE_COLORS</code>.</p>
 </div>
 
                             <div class="io-description">
@@ -1411,23 +1652,7 @@ Avoids Blob.stream() and Response, both of which jsdom lacks.</p>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                                <td>object</td>
-                                            <td>
-                                                        <code>Object3D</code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Object to be update</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>color</td>
+                                                <td>value</td>
                                             <td>
                                                             <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                             </td>
@@ -1438,12 +1663,20 @@ Avoids Blob.stream() and Response, both of which jsdom lacks.</p>
 
 
                                             <td>
-                                                    <p>Color to set for the object.</p>
+                                                    <p>Colour to parse.</p>
 
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Color | undefined</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>The parsed colour, or <code>undefined</code> if it could not be parsed.</p>
+
                             </div>
                 </td>
             </tr>

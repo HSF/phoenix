@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/HSF/phoenix/compare/v4.1.0...v4.2.0) (2026-09-10)
+
+
+### Bug Fixes
+
+* **event-display,app:** add explicit licence files ([3b86cd2](https://github.com/HSF/phoenix/commit/3b86cd283681cfc60238e0384fb093b48dcd58fc))
+* revoke object URLs after use ([#992](https://github.com/HSF/phoenix/issues/992)) ([688327d](https://github.com/HSF/phoenix/commit/688327d82ec1602bb5926d69f349ebf860d389b5)), closes [#990](https://github.com/HSF/phoenix/issues/990)
+* **ui-components:** close the dialog when a download animation cannot start ([#1006](https://github.com/HSF/phoenix/issues/1006)) ([0dcc7e0](https://github.com/HSF/phoenix/commit/0dcc7e02ae0c90b85468c178f305a692fee611ac))
+* **ui-components:** guard view options teardown before init ([#1012](https://github.com/HSF/phoenix/issues/1012)) ([e151e4f](https://github.com/HSF/phoenix/commit/e151e4ffa3092567ae691fc8a9f3cf2dc63280f6))
+* **ui-components:** tear down grid-shift subscriptions on destroy ([#993](https://github.com/HSF/phoenix/issues/993)) ([a36e4a1](https://github.com/HSF/phoenix/commit/a36e4a18690fd05b64520974e99012e78347aa60))
+* **ui-components:** unsubscribe from download progress on destroy ([#1016](https://github.com/HSF/phoenix/issues/1016)) ([51d443a](https://github.com/HSF/phoenix/commit/51d443af41d89a63729fa956807d4f8635cec74b))
+
+
+
+
+
 # [4.1.0](https://github.com/HSF/phoenix/compare/v4.0.1...v4.1.0) (2026-09-01)
 
 

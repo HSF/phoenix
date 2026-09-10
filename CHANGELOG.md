@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/HSF/phoenix/compare/v4.1.0...v4.2.0) (2026-09-10)
+
+
+### Bug Fixes
+
+* **app:** Fix/sync config to gui ([#996](https://github.com/HSF/phoenix/issues/996)) ([4be833a](https://github.com/HSF/phoenix/commit/4be833ae58750486d4473569820c0809d2ee5329)), closes [#ff0000](https://github.com/HSF/phoenix/issues/ff0000)
+* **ci:** deploy PR previews for pull requests from forks ([#995](https://github.com/HSF/phoenix/issues/995)) ([4aca140](https://github.com/HSF/phoenix/commit/4aca1401571b349cac9e457fd8b34ac9628d4999))
+* **ci:** revert dev deploy domain to phoenix-dev2.surge.sh ([#981](https://github.com/HSF/phoenix/issues/981)) ([1fb2b1c](https://github.com/HSF/phoenix/commit/1fb2b1c68bac42e7033b3e461d75e41041be6d9a))
+* **ci:** use github-script for deployments and fix deploy outputs ([#982](https://github.com/HSF/phoenix/issues/982)) ([58ebc0d](https://github.com/HSF/phoenix/commit/58ebc0d61ee6aa09c8106a2631c320639728e79f))
+* **event-display:**  fix another issue from jsroot 7.11 ([f0deea0](https://github.com/HSF/phoenix/commit/f0deea0054bda748f95ce19e948dff2fe0e58142))
+* **event-display,app:** add explicit licence files ([3b86cd2](https://github.com/HSF/phoenix/commit/3b86cd283681cfc60238e0384fb093b48dcd58fc))
+* **event-display:** clean up XR session listener on session end ([#1000](https://github.com/HSF/phoenix/issues/1000)) ([b2044fc](https://github.com/HSF/phoenix/commit/b2044fc5c9bfa1349ab8292291e78ac86be8ef06)), closes [#999](https://github.com/HSF/phoenix/issues/999)
+* **event-display:** correct anglesAreSane docs and test argument order ([#986](https://github.com/HSF/phoenix/issues/986)) ([e4462d5](https://github.com/HSF/phoenix/commit/e4462d518f559d96c078cc8b1e101e05144f9038))
+* **event-display:** drop pending state changes on cleanup ([#1014](https://github.com/HSF/phoenix/issues/1014)) ([85b4968](https://github.com/HSF/phoenix/commit/85b4968dbd6462b36dfd2a23867cc5237cdcec27))
+* **event-display:** handle malformed JSON in user-loaded files ([#994](https://github.com/HSF/phoenix/issues/994)) ([fab6a00](https://github.com/HSF/phoenix/commit/fab6a002975a79845ae8724dd92cfcaa5c42d783)), closes [#991](https://github.com/HSF/phoenix/issues/991)
+* **event-display:** keep labels visible when an animation cannot run ([#1010](https://github.com/HSF/phoenix/issues/1010)) ([e1b8806](https://github.com/HSF/phoenix/commit/e1b880691a055970d1708b92dbb81bc54349eb45))
+* **event-display:** keep loading a state after an option it names is gone ([#997](https://github.com/HSF/phoenix/issues/997)) ([527ab17](https://github.com/HSF/phoenix/commit/527ab1705c0de703f6f828068fd85d4c99fef81f))
+* **event-display:** keep loading a zip when one JSON entry is malformed ([#1004](https://github.com/HSF/phoenix/issues/1004)) ([d641cf0](https://github.com/HSF/phoenix/commit/d641cf01b8677ca6bea7bf620d88af15eb885075)), closes [#994](https://github.com/HSF/phoenix/issues/994) [#991](https://github.com/HSF/phoenix/issues/991) [#1003](https://github.com/HSF/phoenix/issues/1003)
+* **event-display:** make cartesian grid work at non-default scales ([#988](https://github.com/HSF/phoenix/issues/988)) ([9988d88](https://github.com/HSF/phoenix/commit/9988d88c9edccf843b414f81c7a83a3a194fc431)), closes [#987](https://github.com/HSF/phoenix/issues/987)
+* **event-display:** stop leaking a contextmenu listener per grid shift ([#1002](https://github.com/HSF/phoenix/issues/1002)) ([d0633d0](https://github.com/HSF/phoenix/commit/d0633d002bdb7072917a718c5f30f26b712470ac)), closes [#1001](https://github.com/HSF/phoenix/issues/1001)
+* **event-display:** stop VR movement when the session ends mid-press ([#1008](https://github.com/HSF/phoenix/issues/1008)) ([596fe7a](https://github.com/HSF/phoenix/commit/596fe7a104a3e1b90b0614f40d0861243d99d7df))
+* revoke object URLs after use ([#992](https://github.com/HSF/phoenix/issues/992)) ([688327d](https://github.com/HSF/phoenix/commit/688327d82ec1602bb5926d69f349ebf860d389b5)), closes [#990](https://github.com/HSF/phoenix/issues/990)
+* **ui-components:** close the dialog when a download animation cannot start ([#1006](https://github.com/HSF/phoenix/issues/1006)) ([0dcc7e0](https://github.com/HSF/phoenix/commit/0dcc7e02ae0c90b85468c178f305a692fee611ac))
+* **ui-components:** guard view options teardown before init ([#1012](https://github.com/HSF/phoenix/issues/1012)) ([e151e4f](https://github.com/HSF/phoenix/commit/e151e4ffa3092567ae691fc8a9f3cf2dc63280f6))
+* **ui-components:** tear down grid-shift subscriptions on destroy ([#993](https://github.com/HSF/phoenix/issues/993)) ([a36e4a1](https://github.com/HSF/phoenix/commit/a36e4a18690fd05b64520974e99012e78347aa60))
+* **ui-components:** unsubscribe from download progress on destroy ([#1016](https://github.com/HSF/phoenix/issues/1016)) ([51d443a](https://github.com/HSF/phoenix/commit/51d443af41d89a63729fa956807d4f8635cec74b))
+
+
+
+
+
 # [4.1.0](https://github.com/HSF/phoenix/compare/v4.0.1...v4.1.0) (2026-09-01)
 
 

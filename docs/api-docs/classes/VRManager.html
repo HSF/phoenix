@@ -188,6 +188,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#movementIntervalId" >movementIntervalId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#onControllerSelectEnd" >onControllerSelectEnd</a>
                             </li>
                             <li>
@@ -198,6 +202,11 @@
                                     <span class="modifier">Static</span>
                                     <span class="modifier">Readonly</span>
                                 <a href="#SESSION_TYPE" >SESSION_TYPE</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#boundOnXRSessionEnded" >boundOnXRSessionEnded</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -256,6 +265,10 @@
                                 <a href="#setXRSession" >setXRSession</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#stopMovement" >stopMovement</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#endXRSession" >endXRSession</a>
                             </li>
@@ -295,7 +308,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/managers/three-manager/xr/vr-manager.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/managers/three-manager/xr/vr-manager.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -450,6 +463,44 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="movementIntervalId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>movementIntervalId</b></span>
+                        <a href="#movementIntervalId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ReturnType&lt;unknown&gt; | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/managers/three-manager/xr/vr-manager.ts:30</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Interval moving the camera while the controller trigger is held.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="onControllerSelectEnd"></a>
                     <span class="name">
                             <span class="modifier">Private</span>
@@ -555,6 +606,47 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="boundOnXRSessionEnded"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>boundOnXRSessionEnded</b></span>
+                        <a href="#boundOnXRSessionEnded"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../classes/XRManager.html" target="_self" >XRManager</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:36</a></code>
+</div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Bound &#39;end&#39; listener, kept so it can be removed again.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="cameraGroup"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -577,7 +669,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:36</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:38</a></code>
 </div>
                         </td>
                     </tr>
@@ -827,7 +919,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:38</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:40</a></code>
 </div>
                         </td>
                     </tr>
@@ -870,8 +962,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="150"
-                                    class="link-to-prism">src/managers/three-manager/xr/vr-manager.ts:150</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="165"
+                                    class="link-to-prism">src/managers/three-manager/xr/vr-manager.ts:165</a></div>
                         </td>
                     </tr>
 
@@ -968,7 +1060,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:61</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:63</a></code>
 </div>
                         </td>
                     </tr>
@@ -1009,8 +1101,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="77"
-                                    class="link-to-prism">src/managers/three-manager/xr/vr-manager.ts:77</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="93"
+                                    class="link-to-prism">src/managers/three-manager/xr/vr-manager.ts:93</a></div>
                         </td>
                     </tr>
 
@@ -1056,7 +1148,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:48</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:50</a></code>
 </div>
                         </td>
                     </tr>
@@ -1146,6 +1238,47 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="stopMovement"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>stopMovement</b></span>
+                        <a href="#stopMovement"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>stopMovement()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="83"
+                                    class="link-to-prism">src/managers/three-manager/xr/vr-manager.ts:83</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Stop the interval moving the camera, if one is running.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="endXRSession"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -1170,7 +1303,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:99</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:117</a></code>
 </div>
                         </td>
                     </tr>
@@ -1217,7 +1350,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:109</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:127</a></code>
 </div>
                         </td>
                     </tr>
@@ -1301,7 +1434,7 @@ XR camera works by adding a Group with Camera to the scene.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:135</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:153</a></code>
 </div>
                         </td>
                     </tr>
@@ -1353,7 +1486,7 @@ XR camera works by adding a Group with Camera to the scene.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:78</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:80</a></code>
 </div>
                         </td>
                     </tr>
@@ -1445,6 +1578,8 @@ export class VRManager extends XRManager {
   private onControllerSelectStart: () &#x3D;&gt; void;
   /** Listener for when the &quot;Select Start&quot; button is released. */
   private onControllerSelectEnd: () &#x3D;&gt; void;
+  /** Interval moving the camera while the controller trigger is held. */
+  private movementIntervalId: ReturnType&lt;typeof setInterval&gt; | null &#x3D; null;
 
   /**
    * Create the VR manager.
@@ -1488,6 +1623,20 @@ export class VRManager extends XRManager {
       &#x27;selectend&#x27;,
       this.onControllerSelectEnd,
     );
+
+    // The session can end while the trigger is still held, in which case
+    // &quot;selectend&quot; never fires and the movement interval would run forever.
+    this.stopMovement();
+  }
+
+  /**
+   * Stop the interval moving the camera, if one is running.
+   */
+  private stopMovement() {
+    if (this.movementIntervalId !&#x3D;&#x3D; null) {
+      clearInterval(this.movementIntervalId);
+      this.movementIntervalId &#x3D; null;
+    }
   }
 
   /**
@@ -1531,8 +1680,6 @@ export class VRManager extends XRManager {
     const stepDistance &#x3D; 30;
     // Unit vector in camera direction
     const direction &#x3D; new Vector3();
-    // Interval ID for the movement interval
-    let intervalId: NodeJS.Timeout;
 
     this.onControllerSelectStart &#x3D; () &#x3D;&gt; {
       console.log(
@@ -1544,14 +1691,15 @@ export class VRManager extends XRManager {
       );
 
       // Start movement in camera direction
-      intervalId &#x3D; setInterval(() &#x3D;&gt; {
+      this.stopMovement();
+      this.movementIntervalId &#x3D; setInterval(() &#x3D;&gt; {
         this.moveInDirection(direction, stepDistance);
       }, 20);
     };
 
     this.onControllerSelectEnd &#x3D; () &#x3D;&gt; {
       // Stop the movement
-      clearInterval(intervalId);
+      this.stopMovement();
     };
 
     this.controller1.addEventListener(

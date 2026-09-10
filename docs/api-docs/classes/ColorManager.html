@@ -206,7 +206,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/managers/three-manager/color-manager.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/managers/three-manager/color-manager.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -279,8 +279,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="73"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:73</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="74"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:74</a></div>
                         </td>
                     </tr>
 
@@ -371,8 +371,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="93"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:93</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="94"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:94</a></div>
                         </td>
                     </tr>
 
@@ -461,8 +461,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="51"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:51</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="52"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:52</a></div>
                         </td>
                     </tr>
 
@@ -553,8 +553,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="30"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:30</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="31"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -661,8 +661,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="133"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:133</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="134"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:134</a></div>
                         </td>
                     </tr>
 
@@ -735,6 +735,7 @@
   type Object3DEventMap,
   Line,
   Points,
+  type ShaderMaterial,
 } from &#x27;three&#x27;;
 import { SceneManager } from &#x27;./scene-manager&#x27;;
 import { PhoenixMenuNode } from &#x27;../ui-manager/phoenix-menu/phoenix-menu-node&#x27;;
@@ -924,33 +925,74 @@ export class ColorManager {
   }
 }
 /**
+ * Get the colour an object is currently drawn with.
+ *
+ * This is the counterpart of &#x60;setColorForObject&#x60; and has to stay in step with
+ * it: it is used to show the collection&#x27;s real colour in the UI, rather than
+ * guessing it from the event data.
+ * @param object Object whose colour is to be read.
+ * @returns The colour of the first coloured object found, or &#x60;undefined&#x60; if
+ * there is none.
+ */
+export function getObjectColor(
+  object: Object3D&lt;Object3DEventMap&gt;,
+): Color | undefined {
+  let objectColor: Color | undefined;
+
+  object.traverse((child) &#x3D;&gt; {
+    if (!objectColor) {
+      objectColor &#x3D; getMaterialsColors(child)[0]?.clone();
+    }
+  });
+
+  return objectColor;
+}
+
+/**
+ * Get the colors of the materials of an object, which are the colors it is
+ * drawn with.
+ *
+ * Most materials have a &#x60;color&#x60;, but some - like the shader material jets are
+ * drawn with - keep it in a uniform instead.
+ * @param object Object whose material colors are to be found.
+ * @returns The colors of the object&#x27;s materials, as references which can be
+ * changed to recolor the object.
+ */
+function getMaterialsColors(object: Object3D&lt;Object3DEventMap&gt;): Color[] {
+  const material &#x3D; (object as Mesh | Line | Points).material;
+  if (!material) {
+    return [];
+  }
+
+  const materials &#x3D; Array.isArray(material) ? material : [material];
+
+  return materials
+    .map((singleMaterial) &#x3D;&gt; {
+      const color &#x3D; (singleMaterial as MeshPhongMaterial)?.color;
+      if (color) {
+        return color;
+      }
+
+      const uniforms: { [key: string]: { value: any } } | undefined &#x3D; (
+        singleMaterial as ShaderMaterial
+      )?.uniforms;
+      return uniforms
+        ? Object.values(uniforms).find(
+            (uniform) &#x3D;&gt; uniform?.value instanceof Color,
+          )?.value
+        : undefined;
+    })
+    .filter((color): color is Color &#x3D;&gt; color !&#x3D;&#x3D; undefined);
+}
+
+/**
  * Change colour of object.
  * @param object Object to be update
  * @param color Color to set for the object.
  */
 function setColorForObject(object: Object3D&lt;Object3DEventMap&gt;, color: any) {
-  if (object instanceof Mesh) {
-    const mesh &#x3D; object as Mesh;
-    const material &#x3D; mesh.material;
-    if (Array.isArray(material)) {
-      material.forEach((mat) &#x3D;&gt; {
-        (mat as MeshPhongMaterial)?.color?.set(color);
-      });
-    } else if (&#x27;color&#x27; in material) {
-      (material.color as Color).set(color);
-    }
-  } else if (object instanceof Line) {
-    const line &#x3D; object as Line;
-    const material &#x3D; line.material;
-    if (&#x27;color&#x27; in material) {
-      (material.color as Color).set(color);
-    }
-  } else if (object instanceof Points) {
-    const points &#x3D; object as Points;
-    const material &#x3D; points.material;
-    if (&#x27;color&#x27; in material) {
-      (material.color as Color).set(color);
-    }
+  for (const materialColor of getMaterialsColors(object)) {
+    materialColor.set(color);
   }
 }
 </code></pre>

@@ -1301,8 +1301,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="652"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:652</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="660"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:660</a></div>
                         </td>
                     </tr>
 
@@ -1719,8 +1719,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="635"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:635</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="643"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:643</a></div>
                         </td>
                     </tr>
 
@@ -1855,8 +1855,8 @@ Used by StateManager to access the cut registry for serialization.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="645"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:645</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="653"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:653</a></div>
                         </td>
                     </tr>
 
@@ -1976,8 +1976,8 @@ Used by StateManager to access the cut registry for serialization.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="623"
-                                    class="link-to-prism">src/managers/ui-manager/index.ts:623</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="631"
+                                    class="link-to-prism">src/managers/ui-manager/index.ts:631</a></div>
                         </td>
                     </tr>
 
@@ -3968,7 +3968,15 @@ export class UIManager {
     if (eventDataLoader &amp;&amp; labelsObject) {
       loadFile((data) &#x3D;&gt; {
         console.log(&#x27;UIManager: loading Labels&#x27;);
-        const labelsObject &#x3D; JSON.parse(data);
+        // The file comes from the user, so it may not be valid JSON. Report
+        // the problem instead of throwing out of the callback.
+        let labelsObject: any;
+        try {
+          labelsObject &#x3D; JSON.parse(data);
+        } catch (error) {
+          console.error(&#x27;Could not parse labels file - invalid JSON.&#x27;, error);
+          return;
+        }
         // This contains the names of the labels, but not their colours.
         for (const eventDataType of Object.keys(labelsObject)) {
           for (const collection of Object.keys(labelsObject[eventDataType])) {

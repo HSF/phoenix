@@ -290,8 +290,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="45"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:45</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="46"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -906,8 +906,8 @@ per-instance transforms and colors, reducing 187K draw calls to 1.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="349"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:349</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="350"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:350</a></div>
                         </td>
                     </tr>
 
@@ -1064,8 +1064,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="251"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:251</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="252"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:252</a></div>
                         </td>
                     </tr>
 
@@ -1372,8 +1372,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="164"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:164</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="165"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:165</a></div>
                         </td>
                     </tr>
 
@@ -1449,8 +1449,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="110"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:110</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="111"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:111</a></div>
                         </td>
                     </tr>
 
@@ -1928,8 +1928,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="440"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:440</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="441"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:441</a></div>
                         </td>
                     </tr>
 
@@ -2054,6 +2054,7 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 } from &#x27;three&#x27;;
 import { ConvexGeometry } from &#x27;three/examples/jsm/geometries/ConvexGeometry.js&#x27;;
 import { EVENT_DATA_TYPE_COLORS } from &#x27;../../helpers/constants&#x27;;
+import { parseColor } from &#x27;../../helpers/color-utils&#x27;;
 import { RKHelper } from &#x27;../../helpers/rk-helper&#x27;;
 import { CoordinateHelper } from &#x27;../../helpers/coordinate-helper&#x27;;
 import { mergeGeometries } from &#x27;three/examples/jsm/utils/BufferGeometryUtils.js&#x27;;
@@ -2164,9 +2165,9 @@ export class PhoenixObjects {
       const curve &#x3D; new CatmullRomCurve3(points);
       const vertices &#x3D; curve.getPoints(50);
 
-      const color &#x3D; track.color
-        ? parseInt(track.color, 16)
-        : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
+      const color &#x3D;
+        parseColor(track.color)?.getHex() ??
+        EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
       track.tid &#x3D; tracksMesh.addTrack(vertices, color, track.linewidth);
       track.material &#x3D; tracksMaterial;
@@ -2211,9 +2212,9 @@ export class PhoenixObjects {
     PhoenixObjects.calculateTrackParams(trackParams);
 
     // const length &#x3D; 100;
-    const objectColor &#x3D; trackParams.color
-      ? parseInt(trackParams.color, 16)
-      : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
+    const objectColor &#x3D;
+      parseColor(trackParams.color)?.getHex() ??
+      EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
     const linewidth &#x3D; trackParams.linewidth ? trackParams.linewidth : 2;
     const points &#x3D; [];
@@ -2471,10 +2472,9 @@ export class PhoenixObjects {
     geometry.setAttribute(&#x27;position&#x27;, new BufferAttribute(pointPos, 3));
     geometry.computeBoundingSphere();
     // material
-    const color &#x3D; hitsParams[0].color ?? EVENT_DATA_TYPE_COLORS.Hits;
     const material &#x3D; new PointsMaterial({
       size: 10,
-      color: parseInt(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
+      color: parseColor(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
     });
     // object
     const pointsObj &#x3D; new Points(geometry, material);
@@ -2600,7 +2600,7 @@ export class PhoenixObjects {
     geometry.computeBoundingSphere();
     // material
     const material &#x3D; new MeshPhongMaterial({
-      color: parseInt(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
+      color: parseColor(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
     });
     // object
     const box &#x3D; new Mesh(geometry, material);

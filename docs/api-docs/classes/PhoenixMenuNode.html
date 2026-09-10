@@ -221,6 +221,10 @@
                                 <a href="#applyConfigState" >applyConfigState</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#applySavedConfigState" >applySavedConfigState</a>
+                            </li>
+                            <li>
                                 <a href="#findInTree" >findInTree</a>
                             </li>
                             <li>
@@ -1078,6 +1082,83 @@ state, as opposed to being newly added to the menu.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="applySavedConfigState"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>applySavedConfigState</b></span>
+                        <a href="#applySavedConfigState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>applySavedConfigState(config: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="192"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:192</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Apply the values of a config restored from a saved state, so that the scene
+matches what the menu displays.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>config</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Config whose values are to be applied.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="findInTree"></a>
                     <span class="name">
                         <span ><b>findInTree</b></span>
@@ -1094,8 +1175,8 @@ state, as opposed to being newly added to the menu.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="277"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:277</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="329"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:329</a></div>
                         </td>
                     </tr>
 
@@ -1169,8 +1250,8 @@ state, as opposed to being newly added to the menu.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="295"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:295</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="347"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:347</a></div>
                         </td>
                     </tr>
 
@@ -1244,8 +1325,8 @@ state, as opposed to being newly added to the menu.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="185"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:185</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="227"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:227</a></div>
                         </td>
                     </tr>
 
@@ -1287,8 +1368,8 @@ state, as opposed to being newly added to the menu.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="206"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:206</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="248"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:248</a></div>
                         </td>
                     </tr>
 
@@ -1727,18 +1808,24 @@ export class PhoenixMenuNode {
    * state, as opposed to being newly added to the menu.
    */
   applyConfigState(config: any, fromStateLoad: boolean &#x3D; false) {
+    if (fromStateLoad) {
+      // A saved state describes what the scene should look like, so every
+      // stored value is applied - including falsy ones like an unchecked
+      // checkbox or a zero slider. Otherwise the menu would show settings the
+      // scene does not actually have.
+      this.applySavedConfigState(config);
+      return;
+    }
+
     // Apply configs of different config types - manual
     if (config.type &#x3D;&#x3D;&#x3D; &#x27;checkbox&#x27; &amp;&amp; config?.[&#x27;isChecked&#x27;]) {
       config.onChange?.(config?.[&#x27;isChecked&#x27;]);
     } else if (config.type &#x3D;&#x3D;&#x3D; &#x27;color&#x27; &amp;&amp; config?.[&#x27;color&#x27;]) {
+      // Colors are deliberately not applied when a config is added: the
+      // collection already has its color, and the grouped &quot;color by&quot; swatches
+      // would repaint it. They are applied on state load instead.
       if (this.name &#x3D;&#x3D;&#x3D; &#x27;Labels&#x27; || this.parent?.name &#x3D;&#x3D;&#x3D; &#x27;Labels&#x27;) {
         // Exception for Labels node (and sub labels), which should always have color applied
-        config.onChange?.(config?.[&#x27;color&#x27;]);
-      } else if (fromStateLoad &amp;&amp; config.group !&#x3D;&#x3D; undefined) {
-        // Only apply grouped &quot;color by&quot; configs when restoring a saved state,
-        // otherwise the collection color is overridden on creation. Their
-        // change functions only color the collection if the config&#x27;s &quot;color by&quot;
-        // option is the selected one.
         config.onChange?.(config?.[&#x27;color&#x27;]);
       }
     } else if (config.type &#x3D;&#x3D;&#x3D; &#x27;slider&#x27; &amp;&amp; config?.[&#x27;value&#x27;]) {
@@ -1755,6 +1842,42 @@ export class PhoenixMenuNode {
       });
       config.setEnableMin?.(config?.[&#x27;enableMin&#x27;]);
       config.setEnableMax?.(config?.[&#x27;enableMax&#x27;]);
+    }
+  }
+
+  /**
+   * Apply the values of a config restored from a saved state, so that the scene
+   * matches what the menu displays.
+   * @param config Config whose values are to be applied.
+   */
+  private applySavedConfigState(config: any) {
+    switch (config.type) {
+      case &#x27;checkbox&#x27;:
+        if (config[&#x27;isChecked&#x27;] !&#x3D;&#x3D; undefined) {
+          config.onChange?.(config[&#x27;isChecked&#x27;]);
+        }
+        break;
+      case &#x27;color&#x27;:
+        if (config[&#x27;color&#x27;] !&#x3D;&#x3D; undefined) {
+          config.onChange?.(config[&#x27;color&#x27;]);
+        }
+        break;
+      case &#x27;slider&#x27;:
+      case &#x27;select&#x27;:
+        if (config[&#x27;value&#x27;] !&#x3D;&#x3D; undefined) {
+          config.onChange?.(config[&#x27;value&#x27;]);
+        }
+        break;
+      case &#x27;rangeSlider&#x27;:
+        if (config[&#x27;value&#x27;] !&#x3D;&#x3D; undefined) {
+          config.onChange?.({
+            value: config[&#x27;value&#x27;],
+            highValue: config[&#x27;highValue&#x27;],
+          });
+        }
+        config.setEnableMin?.(config[&#x27;enableMin&#x27;]);
+        config.setEnableMax?.(config[&#x27;enableMax&#x27;]);
+        break;
     }
   }
 
@@ -1791,12 +1914,16 @@ export class PhoenixMenuNode {
       jsonObject &#x3D; json;
     }
 
-    this.childrenActive &#x3D; jsonObject[&#x27;childrenActive&#x27;];
-    this.toggleState &#x3D; jsonObject[&#x27;toggleState&#x27;];
+    if (jsonObject[&#x27;childrenActive&#x27;] !&#x3D;&#x3D; undefined) {
+      this.childrenActive &#x3D; jsonObject[&#x27;childrenActive&#x27;];
+    }
 
-    this.onToggle?.(this.toggleState);
+    if (jsonObject[&#x27;toggleState&#x27;] !&#x3D;&#x3D; undefined) {
+      this.toggleState &#x3D; jsonObject[&#x27;toggleState&#x27;];
+      this.onToggle?.(this.toggleState);
+    }
 
-    for (const configState of jsonObject[&#x27;configs&#x27;]) {
+    for (const configState of jsonObject[&#x27;configs&#x27;] ?? []) {
       const nodeConfigs &#x3D; this.configs.filter(
         (nodeConfig) &#x3D;&gt;
           nodeConfig.type &#x3D;&#x3D;&#x3D; configState[&#x27;type&#x27;] &amp;&amp;
@@ -1809,10 +1936,16 @@ export class PhoenixMenuNode {
       }
 
       if (nodeConfigs.length &#x3D;&#x3D;&#x3D; 0) {
-        console.error(
-          &#x27;No config found with label and type in phoenix menu node. Aborting.&#x27;,
+        // The menu is built from the event data, so a state saved with one
+        // event can name configs another event has no equivalent of - a cut on
+        // an attribute its objects do not have, for example. The rest of the
+        // state still describes this node and its children, so only the config
+        // which is gone is skipped.
+        console.warn(
+          &#x60;Ignoring &quot;${configState[&#x27;label&#x27;]}&quot; of &quot;${this.name}&quot; from the &#x60; +
+            &#x27;saved state, as the menu has no such option.&#x27;,
         );
-        return;
+        continue;
       }
 
       const nodeConfig &#x3D; nodeConfigs[0];
@@ -1836,7 +1969,7 @@ export class PhoenixMenuNode {
     }
 
     // Now handle children
-    for (const childState of jsonObject[&#x27;children&#x27;]) {
+    for (const childState of jsonObject[&#x27;children&#x27;] ?? []) {
       const nodeChild &#x3D; this.children.filter(
         (nodeChild) &#x3D;&gt;
           nodeChild.name &#x3D;&#x3D;&#x3D; childState.name &amp;&amp;

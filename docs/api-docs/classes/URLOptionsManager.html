@@ -383,8 +383,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="295"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:295</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="304"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:304</a></div>
                         </td>
                     </tr>
 
@@ -524,8 +524,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="277"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:277</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="286"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:286</a></div>
                         </td>
                     </tr>
 
@@ -606,8 +606,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="349"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:349</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="358"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:358</a></div>
                         </td>
                     </tr>
 
@@ -652,8 +652,8 @@ the load listener so the event/config/state apply first.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="243"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:243</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="252"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:252</a></div>
                         </td>
                     </tr>
 
@@ -696,8 +696,8 @@ Uses a load listener to ensure state applies after all other initialization comp
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="389"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:389</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="398"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:398</a></div>
                         </td>
                     </tr>
 
@@ -782,8 +782,8 @@ instead of being fully buffered first</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="336"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:336</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="345"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:345</a></div>
                         </td>
                     </tr>
 
@@ -1061,8 +1061,8 @@ instead of being fully buffered first</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="320"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:320</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="329"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:329</a></div>
                         </td>
                     </tr>
 
@@ -1340,7 +1340,16 @@ export class URLOptionsManager {
     Object.keys(filesWithData)
       .filter((fileName) &#x3D;&gt; fileName.endsWith(&#x27;.json&#x27;))
       .forEach((fileName) &#x3D;&gt; {
-        Object.assign(allEventsObject, JSON.parse(filesWithData[fileName]));
+        // The zip comes from a URL, so an entry may not be valid JSON. Report
+        // the bad file and carry on, rather than losing the whole archive.
+        try {
+          Object.assign(allEventsObject, JSON.parse(filesWithData[fileName]));
+        } catch (error) {
+          console.error(&#x60;Could not parse ${fileName} - invalid JSON.&#x60;, error);
+          this.eventDisplay
+            .getInfoLogger()
+            .add(&#x60;Could not parse ${fileName}&#x60;, &#x27;Error&#x27;);
+        }
       });
 
     // JiveXML event data
