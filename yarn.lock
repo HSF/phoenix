@@ -17368,7 +17368,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"phoenix-event-display@^4.2.1, phoenix-event-display@workspace:packages/phoenix-event-display":
+"phoenix-event-display@^4.2.2, phoenix-event-display@workspace:packages/phoenix-event-display":
   version: 0.0.0-use.local
   resolution: "phoenix-event-display@workspace:packages/phoenix-event-display"
   dependencies:
@@ -17422,7 +17422,7 @@ __metadata:
     jszip: ^3.10.1
     mp4-muxer: ^5.2.2
     ng-packagr: ^20.3.2
-    phoenix-event-display: ^4.2.1
+    phoenix-event-display: ^4.2.2
     phoenix-ui-components: ^4.2.1
     qrcode: 1.5.4
     recordrtc: ^5.6.2

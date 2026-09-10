@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.2](https://github.com/HSF/phoenix/compare/v4.2.1...v4.2.2) (2026-09-10)
+
+
+### Bug Fixes
+
+* **event-display:** jivexml not reading charge correctly ([#1019](https://github.com/HSF/phoenix/issues/1019)) ([d7ba11e](https://github.com/HSF/phoenix/commit/d7ba11e8d63b117e9393c9f6d8d174e71f81b562))
+
+
+
+
+
 ## [4.2.1](https://github.com/HSF/phoenix/compare/v4.2.0...v4.2.1) (2026-09-10)
 
 
