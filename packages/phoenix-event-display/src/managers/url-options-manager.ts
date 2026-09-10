@@ -213,7 +213,16 @@ export class URLOptionsManager {
     Object.keys(filesWithData)
       .filter((fileName) => fileName.endsWith('.json'))
       .forEach((fileName) => {
-        Object.assign(allEventsObject, JSON.parse(filesWithData[fileName]));
+        // The zip comes from a URL, so an entry may not be valid JSON. Report
+        // the bad file and carry on, rather than losing the whole archive.
+        try {
+          Object.assign(allEventsObject, JSON.parse(filesWithData[fileName]));
+        } catch (error) {
+          console.error(`Could not parse ${fileName} - invalid JSON.`, error);
+          this.eventDisplay
+            .getInfoLogger()
+            .add(`Could not parse ${fileName}`, 'Error');
+        }
       });
 
     // JiveXML event data
