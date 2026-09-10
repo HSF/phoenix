@@ -92,6 +92,8 @@ export class ViewOptionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    // The component can be destroyed before ngOnInit has created the
+    // subscription, so guard rather than dereferencing it unconditionally.
+    this.sub?.unsubscribe();
   }
 }

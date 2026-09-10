@@ -182,6 +182,14 @@ describe('ViewOptionsComponent', () => {
     );
   });
 
+  it('should not throw when destroyed before the subscription is created', () => {
+    // A component destroyed before ngOnInit runs has no subscription to drop.
+    const uninitialized =
+      TestBed.createComponent(ViewOptionsComponent).componentInstance;
+
+    expect(() => uninitialized.ngOnDestroy()).not.toThrow();
+  });
+
   it('should unsubscribe the existing subscriptions', () => {
     component.sub = new Subscription();
     const spy = jest.spyOn(component.sub, 'unsubscribe');
