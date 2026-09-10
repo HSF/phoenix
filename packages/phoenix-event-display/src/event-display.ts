@@ -152,9 +152,15 @@ export class EventDisplay {
     }
     // Stop any active session recording or playback
     this.sessionManager?.cleanup();
+    // Drop any debounced state change so its callbacks cannot run after teardown
+    if (this.stateChangeTimeout) {
+      clearTimeout(this.stateChangeTimeout);
+      this.stateChangeTimeout = null;
+    }
     // Clear accumulated callbacks
     this.onEventsChange = [];
     this.onDisplayedEventChange = [];
+    this.onStateChange = [];
     this.eventBus.clear();
     this.eventBusWildcard.clear();
     // Reset singletons for clean view transition
