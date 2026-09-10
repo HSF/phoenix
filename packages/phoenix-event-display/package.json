@@ -38,18 +38,15 @@
     "eslint:fix": "yarn eslint --fix"
   },
   "dependencies": {
-    "@babel/core": "^8.0.0",
     "@tweenjs/tween.js": "^25.0.0",
     "dat.gui": "^0.7.9",
     "html2canvas": "^1.4.1",
     "jsroot": "^7.11.0",
     "jszip": "^3.10.1",
-    "stats-js": "^1.0.1",
     "three": "~0.184.0"
   },
   "devDependencies": {
     "@babel/helper-string-parser": "^7.27.1",
-    "@babel/plugin-transform-runtime": "^7.28.5",
     "@compodoc/compodoc": "^1.2.1",
     "@types/dat.gui": "^0.7.13",
     "@types/three": "~0.184.1",
