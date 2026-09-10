@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.1](https://github.com/HSF/phoenix/compare/v4.2.0...v4.2.1) (2026-09-10)
+
+
+### Bug Fixes
+
+* **ui-components,event-display:** declare imported deps, drop dead ones ([#1018](https://github.com/HSF/phoenix/issues/1018)) ([6bb3bb7](https://github.com/HSF/phoenix/commit/6bb3bb765daf691b77db94d5e72c047603dde793)), closes [#1017](https://github.com/HSF/phoenix/issues/1017)
+
+
+
+
+
 # [4.2.0](https://github.com/HSF/phoenix/compare/v4.1.0...v4.2.0) (2026-09-10)
 
 
