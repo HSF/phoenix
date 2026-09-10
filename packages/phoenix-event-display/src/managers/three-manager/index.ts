@@ -102,6 +102,8 @@ export class ThreeManager {
     null;
   /** 'click' event listener callback to show 3D distance between two clicked points */
   private show3DDistanceCallback: ((event: MouseEvent) => void) | null = null;
+  /** 'contextmenu' event listener callback to stop shifting the cartesian grid */
+  private stopShiftingCallback: ((event: MouseEvent) => void) | null = null;
 
   /** Origin of the cartesian grid w.r.t. world origin */
   public origin: Vector3 = new Vector3(0, 0, 0);
@@ -733,19 +735,33 @@ export class ThreeManager {
       };
     }
 
-    const rightClickCallback = (_event: any) => {
-      if (this.shiftCartesianGridCallback) {
-        window.removeEventListener('click', this.shiftCartesianGridCallback);
-      }
+    // Drop the listeners from a previous shift before adding new ones, so
+    // repeated shifts do not stack up duplicate handlers on window.
+    this.removeShiftGridListeners();
+
+    this.stopShiftingCallback = () => {
       this.stopShifting.emit(true);
       this.shiftGrid = false;
-      window.removeEventListener('contextmenu', rightClickCallback);
+      this.removeShiftGridListeners();
     };
 
     if (this.shiftCartesianGridCallback) {
       window.addEventListener('click', this.shiftCartesianGridCallback);
     }
-    window.addEventListener('contextmenu', rightClickCallback);
+    window.addEventListener('contextmenu', this.stopShiftingCallback);
+  }
+
+  /**
+   * Remove the window listeners used while shifting the cartesian grid.
+   */
+  private removeShiftGridListeners() {
+    if (this.shiftCartesianGridCallback) {
+      window.removeEventListener('click', this.shiftCartesianGridCallback);
+    }
+    if (this.stopShiftingCallback) {
+      window.removeEventListener('contextmenu', this.stopShiftingCallback);
+      this.stopShiftingCallback = null;
+    }
   }
 
   /**
@@ -1808,10 +1824,8 @@ export class ThreeManager {
       window.removeEventListener('mousemove', this.mousemoveCallback);
       this.mousemoveCallback = null;
     }
-    if (this.shiftCartesianGridCallback) {
-      window.removeEventListener('click', this.shiftCartesianGridCallback);
-      this.shiftCartesianGridCallback = null;
-    }
+    this.removeShiftGridListeners();
+    this.shiftCartesianGridCallback = null;
 
     // Clean up any dangling DOM elements from interactive features
     document.getElementById('3dcoordinates')?.remove();
