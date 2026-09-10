@@ -57,4 +57,51 @@ describe('XRManager', () => {
     xrManager.xrCamera = camera;
     expect(xrManager.getXRCamera()).toBe(camera);
   });
+
+  describe('when the session ends', () => {
+    /** Minimal stand-in for an XRSession, which jsdom does not provide. */
+    class FakeSession {
+      listeners: { [type: string]: (() => void)[] } = {};
+      addEventListener(type: string, callback: () => void) {
+        (this.listeners[type] ||= []).push(callback);
+      }
+      removeEventListener(type: string, callback: () => void) {
+        const forType = this.listeners[type] ?? [];
+        const index = forType.indexOf(callback);
+        if (index >= 0) forType.splice(index, 1);
+      }
+      /** End the session the way the headset or `endXRSession` does. */
+      end() {
+        (this.listeners['end'] ?? []).slice().forEach((callback) => callback());
+      }
+    }
+
+    let session: FakeSession;
+
+    beforeEach(async () => {
+      session = new FakeSession();
+      (xrManager as any).renderer = { xr: { setSession: jest.fn() } };
+      await (xrManager as any).onXRSessionStarted(session);
+    });
+
+    it('should remove the end listener it added', () => {
+      session.end();
+      expect(session.listeners['end']).toHaveLength(0);
+    });
+
+    it('should notify the caller that the session ended', () => {
+      const onSessionEnded = jest.fn();
+      (xrManager as any).onSessionEnded = onSessionEnded;
+      session.end();
+      expect(onSessionEnded).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not throw or notify twice when ended again', () => {
+      const onSessionEnded = jest.fn();
+      (xrManager as any).onSessionEnded = onSessionEnded;
+      session.end();
+      expect(() => session.end()).not.toThrow();
+      expect(onSessionEnded).toHaveBeenCalledTimes(1);
+    });
+  });
 });
