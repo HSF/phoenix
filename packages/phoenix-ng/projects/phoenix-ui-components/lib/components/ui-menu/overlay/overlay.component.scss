@@ -85,6 +85,10 @@
     height: 1rem;
     cursor: nwse-resize;
     position: absolute;
+    bottom: 0;
+    right: 0;
+    /* Let the handle receive pointer moves instead of panning the page. */
+    touch-action: none;
 
     &.corner {
       border-right: 0.2rem solid var(--phoenix-text-color);

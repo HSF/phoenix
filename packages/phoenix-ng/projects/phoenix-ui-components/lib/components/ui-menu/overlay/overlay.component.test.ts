@@ -20,6 +20,27 @@ describe('OverlayComponent', () => {
     toggleOrthographicView: jest.fn().mockReturnThis(),
   };
 
+  /**
+   * jsdom does not implement `PointerEvent`, so build a `MouseEvent` carrying
+   * the pointer id the component looks at.
+   */
+  const pointerEvent = (
+    type: string,
+    clientX: number,
+    clientY: number,
+    pointerId = 1,
+  ): PointerEvent => {
+    const event: any = new MouseEvent(type, { clientX, clientY });
+    event.pointerId = pointerId;
+    return event as PointerEvent;
+  };
+
+  const mockRect = (element: HTMLElement, width: number, height: number) => {
+    element.getBoundingClientRect = jest
+      .fn()
+      .mockReturnValue({ width, height, top: 0, left: 0 } as DOMRect);
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
@@ -45,55 +66,90 @@ describe('OverlayComponent', () => {
 
   it('should initialize to not be resizable', () => {
     component.resizable = false;
-    component.ngAfterViewInit();
+    fixture.detectChanges();
+
     expect(component.resizeHandleCorner).toBeFalsy();
   });
 
-  it('should initialize to be resizable', async () => {
+  it('should initialize to be resizable', () => {
     component.resizable = true;
     component.showBody = true;
-    const computedStyle = getComputedStyle as any;
-    computedStyle.getPropertyValue = jest.fn().mockReturnValue('10px');
+    fixture.detectChanges();
 
-    // Creating a mock resize handle corner
-    component.resizeHandleCorner = new ElementRef(
-      document.createElement('span'),
-    );
-    component.ngAfterViewInit();
-
-    expect(component.resizeHandleCorner.nativeElement.style.bottom).toBe('0px');
-    expect(component.resizeHandleCorner.nativeElement.style.right).toBe('0px');
+    expect(component.resizeHandleCorner).toBeTruthy();
   });
 
-  describe('OverlayComponent with overlay element', () => {
+  describe('resizing', () => {
+    let card: HTMLElement;
+    let handle: HTMLElement;
+
     beforeEach(() => {
-      // Creating mock elements
       component.resizable = true;
       component.showBody = true;
-      component.resizeHandleCorner = new ElementRef(
-        document.createElement('span'),
-      );
-      component.overlayCard = new ElementRef(document.createElement('div'));
+
+      card = document.createElement('div');
+      handle = document.createElement('span');
+      mockRect(card, 400, 300);
+
+      component.overlayCard = new ElementRef(card);
+      component.resizeHandleCorner = new ElementRef(handle);
     });
 
-    it('should resize', () => {
-      jest.spyOn(component as any, 'setHandleTransform');
-      component.onResize();
+    it('should resize the overlay card as the pointer moves', () => {
+      component.onResizeStart(pointerEvent('pointerdown', 400, 300));
+      handle.dispatchEvent(pointerEvent('pointermove', 450, 360));
 
-      expect((component as any).setHandleTransform).toHaveBeenCalledWith(
-        component.overlayCard.nativeElement.getBoundingClientRect(),
-        component.resizeHandleCorner.nativeElement.getBoundingClientRect(),
-      );
+      expect(card.style.width).toBe('450px');
+      expect(card.style.height).toBe('360px');
     });
 
-    it('should reset resize handle position', () => {
-      jest.spyOn(component as any, 'setHandleTransform');
-      component.resetHandlePosition();
+    it('should not resize below the minimum size', () => {
+      component.onResizeStart(pointerEvent('pointerdown', 400, 300));
+      handle.dispatchEvent(pointerEvent('pointermove', 0, 0));
 
-      expect((component as any).setHandleTransform).toHaveBeenCalledWith(
-        component.overlayCard.nativeElement.getBoundingClientRect(),
-        component.resizeHandleCorner.nativeElement.getBoundingClientRect(),
-      );
+      expect(card.style.width).toBe('300px');
+      expect(card.style.height).toBe('100px');
+    });
+
+    it('should stop resizing once the pointer is released', () => {
+      component.onResizeStart(pointerEvent('pointerdown', 400, 300));
+      handle.dispatchEvent(pointerEvent('pointermove', 450, 360));
+      handle.dispatchEvent(pointerEvent('pointerup', 450, 360));
+
+      // Any further movement must not drag the overlay along with the cursor.
+      handle.dispatchEvent(pointerEvent('pointermove', 800, 800));
+
+      expect(card.style.width).toBe('450px');
+      expect(card.style.height).toBe('360px');
+    });
+
+    it('should stop resizing when the pointer capture is lost', () => {
+      component.onResizeStart(pointerEvent('pointerdown', 400, 300));
+      handle.dispatchEvent(pointerEvent('lostpointercapture', 400, 300));
+      handle.dispatchEvent(pointerEvent('pointermove', 800, 800));
+
+      expect(card.style.width).toBe('');
+    });
+
+    it('should restore the original size on Escape', () => {
+      component.onResizeStart(pointerEvent('pointerdown', 400, 300));
+      handle.dispatchEvent(pointerEvent('pointermove', 600, 500));
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+
+      expect(card.style.width).toBe('400px');
+      expect(card.style.height).toBe('300px');
+
+      handle.dispatchEvent(pointerEvent('pointermove', 800, 800));
+
+      expect(card.style.width).toBe('400px');
+    });
+
+    it('should stop resizing when the component is destroyed', () => {
+      component.onResizeStart(pointerEvent('pointerdown', 400, 300));
+      component.ngOnDestroy();
+      handle.dispatchEvent(pointerEvent('pointermove', 800, 800));
+
+      expect(card.style.width).toBe('');
     });
   });
 });

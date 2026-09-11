@@ -45,7 +45,8 @@
     class="resize-handle corner"
     *ngIf="resizable"
     [hidden]="!showBody"
-    cdkDrag
-    (cdkDragMoved)="onResize()"
+    (pointerdown)="onResizeStart($event)"
+    (mousedown)="$event.stopPropagation()"
+    (touchstart)="$event.stopPropagation()"
   ></span>
 </div>
