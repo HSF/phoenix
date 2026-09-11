@@ -229,17 +229,9 @@
 .phoenix-menu-children {
   margin-left: 0.5rem;
   border-left: 1px solid var(--phoenix-accent);
-  max-height: 35vh;
-  overflow-y: auto;
-
-  /* Custom thin scrollbar to avoid clutter */
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: var(--phoenix-text-color-secondary, #999);
-    border-radius: 4px;
-  }
+  /* No height cap here: every level would get its own scrollbar and several
+     open sections would each be squeezed into a small window. `#phoenixMenu`
+     scrolls the menu as a whole instead. */
 }
 
 .range-slider {
