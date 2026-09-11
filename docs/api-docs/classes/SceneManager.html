@@ -182,6 +182,18 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#CARTESIAN_GRID_STEPS" >CARTESIAN_GRID_STEPS</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#CARTESIAN_PLANES_PER_AXIS" >CARTESIAN_PLANES_PER_AXIS</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#cartesianGrid" >cartesianGrid</a>
                             </li>
                             <li>
@@ -253,6 +265,10 @@
                                 <a href="#alignText" >alignText</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#applyAxisScale" >applyAxisScale</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#changeObjectColor" >changeObjectColor</a>
                             </li>
@@ -277,12 +293,20 @@
                                 <a href="#disposeObject3D" >disposeObject3D</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#ensureOriginalMatrices" >ensureOriginalMatrices</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#eventDataDepthTest" >eventDataDepthTest</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#extendCollectionTracks" >extendCollectionTracks</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#filterInstancedMesh" >filterInstancedMesh</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -339,6 +363,10 @@
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#scaleChildObjects" >scaleChildObjects</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#scaleInstancedObjects" >scaleInstancedObjects</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -419,7 +447,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/managers/three-manager/scene-manager.ts:79</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/managers/three-manager/scene-manager.ts:90</a></div>
                             </td>
                         </tr>
 
@@ -510,7 +538,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/managers/three-manager/scene-manager.ts:79</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/managers/three-manager/scene-manager.ts:90</a></div>
                         </td>
                     </tr>
 
@@ -543,7 +571,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/managers/three-manager/scene-manager.ts:51</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/managers/three-manager/scene-manager.ts:53</a></div>
                         </td>
                     </tr>
 
@@ -576,7 +604,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/managers/three-manager/scene-manager.ts:53</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/managers/three-manager/scene-manager.ts:55</a></div>
                         </td>
                     </tr>
 
@@ -609,13 +637,95 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/managers/three-manager/scene-manager.ts:73</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/managers/three-manager/scene-manager.ts:84</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Directional light following the camera position.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CARTESIAN_GRID_STEPS"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Static</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>CARTESIAN_GRID_STEPS</b></span>
+                        <a href="#CARTESIAN_GRID_STEPS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>10</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/managers/three-manager/scene-manager.ts:65</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Number of grid steps from the centre of the cartesian grid to each edge.
+The grid spans [-scale, scale] in steps of <code>0.1 * scale</code>, so each axis has
+<code>2 * CARTESIAN_GRID_STEPS + 1</code> planes (the centre plane plus both halves).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CARTESIAN_PLANES_PER_AXIS"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Static</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>CARTESIAN_PLANES_PER_AXIS</b></span>
+                        <a href="#CARTESIAN_PLANES_PER_AXIS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>2 * SceneManager.CARTESIAN_GRID_STEPS + 1</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/managers/three-manager/scene-manager.ts:67</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Number of planes built per axis, derived from CARTESIAN_GRID_STEPS.</p>
 </div>
                 </td>
             </tr>
@@ -642,7 +752,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/managers/three-manager/scene-manager.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/managers/three-manager/scene-manager.ts:59</a></div>
                         </td>
                     </tr>
 
@@ -688,7 +798,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/managers/three-manager/scene-manager.ts:59</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/managers/three-manager/scene-manager.ts:70</a></div>
                         </td>
                     </tr>
 
@@ -721,7 +831,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/managers/three-manager/scene-manager.ts:69</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/managers/three-manager/scene-manager.ts:80</a></div>
                         </td>
                     </tr>
 
@@ -754,7 +864,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/managers/three-manager/scene-manager.ts:55</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/managers/three-manager/scene-manager.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -792,7 +902,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/managers/three-manager/scene-manager.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/managers/three-manager/scene-manager.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -830,7 +940,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/managers/three-manager/scene-manager.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/managers/three-manager/scene-manager.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -863,7 +973,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/managers/three-manager/scene-manager.ts:49</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/managers/three-manager/scene-manager.ts:51</a></div>
                         </td>
                     </tr>
 
@@ -901,7 +1011,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/managers/three-manager/scene-manager.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/managers/three-manager/scene-manager.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -939,7 +1049,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/managers/three-manager/scene-manager.ts:77</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/managers/three-manager/scene-manager.ts:88</a></div>
                         </td>
                     </tr>
 
@@ -972,7 +1082,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/managers/three-manager/scene-manager.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/managers/three-manager/scene-manager.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -1010,7 +1120,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/managers/three-manager/scene-manager.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/managers/three-manager/scene-manager.ts:86</a></div>
                         </td>
                     </tr>
 
@@ -1048,7 +1158,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/managers/three-manager/scene-manager.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/managers/three-manager/scene-manager.ts:82</a></div>
                         </td>
                     </tr>
 
@@ -1090,8 +1200,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="274"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:274</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="285"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:285</a></div>
                         </td>
                     </tr>
 
@@ -1167,8 +1277,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="926"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:926</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1137"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1137</a></div>
                         </td>
                     </tr>
 
@@ -1307,8 +1417,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1063"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1063</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1289"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1289</a></div>
                         </td>
                     </tr>
 
@@ -1360,6 +1470,101 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="applyAxisScale"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>applyAxisScale</b></span>
+                        <a href="#applyAxisScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>applyAxisScale(scl: Vector3, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, axis?: string | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1113"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1113</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Apply a scale factor to a Vector3 along a specific axis or uniformly.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>scl</td>
+                                            <td>
+                                                        <code>Vector3</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>axis</td>
+                                            <td>
+                                                        <code>string | null</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="changeObjectColor"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -1378,8 +1583,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="190"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:190</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="201"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:201</a></div>
                         </td>
                     </tr>
 
@@ -1470,8 +1675,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="464"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:464</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="484"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:484</a></div>
                         </td>
                     </tr>
 
@@ -1513,8 +1718,8 @@ to prevent memory leaks during event switching.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="290"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:290</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="301"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:301</a></div>
                         </td>
                     </tr>
 
@@ -1605,8 +1810,8 @@ to prevent memory leaks during event switching.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="625"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:625</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="645"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:645</a></div>
                         </td>
                     </tr>
 
@@ -1685,8 +1890,8 @@ to prevent memory leaks during event switching.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="992"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:992</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1203"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1203</a></div>
                         </td>
                     </tr>
 
@@ -1765,8 +1970,8 @@ to prevent memory leaks during event switching.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="477"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:477</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="497"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:497</a></div>
                         </td>
                     </tr>
 
@@ -1823,6 +2028,77 @@ to prevent memory leaks during event switching.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="ensureOriginalMatrices"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>ensureOriginalMatrices</b></span>
+                        <a href="#ensureOriginalMatrices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ensureOriginalMatrices(mesh: InstancedMesh)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1105"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1105</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Snapshot the original instance matrices on first use.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>mesh</td>
+                                            <td>
+                                                        <code>InstancedMesh</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="eventDataDepthTest"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -1841,8 +2117,8 @@ to prevent memory leaks during event switching.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="817"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:817</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="891"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:891</a></div>
                         </td>
                     </tr>
 
@@ -1917,8 +2193,8 @@ to prevent memory leaks during event switching.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="372"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:372</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="392"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:392</a></div>
                         </td>
                     </tr>
 
@@ -2009,6 +2285,99 @@ NOTE: For large collections, consider throttling this method or computing on a w
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="filterInstancedMesh"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>filterInstancedMesh</b></span>
+                        <a href="#filterInstancedMesh"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>filterInstancedMesh(mesh: InstancedMesh, filters: <a href="../classes/Cut.html" target="_self">Cut[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="998"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:998</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Filter an InstancedMesh by setting hidden instances to zero-scale.
+Respects current scale factor so filter and scale don&#39;t conflict.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>mesh</td>
+                                            <td>
+                                                        <code>InstancedMesh</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The InstancedMesh to filter.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>filters</td>
+                                            <td>
+                                                            <code><a href="../classes/Cut.html" target="_self" >Cut[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Cuts used to determine visibility of each instance.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getCartesianGridConfig"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -2027,8 +2396,8 @@ NOTE: For large collections, consider throttling this method or computing on a w
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="809"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:809</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="883"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:883</a></div>
                         </td>
                     </tr>
 
@@ -2068,8 +2437,8 @@ NOTE: For large collections, consider throttling this method or computing on a w
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="146"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:146</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="157"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:157</a></div>
                         </td>
                     </tr>
 
@@ -2113,8 +2482,8 @@ NOTE: For large collections, consider throttling this method or computing on a w
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="360"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:360</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="380"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:380</a></div>
                         </td>
                     </tr>
 
@@ -2158,8 +2527,8 @@ NOTE: For large collections, consider throttling this method or computing on a w
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="455"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:455</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="475"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:475</a></div>
                         </td>
                     </tr>
 
@@ -2203,8 +2572,8 @@ NOTE: For large collections, consider throttling this method or computing on a w
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1207"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1207</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1433"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1433</a></div>
                         </td>
                     </tr>
 
@@ -2280,8 +2649,8 @@ NOTE: For large collections, consider throttling this method or computing on a w
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="231"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:231</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="242"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:242</a></div>
                         </td>
                     </tr>
 
@@ -2357,8 +2726,8 @@ NOTE: For large collections, consider throttling this method or computing on a w
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="346"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:346</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="366"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:366</a></div>
                         </td>
                     </tr>
 
@@ -2434,8 +2803,8 @@ NOTE: For large collections, consider throttling this method or computing on a w
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="135"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:135</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="146"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:146</a></div>
                         </td>
                     </tr>
 
@@ -2479,8 +2848,8 @@ NOTE: For large collections, consider throttling this method or computing on a w
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="537"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:537</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="557"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:557</a></div>
                         </td>
                     </tr>
 
@@ -2562,8 +2931,8 @@ NOTE: For large collections, consider throttling this method or computing on a w
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="326"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:326</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="346"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:346</a></div>
                         </td>
                     </tr>
 
@@ -2672,8 +3041,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="211"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:211</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="222"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:222</a></div>
                         </td>
                     </tr>
 
@@ -2764,8 +3133,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="243"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:243</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="254"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:254</a></div>
                         </td>
                     </tr>
 
@@ -2840,8 +3209,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="252"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:252</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="263"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:263</a></div>
                         </td>
                     </tr>
 
@@ -2916,8 +3285,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="896"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:896</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="970"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:970</a></div>
                         </td>
                     </tr>
 
@@ -3006,6 +3375,116 @@ whose visibility is to be toggled.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="scaleInstancedObjects"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>scaleInstancedObjects</b></span>
+                        <a href="#scaleInstancedObjects"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>scaleInstancedObjects(groupName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, axis?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="1050"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1050</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Scale instances in an InstancedMesh along an axis.
+Stores scale state so filtering preserves it. Skips zero-scaled (filtered) instances.
+Falls back to scaleChildObjects for non-instanced groups.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>groupName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Name of the group containing the InstancedMesh.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Scale factor (1 = original size).</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>axis</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Optional axis to scale along (&#39;x&#39;, &#39;y&#39;, &#39;z&#39;).</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="scaleJets"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -3024,8 +3503,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="875"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:875</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="949"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:949</a></div>
                         </td>
                     </tr>
 
@@ -3100,8 +3579,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="265"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:265</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="276"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:276</a></div>
                         </td>
                     </tr>
 
@@ -3192,8 +3671,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="560"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:560</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="580"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:580</a></div>
                         </td>
                     </tr>
 
@@ -3309,8 +3788,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="755"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:755</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="820"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:820</a></div>
                         </td>
                     </tr>
 
@@ -3415,8 +3894,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1090"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1090</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1316"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1316</a></div>
                         </td>
                     </tr>
 
@@ -3513,8 +3992,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="166"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:166</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="177"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:177</a></div>
                         </td>
                     </tr>
 
@@ -3605,8 +4084,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="97"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:97</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="108"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:108</a></div>
                         </td>
                     </tr>
 
@@ -3685,8 +4164,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1079"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1079</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1305"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1305</a></div>
                         </td>
                     </tr>
 
@@ -3756,8 +4235,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1216"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1216</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1442"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1442</a></div>
                         </td>
                     </tr>
 
@@ -3832,8 +4311,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="967"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:967</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1178"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1178</a></div>
                         </td>
                     </tr>
 
@@ -3903,8 +4382,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="978"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:978</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1189"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1189</a></div>
                         </td>
                     </tr>
 
@@ -3974,8 +4453,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="125"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:125</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="136"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:136</a></div>
                         </td>
                     </tr>
 
@@ -4050,8 +4529,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="841"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:841</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="915"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:915</a></div>
                         </td>
                     </tr>
 
@@ -4126,8 +4605,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="863"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:863</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="937"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:937</a></div>
                         </td>
                     </tr>
 
@@ -4230,6 +4709,8 @@ whose visibility is to be toggled.</p>
   TubeGeometry,
   MeshToonMaterial,
   Line,
+  InstancedMesh,
+  Matrix4,
   type Object3DEventMap,
 } from &#x27;three&#x27;;
 import { OrbitControls } from &#x27;three/examples/jsm/controls/OrbitControls.js&#x27;;
@@ -4263,6 +4744,15 @@ export class SceneManager {
   private etaPhiGrid: Object3D;
   /** Cartesian grid */
   private cartesianGrid: Object3D;
+  /**
+   * Number of grid steps from the centre of the cartesian grid to each edge.
+   * The grid spans [-scale, scale] in steps of &#x60;0.1 * scale&#x60;, so each axis has
+   * &#x60;2 * CARTESIAN_GRID_STEPS + 1&#x60; planes (the centre plane plus both halves).
+   */
+  private static readonly CARTESIAN_GRID_STEPS &#x3D; 10;
+  /** Number of planes built per axis, derived from CARTESIAN_GRID_STEPS. */
+  private static readonly CARTESIAN_PLANES_PER_AXIS &#x3D;
+    2 * SceneManager.CARTESIAN_GRID_STEPS + 1;
   /** Cartesian Grid Config */
   private cartesianGridConfig &#x3D; {
     showXY: true,
@@ -4506,6 +4996,15 @@ export class SceneManager {
     const collection &#x3D; eventData.getObjectByName(collectionName);
     if (collection) {
       for (const child of Object.values(collection.children)) {
+        // InstancedMesh: filter by scaling hidden instances to zero
+        if (
+          child.userData?._isInstancedCaloCells &amp;&amp;
+          child instanceof InstancedMesh
+        ) {
+          this.filterInstancedMesh(child, filters);
+          continue;
+        }
+
         if (child.userData) {
           for (const filter of filters) {
             const value &#x3D; child.userData[filter.field];
@@ -4859,11 +5358,21 @@ export class SceneManager {
 
       // xy plane
       let xyPlane &#x3D; new Group();
-      for (let z &#x3D; -scale; z &lt;&#x3D; scale; z +&#x3D; 0.1 * scale) {
+      for (
+        let zStep &#x3D; -SceneManager.CARTESIAN_GRID_STEPS;
+        zStep &lt;&#x3D; SceneManager.CARTESIAN_GRID_STEPS;
+        zStep +&#x3D; 1
+      ) {
+        const z &#x3D; zStep * 0.1 * scale;
         xyPlane &#x3D; new Group();
 
         let points &#x3D; [];
-        for (let y &#x3D; -scale; y &lt;&#x3D; scale; y +&#x3D; 0.1 * scale) {
+        for (
+          let yStep &#x3D; -SceneManager.CARTESIAN_GRID_STEPS;
+          yStep &lt;&#x3D; SceneManager.CARTESIAN_GRID_STEPS;
+          yStep +&#x3D; 1
+        ) {
+          const y &#x3D; yStep * 0.1 * scale;
           points.push(new Vector3(-scale, y, z));
           points.push(new Vector3(scale, y, z));
         }
@@ -4874,7 +5383,12 @@ export class SceneManager {
         xyPlane.add(lines);
 
         points &#x3D; [];
-        for (let x &#x3D; -scale; x &lt;&#x3D; scale; x +&#x3D; 0.1 * scale) {
+        for (
+          let xStep &#x3D; -SceneManager.CARTESIAN_GRID_STEPS;
+          xStep &lt;&#x3D; SceneManager.CARTESIAN_GRID_STEPS;
+          xStep +&#x3D; 1
+        ) {
+          const x &#x3D; xStep * 0.1 * scale;
           points.push(new Vector3(x, -scale, z));
           points.push(new Vector3(x, scale, z));
         }
@@ -4887,11 +5401,21 @@ export class SceneManager {
 
       // YZ plane
       let yzPlane &#x3D; new Group();
-      for (let x &#x3D; -scale; x &lt;&#x3D; scale; x +&#x3D; 0.1 * scale) {
+      for (
+        let xStep &#x3D; -SceneManager.CARTESIAN_GRID_STEPS;
+        xStep &lt;&#x3D; SceneManager.CARTESIAN_GRID_STEPS;
+        xStep +&#x3D; 1
+      ) {
+        const x &#x3D; xStep * 0.1 * scale;
         yzPlane &#x3D; new Group();
 
         let points &#x3D; [];
-        for (let y &#x3D; -scale; y &lt;&#x3D; scale; y +&#x3D; 0.1 * scale) {
+        for (
+          let yStep &#x3D; -SceneManager.CARTESIAN_GRID_STEPS;
+          yStep &lt;&#x3D; SceneManager.CARTESIAN_GRID_STEPS;
+          yStep +&#x3D; 1
+        ) {
+          const y &#x3D; yStep * 0.1 * scale;
           points.push(new Vector3(x, y, -scale));
           points.push(new Vector3(x, y, scale));
         }
@@ -4902,7 +5426,12 @@ export class SceneManager {
         yzPlane.add(lines);
 
         points &#x3D; [];
-        for (let z &#x3D; -scale; z &lt;&#x3D; scale; z +&#x3D; 0.1 * scale) {
+        for (
+          let zStep &#x3D; -SceneManager.CARTESIAN_GRID_STEPS;
+          zStep &lt;&#x3D; SceneManager.CARTESIAN_GRID_STEPS;
+          zStep +&#x3D; 1
+        ) {
+          const z &#x3D; zStep * 0.1 * scale;
           points.push(new Vector3(x, -scale, z));
           points.push(new Vector3(x, scale, z));
         }
@@ -4915,11 +5444,21 @@ export class SceneManager {
 
       // ZX plane
       let zxPlane &#x3D; new Group();
-      for (let y &#x3D; -scale; y &lt;&#x3D; scale; y +&#x3D; 0.1 * scale) {
+      for (
+        let yStep &#x3D; -SceneManager.CARTESIAN_GRID_STEPS;
+        yStep &lt;&#x3D; SceneManager.CARTESIAN_GRID_STEPS;
+        yStep +&#x3D; 1
+      ) {
+        const y &#x3D; yStep * 0.1 * scale;
         zxPlane &#x3D; new Group();
 
         let points &#x3D; [];
-        for (let x &#x3D; -scale; x &lt;&#x3D; scale; x +&#x3D; 0.1 * scale) {
+        for (
+          let xStep &#x3D; -SceneManager.CARTESIAN_GRID_STEPS;
+          xStep &lt;&#x3D; SceneManager.CARTESIAN_GRID_STEPS;
+          xStep +&#x3D; 1
+        ) {
+          const x &#x3D; xStep * 0.1 * scale;
           points.push(new Vector3(x, y, -scale));
           points.push(new Vector3(x, y, scale));
         }
@@ -4930,7 +5469,12 @@ export class SceneManager {
         zxPlane.add(lines);
 
         points &#x3D; [];
-        for (let z &#x3D; -scale; z &lt;&#x3D; scale; z +&#x3D; 0.1 * scale) {
+        for (
+          let zStep &#x3D; -SceneManager.CARTESIAN_GRID_STEPS;
+          zStep &lt;&#x3D; SceneManager.CARTESIAN_GRID_STEPS;
+          zStep +&#x3D; 1
+        ) {
+          const z &#x3D; zStep * 0.1 * scale;
           points.push(new Vector3(-scale, y, z));
           points.push(new Vector3(scale, y, z));
         }
@@ -4974,9 +5518,7 @@ export class SceneManager {
     },
   ) {
     this.createCartesianGrid(scale);
-    for (let i &#x3D; 0; i &lt;&#x3D; 62; i +&#x3D; 1) {
-      this.cartesianGrid.children[i].visible &#x3D; false;
-    }
+    this.cartesianGrid.children.forEach((child) &#x3D;&gt; (child.visible &#x3D; false));
 
     if (typeof config &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
       config &#x3D; this.cartesianGridConfig;
@@ -4984,29 +5526,40 @@ export class SceneManager {
       this.cartesianGridConfig &#x3D; config;
     }
 
-    const childPoints &#x3D; [10, 31, 52];
+    const planesPerAxis &#x3D; SceneManager.CARTESIAN_PLANES_PER_AXIS;
+    // Centre plane of each axis block: the grid is laid out as three
+    // consecutive blocks of &#x60;planesPerAxis&#x60; planes (XY, YZ, ZX), and the
+    // centre of each block sits CARTESIAN_GRID_STEPS planes into it.
+    const centres &#x3D; [0, 1, 2].map(
+      (axis) &#x3D;&gt; axis * planesPerAxis + SceneManager.CARTESIAN_GRID_STEPS,
+    );
     const distances &#x3D; [config.zDistance, config.xDistance, config.yDistance];
     const visiblePlanes &#x3D; [config.showXY, config.showYZ, config.showZX];
 
-    if (visible) {
-      for (let i &#x3D; 0; i &lt; 3; i +&#x3D; 1) {
-        if (visiblePlanes[i]) {
-          for (
-            let j &#x3D; childPoints[i];
-            j &gt;&#x3D; childPoints[i] - (distances[i] * 10) / scale;
-            j -&#x3D; config.sparsity
-          ) {
-            this.cartesianGrid.children[j].visible &#x3D; visible;
-          }
+    if (!visible) {
+      return;
+    }
 
-          for (
-            let j &#x3D; childPoints[i];
-            j &lt;&#x3D; childPoints[i] + (distances[i] * 10) / scale;
-            j +&#x3D; config.sparsity
-          ) {
-            this.cartesianGrid.children[j].visible &#x3D; visible;
-          }
-        }
+    // Guard against a zero/NaN sparsity, which would never advance the loop.
+    const sparsity &#x3D; config.sparsity &gt; 0 ? config.sparsity : 1;
+
+    for (let axis &#x3D; 0; axis &lt; 3; axis +&#x3D; 1) {
+      if (!visiblePlanes[axis]) {
+        continue;
+      }
+
+      const centre &#x3D; centres[axis];
+      // How many planes out from the centre this axis extends. Clamped to the
+      // axis&#x27; own block so it can never reach into a neighbouring axis or off
+      // the end of the children array.
+      const reach &#x3D; Math.min(
+        Math.floor((distances[axis] * 10) / scale),
+        SceneManager.CARTESIAN_GRID_STEPS,
+      );
+
+      for (let offset &#x3D; 0; offset &lt;&#x3D; reach; offset +&#x3D; sparsity) {
+        this.cartesianGrid.children[centre - offset].visible &#x3D; true;
+        this.cartesianGrid.children[centre + offset].visible &#x3D; true;
       }
     }
   }
@@ -5124,6 +5677,143 @@ export class SceneManager {
   }
 
   /**
+   * Filter an InstancedMesh by setting hidden instances to zero-scale.
+   * Respects current scale factor so filter and scale don&#x27;t conflict.
+   * @param mesh The InstancedMesh to filter.
+   * @param filters Cuts used to determine visibility of each instance.
+   */
+  private filterInstancedMesh(mesh: InstancedMesh, filters: Cut[]) {
+    const instanceData: any[] &#x3D; mesh.userData._instanceData;
+    if (!instanceData) return;
+
+    this.ensureOriginalMatrices(mesh);
+
+    const originalMatrices: Float32Array &#x3D; mesh.userData._originalMatrices;
+    const scaleValue: number &#x3D; mesh.userData._scaleValue ?? 1;
+    const scaleAxis: string | null &#x3D; mesh.userData._scaleAxis ?? null;
+    const zeroMatrix &#x3D; new Matrix4().makeScale(0, 0, 0);
+    const tempMatrix &#x3D; new Matrix4();
+    const pos &#x3D; new Vector3();
+    const quat &#x3D; new Quaternion();
+    const scl &#x3D; new Vector3();
+
+    for (let i &#x3D; 0; i &lt; instanceData.length; i++) {
+      const cell &#x3D; instanceData[i];
+      let visible &#x3D; true;
+
+      for (const filter of filters) {
+        const value &#x3D; cell[filter.field];
+        if (value !&#x3D;&#x3D; undefined &amp;&amp; !filter.cutPassed(value)) {
+          visible &#x3D; false;
+          break;
+        }
+      }
+
+      if (visible) {
+        tempMatrix.fromArray(originalMatrices, i * 16);
+        // Re-apply current scale factor so filtering doesn&#x27;t reset scale
+        if (scaleValue !&#x3D;&#x3D; 1) {
+          tempMatrix.decompose(pos, quat, scl);
+          this.applyAxisScale(scl, scaleValue, scaleAxis);
+          tempMatrix.compose(pos, quat, scl);
+        }
+        mesh.setMatrixAt(i, tempMatrix);
+      } else {
+        mesh.setMatrixAt(i, zeroMatrix);
+      }
+    }
+
+    mesh.instanceMatrix.needsUpdate &#x3D; true;
+  }
+
+  /**
+   * Scale instances in an InstancedMesh along an axis.
+   * Stores scale state so filtering preserves it. Skips zero-scaled (filtered) instances.
+   * Falls back to scaleChildObjects for non-instanced groups.
+   * @param groupName Name of the group containing the InstancedMesh.
+   * @param value Scale factor (1 &#x3D; original size).
+   * @param axis Optional axis to scale along (&#x27;x&#x27;, &#x27;y&#x27;, &#x27;z&#x27;).
+   */
+  public scaleInstancedObjects(
+    groupName: string,
+    value: number,
+    axis?: string,
+  ) {
+    const object &#x3D; this.scene.getObjectByName(groupName);
+    if (!object) return;
+
+    let handled &#x3D; false;
+    object.traverse((child: Object3D) &#x3D;&gt; {
+      if (
+        child.userData?._isInstancedCaloCells &amp;&amp;
+        child instanceof InstancedMesh
+      ) {
+        handled &#x3D; true;
+        const instanceData: any[] &#x3D; child.userData._instanceData;
+        if (!instanceData) return;
+
+        this.ensureOriginalMatrices(child);
+
+        // Store scale state for filter coordination
+        child.userData._scaleValue &#x3D; value;
+        child.userData._scaleAxis &#x3D; axis ?? null;
+
+        const originalMatrices: Float32Array &#x3D; child.userData._originalMatrices;
+        const tempMatrix &#x3D; new Matrix4();
+        const currentMatrix &#x3D; new Matrix4();
+        const pos &#x3D; new Vector3();
+        const quat &#x3D; new Quaternion();
+        const scl &#x3D; new Vector3();
+
+        for (let i &#x3D; 0; i &lt; instanceData.length; i++) {
+          // Skip instances that are currently filtered out (zero-scale)
+          child.getMatrixAt(i, currentMatrix);
+          const e &#x3D; currentMatrix.elements;
+          if (e[0] &#x3D;&#x3D;&#x3D; 0 &amp;&amp; e[5] &#x3D;&#x3D;&#x3D; 0 &amp;&amp; e[10] &#x3D;&#x3D;&#x3D; 0) continue;
+
+          tempMatrix.fromArray(originalMatrices, i * 16);
+          tempMatrix.decompose(pos, quat, scl);
+          this.applyAxisScale(scl, value, axis);
+          tempMatrix.compose(pos, quat, scl);
+          child.setMatrixAt(i, tempMatrix);
+        }
+
+        child.instanceMatrix.needsUpdate &#x3D; true;
+      }
+    });
+
+    // Fallback for non-instanced objects in the same group
+    if (!handled) {
+      this.scaleChildObjects(groupName, value, axis);
+    }
+  }
+
+  /** Snapshot the original instance matrices on first use. */
+  private ensureOriginalMatrices(mesh: InstancedMesh) {
+    if (!mesh.userData._originalMatrices) {
+      mesh.userData._originalMatrices &#x3D;
+        mesh.instanceMatrix.array.slice() as Float32Array;
+    }
+  }
+
+  /** Apply a scale factor to a Vector3 along a specific axis or uniformly. */
+  private applyAxisScale(scl: Vector3, value: number, axis?: string | null) {
+    switch (axis) {
+      case &#x27;x&#x27;:
+        scl.x *&#x3D; value;
+        break;
+      case &#x27;y&#x27;:
+        scl.y *&#x3D; value;
+        break;
+      case &#x27;z&#x27;:
+        scl.z *&#x3D; value;
+        break;
+      default:
+        scl.multiplyScalar(value);
+    }
+  }
+
+  /**
    * Add label to the three.js object.
    * @param label Label to add to the event object.
    * @param uuid UUID of the three.js object.
@@ -5219,7 +5909,12 @@ export class SceneManager {
       });
 
       // X Labels
-      for (let x &#x3D; -scale; x &lt;&#x3D; scale; x +&#x3D; 0.1 * scale) {
+      for (
+        let xStep &#x3D; -SceneManager.CARTESIAN_GRID_STEPS;
+        xStep &lt;&#x3D; SceneManager.CARTESIAN_GRID_STEPS;
+        xStep +&#x3D; 1
+      ) {
+        const x &#x3D; xStep * 0.1 * scale;
         const text &#x3D; this.getText((x / 10).toString(), xColor);
         text.position.set(x, 40, 0);
         this.axesNumbers.push(text);
@@ -5232,7 +5927,12 @@ export class SceneManager {
       }
 
       // Y Labels
-      for (let y &#x3D; -scale; y &lt;&#x3D; scale; y +&#x3D; 0.1 * scale) {
+      for (
+        let yStep &#x3D; -SceneManager.CARTESIAN_GRID_STEPS;
+        yStep &lt;&#x3D; SceneManager.CARTESIAN_GRID_STEPS;
+        yStep +&#x3D; 1
+      ) {
+        const y &#x3D; yStep * 0.1 * scale;
         const text &#x3D; this.getText((y / 10).toString(), yColor);
         text.position.set(-40, y, 0);
         this.axesNumbers.push(text);
@@ -5245,7 +5945,12 @@ export class SceneManager {
       }
 
       // Z Labels
-      for (let z &#x3D; -scale; z &lt;&#x3D; scale; z +&#x3D; 0.1 * scale) {
+      for (
+        let zStep &#x3D; -SceneManager.CARTESIAN_GRID_STEPS;
+        zStep &lt;&#x3D; SceneManager.CARTESIAN_GRID_STEPS;
+        zStep +&#x3D; 1
+      ) {
+        const z &#x3D; zStep * 0.1 * scale;
         const text &#x3D; this.getText((z / 10).toString(), zColor);
         text.position.set(-40, 0, z);
         this.axesNumbers.push(text);

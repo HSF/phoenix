@@ -367,6 +367,7 @@ and how to convert them into Phoenix event data.</p>
 import { openFile, settings as jsrootSettings } from &#x27;jsroot&#x27;;
 import { TSelector, treeProcess } from &#x27;jsroot/tree&#x27;;
 import { CoordinateHelper } from &#x27;../helpers/coordinate-helper&#x27;;
+import { PhoenixEventData, PhoenixEventsData } from &#x27;../lib/types/event-data&#x27;;
 
 /**
  * Branch mapping for a PHYSLITE collection.
@@ -497,7 +498,7 @@ export class PHYSLITELoader extends PhoenixLoader {
    * @param fileSource File object or URL of the .root file.
    * @returns Promise resolving to the events data.
    */
-  async getEventData(fileSource: File | string): Promise&lt;any&gt; {
+  async getEventData(fileSource: File | string): Promise&lt;PhoenixEventsData&gt; {
     jsrootSettings.UseStamp &#x3D; false;
 
     const file &#x3D; await openFile(fileSource as any);
@@ -569,7 +570,7 @@ export class PHYSLITELoader extends PhoenixLoader {
     selector.addBranch(&#x27;EventInfoAuxDyn.runNumber&#x27;, runNumberKey);
 
     // --- Process entries ---
-    const eventsData: any &#x3D; {};
+    const eventsData: Record&lt;string, PhoenixEventData&gt; &#x3D; {};
     let eventIndex &#x3D; 0;
 
     selector.Process &#x3D; (entry: number) &#x3D;&gt; {
@@ -585,7 +586,7 @@ export class PHYSLITELoader extends PhoenixLoader {
 
       // Pre-initialize all active collection types so Phoenix registers
       // them from the first event (even if empty for that event).
-      const eventData: any &#x3D; {
+      const eventData: PhoenixEventData &#x3D; {
         &#x27;event number&#x27;: eventNumber,
         &#x27;run number&#x27;: runNumber,
       };
@@ -624,11 +625,10 @@ export class PHYSLITELoader extends PhoenixLoader {
     switch (def.phoenixType) {
       case &#x27;Electrons&#x27;:
       case &#x27;Muons&#x27;:
-        return this.convertCompoundObjects(keys, tgt, true);
+        return this.convertParticles(keys, tgt, -1);
       case &#x27;Photons&#x27;:
-        return this.convertCompoundObjects(keys, tgt, false);
       case &#x27;Jets&#x27;:
-        return this.convertJets(keys, tgt);
+        return this.convertParticles(keys, tgt);
       case &#x27;Tracks&#x27;:
         return this.convertTracks(keys, tgt);
       case &#x27;MissingEnergy&#x27;:
@@ -643,14 +643,13 @@ export class PHYSLITELoader extends PhoenixLoader {
   }
 
   /**
-   * Convert compound objects (Electrons, Muons, Photons).
-   * These are rendered as extrapolated tracks (charged) or clusters (neutral).
+   * Convert compound objects (Electrons, Muons, Photons) and Jets.
    * Energy is computed from pt, eta, and mass: E &#x3D; sqrt((pt*cosh(eta))^2 + m^2).
    */
-  private convertCompoundObjects(
+  private convertParticles(
     keys: { [field: string]: string },
     tgt: any,
-    isCharged: boolean,
+    pdgId?: number,
   ): any[] {
     const ptArr &#x3D; keys[&#x27;pt&#x27;] ? this.toArray(tgt[keys[&#x27;pt&#x27;]]) : null;
     const etaArr &#x3D; keys[&#x27;eta&#x27;] ? this.toArray(tgt[keys[&#x27;eta&#x27;]]) : null;
@@ -660,7 +659,7 @@ export class PHYSLITELoader extends PhoenixLoader {
     if (!etaArr || !phiArr) return [];
 
     const n &#x3D; etaArr.length;
-    const objects: any[] &#x3D; [];
+    const particles: any[] &#x3D; new Array(n);
 
     for (let i &#x3D; 0; i &lt; n; i++) {
       const eta &#x3D; etaArr[i];
@@ -679,51 +678,16 @@ export class PHYSLITELoader extends PhoenixLoader {
         energy,
       };
 
-      // For charged particles, derive sign from charge if available,
-      // otherwise assume negative (electron/muon convention)
-      if (isCharged) {
-        // PHYSLITE muons don&#x27;t have explicit pt — they are linked to tracks.
-        // For electrons, charge can be inferred from track qOverP sign.
-        // Default to negative charge convention for track curvature.
-        obj.pdgId &#x3D; -1;
+      // For specific charged particles (like electrons/muons), a pdgId can be assigned
+      // Default to negative charge convention for track curvature.
+      if (pdgId !&#x3D;&#x3D; undefined) {
+        obj.pdgId &#x3D; pdgId;
       }
 
-      objects.push(obj);
+      particles[i] &#x3D; obj;
     }
 
-    return objects;
-  }
-
-  /**
-   * Convert jet branch data into Phoenix JetParams array.
-   * Energy computed from pt, eta, m: E &#x3D; sqrt((pt*cosh(eta))^2 + m^2).
-   */
-  private convertJets(keys: { [field: string]: string }, tgt: any): any[] {
-    const ptArr &#x3D; keys[&#x27;pt&#x27;] ? this.toArray(tgt[keys[&#x27;pt&#x27;]]) : null;
-    const etaArr &#x3D; keys[&#x27;eta&#x27;] ? this.toArray(tgt[keys[&#x27;eta&#x27;]]) : null;
-    const phiArr &#x3D; keys[&#x27;phi&#x27;] ? this.toArray(tgt[keys[&#x27;phi&#x27;]]) : null;
-    const mArr &#x3D; keys[&#x27;m&#x27;] ? this.toArray(tgt[keys[&#x27;m&#x27;]]) : null;
-
-    if (!etaArr || !phiArr) return [];
-
-    const n &#x3D; etaArr.length;
-    const jets: any[] &#x3D; [];
-
-    for (let i &#x3D; 0; i &lt; n; i++) {
-      const pt &#x3D; ptArr ? ptArr[i] : 0;
-      const eta &#x3D; etaArr[i];
-      const m &#x3D; mArr ? mArr[i] : 0;
-      const p &#x3D; pt * Math.cosh(eta);
-      const energy &#x3D; Math.sqrt(p * p + m * m);
-
-      jets.push({
-        eta,
-        phi: phiArr[i],
-        energy,
-      });
-    }
-
-    return jets;
+    return particles;
   }
 
   /**
@@ -805,14 +769,14 @@ export class PHYSLITELoader extends PhoenixLoader {
     if (!xArr || !yArr || !zArr) return [];
 
     const n &#x3D; xArr.length;
-    const vertices: any[] &#x3D; [];
+    const vertices: any[] &#x3D; new Array(n);
 
     for (let i &#x3D; 0; i &lt; n; i++) {
-      vertices.push({
+      vertices[i] &#x3D; {
         x: xArr[i],
         y: yArr[i],
         z: zArr[i],
-      });
+      };
     }
 
     return vertices;
@@ -832,26 +796,26 @@ export class PHYSLITELoader extends PhoenixLoader {
     if (!eArr || !etaArr || !phiArr) return [];
 
     const n &#x3D; eArr.length;
-    const clusters: any[] &#x3D; [];
+    const clusters: any[] &#x3D; new Array(n);
 
     for (let i &#x3D; 0; i &lt; n; i++) {
-      clusters.push({
+      clusters[i] &#x3D; {
         energy: eArr[i],
         eta: etaArr[i],
         phi: phiArr[i],
-      });
+      };
     }
 
     return clusters;
   }
 
   /**
-   * Ensure a value is a plain array (jsroot may return typed arrays).
+   * Ensure a value is accessible like an array (jsroot may return typed arrays).
    */
-  private toArray(val: any): number[] | null {
+  private toArray(val: any): ArrayLike&lt;number&gt; | null {
     if (val &#x3D;&#x3D; null) return null;
     if (Array.isArray(val)) return val;
-    if (ArrayBuffer.isView(val)) return Array.from(val as any);
+    if (ArrayBuffer.isView(val)) return val as unknown as ArrayLike&lt;number&gt;;
     if (typeof val &#x3D;&#x3D;&#x3D; &#x27;number&#x27;) return [val];
     return null;
   }

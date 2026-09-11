@@ -1,0 +1,610 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  SessionManagerHost</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/managers/session-manager/session-manager.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Host capabilities the SessionManager needs from the EventDisplay.</p>
+
+            </p>
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="../interfaces/RecorderHost.html" target="_self" >RecorderHost</a></code>
+                            <code><a href="../interfaces/PlayerHost.html" target="_self" >PlayerHost</a></code>
+            </p>
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ActiveVariable } from &#x27;../../helpers/active-variable&#x27;;
+import {
+  decodeSessionFromBase64,
+  decodeSessionFromJson,
+  encodeSessionToBase64,
+  encodeSessionToBlob,
+} from &#x27;./session-codec&#x27;;
+import { SessionSource, SessionV1 } from &#x27;./session-format&#x27;;
+import { PlayerHost, SessionPlayer } from &#x27;./session-player&#x27;;
+import { RecorderHost, SessionRecorder } from &#x27;./session-recorder&#x27;;
+
+/**
+ * Discriminated union the {@link SessionManager.state} observable carries.
+ * UI components subscribe to this to render the floating session pill.
+ */
+export type SessionState &#x3D;
+  | { kind: &#x27;idle&#x27; }
+  | { kind: &#x27;recording&#x27;; recorder: SessionRecorder }
+  | { kind: &#x27;recorded&#x27;; session: SessionV1 }
+  | { kind: &#x27;pending&#x27;; session: SessionV1; sourceLabel: string }
+  | { kind: &#x27;playing&#x27;; player: SessionPlayer; currentTime: number }
+  | { kind: &#x27;paused&#x27;; player: SessionPlayer; currentTime: number }
+  | { kind: &#x27;finished&#x27;; player: SessionPlayer }
+  | { kind: &#x27;error&#x27;; message: string };
+
+/** Host capabilities the SessionManager needs from the EventDisplay. */
+export interface SessionManagerHost extends RecorderHost, PlayerHost {}
+
+/**
+ * Coordinator that wires {@link SessionRecorder} and {@link SessionPlayer}
+ * to a single observable state. Exposed via EventDisplay.getSessionManager.
+ * Mirrors the singleton pattern of {@link StateManager}.
+ */
+export class SessionManager {
+  /** Reactive state for the UI pill. */
+  public readonly state &#x3D; new ActiveVariable&lt;SessionState&gt;({ kind: &#x27;idle&#x27; });
+
+  /** Active recorder instance, or null when not recording. */
+  private recorder: SessionRecorder | null &#x3D; null;
+  /** Active player instance, or null when no replay is loaded. */
+  private player: SessionPlayer | null &#x3D; null;
+  /** Decoded-but-not-yet-played session awaiting explicit user confirmation. */
+  private pendingSession: SessionV1 | null &#x3D; null;
+  /**
+   * Share-link base64 precomputed when a recording stops, so the UI can copy
+   * it synchronously inside the click gesture (the Clipboard API rejects a
+   * write that happens after an await, which would consume the gesture).
+   */
+  private sharableBase64Cache: string | null &#x3D; null;
+  /** Unsubscribe for the active player&#x27;s tick callback. */
+  private tickUnsub: (() &#x3D;&gt; void) | null &#x3D; null;
+  /** Unsubscribe for the active player&#x27;s complete callback. */
+  private completeUnsub: (() &#x3D;&gt; void) | null &#x3D; null;
+
+  /**
+   * Create a session manager bound to a host adapter.
+   * @param host Adapter exposing the event bus, state, and camera apply.
+   */
+  constructor(private host: SessionManagerHost) {}
+
+  /** True when a recording is currently capturing events. */
+  public get isRecording(): boolean {
+    return this.recorder?.isRecording &#x3D;&#x3D;&#x3D; true;
+  }
+
+  /** True when a player is currently in the playing state. */
+  public get isPlaying(): boolean {
+    return this.player?.isPlaying &#x3D;&#x3D;&#x3D; true;
+  }
+
+  /** Active recorder, if any. */
+  public getRecorder(): SessionRecorder | null {
+    return this.recorder;
+  }
+
+  /** Active player, if any. */
+  public getPlayer(): SessionPlayer | null {
+    return this.player;
+  }
+
+  /**
+   * Start a new recording (no-op if one is already running).
+   * @param source Optional dataset/route metadata recorded in the session.
+   */
+  public startRecording(source?: SessionSource): void {
+    if (this.recorder?.isRecording) return;
+    this.stopPlaybackIfAny();
+    this.recorder &#x3D; new SessionRecorder(this.host);
+    this.recorder.start({ source });
+    this.state.update({ kind: &#x27;recording&#x27;, recorder: this.recorder });
+  }
+
+  /**
+   * Stop the active recording and transition state to &#x27;recorded&#x27; so the UI
+   * can offer download / share. Returns the finalized session.
+   */
+  public stopRecording(): SessionV1 | null {
+    if (!this.recorder) return null;
+    const session &#x3D; this.recorder.stop();
+    this.recorder &#x3D; null;
+    this.state.update({ kind: &#x27;recorded&#x27;, session });
+    // Precompute the share link so the pill can copy it synchronously inside
+    // the user&#x27;s click (compression is async and would otherwise expire the
+    // gesture, making navigator.clipboard.writeText reject).
+    this.sharableBase64Cache &#x3D; null;
+    encodeSessionToBase64(session)
+      .then((b64) &#x3D;&gt; {
+        this.sharableBase64Cache &#x3D; b64;
+      })
+      .catch(() &#x3D;&gt; {
+        this.sharableBase64Cache &#x3D; null;
+      });
+    return session;
+  }
+
+  /**
+   * Synchronously return the precomputed share-link base64 for the recorded
+   * session, or null if not recorded or the encode has not finished yet.
+   */
+  public getCachedSharableBase64(): string | null {
+    if (this.state.value?.kind !&#x3D;&#x3D; &#x27;recorded&#x27;) return null;
+    return this.sharableBase64Cache;
+  }
+
+  /**
+   * Convenience: if recording, stop. Otherwise start.
+   * Bound to the Shift+Ctrl+R keyboard shortcut.
+   * @param source Optional source metadata used when starting a recording.
+   */
+  public toggleRecording(source?: SessionSource): void {
+    if (this.recorder?.isRecording) {
+      this.stopRecording();
+    } else {
+      this.startRecording(source);
+    }
+  }
+
+  /** Discard the current recorded session and return to idle. */
+  public clearRecorded(): void {
+    this.sharableBase64Cache &#x3D; null;
+    if (this.state.value?.kind &#x3D;&#x3D;&#x3D; &#x27;recorded&#x27;) {
+      this.state.update({ kind: &#x27;idle&#x27; });
+    }
+  }
+
+  /**
+   * Decode + validate a base64 &#x60;?replay&#x3D;&#x60; payload and stage it for playback,
+   * WITHOUT starting it. Sets state to &#x27;pending&#x27; so the UI can require an
+   * explicit user click before replaying untrusted, link-supplied content.
+   * @param base64 Base64 input from the URL.
+   * @param sourceLabel Human-readable origin shown in the confirm UI.
+   * @throws Error if decoding/validation fails (also exposed via state.error).
+   */
+  public async prepareFromBase64(
+    base64: string,
+    sourceLabel: string,
+  ): Promise&lt;void&gt; {
+    try {
+      const session &#x3D; await decodeSessionFromBase64(base64);
+      this.setPending(session, sourceLabel);
+    } catch (e) {
+      this.state.update({ kind: &#x27;error&#x27;, message: errorMessage(e) });
+      throw e;
+    }
+  }
+
+  /**
+   * Decode + validate a &#x60;.phnxreplay&#x60; JSON payload and stage it for playback
+   * without starting it (see {@link prepareFromBase64}).
+   * @param text JSON text contents.
+   * @param sourceLabel Human-readable origin shown in the confirm UI.
+   * @throws Error if validation fails.
+   */
+  public prepareFromJsonText(text: string, sourceLabel: string): SessionV1 {
+    try {
+      const session &#x3D; decodeSessionFromJson(text);
+      this.setPending(session, sourceLabel);
+      return session;
+    } catch (e) {
+      this.state.update({ kind: &#x27;error&#x27;, message: errorMessage(e) });
+      throw e;
+    }
+  }
+
+  /**
+   * Start the pending session after explicit user confirmation. No-op if the
+   * manager is not in the &#x27;pending&#x27; state.
+   */
+  public playPending(): void {
+    if (this.state.value?.kind !&#x3D;&#x3D; &#x27;pending&#x27; || !this.pendingSession) return;
+    const session &#x3D; this.pendingSession;
+    this.pendingSession &#x3D; null;
+    this.attachPlayer(new SessionPlayer(this.host, session));
+    this.player?.play();
+  }
+
+  /**
+   * Load a session from a base64 ?replay&#x3D; URL parameter and start playing.
+   * For programmatic/trusted callers; the URL path uses
+   * {@link prepareFromBase64} so link-supplied content is not auto-run.
+   * @param base64 Base64 input from the URL.
+   * @throws Error if decoding/validation fails (also exposed via state.error).
+   */
+  public async loadAndPlayBase64(base64: string): Promise&lt;void&gt; {
+    try {
+      const session &#x3D; await decodeSessionFromBase64(base64);
+      this.attachPlayer(new SessionPlayer(this.host, session));
+      this.player?.play();
+    } catch (e) {
+      this.state.update({ kind: &#x27;error&#x27;, message: errorMessage(e) });
+      throw e;
+    }
+  }
+
+  /**
+   * Load a session from a &#x60;.phnxreplay&#x60; JSON file (e.g. uploaded by user).
+   * @param text JSON text contents of the file.
+   * @throws Error if validation fails.
+   */
+  public loadFromJsonText(text: string): SessionV1 {
+    try {
+      const session &#x3D; decodeSessionFromJson(text);
+      this.attachPlayer(new SessionPlayer(this.host, session));
+      return session;
+    } catch (e) {
+      this.state.update({ kind: &#x27;error&#x27;, message: errorMessage(e) });
+      throw e;
+    }
+  }
+
+  /** Start playback on a loaded player (no-op if none loaded). */
+  public play(): void {
+    this.player?.play();
+  }
+
+  /** Pause the active player. */
+  public pause(): void {
+    if (!this.player) return;
+    this.player.pause();
+    this.state.update({
+      kind: &#x27;paused&#x27;,
+      player: this.player,
+      currentTime: this.player.currentTime,
+    });
+  }
+
+  /** Seek the active player to a specific playhead position. */
+  public seek(t: number): void {
+    this.player?.seek(t);
+  }
+
+  /** Change the active player&#x27;s speed multiplier. */
+  public setSpeed(speed: 0.5 | 1 | 2 | 4): void {
+    this.player?.setSpeed(speed);
+  }
+
+  /** Stop and detach any active player. Resets state to idle. */
+  public stopPlayback(): void {
+    this.stopPlaybackIfAny();
+    this.pendingSession &#x3D; null;
+    if (this.state.value?.kind !&#x3D;&#x3D; &#x27;recording&#x27;) {
+      this.state.update({ kind: &#x27;idle&#x27; });
+    }
+  }
+
+  /**
+   * Stage a decoded session as pending (awaiting user confirmation) and
+   * publish the &#x27;pending&#x27; state for the UI. Stops any active playback first.
+   * @param session The validated session to stage.
+   * @param sourceLabel Human-readable origin (host or &#x27;shared link&#x27;).
+   */
+  private setPending(session: SessionV1, sourceLabel: string): void {
+    this.stopPlaybackIfAny();
+    this.pendingSession &#x3D; session;
+    this.state.update({ kind: &#x27;pending&#x27;, session, sourceLabel });
+  }
+
+  /**
+   * Encode the most recently recorded session as base64 for the share URL.
+   * @returns Base64 string, or null if there&#x27;s no recorded session in state.
+   */
+  public async getSharableBase64(): Promise&lt;string | null&gt; {
+    if (this.state.value?.kind !&#x3D;&#x3D; &#x27;recorded&#x27;) return null;
+    return encodeSessionToBase64(this.state.value.session);
+  }
+
+  /**
+   * Produce a downloadable Blob of the most recently recorded session.
+   * @returns Blob (application/json) or null if no recorded session.
+   */
+  public getDownloadBlob(): Blob | null {
+    if (this.state.value?.kind !&#x3D;&#x3D; &#x27;recorded&#x27;) return null;
+    return encodeSessionToBlob(this.state.value.session);
+  }
+
+  /** Release all resources. Called from EventDisplay.cleanup. */
+  public cleanup(): void {
+    if (this.recorder?.isRecording) {
+      try {
+        this.recorder.stop();
+      } catch {
+        // ignore
+      }
+    }
+    this.recorder &#x3D; null;
+    this.pendingSession &#x3D; null;
+    this.stopPlaybackIfAny();
+    this.state.update({ kind: &#x27;idle&#x27; });
+  }
+
+  /**
+   * Replace any active player with a new one and wire its tick/complete
+   * callbacks into the reactive state. Transitions state to &#x27;playing&#x27;.
+   * @param player The player to attach.
+   */
+  private attachPlayer(player: SessionPlayer): void {
+    this.stopPlaybackIfAny();
+    this.player &#x3D; player;
+    this.tickUnsub &#x3D; player.onTick((t) &#x3D;&gt; {
+      if (player.isPlaying) {
+        this.state.update({ kind: &#x27;playing&#x27;, player, currentTime: t });
+      }
+    });
+    this.completeUnsub &#x3D; player.onComplete(() &#x3D;&gt; {
+      this.state.update({ kind: &#x27;finished&#x27;, player });
+    });
+    this.state.update({ kind: &#x27;playing&#x27;, player, currentTime: 0 });
+  }
+
+  /** Stop and detach the active player and its callbacks, if any. */
+  private stopPlaybackIfAny(): void {
+    if (this.player) {
+      try {
+        this.player.stop();
+      } catch {
+        // ignore
+      }
+    }
+    if (this.tickUnsub) {
+      this.tickUnsub();
+      this.tickUnsub &#x3D; null;
+    }
+    if (this.completeUnsub) {
+      this.completeUnsub();
+      this.completeUnsub &#x3D; null;
+    }
+    this.player &#x3D; null;
+  }
+}
+
+/**
+ * Extract a human-readable message from an unknown thrown value.
+ * @param e The caught value.
+ * @returns The error message string.
+ */
+function errorMessage(e: unknown): string {
+  if (e instanceof Error) return e.message;
+  return String(e);
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'SessionManagerHost.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

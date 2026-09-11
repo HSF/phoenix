@@ -22,6 +22,8 @@ import {
   TubeGeometry,
   MeshToonMaterial,
   Line,
+  InstancedMesh,
+  Matrix4,
   type Object3DEventMap,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -55,6 +57,15 @@ export class SceneManager {
   private etaPhiGrid: Object3D;
   /** Cartesian grid */
   private cartesianGrid: Object3D;
+  /**
+   * Number of grid steps from the centre of the cartesian grid to each edge.
+   * The grid spans [-scale, scale] in steps of `0.1 * scale`, so each axis has
+   * `2 * CARTESIAN_GRID_STEPS + 1` planes (the centre plane plus both halves).
+   */
+  private static readonly CARTESIAN_GRID_STEPS = 10;
+  /** Number of planes built per axis, derived from CARTESIAN_GRID_STEPS. */
+  private static readonly CARTESIAN_PLANES_PER_AXIS =
+    2 * SceneManager.CARTESIAN_GRID_STEPS + 1;
   /** Cartesian Grid Config */
   private cartesianGridConfig = {
     showXY: true,
@@ -298,6 +309,15 @@ export class SceneManager {
     const collection = eventData.getObjectByName(collectionName);
     if (collection) {
       for (const child of Object.values(collection.children)) {
+        // InstancedMesh: filter by scaling hidden instances to zero
+        if (
+          child.userData?._isInstancedCaloCells &&
+          child instanceof InstancedMesh
+        ) {
+          this.filterInstancedMesh(child, filters);
+          continue;
+        }
+
         if (child.userData) {
           for (const filter of filters) {
             const value = child.userData[filter.field];
@@ -651,11 +671,21 @@ export class SceneManager {
 
       // xy plane
       let xyPlane = new Group();
-      for (let z = -scale; z <= scale; z += 0.1 * scale) {
+      for (
+        let zStep = -SceneManager.CARTESIAN_GRID_STEPS;
+        zStep <= SceneManager.CARTESIAN_GRID_STEPS;
+        zStep += 1
+      ) {
+        const z = zStep * 0.1 * scale;
         xyPlane = new Group();
 
         let points = [];
-        for (let y = -scale; y <= scale; y += 0.1 * scale) {
+        for (
+          let yStep = -SceneManager.CARTESIAN_GRID_STEPS;
+          yStep <= SceneManager.CARTESIAN_GRID_STEPS;
+          yStep += 1
+        ) {
+          const y = yStep * 0.1 * scale;
           points.push(new Vector3(-scale, y, z));
           points.push(new Vector3(scale, y, z));
         }
@@ -666,7 +696,12 @@ export class SceneManager {
         xyPlane.add(lines);
 
         points = [];
-        for (let x = -scale; x <= scale; x += 0.1 * scale) {
+        for (
+          let xStep = -SceneManager.CARTESIAN_GRID_STEPS;
+          xStep <= SceneManager.CARTESIAN_GRID_STEPS;
+          xStep += 1
+        ) {
+          const x = xStep * 0.1 * scale;
           points.push(new Vector3(x, -scale, z));
           points.push(new Vector3(x, scale, z));
         }
@@ -679,11 +714,21 @@ export class SceneManager {
 
       // YZ plane
       let yzPlane = new Group();
-      for (let x = -scale; x <= scale; x += 0.1 * scale) {
+      for (
+        let xStep = -SceneManager.CARTESIAN_GRID_STEPS;
+        xStep <= SceneManager.CARTESIAN_GRID_STEPS;
+        xStep += 1
+      ) {
+        const x = xStep * 0.1 * scale;
         yzPlane = new Group();
 
         let points = [];
-        for (let y = -scale; y <= scale; y += 0.1 * scale) {
+        for (
+          let yStep = -SceneManager.CARTESIAN_GRID_STEPS;
+          yStep <= SceneManager.CARTESIAN_GRID_STEPS;
+          yStep += 1
+        ) {
+          const y = yStep * 0.1 * scale;
           points.push(new Vector3(x, y, -scale));
           points.push(new Vector3(x, y, scale));
         }
@@ -694,7 +739,12 @@ export class SceneManager {
         yzPlane.add(lines);
 
         points = [];
-        for (let z = -scale; z <= scale; z += 0.1 * scale) {
+        for (
+          let zStep = -SceneManager.CARTESIAN_GRID_STEPS;
+          zStep <= SceneManager.CARTESIAN_GRID_STEPS;
+          zStep += 1
+        ) {
+          const z = zStep * 0.1 * scale;
           points.push(new Vector3(x, -scale, z));
           points.push(new Vector3(x, scale, z));
         }
@@ -707,11 +757,21 @@ export class SceneManager {
 
       // ZX plane
       let zxPlane = new Group();
-      for (let y = -scale; y <= scale; y += 0.1 * scale) {
+      for (
+        let yStep = -SceneManager.CARTESIAN_GRID_STEPS;
+        yStep <= SceneManager.CARTESIAN_GRID_STEPS;
+        yStep += 1
+      ) {
+        const y = yStep * 0.1 * scale;
         zxPlane = new Group();
 
         let points = [];
-        for (let x = -scale; x <= scale; x += 0.1 * scale) {
+        for (
+          let xStep = -SceneManager.CARTESIAN_GRID_STEPS;
+          xStep <= SceneManager.CARTESIAN_GRID_STEPS;
+          xStep += 1
+        ) {
+          const x = xStep * 0.1 * scale;
           points.push(new Vector3(x, y, -scale));
           points.push(new Vector3(x, y, scale));
         }
@@ -722,7 +782,12 @@ export class SceneManager {
         zxPlane.add(lines);
 
         points = [];
-        for (let z = -scale; z <= scale; z += 0.1 * scale) {
+        for (
+          let zStep = -SceneManager.CARTESIAN_GRID_STEPS;
+          zStep <= SceneManager.CARTESIAN_GRID_STEPS;
+          zStep += 1
+        ) {
+          const z = zStep * 0.1 * scale;
           points.push(new Vector3(-scale, y, z));
           points.push(new Vector3(scale, y, z));
         }
@@ -766,9 +831,7 @@ export class SceneManager {
     },
   ) {
     this.createCartesianGrid(scale);
-    for (let i = 0; i <= 62; i += 1) {
-      this.cartesianGrid.children[i].visible = false;
-    }
+    this.cartesianGrid.children.forEach((child) => (child.visible = false));
 
     if (typeof config === 'undefined') {
       config = this.cartesianGridConfig;
@@ -776,29 +839,40 @@ export class SceneManager {
       this.cartesianGridConfig = config;
     }
 
-    const childPoints = [10, 31, 52];
+    const planesPerAxis = SceneManager.CARTESIAN_PLANES_PER_AXIS;
+    // Centre plane of each axis block: the grid is laid out as three
+    // consecutive blocks of `planesPerAxis` planes (XY, YZ, ZX), and the
+    // centre of each block sits CARTESIAN_GRID_STEPS planes into it.
+    const centres = [0, 1, 2].map(
+      (axis) => axis * planesPerAxis + SceneManager.CARTESIAN_GRID_STEPS,
+    );
     const distances = [config.zDistance, config.xDistance, config.yDistance];
     const visiblePlanes = [config.showXY, config.showYZ, config.showZX];
 
-    if (visible) {
-      for (let i = 0; i < 3; i += 1) {
-        if (visiblePlanes[i]) {
-          for (
-            let j = childPoints[i];
-            j >= childPoints[i] - (distances[i] * 10) / scale;
-            j -= config.sparsity
-          ) {
-            this.cartesianGrid.children[j].visible = visible;
-          }
+    if (!visible) {
+      return;
+    }
 
-          for (
-            let j = childPoints[i];
-            j <= childPoints[i] + (distances[i] * 10) / scale;
-            j += config.sparsity
-          ) {
-            this.cartesianGrid.children[j].visible = visible;
-          }
-        }
+    // Guard against a zero/NaN sparsity, which would never advance the loop.
+    const sparsity = config.sparsity > 0 ? config.sparsity : 1;
+
+    for (let axis = 0; axis < 3; axis += 1) {
+      if (!visiblePlanes[axis]) {
+        continue;
+      }
+
+      const centre = centres[axis];
+      // How many planes out from the centre this axis extends. Clamped to the
+      // axis' own block so it can never reach into a neighbouring axis or off
+      // the end of the children array.
+      const reach = Math.min(
+        Math.floor((distances[axis] * 10) / scale),
+        SceneManager.CARTESIAN_GRID_STEPS,
+      );
+
+      for (let offset = 0; offset <= reach; offset += sparsity) {
+        this.cartesianGrid.children[centre - offset].visible = true;
+        this.cartesianGrid.children[centre + offset].visible = true;
       }
     }
   }
@@ -916,6 +990,143 @@ export class SceneManager {
   }
 
   /**
+   * Filter an InstancedMesh by setting hidden instances to zero-scale.
+   * Respects current scale factor so filter and scale don't conflict.
+   * @param mesh The InstancedMesh to filter.
+   * @param filters Cuts used to determine visibility of each instance.
+   */
+  private filterInstancedMesh(mesh: InstancedMesh, filters: Cut[]) {
+    const instanceData: any[] = mesh.userData._instanceData;
+    if (!instanceData) return;
+
+    this.ensureOriginalMatrices(mesh);
+
+    const originalMatrices: Float32Array = mesh.userData._originalMatrices;
+    const scaleValue: number = mesh.userData._scaleValue ?? 1;
+    const scaleAxis: string | null = mesh.userData._scaleAxis ?? null;
+    const zeroMatrix = new Matrix4().makeScale(0, 0, 0);
+    const tempMatrix = new Matrix4();
+    const pos = new Vector3();
+    const quat = new Quaternion();
+    const scl = new Vector3();
+
+    for (let i = 0; i < instanceData.length; i++) {
+      const cell = instanceData[i];
+      let visible = true;
+
+      for (const filter of filters) {
+        const value = cell[filter.field];
+        if (value !== undefined && !filter.cutPassed(value)) {
+          visible = false;
+          break;
+        }
+      }
+
+      if (visible) {
+        tempMatrix.fromArray(originalMatrices, i * 16);
+        // Re-apply current scale factor so filtering doesn't reset scale
+        if (scaleValue !== 1) {
+          tempMatrix.decompose(pos, quat, scl);
+          this.applyAxisScale(scl, scaleValue, scaleAxis);
+          tempMatrix.compose(pos, quat, scl);
+        }
+        mesh.setMatrixAt(i, tempMatrix);
+      } else {
+        mesh.setMatrixAt(i, zeroMatrix);
+      }
+    }
+
+    mesh.instanceMatrix.needsUpdate = true;
+  }
+
+  /**
+   * Scale instances in an InstancedMesh along an axis.
+   * Stores scale state so filtering preserves it. Skips zero-scaled (filtered) instances.
+   * Falls back to scaleChildObjects for non-instanced groups.
+   * @param groupName Name of the group containing the InstancedMesh.
+   * @param value Scale factor (1 = original size).
+   * @param axis Optional axis to scale along ('x', 'y', 'z').
+   */
+  public scaleInstancedObjects(
+    groupName: string,
+    value: number,
+    axis?: string,
+  ) {
+    const object = this.scene.getObjectByName(groupName);
+    if (!object) return;
+
+    let handled = false;
+    object.traverse((child: Object3D) => {
+      if (
+        child.userData?._isInstancedCaloCells &&
+        child instanceof InstancedMesh
+      ) {
+        handled = true;
+        const instanceData: any[] = child.userData._instanceData;
+        if (!instanceData) return;
+
+        this.ensureOriginalMatrices(child);
+
+        // Store scale state for filter coordination
+        child.userData._scaleValue = value;
+        child.userData._scaleAxis = axis ?? null;
+
+        const originalMatrices: Float32Array = child.userData._originalMatrices;
+        const tempMatrix = new Matrix4();
+        const currentMatrix = new Matrix4();
+        const pos = new Vector3();
+        const quat = new Quaternion();
+        const scl = new Vector3();
+
+        for (let i = 0; i < instanceData.length; i++) {
+          // Skip instances that are currently filtered out (zero-scale)
+          child.getMatrixAt(i, currentMatrix);
+          const e = currentMatrix.elements;
+          if (e[0] === 0 && e[5] === 0 && e[10] === 0) continue;
+
+          tempMatrix.fromArray(originalMatrices, i * 16);
+          tempMatrix.decompose(pos, quat, scl);
+          this.applyAxisScale(scl, value, axis);
+          tempMatrix.compose(pos, quat, scl);
+          child.setMatrixAt(i, tempMatrix);
+        }
+
+        child.instanceMatrix.needsUpdate = true;
+      }
+    });
+
+    // Fallback for non-instanced objects in the same group
+    if (!handled) {
+      this.scaleChildObjects(groupName, value, axis);
+    }
+  }
+
+  /** Snapshot the original instance matrices on first use. */
+  private ensureOriginalMatrices(mesh: InstancedMesh) {
+    if (!mesh.userData._originalMatrices) {
+      mesh.userData._originalMatrices =
+        mesh.instanceMatrix.array.slice() as Float32Array;
+    }
+  }
+
+  /** Apply a scale factor to a Vector3 along a specific axis or uniformly. */
+  private applyAxisScale(scl: Vector3, value: number, axis?: string | null) {
+    switch (axis) {
+      case 'x':
+        scl.x *= value;
+        break;
+      case 'y':
+        scl.y *= value;
+        break;
+      case 'z':
+        scl.z *= value;
+        break;
+      default:
+        scl.multiplyScalar(value);
+    }
+  }
+
+  /**
    * Add label to the three.js object.
    * @param label Label to add to the event object.
    * @param uuid UUID of the three.js object.
@@ -1011,7 +1222,12 @@ export class SceneManager {
       });
 
       // X Labels
-      for (let x = -scale; x <= scale; x += 0.1 * scale) {
+      for (
+        let xStep = -SceneManager.CARTESIAN_GRID_STEPS;
+        xStep <= SceneManager.CARTESIAN_GRID_STEPS;
+        xStep += 1
+      ) {
+        const x = xStep * 0.1 * scale;
         const text = this.getText((x / 10).toString(), xColor);
         text.position.set(x, 40, 0);
         this.axesNumbers.push(text);
@@ -1024,7 +1240,12 @@ export class SceneManager {
       }
 
       // Y Labels
-      for (let y = -scale; y <= scale; y += 0.1 * scale) {
+      for (
+        let yStep = -SceneManager.CARTESIAN_GRID_STEPS;
+        yStep <= SceneManager.CARTESIAN_GRID_STEPS;
+        yStep += 1
+      ) {
+        const y = yStep * 0.1 * scale;
         const text = this.getText((y / 10).toString(), yColor);
         text.position.set(-40, y, 0);
         this.axesNumbers.push(text);
@@ -1037,7 +1258,12 @@ export class SceneManager {
       }
 
       // Z Labels
-      for (let z = -scale; z <= scale; z += 0.1 * scale) {
+      for (
+        let zStep = -SceneManager.CARTESIAN_GRID_STEPS;
+        zStep <= SceneManager.CARTESIAN_GRID_STEPS;
+        zStep += 1
+      ) {
+        const z = zStep * 0.1 * scale;
         const text = this.getText((z / 10).toString(), zColor);
         text.position.set(-40, 0, z);
         this.axesNumbers.push(text);

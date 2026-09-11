@@ -15,6 +15,10 @@ describe('InfoPanelComponent', () => {
     overlayWindow: jest.fn().mockReturnThis(),
     instance: jest.fn().mockReturnThis(),
     destroy: jest.fn(),
+    position: jest.fn().mockReturnThis(),
+    global: jest.fn().mockReturnThis(),
+    top: jest.fn().mockReturnThis(),
+    left: jest.fn().mockReturnThis(),
   };
 
   beforeEach(() => {

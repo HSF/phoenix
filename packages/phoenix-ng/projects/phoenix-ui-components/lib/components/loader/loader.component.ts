@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, type OnDestroy } from '@angular/core';
 import { ErrorMessageService } from '../../services/error-message-service';
 
 @Component({
@@ -7,16 +7,23 @@ import { ErrorMessageService } from '../../services/error-message-service';
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.scss'],
 })
-export class LoaderComponent {
+export class LoaderComponent implements OnDestroy {
   @Input() loaded = false;
   @Input() progress: number;
   public error: Error;
+  private unsubscribeError: () => void;
 
   constructor(private errorMessageService: ErrorMessageService) {
-    this.errorMessageService.subscribeToError((error) => {
-      if (!this.loaded) {
-        this.error = error;
-      }
-    });
+    this.unsubscribeError = this.errorMessageService.subscribeToError(
+      (error) => {
+        if (!this.loaded) {
+          this.error = error;
+        }
+      },
+    );
+  }
+
+  ngOnDestroy() {
+    this.unsubscribeError();
   }
 }

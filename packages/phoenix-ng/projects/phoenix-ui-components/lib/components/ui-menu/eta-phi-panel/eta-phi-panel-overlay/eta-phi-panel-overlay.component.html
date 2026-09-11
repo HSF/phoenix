@@ -1,0 +1,36 @@
+<app-overlay
+  overlayTitle="Eta-Phi Energy Map"
+  icon="eta-phi"
+  [active]="showPanel"
+>
+  <div class="eta-phi-container">
+    <div class="eta-phi-controls">
+      <label class="scale-toggle">
+        <input
+          type="checkbox"
+          [checked]="logScale"
+          (change)="toggleLogScale()"
+        />
+        Log scale
+      </label>
+      <label class="overlay-toggle">
+        <input
+          type="checkbox"
+          [checked]="showOverlays"
+          (change)="toggleOverlays()"
+        />
+        Overlays
+      </label>
+    </div>
+    <div class="canvas-wrapper">
+      <canvas #etaPhiCanvas width="600" height="380"></canvas>
+    </div>
+    <div class="color-bar">
+      <canvas #colorBarCanvas width="300" height="14"></canvas>
+      <div class="color-bar-labels">
+        <span>{{ colorBarMin }}</span>
+        <span>{{ colorBarMax }}</span>
+      </div>
+    </div>
+  </div>
+</app-overlay>

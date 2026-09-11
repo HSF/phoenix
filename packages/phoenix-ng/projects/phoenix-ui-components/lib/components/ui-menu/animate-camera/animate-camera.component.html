@@ -1,15 +1,51 @@
 <mat-menu #animationPresets>
-  <button
+  <div
     mat-menu-item
     *ngFor="let preset of animationPresetsKeys"
-    (click)="animatePreset(preset)"
+    class="preset-row"
+    (click)="$event.stopPropagation()"
   >
-    {{ preset }}
-  </button>
-  <button mat-menu-item (click)="animateCamera()">Animate camera</button>
+    <span class="preset-name">{{ preset }}</span>
+    <span class="preset-actions">
+      <button
+        mat-icon-button
+        (click)="playPreset(preset); menuTrigger.closeMenu()"
+        matTooltip="Play"
+      >
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        (click)="downloadAnimation(preset); menuTrigger.closeMenu()"
+        matTooltip="Download"
+      >
+        <mat-icon>download</mat-icon>
+      </button>
+    </span>
+  </div>
+  <div mat-menu-item class="preset-row" (click)="$event.stopPropagation()">
+    <span class="preset-name">Animate camera</span>
+    <span class="preset-actions">
+      <button
+        mat-icon-button
+        (click)="playAnimateCamera(); menuTrigger.closeMenu()"
+        matTooltip="Play"
+      >
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        (click)="downloadAnimation(); menuTrigger.closeMenu()"
+        matTooltip="Download"
+      >
+        <mat-icon>download</mat-icon>
+      </button>
+    </span>
+  </div>
 </mat-menu>
 
 <app-menu-toggle
+  #menuTrigger="matMenuTrigger"
   [matMenuTriggerFor]="animationPresets"
   tooltip="Preset animations"
   icon="animate-camera"

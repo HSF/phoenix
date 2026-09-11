@@ -219,6 +219,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#isCurrentlyLoading" >isCurrentlyLoading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#itemLoaded" >itemLoaded</a>
                             </li>
                             <li>
@@ -815,6 +819,51 @@ are any items to load when the listener is added.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="isCurrentlyLoading"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>isCurrentlyLoading</b></span>
+                        <a href="#isCurrentlyLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isCurrentlyLoading()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="113"
+                                    class="link-to-prism">src/managers/loading-manager.ts:113</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Check whether items are currently loading.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>True if items are being loaded.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="itemLoaded"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -1005,8 +1054,8 @@ are any items to load when the listener is added.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="112"
-                                    class="link-to-prism">src/managers/loading-manager.ts:112</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="120"
+                                    class="link-to-prism">src/managers/loading-manager.ts:120</a></div>
                         </td>
                     </tr>
 
@@ -1137,6 +1186,14 @@ are any items to load when the listener is added.</p>
    */
   public addProgressListener(callback: (progress: number) &#x3D;&gt; void) {
     this.onProgressCallbacks.push(callback);
+  }
+
+  /**
+   * Check whether items are currently loading.
+   * @returns True if items are being loaded.
+   */
+  public isCurrentlyLoading(): boolean {
+    return this.toLoad.length &gt; 0 &amp;&amp; this.toLoad.length !&#x3D;&#x3D; this.loaded.length;
   }
 
   /**

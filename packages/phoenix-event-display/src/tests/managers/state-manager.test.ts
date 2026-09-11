@@ -51,6 +51,27 @@ describe('StateManager', () => {
     expect(stateManager.eventMetadata.eventNumber).toBe('000');
   });
 
+  it('should not throw when the loaded state file is not valid JSON', () => {
+    const phoenixMenuRoot = new PhoenixMenuNode('root');
+    const consoleError = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+    // Feed the 'Load state' button a malformed file.
+    jest
+      .spyOn(file, 'loadFile')
+      .mockImplementation((onFileRead) => onFileRead('not json'));
+    const loadSpy = jest.spyOn(stateManager, 'loadStateFromJSON');
+
+    stateManager.setPhoenixMenuRoot(phoenixMenuRoot);
+    const loadStateButton = phoenixMenuRoot.configs.find(
+      (config: any) => config.label === 'Load state',
+    ) as any;
+
+    expect(() => loadStateButton.onClick()).not.toThrow();
+    expect(loadSpy).not.toHaveBeenCalled();
+    expect(consoleError).toHaveBeenCalled();
+  });
+
   it('should load the state of the event display from JSON', () => {
     stateManager.phoenixMenuRoot = new PhoenixMenuNode('root');
 
@@ -119,5 +140,146 @@ describe('StateManager', () => {
     const eventDisplay = new EventDisplay();
     stateManager.setEventDisplay(eventDisplay);
     expect(stateManager.eventDisplay).toBe(eventDisplay);
+  });
+
+  describe('cut state serialization', () => {
+    let mockPhoenixMenuUI: any;
+    let mockUIManager: any;
+
+    beforeEach(() => {
+      mockPhoenixMenuUI = {
+        getCollectionCuts: jest.fn().mockReturnValue({}),
+        setCollectionCuts: jest.fn(),
+        reapplyCollectionCuts: jest.fn(),
+      };
+      mockUIManager = {
+        getPhoenixMenuUI: jest.fn().mockReturnValue(mockPhoenixMenuUI),
+        setClipping: jest.fn(),
+        rotateStartAngleClipping: jest.fn(),
+        rotateOpeningAngleClipping: jest.fn(),
+      };
+      // Wire the mock eventDisplay to return our mock UIManager
+      (stateManager as any).eventDisplay = {
+        getUIManager: jest.fn().mockReturnValue(mockUIManager),
+        getThreeManager: jest.fn().mockReturnValue({
+          getControlsManager: jest.fn().mockReturnValue({
+            getMainControls: jest.fn().mockReturnValue({
+              target: { toArray: jest.fn().mockReturnValue([0, 0, 0]) },
+            }),
+          }),
+        }),
+      };
+      stateManager.activeCamera = {
+        position: { toArray: jest.fn().mockReturnValue([0, 0, 0]) },
+      } as any;
+    });
+
+    it('should include a cuts key in getStateAsJSON output', () => {
+      const state = stateManager.getStateAsJSON();
+      expect(state).toHaveProperty('cuts');
+    });
+
+    it('should serialize active cuts from the registry', () => {
+      const { Cut } = jest.requireActual('../../lib/models/cut.model');
+      const cut = new Cut('eta', -0.5, 0.5, 0.1, true, true);
+      mockPhoenixMenuUI.getCollectionCuts.mockReturnValue({ Tracks: [cut] });
+
+      const state = stateManager.getStateAsJSON();
+
+      expect(state['cuts']['Tracks']).toHaveLength(1);
+      expect(state['cuts']['Tracks'][0].field).toBe('eta');
+      expect(state['cuts']['Tracks'][0].minValue).toBe(-0.5);
+    });
+
+    it('should return empty cuts object when registry is empty', () => {
+      mockPhoenixMenuUI.getCollectionCuts.mockReturnValue({});
+      const state = stateManager.getStateAsJSON();
+      expect(state['cuts']).toEqual({});
+    });
+
+    it('should return empty cuts when PhoenixMenuUI is unavailable', () => {
+      mockUIManager.getPhoenixMenuUI.mockReturnValue(undefined);
+      const state = stateManager.getStateAsJSON();
+      expect(state['cuts']).toEqual({});
+    });
+
+    it('should exclude collections where all cuts are inactive', () => {
+      const { Cut } = jest.requireActual('../../lib/models/cut.model');
+      const cut = new Cut('phi', -3.14, 3.14);
+      cut.minCutActive = false;
+      cut.maxCutActive = false;
+      mockPhoenixMenuUI.getCollectionCuts.mockReturnValue({ Tracks: [cut] });
+
+      const state = stateManager.getStateAsJSON();
+      expect(state['cuts']).toEqual({});
+    });
+
+    it('should call setCollectionCuts with reconstructed Cut instances on loadStateFromJSON', () => {
+      stateManager.loadStateFromJSON({
+        cuts: {
+          Tracks: [
+            {
+              field: 'eta',
+              minValue: -0.5,
+              maxValue: 0.5,
+              step: 0.1,
+              minCutActive: true,
+              maxCutActive: true,
+            },
+          ],
+        },
+      });
+
+      expect(mockPhoenixMenuUI.setCollectionCuts).toHaveBeenCalledWith(
+        'Tracks',
+        expect.arrayContaining([
+          expect.objectContaining({ field: 'eta', minValue: -0.5 }),
+        ]),
+      );
+    });
+
+    it('should call reapplyCollectionCuts once after restoring cuts', () => {
+      stateManager.loadStateFromJSON({
+        cuts: {
+          Tracks: [
+            {
+              field: 'eta',
+              minValue: -0.5,
+              maxValue: 0.5,
+              step: 0.1,
+              minCutActive: true,
+              maxCutActive: true,
+            },
+          ],
+        },
+      });
+      expect(mockPhoenixMenuUI.reapplyCollectionCuts).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not call cut methods when no cuts key is present in JSON', () => {
+      stateManager.loadStateFromJSON({ eventDisplay: {} });
+      expect(mockPhoenixMenuUI.setCollectionCuts).not.toHaveBeenCalled();
+      expect(mockPhoenixMenuUI.reapplyCollectionCuts).not.toHaveBeenCalled();
+    });
+
+    it('should not throw when PhoenixMenuUI is unavailable during restore', () => {
+      mockUIManager.getPhoenixMenuUI.mockReturnValue(undefined);
+      expect(() =>
+        stateManager.loadStateFromJSON({
+          cuts: {
+            Tracks: [
+              {
+                field: 'eta',
+                minValue: -0.5,
+                maxValue: 0.5,
+                step: 0.1,
+                minCutActive: true,
+                maxCutActive: true,
+              },
+            ],
+          },
+        }),
+      ).not.toThrow();
+    });
   });
 });

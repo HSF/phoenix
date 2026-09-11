@@ -230,15 +230,18 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="13"
-                                    class="link-to-prism">src/helpers/coordinate-helper.ts:13</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="16"
+                                    class="link-to-prism">src/helpers/coordinate-helper.ts:16</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Checks if angles are within range: -PI &lt; phi &lt; PI and 0 &lt; theta &lt; 2PI</p>
+                        <div class="io-description"><p>Checks if angles are within range: 0 &lt; theta &lt; PI and -PI &lt; phi &lt; PI.
+Theta is the polar angle, which is only defined on [0, PI] - values
+outside it have no real pseudorapidity, since thetaToEta computes
+-log(tan(theta / 2)).</p>
 </div>
 
                             <div class="io-description">
@@ -266,7 +269,7 @@
 
 
                                             <td>
-                                                    <p>equatorial angle</p>
+                                                    <p>polar angle in radians, expected in (0, PI)</p>
 
                                             </td>
                                         </tr>
@@ -282,7 +285,7 @@
 
 
                                             <td>
-                                                    <p>azimuthal angle</p>
+                                                    <p>azimuthal angle in radians, expected in (-PI, PI)</p>
 
                                             </td>
                                         </tr>
@@ -294,7 +297,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>true if both angles are within their expected ranges</p>
+
                             </div>
                 </td>
             </tr>
@@ -322,8 +326,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="81"
-                                    class="link-to-prism">src/helpers/coordinate-helper.ts:81</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="84"
+                                    class="link-to-prism">src/helpers/coordinate-helper.ts:84</a></div>
                         </td>
                     </tr>
 
@@ -364,8 +368,8 @@ Temporary. We will need to make this configurable per experiment.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="65"
-                                    class="link-to-prism">src/helpers/coordinate-helper.ts:65</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="68"
+                                    class="link-to-prism">src/helpers/coordinate-helper.ts:68</a></div>
                         </td>
                     </tr>
 
@@ -473,8 +477,8 @@ Applies the necessary rotations to move from threejs native to experimental.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="25"
-                                    class="link-to-prism">src/helpers/coordinate-helper.ts:25</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="28"
+                                    class="link-to-prism">src/helpers/coordinate-helper.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -551,8 +555,8 @@ See definition here: <a href="https://en.wikipedia.org/wiki/Pseudorapidity">http
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="46"
-                                    class="link-to-prism">src/helpers/coordinate-helper.ts:46</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="49"
+                                    class="link-to-prism">src/helpers/coordinate-helper.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -660,8 +664,8 @@ Applies the necessary rotations to move from threejs to experimental.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="35"
-                                    class="link-to-prism">src/helpers/coordinate-helper.ts:35</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="38"
+                                    class="link-to-prism">src/helpers/coordinate-helper.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -733,10 +737,13 @@ See definition here: <a href="https://en.wikipedia.org/wiki/Pseudorapidity">http
  */
 export class CoordinateHelper {
   /**
-   * Checks if angles are within range: -PI &lt; phi &lt; PI and 0 &lt; theta &lt; 2PI
-   * @param theta equatorial angle
-   * @param phi azimuthal angle
-   * @returns
+   * Checks if angles are within range: 0 &lt; theta &lt; PI and -PI &lt; phi &lt; PI.
+   * Theta is the polar angle, which is only defined on [0, PI] - values
+   * outside it have no real pseudorapidity, since thetaToEta computes
+   * -log(tan(theta / 2)).
+   * @param theta polar angle in radians, expected in (0, PI)
+   * @param phi azimuthal angle in radians, expected in (-PI, PI)
+   * @returns true if both angles are within their expected ranges
    */
   public static anglesAreSane(theta: number, phi: number): boolean {
     const tmp1 &#x3D; -Math.PI &lt; phi &amp;&amp; Math.PI &gt; phi;

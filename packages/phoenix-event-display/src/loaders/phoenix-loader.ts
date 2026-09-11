@@ -10,9 +10,12 @@ import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-men
 import { LoadingManager } from '../managers/loading-manager';
 import { StateManager } from '../managers/state-manager';
 import { CoordinateHelper } from '../helpers/coordinate-helper';
+import { parseColor } from '../helpers/color-utils';
+import { getObjectColor } from '../managers/three-manager/color-manager';
 import { getLabelTitle } from '../helpers/labels';
 import { DatGUIMenuUI } from '../managers/ui-manager/dat-gui-ui';
 import { PhoenixMenuUI } from '../managers/ui-manager/phoenix-menu/phoenix-menu-ui';
+import { ColorByOptionKeys } from '../managers/ui-manager/color-options';
 import {
   getDefaultObjectTypeConfigs,
   ObjectTypeConfig,
@@ -21,7 +24,6 @@ import type {
   PhoenixEventData,
   PhoenixEventsData,
 } from '../lib/types/event-data';
-import * as _ from 'lodash';
 
 /**
  * Loader for processing and loading an event.
@@ -248,7 +250,7 @@ export class PhoenixLoader implements EventDataLoader {
     this.ui.addEventDataTypeFolder(typeName);
 
     for (const collectionName of collectionsList) {
-      const newCuts = _.cloneDeep(cuts);
+      const newCuts = cuts?.map((cut) => cut.clone());
       // Make a new array ^, otherwise we reuse the same cuts for each collection
       const objectCollection = object[collectionName];
       console.log(
@@ -262,7 +264,7 @@ export class PhoenixLoader implements EventDataLoader {
         continue;
       }
 
-      this.addCollection(
+      const collscene = this.addCollection(
         objectCollection,
         collectionName,
         getObject,
@@ -276,16 +278,21 @@ export class PhoenixLoader implements EventDataLoader {
         (cut) => cut.field in objectCollection[0],
       );
 
-      const collectionColor = new Color(
-        object[collectionName][0].color
-          ? object[collectionName][0].color
-          : 0xffffff,
-      );
+      // Read the color back from the objects which were just built, so that the
+      // menu shows the color the collection is actually drawn with. Deriving it
+      // from the event data instead would have to duplicate the default color
+      // of every object type, and would drift out of step with them.
+      const collectionColor =
+        getObjectColor(collscene) ??
+        parseColor(object[collectionName][0].color) ??
+        new Color(0xffffff);
+
       this.ui.addCollection(
         typeName,
         collectionName,
         collectionCuts,
         collectionColor,
+        this.getColorByOptions(typeName, collectionName),
       );
     }
 
@@ -305,12 +312,47 @@ export class PhoenixLoader implements EventDataLoader {
   }
 
   /**
+   * Get the options a collection can be colored by, depending on the event data.
+   * @param typeName Name of the event data type the collection belongs to.
+   * @param collectionName Name of the collection.
+   * @returns Options to color the collection by, or `undefined` for
+   * non-track collections which have no color by options.
+   */
+  private getColorByOptions(
+    typeName: string,
+    collectionName: string,
+  ): ColorByOptionKeys[] | undefined {
+    if (typeName !== 'Tracks') {
+      return undefined;
+    }
+
+    const colorByOptions = [ColorByOptionKeys.CHARGE, ColorByOptionKeys.MOM];
+
+    // Only offer coloring by vertex if some vertices actually link to this collection.
+    const vertexCollections = this.eventData?.Vertices ?? {};
+    const hasLinkedVertices = Object.values(vertexCollections).some(
+      (vertexCollection) =>
+        vertexCollection?.some(
+          (vertex) =>
+            vertex.linkedTrackCollection?.includes(collectionName) &&
+            vertex.linkedTracks?.length,
+        ),
+    );
+    if (hasLinkedVertices) {
+      colorByOptions.push(ColorByOptionKeys.VERTEX);
+    }
+
+    return colorByOptions;
+  }
+
+  /**
    * Adds to the event display all the objects inside a collection.
    * @param objectCollection Contains the params for every object of the collection.
    * @param collectionName Label to UNIQUELY identify the collection.
    * @param getObject Handles reconstructing the objects of the collection.
    * @param objectGroup Group containing the collections of the same object type.
    * @param concatonateObjs If true, don't process objects individually, but process as a group (e.g. for point hits).
+   * @returns The group containing the objects of the collection.
    */
   private addCollection(
     objectCollection: any,
@@ -319,7 +361,7 @@ export class PhoenixLoader implements EventDataLoader {
     typeName: string,
     objectGroup: Group,
     concatonateObjs: boolean,
-  ) {
+  ): Group {
     const collscene = new Group();
     collscene.name = collectionName;
 
@@ -340,6 +382,8 @@ export class PhoenixLoader implements EventDataLoader {
 
     objectGroup.add(collscene);
     // console.log("-> Adding a threejs group called "+collscene.name+" with "+collscene.children.length+" children to the group called "+objectGroup.name);
+
+    return collscene;
   }
 
   /**

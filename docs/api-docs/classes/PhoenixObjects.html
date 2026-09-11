@@ -166,8 +166,17 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                <a href="#calculateTrackParams" >calculateTrackParams</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Static</span>
                                 <a href="#getCaloCell" >getCaloCell</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#getCaloCellsInstanced" >getCaloCellsInstanced</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -262,6 +271,78 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="calculateTrackParams"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Static</span>
+                        <span ><b>calculateTrackParams</b></span>
+                        <a href="#calculateTrackParams"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>calculateTrackParams(track: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="46"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Calculates and populates missing track properties (d0, z0, phi, eta, dca, angle) for cuts.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>track</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getCaloCell"></a>
                     <span class="name">
                             <span class="modifier">Static</span>
@@ -280,8 +361,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="719"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:719</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="758"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:758</a></div>
                         </td>
                     </tr>
 
@@ -334,6 +415,85 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getCaloCellsInstanced"></a>
+                    <span class="name">
+                            <span class="modifier">Static</span>
+                        <span ><b>getCaloCellsInstanced</b></span>
+                        <a href="#getCaloCellsInstanced"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCaloCellsInstanced(cellsParams: any[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="822"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:822</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Create all CaloCells as a single InstancedMesh for performance.
+Receives the entire collection array and returns one object with
+per-instance transforms and colors, reducing 187K draw calls to 1.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>cellsParams</td>
+                                            <td>
+                                                        <code>any[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Array of all cell parameters in the collection.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Object3D</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>InstancedMesh containing all cells.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getCaloCube"></a>
                     <span class="name">
                             <span class="modifier">Private</span>
@@ -353,8 +513,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="679"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:679</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="718"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:718</a></div>
                         </td>
                     </tr>
 
@@ -472,8 +632,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="622"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:622</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="661"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:661</a></div>
                         </td>
                     </tr>
 
@@ -609,8 +769,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="562"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:562</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="601"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:601</a></div>
                         </td>
                     </tr>
 
@@ -746,8 +906,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="310"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:310</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="350"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:350</a></div>
                         </td>
                     </tr>
 
@@ -827,8 +987,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="951"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:951</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1086"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:1086</a></div>
                         </td>
                     </tr>
 
@@ -904,8 +1064,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="212"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:212</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="252"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:252</a></div>
                         </td>
                     </tr>
 
@@ -981,8 +1141,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="917"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:917</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1052"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:1052</a></div>
                         </td>
                     </tr>
 
@@ -1058,8 +1218,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="830"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:830</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="965"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:965</a></div>
                         </td>
                     </tr>
 
@@ -1135,8 +1295,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="781"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:781</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="916"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:916</a></div>
                         </td>
                     </tr>
 
@@ -1212,8 +1372,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="112"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:112</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="165"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:165</a></div>
                         </td>
                     </tr>
 
@@ -1289,8 +1449,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="45"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:45</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="111"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:111</a></div>
                         </td>
                     </tr>
 
@@ -1366,8 +1526,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="886"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:886</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1021"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:1021</a></div>
                         </td>
                     </tr>
 
@@ -1444,8 +1604,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="515"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:515</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="554"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:554</a></div>
                         </td>
                     </tr>
 
@@ -1552,8 +1712,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="434"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:434</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="473"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:473</a></div>
                         </td>
                     </tr>
 
@@ -1660,8 +1820,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="482"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:482</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="521"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:521</a></div>
                         </td>
                     </tr>
 
@@ -1768,8 +1928,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="401"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:401</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="441"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:441</a></div>
                         </td>
                     </tr>
 
@@ -1889,9 +2049,12 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
   CanvasTexture,
   ShaderMaterial,
   DoubleSide,
+  InstancedMesh,
+  Matrix4,
 } from &#x27;three&#x27;;
 import { ConvexGeometry } from &#x27;three/examples/jsm/geometries/ConvexGeometry.js&#x27;;
 import { EVENT_DATA_TYPE_COLORS } from &#x27;../../helpers/constants&#x27;;
+import { parseColor } from &#x27;../../helpers/color-utils&#x27;;
 import { RKHelper } from &#x27;../../helpers/rk-helper&#x27;;
 import { CoordinateHelper } from &#x27;../../helpers/coordinate-helper&#x27;;
 import { mergeGeometries } from &#x27;three/examples/jsm/utils/BufferGeometryUtils.js&#x27;;
@@ -1902,6 +2065,69 @@ import * as BufferGeometryUtils from &#x27;three/examples/jsm/utils/BufferGeomet
  * Physics objects that make up an event in Phoenix.
  */
 export class PhoenixObjects {
+  /**
+   * Calculates and populates missing track properties (d0, z0, phi, eta, dca, angle) for cuts.
+   */
+  private static calculateTrackParams(track: any) {
+    if (track?.dparams) {
+      if (!track?.phi) {
+        track.phi &#x3D; track.dparams[2];
+      }
+      if (!track?.eta) {
+        track.eta &#x3D; CoordinateHelper.thetaToEta(track.dparams[3]);
+      }
+      if (!track?.d0) {
+        track.d0 &#x3D; track.dparams[0];
+      }
+      if (!track?.z0) {
+        track.z0 &#x3D; track.dparams[1];
+      }
+    }
+
+    const positions &#x3D; track.pos;
+    if (positions &amp;&amp; positions.length &gt;&#x3D; 2) {
+      const p0 &#x3D; positions[0];
+      const p1 &#x3D; positions[1];
+      const dx &#x3D; p1[0] - p0[0];
+      const dy &#x3D; p1[1] - p0[1];
+      const dz &#x3D; p1[2] - p0[2];
+      const d_xy &#x3D; Math.sqrt(dx * dx + dy * dy);
+      const v_len &#x3D; Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+      if (!track.phi) {
+        track.phi &#x3D; Math.atan2(dy, dx);
+      }
+      if (!track.eta &amp;&amp; v_len &gt; 0) {
+        const theta &#x3D; Math.acos(dz / v_len);
+        track.eta &#x3D; CoordinateHelper.thetaToEta(theta);
+      }
+      if (!track.d0) {
+        if (d_xy &gt; 0) {
+          track.d0 &#x3D; (p0[0] * dy - p0[1] * dx) / d_xy;
+        } else {
+          track.d0 &#x3D; Math.sqrt(p0[0] * p0[0] + p0[1] * p0[1]);
+        }
+      }
+      if (!track.z0) {
+        if (d_xy &gt; 0) {
+          track.z0 &#x3D; p0[2] - (dz * (p0[0] * dx + p0[1] * dy)) / (d_xy * d_xy);
+        } else {
+          track.z0 &#x3D; p0[2];
+        }
+      }
+      if (!track.dca) {
+        track.dca &#x3D; Math.abs(track.d0);
+      }
+      if (!track.angle) {
+        if (track.dparams &amp;&amp; track.dparams[3] !&#x3D;&#x3D; undefined) {
+          track.angle &#x3D; track.dparams[3] * (180 / Math.PI);
+        } else if (v_len &gt; 0) {
+          track.angle &#x3D; Math.acos(dz / v_len) * (180 / Math.PI);
+        }
+      }
+    }
+  }
+
   /**
    * Get tracks as three.js obejct.
    * @param tracks Tracks params to construct tacks from.
@@ -1931,20 +2157,7 @@ export class PhoenixObjects {
       }
 
       // For cuts etc we currently need to have the cut parameters on the track
-      if (track?.dparams) {
-        if (!track?.phi) {
-          track.phi &#x3D; track.dparams[2];
-        }
-        if (!track?.eta) {
-          track.eta &#x3D; CoordinateHelper.thetaToEta(track.dparams[3]);
-        }
-        if (!track?.d0) {
-          track.d0 &#x3D; track.dparams[0];
-        }
-        if (!track?.z0) {
-          track.z0 &#x3D; track.dparams[1];
-        }
-      }
+      PhoenixObjects.calculateTrackParams(track);
 
       const points &#x3D; track.pos.map(
         (p: (number | undefined)[]) &#x3D;&gt; new Vector3(p[0], p[1], p[2]),
@@ -1952,9 +2165,9 @@ export class PhoenixObjects {
       const curve &#x3D; new CatmullRomCurve3(points);
       const vertices &#x3D; curve.getPoints(50);
 
-      const color &#x3D; track.color
-        ? parseInt(track.color, 16)
-        : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
+      const color &#x3D;
+        parseColor(track.color)?.getHex() ??
+        EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
       track.tid &#x3D; tracksMesh.addTrack(vertices, color, track.linewidth);
       track.material &#x3D; tracksMaterial;
@@ -1996,25 +2209,12 @@ export class PhoenixObjects {
     }
 
     // For cuts etc we currently need to have the cut parameters on the track
-    if (trackParams?.dparams) {
-      if (!trackParams?.phi) {
-        trackParams.phi &#x3D; trackParams.dparams[2];
-      }
-      if (!trackParams?.eta) {
-        trackParams.eta &#x3D; CoordinateHelper.thetaToEta(trackParams.dparams[3]);
-      }
-      if (!trackParams?.d0) {
-        trackParams.d0 &#x3D; trackParams.dparams[0];
-      }
-      if (!trackParams?.z0) {
-        trackParams.z0 &#x3D; trackParams.dparams[1];
-      }
-    }
+    PhoenixObjects.calculateTrackParams(trackParams);
 
     // const length &#x3D; 100;
-    const objectColor &#x3D; trackParams.color
-      ? parseInt(trackParams.color, 16)
-      : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
+    const objectColor &#x3D;
+      parseColor(trackParams.color)?.getHex() ??
+      EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
     const linewidth &#x3D; trackParams.linewidth ? trackParams.linewidth : 2;
     const points &#x3D; [];
@@ -2272,10 +2472,9 @@ export class PhoenixObjects {
     geometry.setAttribute(&#x27;position&#x27;, new BufferAttribute(pointPos, 3));
     geometry.computeBoundingSphere();
     // material
-    const color &#x3D; hitsParams[0].color ?? EVENT_DATA_TYPE_COLORS.Hits;
     const material &#x3D; new PointsMaterial({
       size: 10,
-      color: parseInt(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
+      color: parseColor(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
     });
     // object
     const pointsObj &#x3D; new Points(geometry, material);
@@ -2401,7 +2600,7 @@ export class PhoenixObjects {
     geometry.computeBoundingSphere();
     // material
     const material &#x3D; new MeshPhongMaterial({
-      color: parseInt(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
+      color: parseColor(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
     });
     // object
     const box &#x3D; new Mesh(geometry, material);
@@ -2636,6 +2835,102 @@ export class PhoenixObjects {
     caloCellParams.uuid &#x3D; cube.uuid;
 
     return cube;
+  }
+
+  /**
+   * Create all CaloCells as a single InstancedMesh for performance.
+   * Receives the entire collection array and returns one object with
+   * per-instance transforms and colors, reducing 187K draw calls to 1.
+   * @param cellsParams Array of all cell parameters in the collection.
+   * @returns InstancedMesh containing all cells.
+   */
+  public static getCaloCellsInstanced(cellsParams: any[]): Object3D {
+    const defaultRadius &#x3D; 1700;
+    const defaultZ &#x3D; 2000;
+    const defaultSide &#x3D; 30;
+    const defaultLength &#x3D; 30;
+
+    const count &#x3D; cellsParams.length;
+    const unitBox &#x3D; new BoxGeometry(1, 1, 1);
+    const material &#x3D; new MeshPhongMaterial({
+      color: cellsParams[0]?.color ?? EVENT_DATA_TYPE_COLORS.CaloClusters,
+      transparent: true,
+      opacity: 0.7,
+    });
+
+    const mesh &#x3D; new InstancedMesh(unitBox, material, count);
+
+    // Reusable temporaries to avoid per-iteration allocation
+    const tempMatrix &#x3D; new Matrix4();
+    const tempPosition &#x3D; new Vector3();
+    const tempScale &#x3D; new Vector3();
+    const tempColor &#x3D; new Color();
+    const tempObj &#x3D; new Object3D();
+
+    for (let i &#x3D; 0; i &lt; count; i++) {
+      const cell &#x3D; cellsParams[i];
+
+      // Position (reuse existing helper)
+      const position &#x3D; PhoenixObjects.getCaloPosition(
+        cell,
+        defaultRadius,
+        defaultZ,
+      );
+
+      // Cell dimensions — scale encodes variable width/length
+      const cellWidth &#x3D; cell.side ?? defaultSide;
+      let cellLength &#x3D; cell.length ?? defaultLength;
+      if (cellLength &lt; cellWidth) {
+        cellLength &#x3D; cellWidth;
+      }
+
+      // Orientation via lookAt (same 3-branch logic as getCaloCell)
+      tempObj.position.copy(position);
+      tempObj.rotation.set(0, 0, 0);
+      tempObj.updateMatrix();
+      if (!cell.radius &amp;&amp; !cell.z) {
+        tempObj.lookAt(0, 0, 0);
+      } else if (cell.z &amp;&amp; !cell.radius) {
+        tempObj.lookAt(position.x, position.y, 0);
+      }
+      if (cell.radius) {
+        tempObj.lookAt(0, 0, position.z);
+      }
+
+      // Compose transform: position + orientation + scale
+      tempScale.set(cellWidth, cellWidth, cellLength);
+      tempMatrix.compose(position, tempObj.quaternion, tempScale);
+      mesh.setMatrixAt(i, tempMatrix);
+
+      // Per-instance color
+      tempColor.set(cell.color ?? EVENT_DATA_TYPE_COLORS.CaloClusters);
+      mesh.setColorAt(i, tempColor);
+
+      // Write back identifiers for filtering and collection lookups
+      cell._instanceId &#x3D; i;
+      cell.uuid &#x3D; mesh.uuid;
+    }
+
+    mesh.instanceMatrix.needsUpdate &#x3D; true;
+    if (mesh.instanceColor) {
+      mesh.instanceColor.needsUpdate &#x3D; true;
+    }
+
+    // Compute bounding sphere across all instances for correct frustum culling.
+    // Without this, Three.js uses the unit-box bounding sphere and cells
+    // disappear when panning.
+    mesh.computeBoundingSphere();
+
+    mesh.name &#x3D; &#x27;CaloCell&#x27;;
+    mesh.userData &#x3D; {
+      _isInstancedCaloCells: true,
+      _instanceData: cellsParams,
+      _originalMatrices: null, // lazily populated on first filter
+      _scaleValue: 1, // current scale factor (for filter↔scale coordination)
+      _scaleAxis: null as string | null,
+    };
+
+    return mesh;
   }
 
   /**

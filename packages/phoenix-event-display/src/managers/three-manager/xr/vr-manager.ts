@@ -26,6 +26,8 @@ export class VRManager extends XRManager {
   private onControllerSelectStart: () => void;
   /** Listener for when the "Select Start" button is released. */
   private onControllerSelectEnd: () => void;
+  /** Interval moving the camera while the controller trigger is held. */
+  private movementIntervalId: ReturnType<typeof setInterval> | null = null;
 
   /**
    * Create the VR manager.
@@ -69,6 +71,20 @@ export class VRManager extends XRManager {
       'selectend',
       this.onControllerSelectEnd,
     );
+
+    // The session can end while the trigger is still held, in which case
+    // "selectend" never fires and the movement interval would run forever.
+    this.stopMovement();
+  }
+
+  /**
+   * Stop the interval moving the camera, if one is running.
+   */
+  private stopMovement() {
+    if (this.movementIntervalId !== null) {
+      clearInterval(this.movementIntervalId);
+      this.movementIntervalId = null;
+    }
   }
 
   /**
@@ -112,8 +128,6 @@ export class VRManager extends XRManager {
     const stepDistance = 30;
     // Unit vector in camera direction
     const direction = new Vector3();
-    // Interval ID for the movement interval
-    let intervalId: NodeJS.Timeout;
 
     this.onControllerSelectStart = () => {
       console.log(
@@ -125,14 +139,15 @@ export class VRManager extends XRManager {
       );
 
       // Start movement in camera direction
-      intervalId = setInterval(() => {
+      this.stopMovement();
+      this.movementIntervalId = setInterval(() => {
         this.moveInDirection(direction, stepDistance);
       }, 20);
     };
 
     this.onControllerSelectEnd = () => {
       // Stop the movement
-      clearInterval(intervalId);
+      this.stopMovement();
     };
 
     this.controller1.addEventListener(

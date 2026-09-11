@@ -20,7 +20,9 @@
             class="file-input-button"
             (click)="eventDataFileInput.click()"
           >
-            <img src="assets/icons/eventData.svg" alt="Event data icon" />
+            <svg class="item-icon">
+              <use href="assets/icons/eventData.svg#eventData"></use>
+            </svg>
             Load {{ eventDataImportOption.fileType }}
           </button>
         </ng-container>

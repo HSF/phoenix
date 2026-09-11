@@ -161,6 +161,17 @@ export class JiveXMLLoader extends PhoenixLoader {
   }
 
   /**
+   * Get a track collection name which does not clash with an event data type.
+   * We have problems if the name of the collection is a type, so a collection
+   * named `Tracks` is renamed to `Tracks_`.
+   * @param collectionName Name (storeGateKey) of the track collection.
+   * @returns The (possibly renamed) collection name.
+   */
+  private getSafeTrackCollectionName(collectionName: string): string {
+    return collectionName === 'Tracks' ? 'Tracks_' : collectionName;
+  }
+
+  /**
    * Extract Tracks from the JiveXML data format and process them.
    * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
    * @param eventData Event data object to be updated with Tracks.
@@ -174,11 +185,9 @@ export class JiveXMLLoader extends PhoenixLoader {
     const badTracks: { [key: string]: any } = {};
 
     for (const collection of trackCollections) {
-      let trackCollectionName =
-        collection.getAttribute('storeGateKey') ?? 'Unknown';
-      if (trackCollectionName === 'Tracks') {
-        trackCollectionName = 'Tracks_'; //We have problems if the name of the collection is a type
-      }
+      const trackCollectionName = this.getSafeTrackCollectionName(
+        collection.getAttribute('storeGateKey') ?? 'Unknown',
+      );
 
       let thickTracks = false;
       if (
@@ -271,6 +280,7 @@ export class JiveXMLLoader extends PhoenixLoader {
         let storeTrack = true; // Need to do this because we need to retrieve all info so counters don't go wrong.
         const debugTrack = false;
         const track = {
+          index: i, // Original index in the JiveXML collection, needed to e.g. match vertex track links when bad tracks are dropped.
           chi2: 0.0,
           dof: 0.0,
           pT: 0.0,
@@ -279,19 +289,26 @@ export class JiveXMLLoader extends PhoenixLoader {
           pos: [] as number[][],
           dparams: [] as number[], // Explicitly define the type as number[]
           hits: {},
-          author: {},
+          author: undefined as number | undefined,
           badtrack: [] as string[],
           linewidth: thickTracks ? 20.0 : undefined,
         };
         if (chi2.length >= i) track.chi2 = chi2[i];
         if (numDoF.length >= i) track.dof = numDoF[i];
-        if (trackAuthor?.length >= i) track.author = trackAuthor[i];
+        if (trackAuthor && i < trackAuthor.length)
+          track.author = trackAuthor[i];
 
         let theta = Math.atan(1 / cotTheta[i]);
 
         track.pT = Math.abs(pT[i]) * 1000; // JiveXML uses GeV
         const momentum = track.pT / Math.sin(theta);
-        track.dparams = [d0[i], z0[i], phi0[i], theta, 1.0 / momentum];
+        track.dparams = [
+          d0[i],
+          z0[i],
+          phi0[i],
+          theta,
+          Math.sign(pT[i]) / momentum,
+        ];
         track.phi = phi0[i];
 
         // if (track.phi == 1.37786) {
@@ -923,7 +940,9 @@ export class JiveXMLLoader extends PhoenixLoader {
           primVxCand: primVxCand[i],
           vertexType: vertexType[i],
           linkedTracks: thisTrackIndices,
-          linkedTrackCollection: sgkeyOfTracks[i],
+          linkedTrackCollection: sgkeyOfTracks[i]
+            ? this.getSafeTrackCollectionName(sgkeyOfTracks[i])
+            : sgkeyOfTracks[i],
         });
       }
       const key = vertexColl.getAttribute('storeGateKey');

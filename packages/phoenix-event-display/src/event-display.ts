@@ -9,6 +9,7 @@ import { LoadingManager } from './managers/loading-manager';
 import { StateManager } from './managers/state-manager';
 import type { AnimationPreset } from './managers/three-manager/animations-manager';
 import { ThreeManager } from './managers/three-manager/index';
+import { SceneManager } from './managers/three-manager/scene-manager';
 import { XRSessionType } from './managers/three-manager/xr/xr-manager';
 import { UIManager } from './managers/ui-manager/index';
 import { URLOptionsManager } from './managers/url-options-manager';
@@ -16,6 +17,14 @@ import type {
   PhoenixEventData,
   PhoenixEventsData,
 } from './lib/types/event-data';
+import {
+  buildEventSummaries,
+  type EventSummary,
+} from './helpers/event-summary';
+import {
+  SessionManager,
+  type SessionManagerHost,
+} from './managers/session-manager';
 
 declare global {
   /**
@@ -35,10 +44,24 @@ export class EventDisplay {
   public configuration: Configuration;
   /** An object containing event data. */
   private eventsData: PhoenixEventsData;
+  /** Currently displayed event key. */
+  private currentEventKey: string | null = null;
   /** Array containing callbacks to be called when events change. */
   private onEventsChange: ((events: any) => void)[] = [];
   /** Array containing callbacks to be called when the displayed event changes. */
   private onDisplayedEventChange: ((nowDisplayingEvent: any) => void)[] = [];
+  /** Callbacks to be called on scene state / visibility / cut changes. */
+  private onStateChange: (() => void)[] = [];
+  /** Generic event bus for integration with external frameworks. */
+  private eventBus: Map<string, Set<(data: any) => void>> = new Map();
+  /** Wildcard subscribers fired on every emit (recorders, external bridges). */
+  private eventBusWildcard: Set<(eventName: string, data: any) => void> =
+    new Set();
+  /** Session recorder/player coordinator for #883 (lazy initialized). */
+  private sessionManager: SessionManager | null = null;
+  /** Stored keydown handler for session recording shortcut. */
+  private sessionRecordKeydownHandler: ((e: KeyboardEvent) => void) | null =
+    null;
   /** Three manager for three.js operations. */
   private graphicsLibrary: ThreeManager;
   /** Info logger for storing event display logs. */
@@ -55,6 +78,8 @@ export class EventDisplay {
   private eventBus: Map<string, Set<(data: any) => void>> = new Map();
   /** Flag to track if EventDisplay has been initialized. */
   private isInitialized: boolean = false;
+  /** Stored keydown handler for event navigation shortcuts. */
+  private eventNavKeydownHandler: ((e: KeyboardEvent) => void) | null = null;
 
   /**
    * Create the Phoenix event display and intitialize all the elements.
@@ -65,6 +90,7 @@ export class EventDisplay {
     this.infoLogger = new InfoLogger();
     this.graphicsLibrary = new ThreeManager(this.infoLogger);
     this.ui = new UIManager(this.graphicsLibrary);
+    this.ui.onStateChange = () => this.triggerStateChange();
     if (configuration) {
       this.init(configuration);
     }
@@ -116,13 +142,153 @@ export class EventDisplay {
     if (this.ui) {
       this.ui.cleanup();
     }
+    // Clean up event navigation keyboard handler
+    if (this.eventNavKeydownHandler) {
+      document.removeEventListener('keydown', this.eventNavKeydownHandler);
+      this.eventNavKeydownHandler = null;
+    }
+    // Clean up session recording keyboard handler
+    if (this.sessionRecordKeydownHandler) {
+      document.removeEventListener('keydown', this.sessionRecordKeydownHandler);
+      this.sessionRecordKeydownHandler = null;
+    }
+    // Stop any active session recording or playback
+    this.sessionManager?.cleanup();
+    // Drop any debounced state change so its callbacks cannot run after teardown
+    if (this.stateChangeTimeout) {
+      clearTimeout(this.stateChangeTimeout);
+      this.stateChangeTimeout = null;
+    }
     // Clear accumulated callbacks
     this.onEventsChange = [];
     this.onDisplayedEventChange = [];
+    this.onStateChange = [];
     this.eventBus.clear();
+    this.eventBusWildcard.clear();
     // Reset singletons for clean view transition
     this.loadingManager?.reset();
     this.stateManager?.resetForViewTransition();
+  }
+
+  /**
+   * Subscribe to a named event on the integration event bus.
+   * Allows external frameworks to react to actions like particle tagging
+   * or result recording.
+   *
+   * Standard event names:
+   * - `'particle-tagged'`: Fired when a particle is tagged in the masterclass panel.
+   * - `'particle-untagged'`: Fired when a tagged particle is removed.
+   * - `'result-recorded'`: Fired when an invariant mass result is recorded.
+   *
+   * @param eventName The event name to listen for.
+   * @param callback Callback invoked with event-specific data.
+   * @returns Unsubscribe function to remove the listener.
+   */
+  public on(eventName: string, callback: (data: any) => void): () => void {
+    if (!this.eventBus.has(eventName)) {
+      this.eventBus.set(eventName, new Set());
+    }
+    this.eventBus.get(eventName).add(callback);
+    return () => {
+      const listeners = this.eventBus.get(eventName);
+      if (listeners) {
+        listeners.delete(callback);
+        if (listeners.size === 0) {
+          this.eventBus.delete(eventName);
+        }
+      }
+    };
+  }
+
+  /**
+   * Emit a named event on the integration event bus.
+   * Named subscribers fire first, then wildcard subscribers.
+   * @param eventName The event name to emit.
+   * @param data Data to pass to listeners.
+   */
+  public emit(eventName: string, data?: any): void {
+    const listeners = this.eventBus.get(eventName);
+    if (listeners) {
+      listeners.forEach((cb) => cb(data));
+    }
+    if (this.eventBusWildcard.size > 0) {
+      this.eventBusWildcard.forEach((cb) => cb(eventName, data));
+    }
+  }
+
+  /**
+   * Subscribe to every event-bus emission, regardless of name.
+   * Used by the session recorder (#883) and external bridges that want a
+   * single hook into all integration events.
+   * @param callback Invoked with (eventName, data) on every emit.
+   * @returns Unsubscribe function to remove the listener.
+   */
+  public onAny(callback: (eventName: string, data: any) => void): () => void {
+    this.eventBusWildcard.add(callback);
+    return () => {
+      this.eventBusWildcard.delete(callback);
+    };
+  }
+
+  /**
+   * Get the SessionManager (#883) for recording and replaying exploration.
+   * Lazily instantiated so the manager is only created when the feature is used.
+   * @returns The SessionManager singleton for this EventDisplay.
+   */
+  public getSessionManager(): SessionManager {
+    if (!this.sessionManager) {
+      this.sessionManager = new SessionManager(this.buildSessionHost());
+    }
+    return this.sessionManager;
+  }
+
+  /**
+   * Build the host adapter that bridges SessionManager to the live
+   * EventDisplay (event bus, state snapshot, camera apply).
+   */
+  private buildSessionHost(): SessionManagerHost {
+    return {
+      onAny: (cb) => this.onAny(cb),
+      emit: (name, data) => this.emit(name, data),
+      getStateSnapshot: () => {
+        try {
+          return this.getStateManager()?.getStateAsJSON() ?? {};
+        } catch {
+          return {};
+        }
+      },
+      applyStateSnapshot: (state) => {
+        try {
+          this.getStateManager()?.loadStateFromJSON(state);
+        } catch {
+          // ignore: replay still proceeds even if state apply fails
+        }
+      },
+      getCameraSample: () => {
+        const stateManager = this.getStateManager();
+        const activeCamera = stateManager?.activeCamera;
+        const controls = this.graphicsLibrary
+          ?.getControlsManager?.()
+          ?.getMainControls?.();
+        if (!activeCamera || !controls) return null;
+        const pos = activeCamera.position;
+        const target = controls.target;
+        return {
+          pos: [pos.x, pos.y, pos.z],
+          target: [target.x, target.y, target.z],
+        };
+      },
+      applyCamera: (pos, target) => {
+        const activeCamera = this.getStateManager()?.activeCamera;
+        const controls = this.graphicsLibrary
+          ?.getControlsManager?.()
+          ?.getMainControls?.();
+        if (!activeCamera || !controls) return;
+        activeCamera.position.set(pos[0], pos[1], pos[2]);
+        controls.target.set(target[0], target[1], target[2]);
+        controls.update();
+      },
+    };
   }
 
   /**
@@ -186,6 +352,7 @@ export class EventDisplay {
     this.onDisplayedEventChange.forEach((callback) => callback(eventData));
     // Reload the event data state in Phoenix menu
     this.ui.loadEventFolderPhoenixMenuState();
+    this.triggerStateChange();
   }
 
   /**
@@ -197,8 +364,63 @@ export class EventDisplay {
     const event = this.eventsData[eventKey];
 
     if (event) {
+      this.currentEventKey = eventKey;
       this.buildEventDataFromJSON(event);
     }
+  }
+
+  /**
+   * Get the currently displayed event key.
+   */
+  public getCurrentEventKey(): string | null {
+    return this.currentEventKey;
+  }
+
+  /**
+   * Load the next event in the event list.
+   * Wraps around to the first event after the last.
+   */
+  public nextEvent() {
+    if (!this.eventsData) return;
+    const keys = Object.keys(this.eventsData);
+    if (keys.length === 0) return;
+    const currentIndex = this.currentEventKey
+      ? keys.indexOf(this.currentEventKey)
+      : -1;
+    const nextIndex = (currentIndex + 1) % keys.length;
+    this.loadEvent(keys[nextIndex]);
+  }
+
+  /**
+   * Load the previous event in the event list.
+   * Wraps around to the last event before the first.
+   */
+  public previousEvent() {
+    if (!this.eventsData) return;
+    const keys = Object.keys(this.eventsData);
+    if (keys.length === 0) return;
+    const currentIndex = this.currentEventKey
+      ? keys.indexOf(this.currentEventKey)
+      : -1;
+    const prevIndex = currentIndex <= 0 ? keys.length - 1 : currentIndex - 1;
+    this.loadEvent(keys[prevIndex]);
+  }
+
+  /**
+   * Get all loaded events data.
+   * @returns The events data object, or undefined if no events loaded.
+   */
+  public getEventsData(): PhoenixEventsData | undefined {
+    return this.eventsData;
+  }
+
+  /**
+   * Build summaries of all loaded events for the event browser.
+   * @returns Array of event summaries with collection counts and metadata.
+   */
+  public getEventSummaries(): EventSummary[] {
+    if (!this.eventsData) return [];
+    return buildEventSummaries(this.eventsData);
   }
 
   /**
@@ -614,6 +836,120 @@ export class EventDisplay {
   }
 
   /**
+   * Add a callback to onStateChange array to call
+   * when visibility or cuts change.
+   * @param callback Callback to be added to the onStateChange array.
+   * @returns Unsubscribe function to remove the callback.
+   */
+  public listenToStateChange(callback: () => void): () => void {
+    this.onStateChange.push(callback);
+    return () => {
+      const index = this.onStateChange.indexOf(callback);
+      if (index > -1) {
+        this.onStateChange.splice(index, 1);
+      }
+    };
+  }
+
+  /** Timeout handle for debouncing state change triggers. */
+  private stateChangeTimeout: any = null;
+
+  /**
+   * Trigger state change callbacks (e.g. on visibility or cut change).
+   * Debounced to prevent performance degradation during loading or rapid UI changes.
+   */
+  public triggerStateChange(): void {
+    if (this.loadingManager?.isCurrentlyLoading()) {
+      return;
+    }
+    if (this.stateChangeTimeout) {
+      return;
+    }
+    this.stateChangeTimeout = setTimeout(() => {
+      this.stateChangeTimeout = null;
+      this.onStateChange.forEach((callback) => callback());
+    }, 0);
+  }
+
+  /**
+   * Check if a collection group is visible in the 3D scene.
+   * @param collectionName Name of the collection.
+   * @returns Whether the collection group is visible.
+   */
+  public isCollectionVisible(collectionName: string): boolean {
+    const sceneManager = this.getThreeManager()?.getSceneManager();
+    if (!sceneManager) return true;
+    const eventDataGroup = sceneManager
+      .getScene()
+      .getObjectByName(SceneManager.EVENT_DATA_ID);
+    if (!eventDataGroup || !eventDataGroup.visible) return false;
+    const collectionObject = eventDataGroup.getObjectByName(collectionName);
+    if (!collectionObject) return false;
+
+    let curr: any = collectionObject;
+    while (curr && curr !== eventDataGroup) {
+      if (curr.visible === false) return false;
+      curr = curr.parent;
+    }
+    return true;
+  }
+
+  /**
+   * Check if a specific event data object item is visible in the 3D scene (and passes cuts).
+   * @param collectionName Name of the collection.
+   * @param item The event data item.
+   * @returns Whether the item is visible.
+   */
+  public isItemVisible(collectionName: string, item: any): boolean {
+    if (!item) return false;
+    if (!this.isCollectionVisible(collectionName)) {
+      return false;
+    }
+    // Check 3D object visibility if object with item.uuid exists in scene
+    const sceneManager = this.getThreeManager()?.getSceneManager();
+    if (sceneManager && item.uuid) {
+      const eventDataGroup = sceneManager
+        .getScene()
+        .getObjectByName(SceneManager.EVENT_DATA_ID);
+      const collectionObject = eventDataGroup?.getObjectByName(collectionName);
+      if (collectionObject) {
+        const obj =
+          collectionObject.getObjectByName(item.uuid) ||
+          collectionObject.children.find(
+            (child: any) =>
+              child.userData?.uuid === item.uuid || child.uuid === item.uuid,
+          );
+        if (obj && obj.visible === false) {
+          return false;
+        }
+      }
+    }
+
+    // Check active cuts for this collection
+    const cutsMap = this.getUIManager()
+      ?.getPhoenixMenuUI()
+      ?.getCollectionCuts();
+    const cuts = cutsMap?.[collectionName];
+    if (cuts && cuts.length > 0) {
+      for (const cut of cuts) {
+        let val = item[cut.field];
+        if (val === undefined && cut.field === 'pT') {
+          if (item.dparams && item.dparams.length >= 5) {
+            val = Math.abs(1 / item.dparams[4]) * Math.sin(item.dparams[3]);
+          }
+        }
+        if (val !== undefined && val !== null) {
+          if (!cut.cutPassed(val)) {
+            return false;
+          }
+        }
+      }
+    }
+
+    return true;
+  }
+
+  /**
    * Get metadata associated to the displayed event (experiment info, time, run, event...).
    * @returns Metadata of the displayed event.
    */
@@ -757,6 +1093,50 @@ export class EventDisplay {
   public enableKeyboardControls() {
     this.ui.enableKeyboardControls();
     this.graphicsLibrary.enableKeyboardControls();
+
+    // Remove previous event navigation listener if exists
+    if (this.eventNavKeydownHandler) {
+      document.removeEventListener('keydown', this.eventNavKeydownHandler);
+    }
+
+    // Shift+ArrowRight = next event, Shift+ArrowLeft = previous event
+    this.eventNavKeydownHandler = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      const isTyping = ['input', 'textarea', 'select'].includes(
+        target?.tagName.toLowerCase(),
+      );
+      const hasFocusableContent = target?.hasAttribute('tabindex');
+      if (isTyping || hasFocusableContent || !e.shiftKey) return;
+
+      if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        this.nextEvent();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        this.previousEvent();
+      }
+    };
+    document.addEventListener('keydown', this.eventNavKeydownHandler);
+
+    // Remove previous session recording listener if exists
+    if (this.sessionRecordKeydownHandler) {
+      document.removeEventListener('keydown', this.sessionRecordKeydownHandler);
+    }
+
+    // Shift+S = toggle session recording
+    this.sessionRecordKeydownHandler = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      const isTyping = ['input', 'textarea', 'select'].includes(
+        target?.tagName.toLowerCase(),
+      );
+      if (isTyping) return;
+      if (!e.shiftKey || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.code !== 'KeyS') return;
+
+      e.preventDefault();
+      this.getSessionManager().toggleRecording();
+    };
+    document.addEventListener('keydown', this.sessionRecordKeydownHandler);
   }
 
   /**

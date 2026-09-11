@@ -12,12 +12,14 @@
       (click)="$event.stopPropagation()"
       (change)="toggleClipping($event)"
     >
-      Clipping
+      Clipping Enabled
     </mat-checkbox>
   </button>
+  <div class="angle-label">Start Angle</div>
   <button
     class="slider-btn"
     mat-menu-item
+    (click)="$event.stopPropagation()"
     (focus)="startingAngleSlider.focus()"
   >
     <mat-slider min="0" max="360" step="1" thumbLabel>
@@ -28,9 +30,27 @@
         (valueChange)="changeStartClippingAngle($event)"
       />
     </mat-slider>
-    Start Angle
+    <input
+      #startAngleInput
+      class="angle-input"
+      type="number"
+      min="0"
+      max="360"
+      step="1"
+      [value]="startClippingAngle"
+      (click)="$event.stopPropagation()"
+      (keydown)="$event.stopPropagation()"
+      (change)="changeStartClippingAngle(startAngleInput.valueAsNumber)"
+    />
   </button>
-  <button class="slider-btn" mat-menu-item (focus)="openingAngleSlider.focus()">
+
+  <div class="angle-label">Opening Angle</div>
+  <button
+    class="slider-btn"
+    mat-menu-item
+    (click)="$event.stopPropagation()"
+    (focus)="openingAngleSlider.focus()"
+  >
     <mat-slider min="0" max="360" step="1" thumbLabel>
       <input
         #openingAngleSlider
@@ -39,7 +59,18 @@
         (valueChange)="changeOpeningClippingAngle($event)"
       />
     </mat-slider>
-    Opening Angle
+    <input
+      #openingAngleInput
+      class="angle-input"
+      type="number"
+      min="0"
+      max="360"
+      step="1"
+      [value]="openingClippingAngle"
+      (click)="$event.stopPropagation()"
+      (keydown)="$event.stopPropagation()"
+      (change)="changeOpeningClippingAngle(openingAngleInput.valueAsNumber)"
+    />
   </button>
 </mat-menu>
 

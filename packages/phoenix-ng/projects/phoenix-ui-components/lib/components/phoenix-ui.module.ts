@@ -16,6 +16,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { NavComponent } from './nav/nav.component';
 
@@ -23,6 +24,7 @@ import {
   PhoenixMenuComponent,
   PhoenixMenuItemComponent,
   ConfigSliderComponent,
+  ShortcutsDialogComponent,
 } from './phoenix-menu';
 
 import {
@@ -54,6 +56,7 @@ import {
   TreeMenuComponent,
   TreeMenuItemComponent,
   AnimateCameraComponent,
+  DownloadAnimationDialogComponent,
   AnimateEventComponent,
   VrToggleComponent,
   ArToggleComponent,
@@ -67,6 +70,16 @@ import {
   CycleEventsComponent,
   HistogramPanelComponent,
   HistogramPanelOverlayComponent,
+  EventBrowserComponent,
+  EventBrowserOverlayComponent,
+  EtaPhiPanelComponent,
+  EtaPhiPanelOverlayComponent,
+  MoreInfoComponent,
+  KinematicsPanelComponent,
+  KinematicsPanelOverlayComponent,
+  MasterclassPanelComponent,
+  MasterclassPanelOverlayComponent,
+  SessionPillComponent,
 } from './ui-menu';
 
 import { AttributePipe } from '../services/extras/attribute.pipe';
@@ -80,10 +93,16 @@ import { ExperimentLinkComponent } from './embed-menu/experiment-link/experiment
 import { FileExplorerComponent } from './file-explorer/file-explorer.component';
 import { RingLoaderComponent } from './ring-loader/ring-loader.component';
 
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NotificationToastComponent } from './ui-menu/notification-toast/notification-toast.component';
+import { NotificationService } from '../services/notification.service';
+
 const PHOENIX_COMPONENTS: Type<any>[] = [
+  NotificationToastComponent,
   NavComponent,
   UiMenuWrapperComponent,
   UiMenuComponent,
+  MoreInfoComponent,
   CollectionsInfoComponent,
   GeometryBrowserComponent,
   GeometryBrowserOverlayComponent,
@@ -113,6 +132,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   PhoenixMenuItemComponent,
   ConfigSliderComponent,
   AnimateCameraComponent,
+  DownloadAnimationDialogComponent,
   AnimateEventComponent,
   VrToggleComponent,
   ArToggleComponent,
@@ -131,11 +151,22 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   CycleEventsComponent,
   HistogramPanelComponent,
   HistogramPanelOverlayComponent,
+  EventBrowserComponent,
+  EventBrowserOverlayComponent,
+  EtaPhiPanelComponent,
+  EtaPhiPanelOverlayComponent,
+  KinematicsPanelComponent,
+  KinematicsPanelOverlayComponent,
+  MasterclassPanelComponent,
+  MasterclassPanelOverlayComponent,
+  SessionPillComponent,
+  ShortcutsDialogComponent,
 ];
 
 @NgModule({
   declarations: PHOENIX_COMPONENTS,
   imports: [
+    MatSnackBarModule,
     AttributePipe, // Correct: standalone items must be in imports
     CommonModule,
     RouterModule,
@@ -154,12 +185,14 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     MatIconModule,
     CdkTreeModule,
     MatTabsModule,
+    MatProgressBarModule,
   ],
   exports: [
     ...PHOENIX_COMPONENTS,
     AttributePipe, // Export it so components in other modules can use it
   ],
   providers: [
+    NotificationService,
     EventDisplayService,
     ErrorMessageService,
     {

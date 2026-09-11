@@ -143,20 +143,33 @@ export class PhoenixMenuNode {
   /**
    * Apply the current values of config by calling the change function.
    * @param config Config whose values are to be applied.
+   * @param fromStateLoad Whether the config is being applied from a saved
+   * state, as opposed to being newly added to the menu.
    */
-  applyConfigState(config: any) {
+  applyConfigState(config: any, fromStateLoad: boolean = false) {
+    if (fromStateLoad) {
+      // A saved state describes what the scene should look like, so every
+      // stored value is applied - including falsy ones like an unchecked
+      // checkbox or a zero slider. Otherwise the menu would show settings the
+      // scene does not actually have.
+      this.applySavedConfigState(config);
+      return;
+    }
+
     // Apply configs of different config types - manual
     if (config.type === 'checkbox' && config?.['isChecked']) {
       config.onChange?.(config?.['isChecked']);
     } else if (config.type === 'color' && config?.['color']) {
+      // Colors are deliberately not applied when a config is added: the
+      // collection already has its color, and the grouped "color by" swatches
+      // would repaint it. They are applied on state load instead.
       if (this.name === 'Labels' || this.parent?.name === 'Labels') {
         // Exception for Labels node (and sub labels), which should always have color applied
         config.onChange?.(config?.['color']);
-      } else if (config.group !== undefined) {
-        // Ignore color by options with `!config.group`, otherwise the collection color is overridden
-        config.onChange?.(config?.['color']);
       }
     } else if (config.type === 'slider' && config?.['value']) {
+      config.onChange?.(config?.['value']);
+    } else if (config.type === 'select' && config?.['value']) {
       config.onChange?.(config?.['value']);
     } else if (
       config.type === 'rangeSlider' &&
@@ -168,6 +181,42 @@ export class PhoenixMenuNode {
       });
       config.setEnableMin?.(config?.['enableMin']);
       config.setEnableMax?.(config?.['enableMax']);
+    }
+  }
+
+  /**
+   * Apply the values of a config restored from a saved state, so that the scene
+   * matches what the menu displays.
+   * @param config Config whose values are to be applied.
+   */
+  private applySavedConfigState(config: any) {
+    switch (config.type) {
+      case 'checkbox':
+        if (config['isChecked'] !== undefined) {
+          config.onChange?.(config['isChecked']);
+        }
+        break;
+      case 'color':
+        if (config['color'] !== undefined) {
+          config.onChange?.(config['color']);
+        }
+        break;
+      case 'slider':
+      case 'select':
+        if (config['value'] !== undefined) {
+          config.onChange?.(config['value']);
+        }
+        break;
+      case 'rangeSlider':
+        if (config['value'] !== undefined) {
+          config.onChange?.({
+            value: config['value'],
+            highValue: config['highValue'],
+          });
+        }
+        config.setEnableMin?.(config['enableMin']);
+        config.setEnableMax?.(config['enableMax']);
+        break;
     }
   }
 
@@ -204,12 +253,16 @@ export class PhoenixMenuNode {
       jsonObject = json;
     }
 
-    this.childrenActive = jsonObject['childrenActive'];
-    this.toggleState = jsonObject['toggleState'];
+    if (jsonObject['childrenActive'] !== undefined) {
+      this.childrenActive = jsonObject['childrenActive'];
+    }
 
-    this.onToggle?.(this.toggleState);
+    if (jsonObject['toggleState'] !== undefined) {
+      this.toggleState = jsonObject['toggleState'];
+      this.onToggle?.(this.toggleState);
+    }
 
-    for (const configState of jsonObject['configs']) {
+    for (const configState of jsonObject['configs'] ?? []) {
       const nodeConfigs = this.configs.filter(
         (nodeConfig) =>
           nodeConfig.type === configState['type'] &&
@@ -222,27 +275,40 @@ export class PhoenixMenuNode {
       }
 
       if (nodeConfigs.length === 0) {
-        console.error(
-          'No config found with label and type in phoenix menu node. Aborting.',
+        // The menu is built from the event data, so a state saved with one
+        // event can name configs another event has no equivalent of - a cut on
+        // an attribute its objects do not have, for example. The rest of the
+        // state still describes this node and its children, so only the config
+        // which is gone is skipped.
+        console.warn(
+          `Ignoring "${configState['label']}" of "${this.name}" from the ` +
+            'saved state, as the menu has no such option.',
         );
-        return;
+        continue;
       }
 
       const nodeConfig = nodeConfigs[0];
       // console.log('nodeConfig', nodeConfig);
       if (nodeConfig) {
         for (const prop in configState) {
+          if (prop === 'options' || prop === 'onChange') {
+            // The available options of a `select` are structural (derived from
+            // the loaded event data), not user state - a saved state must not
+            // overwrite them.
+            // The function 'onChange' depends on the available options.
+            continue;
+          }
           const key = prop as keyof typeof nodeConfig;
           // console.log('prop',prop, 'key', key, 'nodeConfig[key]', nodeConfig[key]);
           (nodeConfig as any)[key] = configState[key];
         }
 
-        this.applyConfigState(nodeConfig);
+        this.applyConfigState(nodeConfig, true);
       }
     }
 
     // Now handle children
-    for (const childState of jsonObject['children']) {
+    for (const childState of jsonObject['children'] ?? []) {
       const nodeChild = this.children.filter(
         (nodeChild) =>
           nodeChild.name === childState.name &&

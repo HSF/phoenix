@@ -6,8 +6,8 @@
     "packages/phoenix-ng/projects/*"
   ],
   "scripts": {
-    "postinstall": "node scripts/patch-jsroot-three.js && yarn workspace phoenix-event-display prepare && husky",
-    "start": "lerna run start",
+    "postinstall": "node scripts/generate-version.js && node scripts/patch-jsroot.js && yarn workspace phoenix-event-display prepare && husky",
+    "start": "yarn workspace phoenix-event-display tsc:build && lerna run start",
     "start:ssl": "yarn workspace phoenix-ng start:ssl",
     "test:ci": "lerna run test:ci",
     "test:coverage": "lerna run test:coverage",
@@ -20,9 +20,12 @@
     "deploy:web": "yarn workspace phoenix-ng deploy:web",
     "lint": "lerna run eslint && lerna run prettier:check",
     "lint:fix": "lerna run eslint:fix && lerna run prettier:write",
-    "docs:coverage": "yarn workspace phoenix-event-display docs:coverage"
+    "docs:coverage": "yarn workspace phoenix-event-display docs:coverage",
+    "commitlint": "commitlint --edit"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.0.2",
+    "@commitlint/config-conventional": "^21.0.2",
     "@eslint/compat": "^1.4.1",
     "@eslint/eslintrc": "^3.3.3",
     "@eslint/js": "^9.39.1",
@@ -36,7 +39,7 @@
     "husky": "^9.1.7",
     "jest": "~29.7.0",
     "jest-environment-jsdom": "~29.7.0",
-    "lerna": "^9.0.3",
+    "lerna": "^9.0.7",
     "lint-staged": "^16.2.7",
     "prettier": "^3.7.4",
     "rimraf": "^6.1.2",
@@ -45,10 +48,15 @@
     "typescript": "~5.8.2"
   },
   "resolutions": {
-    "three": "~0.178.0"
+    "three": "~0.178.0",
+    "tar": "^7.5.19"
   },
   "packageManager": "yarn@3.3.1",
   "peerDependencies": {
     "ts-jest": "*"
+  },
+  "dependencies": {
+    "@types/recordrtc": "^5.6.15",
+    "recordrtc": "^5.6.2"
   }
 }

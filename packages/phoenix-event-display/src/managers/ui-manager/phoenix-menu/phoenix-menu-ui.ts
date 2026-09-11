@@ -31,6 +31,12 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     [key: string]: { enabled: boolean; radius: number };
   } = {};
 
+  /** Registry of active cuts per collection name for re-application on event switch. */
+  private collectionCuts: { [collectionName: string]: Cut[] } = {};
+
+  /** Callback fired when UI state / visibility / cuts change. */
+  public onStateChange?: () => void;
+
   /**
    * Create Phoenix menu UI with different controls related to detector geometry and event data.
    * @param phoenixMenuRoot Root node of the Phoenix menu.
@@ -183,6 +189,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       this.eventFolderState = this.eventFolder.getNodeState();
       this.eventFolder.remove();
     }
+    this.collectionCuts = {};
+
     this.eventFolder = this.phoenixMenuRoot.addChild(
       'Event Data',
       (value: boolean) => {
@@ -212,6 +220,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           .getObjectByName(typeName) as Object3D,
         value,
       );
+      this.onStateChange?.();
     });
   }
 
@@ -221,12 +230,14 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
    * @param collectionColor Default color of the collection.
+   * @param colorByOptions Options to color the collection by. If not provided, defaults based on the event data type are used.
    */
   public addCollection(
     eventDataType: string,
     collectionName: string,
     cuts?: Cut[],
     collectionColor?: Color,
+    colorByOptions?: ColorByOptionKeys[],
   ) {
     const typeFolder = this.eventFolder.children.find(
       (eventDataTypeNode) => eventDataTypeNode.name === eventDataType,
@@ -241,27 +252,37 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       (value: boolean) => {
         const collectionObject = this.sceneManager
           .getObjectByName(SceneManager.EVENT_DATA_ID)
-          .getObjectByName(collectionName);
+          ?.getObjectByName(collectionName);
         if (collectionObject)
           this.sceneManager.objectVisibility(collectionObject, value);
+        this.onStateChange?.();
       },
     );
 
     this.addDrawOptions(collectionNode, collectionName);
 
-    if (cuts && cuts.length > 0) {
-      this.addCutOptions(collectionNode, collectionName, cuts);
+    // Always register cuts for this collection if any were provided.
+    // This ensures the registry has the Cut instances so StateManager
+    // can serialize active cuts (minCutActive / maxCutActive) even if
+    // the initial cuts array was empty or the user only moves sliders later.
+    if (cuts !== undefined) {
+      this.collectionCuts[collectionName] = cuts;
+      if (cuts.length > 0) {
+        this.addCutOptions(collectionNode, collectionName, cuts);
+      }
     }
 
-    const colorByOptions: ColorByOptionKeys[] = [];
+    if (colorByOptions === undefined) {
+      colorByOptions = [];
 
-    // Extra config options specific to tracks
-    if (typeFolder.name === 'Tracks') {
-      colorByOptions.push(
-        ColorByOptionKeys.CHARGE,
-        ColorByOptionKeys.MOM,
-        ColorByOptionKeys.VERTEX,
-      );
+      // Extra config options specific to tracks
+      if (typeFolder.name === 'Tracks') {
+        colorByOptions.push(
+          ColorByOptionKeys.CHARGE,
+          ColorByOptionKeys.MOM,
+          ColorByOptionKeys.VERTEX,
+        );
+      }
     }
 
     new ColorOptions(
@@ -282,7 +303,11 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     collectionName: string,
     cuts: Cut[],
   ) {
-    const cutsOptionsNode = collectionNode.addChild('Cut Options');
+    const cutsOptionsNode = collectionNode.addChild(
+      'Cut Options',
+      undefined,
+      'cut-options',
+    );
 
     cutsOptionsNode
       .addConfig({
@@ -302,15 +327,17 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           for (const cut of cuts) {
             cut.reset();
           }
+          this.onStateChange?.();
         },
       });
 
     // Add range sliders for cuts
     for (const cut of cuts) {
       cutsOptionsNode.addConfig(
-        cut.getConfigRangeSlider(() =>
-          this.sceneManager.collectionFilter(collectionName, cuts),
-        ),
+        cut.getConfigRangeSlider(() => {
+          this.sceneManager.collectionFilter(collectionName, cuts);
+          this.onStateChange?.();
+        }),
       );
     }
   }
@@ -324,7 +351,11 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     collectionNode: PhoenixMenuNode,
     collectionName: string,
   ) {
-    const drawOptionsNode = collectionNode.addChild('Draw Options');
+    const drawOptionsNode = collectionNode.addChild(
+      'Draw Options',
+      undefined,
+      'draw-options',
+    );
 
     drawOptionsNode.addConfig({
       type: 'slider',
@@ -525,5 +556,34 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     if (this.eventFolderState) {
       this.eventFolder.loadStateFromJSON(this.eventFolderState);
     }
+  }
+  /**
+   * Re-applies all active cuts to their collections after an event switch.
+   * Called by UIManager after buildEventData() completes.
+   */
+  public reapplyCollectionCuts(): void {
+    for (const [collectionName, cuts] of Object.entries(this.collectionCuts)) {
+      this.sceneManager.collectionFilter(collectionName, cuts);
+    }
+    this.onStateChange?.();
+  }
+
+  /**
+   * Returns the active cut registry keyed by collection name.
+   * Used by StateManager for cut state serialization on Save State.
+   * @returns A reference to the collectionCuts registry.
+   */
+  public getCollectionCuts(): { [collectionName: string]: Cut[] } {
+    return this.collectionCuts;
+  }
+
+  /**
+   * Set cuts for a specific collection in the registry.
+   * Used by StateManager when restoring cut state from Load State.
+   * @param collectionName Name of the collection.
+   * @param cuts Array of Cut instances to register.
+   */
+  public setCollectionCuts(collectionName: string, cuts: Cut[]): void {
+    this.collectionCuts[collectionName] = cuts;
   }
 }

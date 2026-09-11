@@ -1,0 +1,16 @@
+<svg id="kinematics" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--phoenix-options-icon-path, currentColor)">
+  <rect x="2" y="3" width="20" height="18" rx="2" fill="none" stroke="var(--phoenix-options-icon-path, currentColor)" stroke-width="1.5"/>
+  <line x1="2" y1="8" x2="22" y2="8" stroke="var(--phoenix-options-icon-path, currentColor)" stroke-width="1"/>
+  <line x1="8" y1="3" x2="8" y2="21" stroke="var(--phoenix-options-icon-path, currentColor)" stroke-width="0.8" opacity="0.5"/>
+  <line x1="14" y1="3" x2="14" y2="21" stroke="var(--phoenix-options-icon-path, currentColor)" stroke-width="0.8" opacity="0.5"/>
+  <text x="5" y="7" font-size="3.5" font-weight="bold" font-style="italic" text-anchor="middle">p</text>
+  <rect x="3" y="10" width="4" height="2" rx="0.5" opacity="0.7"/>
+  <rect x="9" y="10" width="4" height="2" rx="0.5" opacity="0.5"/>
+  <rect x="15" y="10" width="4" height="2" rx="0.5" opacity="0.5"/>
+  <rect x="3" y="14" width="4" height="2" rx="0.5" opacity="0.5"/>
+  <rect x="9" y="14" width="4" height="2" rx="0.5" opacity="0.4"/>
+  <rect x="15" y="14" width="4" height="2" rx="0.5" opacity="0.4"/>
+  <rect x="3" y="18" width="4" height="2" rx="0.5" opacity="0.3"/>
+  <rect x="9" y="18" width="4" height="2" rx="0.5" opacity="0.3"/>
+  <rect x="15" y="18" width="4" height="2" rx="0.5" opacity="0.3"/>
+</svg>

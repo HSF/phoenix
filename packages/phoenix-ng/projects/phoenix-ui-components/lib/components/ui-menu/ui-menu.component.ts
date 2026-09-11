@@ -4,7 +4,11 @@ import {
   type EventDataImportOption,
 } from '../../services/extras/event-data-import';
 import { defaultAnimationPresets } from './animate-camera/animate-camera.component';
-import type { HistogramConfig } from 'phoenix-event-display';
+import type {
+  HistogramConfig,
+  KinematicsConfig,
+  MasterclassConfig,
+} from 'phoenix-event-display';
 
 export interface UIMenuConfig {
   showVRToggle?: boolean;
@@ -20,6 +24,10 @@ export interface UIMenuConfig {
   showMakePicture?: boolean;
   showObjectSelection?: boolean;
   showInfoPanel?: boolean;
+  showEventBrowser?: boolean;
+  showEtaPhiPanel?: boolean;
+  showKinematicsPanel?: boolean;
+  showMasterclassPanel?: boolean;
 }
 
 export const defaultUIMenuConfig: UIMenuConfig = {
@@ -36,6 +44,10 @@ export const defaultUIMenuConfig: UIMenuConfig = {
   showMakePicture: true,
   showObjectSelection: true,
   showInfoPanel: true,
+  showEventBrowser: true,
+  showEtaPhiPanel: true,
+  showKinematicsPanel: true,
+  showMasterclassPanel: false,
 };
 
 @Component({
@@ -56,4 +68,10 @@ export class UiMenuComponent {
 
   @Input()
   uiConfig: UIMenuConfig = { ...defaultUIMenuConfig };
+
+  @Input()
+  kinematicsConfig?: KinematicsConfig;
+
+  @Input()
+  masterclassConfig?: MasterclassConfig;
 }

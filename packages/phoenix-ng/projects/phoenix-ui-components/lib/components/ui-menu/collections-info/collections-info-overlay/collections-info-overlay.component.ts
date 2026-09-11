@@ -21,7 +21,15 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
   @Input() showObjectsInfo: boolean;
   /** Columns to exclude from the collection info table. */
-  @Input() excludedColumns: string[] = ['uuid', 'hits', 'isCut', 'labelText'];
+  @Input() excludedColumns: string[] = [
+    'uuid',
+    'hits',
+    'isCut',
+    'labelText',
+    '_instanceId',
+    '_position',
+    'index',
+  ];
   hideInvisible: boolean;
   collections: { type: string; collections: string[] }[];
   selectedCollection: string;
@@ -37,17 +45,23 @@ export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.unsubscribes.push(
-      this.eventDisplay.listenToDisplayedEventChange(() => {
-        const collectionsGrouped: { [key: string]: string[] } =
-          this.eventDisplay.getCollections();
+    const updateCollections = () => {
+      const collectionsGrouped: { [key: string]: string[] } =
+        this.eventDisplay.getCollections();
+      if (collectionsGrouped) {
         this.collections = Object.entries(collectionsGrouped).map(
           ([type, collections]: [string, string[]]) => ({
             type,
             collections,
           }),
         );
-      }),
+      }
+    };
+
+    updateCollections();
+
+    this.unsubscribes.push(
+      this.eventDisplay.listenToDisplayedEventChange(() => updateCollections()),
     );
 
     this.activeObject = this.eventDisplay.getActiveObjectId();
@@ -72,13 +86,40 @@ export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
       .getCollection(selectedCollection)
       .map((object: any) => ({
         ...object,
-        isCut: !eventDataGroup.getObjectByProperty('uuid', object.uuid)
-          ?.visible,
+        isCut: this.isObjectCut(object, eventDataGroup),
       }));
 
     this.collectionColumns = Object.keys(this.showingCollection[0]).filter(
       (column) => !this.excludedColumns.includes(column),
     );
+  }
+
+  /**
+   * Check whether an object is hidden by filtering.
+   * For InstancedMesh CaloCells, checks the instance matrix for zero-scale.
+   */
+  private isObjectCut(object: any, eventDataGroup: any): boolean {
+    const sceneObject = eventDataGroup?.getObjectByProperty(
+      'uuid',
+      object.uuid,
+    );
+    if (!sceneObject) return false;
+
+    // InstancedMesh: check if instance matrix is zero-scale
+    if (
+      sceneObject.userData?._isInstancedCaloCells &&
+      object._instanceId !== undefined
+    ) {
+      if (!sceneObject.userData._originalMatrices) {
+        return false; // No filtering applied yet — all visible
+      }
+      const arr = sceneObject.instanceMatrix.array;
+      const off = object._instanceId * 16;
+      // Zero-scale matrix has diagonal elements [0],[5],[10] = 0
+      return arr[off] === 0 && arr[off + 5] === 0 && arr[off + 10] === 0;
+    }
+
+    return !sceneObject.visible;
   }
 
   sort(column: string, order: string) {
@@ -112,6 +153,31 @@ export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
 
   toggleInvisible(checked: boolean) {
     this.hideInvisible = checked;
+  }
+
+  formatValue(value: any): string {
+    if (typeof value === 'number') {
+      return Number.isInteger(value) ? String(value) : value.toFixed(2);
+    }
+    if (Array.isArray(value)) {
+      // Handles nested arrays too, e.g. track `pos`: an array of [x, y, z]
+      // points, so each element is itself an array, not a number.
+      return `[${value.map((v) => this.formatValue(v)).join(', ')}]`;
+    }
+    // Vector-like objects (e.g. THREE.Vector3), which otherwise stringify
+    // to the unhelpful "[object Object]".
+    if (
+      value &&
+      typeof value === 'object' &&
+      typeof value.x === 'number' &&
+      typeof value.y === 'number'
+    ) {
+      const parts = [value.x, value.y, value.z].filter(
+        (v) => typeof v === 'number',
+      );
+      return `[${parts.map((v) => this.formatValue(v)).join(', ')}]`;
+    }
+    return String(value);
   }
 
   addLabel(index: number, uuid: string) {

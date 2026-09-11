@@ -1,6 +1,7 @@
 import {
   Component,
   Input,
+  type OnDestroy,
   type OnInit,
   ViewEncapsulation,
 } from '@angular/core';
@@ -13,20 +14,23 @@ import { EventDisplayService } from '../../../services/event-display.service';
   styleUrls: ['./make-picture.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class MakePictureComponent implements OnInit {
+export class MakePictureComponent implements OnInit, OnDestroy {
   fittings: string[] = ['Crop', 'Stretch'];
   fitting: string = 'Crop';
   width: number = 3840;
   height: number = 2160;
   disabled: boolean = false;
   ssMode: boolean = false;
+  private ssTimeoutId: ReturnType<typeof setTimeout> | null = null;
+  private fullscreenHandler: (() => void) | null = null;
   constructor(private eventDisplay: EventDisplayService) {}
   ngOnInit() {
-    document.onfullscreenchange = () => {
+    this.fullscreenHandler = () => {
       if (!document.fullscreenElement && this.ssMode) {
         this.toggleSSMode();
       }
     };
+    document.onfullscreenchange = this.fullscreenHandler;
   }
 
   setWidth(value) {
@@ -45,7 +49,8 @@ export class MakePictureComponent implements OnInit {
     document.body.classList.toggle('ss-mode');
     if (this.ssMode) {
       // WORKAROUND - Adding the event listener directly somehow calls it on the first click
-      setTimeout(() => {
+      this.ssTimeoutId = setTimeout(() => {
+        this.ssTimeoutId = null;
         document.addEventListener('click', this.onDocumentClick);
         document.addEventListener('touchstart', this.onDocumentClick);
       }, 1);
@@ -64,4 +69,23 @@ export class MakePictureComponent implements OnInit {
   private onDocumentClick = () => {
     document.exitFullscreen?.();
   };
+
+  ngOnDestroy() {
+    if (document.onfullscreenchange === this.fullscreenHandler) {
+      document.onfullscreenchange = null;
+    }
+    if (this.ssTimeoutId != null) {
+      clearTimeout(this.ssTimeoutId);
+      this.ssTimeoutId = null;
+    }
+    document.removeEventListener('click', this.onDocumentClick);
+    document.removeEventListener('touchstart', this.onDocumentClick);
+    if (this.ssMode) {
+      if (document.fullscreenElement) {
+        document.exitFullscreen?.();
+      }
+      document.body.classList.remove('ss-mode');
+      this.ssMode = false;
+    }
+  }
 }

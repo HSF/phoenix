@@ -3,14 +3,17 @@ import {
   ContentChild,
   Input,
   ViewChild,
+  type OnInit,
   type AfterViewInit,
   type OnDestroy,
   ViewEncapsulation,
+  ElementRef,
 } from '@angular/core';
-import type { ElementRef } from '@angular/core';
 import { ResizeSensor } from 'css-element-queries';
 
 import { EventDisplayService } from '../../../services/event-display.service';
+
+let maxZIndex = 100;
 
 /**
  * Component for overlay panel.
@@ -22,11 +25,23 @@ import { EventDisplayService } from '../../../services/event-display.service';
   styleUrls: ['./overlay.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class OverlayComponent implements AfterViewInit, OnDestroy {
+export class OverlayComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Title of the overlay. */
   @Input() overlayTitle: string;
   /** If the overlay is open or not. */
-  @Input() active: boolean = false;
+  private _active: boolean = false;
+
+  @Input()
+  set active(value: boolean) {
+    this._active = value;
+    if (value) {
+      setTimeout(() => this.bringToFront(), 0);
+    }
+  }
+
+  get active(): boolean {
+    return this._active;
+  }
   /** Icon of the overlay header. */
   @Input() icon: string;
   /** If the overlay is resizable. */
@@ -60,11 +75,38 @@ export class OverlayComponent implements AfterViewInit, OnDestroy {
   /** Minimum resizable height */
   private MIN_RES_HEIGHT: number = 100;
 
-  constructor(private eventDisplay: EventDisplayService) {}
+  constructor(
+    private eventDisplay: EventDisplayService,
+    private elementRef: ElementRef,
+  ) {}
+
+  ngOnInit() {}
+
+  toggleBodyAndEmit() {
+    this.showBody = !this.showBody;
+  }
+
+  /** Bring the overlay to the front. */
+  bringToFront() {
+    maxZIndex++;
+    const wrapper = this.elementRef.nativeElement.closest(
+      '.cdk-global-overlay-wrapper',
+    );
+    if (wrapper) {
+      wrapper.style.zIndex = maxZIndex.toString();
+    }
+    const pane = this.elementRef.nativeElement.closest('.cdk-overlay-pane');
+    if (pane) {
+      pane.style.zIndex = maxZIndex.toString();
+    }
+  }
+
   /**
    * Move the resizable handle to the bottom right after the component is created.
    */
   ngAfterViewInit() {
+    this.bringToFront();
+
     if (this.resizable) {
       const resizeHandleElement = this.resizeHandleCorner.nativeElement;
       resizeHandleElement.style.bottom = '0';
@@ -105,15 +147,36 @@ export class OverlayComponent implements AfterViewInit, OnDestroy {
         height = width / this.aspectRatio;
       }
 
-      const oldratioW = width / this.overlayWindow.nativeElement.width;
-      const oldratioH = height / this.overlayWindow.nativeElement.height;
-      this.eventDisplay
-        .getThreeManager()
-        .getOverlayRenderer()
-        .setSize(width, height);
-      this.eventDisplay
-        .getThreeManager()
-        .syncOverlayViewPort(oldratioW, oldratioH);
+      if (this.overlayWindow?.nativeElement) {
+        const oldratioW = width / this.overlayWindow.nativeElement.width;
+        const oldratioH = height / this.overlayWindow.nativeElement.height;
+        this.eventDisplay
+          .getThreeManager()
+          .getOverlayRenderer()
+          .setSize(width, height);
+        this.eventDisplay
+          .getThreeManager()
+          .syncOverlayViewPort(oldratioW, oldratioH);
+      } else {
+        // Fallback for generic content that does not have a 3D canvas
+        this.overlayCard.nativeElement.style.width = width + 'px';
+        this.overlayCard.nativeElement.style.height = height + 'px';
+        const contentWrapper = this.overlayCard.nativeElement.querySelector(
+          '.overlay-card-content',
+        );
+        if (contentWrapper) {
+          contentWrapper.style.flex = '1';
+          contentWrapper.style.overflow = 'hidden';
+          contentWrapper.style.maxHeight = 'none';
+          const contentBody = contentWrapper.firstElementChild as HTMLElement;
+          if (contentBody) {
+            contentBody.style.width = '100%';
+            contentBody.style.height = '100%';
+            contentBody.style.maxWidth = 'none';
+            contentBody.style.maxHeight = 'none';
+          }
+        }
+      }
     }
   }
 

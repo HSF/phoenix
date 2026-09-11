@@ -17,6 +17,7 @@ import {
   setToLocalStorage,
 } from '../../helpers/browser-storage';
 import { type PhoenixUI } from './phoenix-ui';
+import { ColorByOptionKeys } from './color-options';
 import { type AnimationPreset } from '../../managers/three-manager/animations-manager';
 
 /** If animation presets not passed in configuration, we will use this. */
@@ -89,6 +90,8 @@ export class UIManager {
   private stateManager: StateManager;
   /** Stored keydown handler for cleanup. */
   private keydownHandler: ((e: KeyboardEvent) => void) | null = null;
+  /** Callback fired on UI state / visibility / cut changes. */
+  public onStateChange?: () => void;
 
   /**
    * Constructor for the UI manager.
@@ -111,12 +114,17 @@ export class UIManager {
     // UI Menus
     this.uiMenus = [];
     if (configuration.enableDatGUIMenu) {
-      this.uiMenus.push(new DatGUIMenuUI(configuration.elementId, this.three));
+      const datGui = new DatGUIMenuUI(configuration.elementId, this.three);
+      datGui.onStateChange = () => this.onStateChange?.();
+      this.uiMenus.push(datGui);
     }
     if (configuration.phoenixMenuRoot) {
-      this.uiMenus.push(
-        new PhoenixMenuUI(configuration.phoenixMenuRoot, this.three),
+      const phoenixMenu = new PhoenixMenuUI(
+        configuration.phoenixMenuRoot,
+        this.three,
       );
+      phoenixMenu.onStateChange = () => this.onStateChange?.();
+      this.uiMenus.push(phoenixMenu);
     }
     if (!configuration.forceColourTheme) {
       // Detect UI color scheme
@@ -211,15 +219,23 @@ export class UIManager {
    * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
    * @param collectionColor initial color of the collection.
+   * @param colorByOptions Options to color the collection by. If not provided, defaults based on the event data type are used.
    */
   public addCollection(
     eventDataType: string,
     collectionName: string,
     cuts?: Cut[],
     collectionColor?: Color,
+    colorByOptions?: ColorByOptionKeys[],
   ) {
     this.uiMenus.forEach((menu) =>
-      menu.addCollection(eventDataType, collectionName, cuts, collectionColor),
+      menu.addCollection(
+        eventDataType,
+        collectionName,
+        cuts,
+        collectionColor,
+        colorByOptions,
+      ),
     );
   }
 
@@ -569,7 +585,15 @@ export class UIManager {
     if (eventDataLoader && labelsObject) {
       loadFile((data) => {
         console.log('UIManager: loading Labels');
-        const labelsObject = JSON.parse(data);
+        // The file comes from the user, so it may not be valid JSON. Report
+        // the problem instead of throwing out of the callback.
+        let labelsObject: any;
+        try {
+          labelsObject = JSON.parse(data);
+        } catch (error) {
+          console.error('Could not parse labels file - invalid JSON.', error);
+          return;
+        }
         // This contains the names of the labels, but not their colours.
         for (const eventDataType of Object.keys(labelsObject)) {
           for (const collection of Object.keys(labelsObject[eventDataType])) {
@@ -609,6 +633,17 @@ export class UIManager {
       (uiMenu) => uiMenu instanceof PhoenixMenuUI,
     ) as PhoenixMenuUI;
     phoenixMenuUI?.loadEventFolderState();
+    phoenixMenuUI?.reapplyCollectionCuts();
+  }
+  /**
+   * Get the PhoenixMenuUI instance if one is active.
+   * Used by StateManager to access the cut registry for serialization.
+   * @returns The PhoenixMenuUI instance, or undefined if not initialized.
+   */
+  public getPhoenixMenuUI(): PhoenixMenuUI | undefined {
+    return this.uiMenus.find((uiMenu) => uiMenu instanceof PhoenixMenuUI) as
+      | PhoenixMenuUI
+      | undefined;
   }
 
   /**

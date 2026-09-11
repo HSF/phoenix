@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/animate-camera/animate-camera.component.scss"],
+  "sourcesContent": [".preset-row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 100%;\n  padding-right: 8px;\n  cursor: default;\n\n  .preset-name {\n    flex: 1;\n    cursor: pointer;\n  }\n\n  .preset-actions {\n    display: flex;\n    gap: 4px;\n\n    button {\n      width: 32px;\n      height: 32px;\n      line-height: 32px;\n      padding: 0;\n\n      mat-icon {\n        font-size: 18px;\n        width: 18px;\n        height: 18px;\n        line-height: 18px;\n      }\n    }\n  }\n}\n"],
+  "mappings": "AAAA,CAAA,WACE,QAAA,KACA,gBAAA,cACA,YAAA,OACA,MAAA,KACA,cAAA,IACA,OAAA,QAEA,CARF,WAQE,CAAA,YACE,KAAA,EACA,OAAA,QAGF,CAbF,WAaE,CAAA,eACE,QAAA,KACA,IAAA,IAEA,CAjBJ,WAiBI,CAJF,eAIE,OACE,MAAA,KACA,OAAA,KACA,YAAA,KApBN,QAqBM,EAEA,CAvBN,WAuBM,CAVJ,eAUI,OAAA,SACE,UAAA,KACA,MAAA,KACA,OAAA,KACA,YAAA",
+  "names": []
+}

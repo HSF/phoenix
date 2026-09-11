@@ -13,6 +13,9 @@ describe('PlaygroundComponent', () => {
 
   const mockEventDisplay = {
     init: jest.fn(),
+    getSessionManager: jest.fn().mockReturnValue({
+      state: { value: { kind: 'idle' }, onUpdate: jest.fn(() => jest.fn()) },
+    }),
     getLoadingManager: jest.fn().mockReturnThis(),
     addProgressListener: jest.fn().mockImplementation(() => {
       component.loadingProgress = 100;

@@ -26,6 +26,7 @@ export * from './lib/models/cut.model';
 export * from './lib/models/preset-view.model';
 
 // Helpers
+export * from './helpers/color-utils';
 export * from './helpers/info-logger';
 export * from './helpers/rk-helper';
 export * from './helpers/runge-kutta';
@@ -33,6 +34,10 @@ export * from './helpers/pretty-symbols';
 export * from './helpers/active-variable';
 export * from './helpers/zip';
 export * from './helpers/histogram-config';
+export * from './helpers/event-summary';
+export * from './helpers/eta-phi-config';
+export * from './helpers/kinematics-config';
+export * from './helpers/invariant-mass';
 
 // Loaders
 export * from './loaders/event-data-loader';
@@ -41,6 +46,7 @@ export * from './loaders/cms-loader';
 export * from './loaders/jivexml-loader';
 export * from './loaders/jsroot-event-loader';
 export * from './loaders/physlite-loader';
+export * from './loaders/atlasesd-loader';
 export * from './loaders/phoenix-loader';
 export * from './loaders/edm4hep-json-loader';
 export * from './loaders/script-loader';
@@ -52,3 +58,4 @@ export * from './loaders/objects/phoenix-objects';
 export * from './managers/state-manager';
 export * from './managers/loading-manager';
 export * from './managers/url-options-manager';
+export * from './managers/session-manager';

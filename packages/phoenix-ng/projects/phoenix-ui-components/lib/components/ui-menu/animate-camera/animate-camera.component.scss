@@ -1,0 +1,32 @@
+.preset-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-right: 8px;
+  cursor: default;
+
+  .preset-name {
+    flex: 1;
+    cursor: pointer;
+  }
+
+  .preset-actions {
+    display: flex;
+    gap: 4px;
+
+    button {
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      padding: 0;
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+      }
+    }
+  }
+}

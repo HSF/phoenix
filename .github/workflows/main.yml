@@ -1,6 +1,10 @@
 name: phoenix-ci
 
-on: [pull_request, workflow_dispatch]
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build-and-test:
@@ -14,10 +18,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@main
+        uses: actions/checkout@v7
+        with:
+          # Full history and tags, so the build can derive the version/commit.
+          fetch-depth: 0
 
       - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@main
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -35,66 +42,77 @@ jobs:
 
       - name: Code Coverage
         if: github.ref == 'refs/heads/main'
-        uses: coverallsapp/github-action@master
+        uses: coverallsapp/github-action@v2
         with:
           base-path: ./packages/phoenix-event-display
-          path-to-lcov: ./packages/phoenix-event-display/coverage/lcov.info
+          file: ./packages/phoenix-event-display/coverage/lcov.info
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Pre Deploy Pull Request
-        uses: jwalton/gh-find-current-pr@master
-        id: if_pr
+      - name: Build web app
+        if: ${{ github.event_name == 'pull_request' || github.ref == 'refs/heads/main' }}
+        run: yarn deploy:web
 
-      - name: Deploy
+      # Pushes to main are trusted, so they can deploy directly using the secrets.
+      - name: Deploy to dev
         id: deploy
-        if: ${{ steps.if_pr.outputs.number || github.ref == 'refs/heads/main' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         env:
-          PR_URL: http://phoenix-pr-${{ steps.if_pr.outputs.number }}.surge.sh
           DEV_URL: http://phoenix-dev2.surge.sh
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN2 }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN2 }}
         run: |
-          yarn deploy:web
-          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-            export DEPLOYMENT_URL=$DEV_URL
-            export DEPLOYMENT_ENV=dev
-          else
-            export DEPLOYMENT_URL=$PR_URL
-            export DEPLOYMENT_ENV=pull-request
-          fi
-          echo "About to push to surge"
-          echo ${{secrets.SURGE_LOGIN}} | sed 's/./& /g'
-          echo ${{secrets.SURGE_TOKEN}} | sed 's/./& /g'
-          npx surge --project ./packages/phoenix-ng/docs/ --domain $DEPLOYMENT_URL
-          echo "{deployment_url}={$DEPLOYMENT_URL}" >> $GITHUB_OUTPUT
-          echo "{deployment_env}={$DEPLOYMENT_ENV}" >> $GITHUB_OUTPUT
+          npx surge --project ./packages/phoenix-ng/docs/ --domain "$DEV_URL"
+          echo "deployment_url=$DEV_URL" >> "$GITHUB_OUTPUT"
 
-      - name: Create Deployment
-        id: create_deployment
-        if: ${{ success() && (steps.if_pr.outputs.number || github.ref == 'refs/heads/main') }}
-        uses: octokit/request-action@v2.x
+      - name: Create Deployment and Status
+        if: ${{ success() && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        uses: actions/github-script@v9
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment_url }}
         with:
-          route: POST /repos/{repository}/deployments
-          repository: ${{ github.repository }}
-          ref: ${{ github.ref }}
-          environment: ${{ steps.deploy.outputs.deployment_env }}
-          required_contexts: '[]'
-          auto_merge: false
+          script: |
+            const environmentUrl = process.env.DEPLOYMENT_URL;
+            const deployment = await github.rest.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.ref,
+              environment: 'dev',
+              required_contexts: [],
+              auto_merge: false,
+            });
+            if (!deployment.data.id) {
+              core.warning(`Deployment not created: ${deployment.data.message || 'unknown reason'}`);
+              return;
+            }
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: deployment.data.id,
+              state: 'success',
+              target_url: environmentUrl,
+              environment_url: environmentUrl,
+              description: 'Deployed to environment dev',
+            });
 
-      - name: Create Deployment Status
-        if: ${{ success() && (steps.if_pr.outputs.number || github.ref == 'refs/heads/main') }}
-        uses: octokit/request-action@v2.x
+      # Pull requests (including those from forks) cannot deploy here: GitHub
+      # withholds secrets from workflows triggered by a fork, and handing them to
+      # unreviewed code would leak them. Instead the built site is passed to the
+      # `deploy-preview` workflow, which runs in this repository's trusted
+      # context. See .github/workflows/deploy-preview.yml.
+      - name: Stage preview artifact
+        if: ${{ github.event_name == 'pull_request' }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          mkdir -p preview/site
+          cp -r ./packages/phoenix-ng/docs/. preview/site/
+          echo "$PR_NUMBER" > preview/pr-number
+
+      - name: Upload preview artifact
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/upload-artifact@v7
         with:
-          route: POST /repos/{repository}/deployments/{deployment_id}/statuses
-          repository: ${{ github.repository }}
-          deployment_id: ${{ fromJSON(steps.create_deployment.outputs.data).id }}
-          state: success
-          target_url: ${{ steps.deploy.outputs.deployment_url }}
-          description: Deployed to environment ${{ steps.deploy.outputs.deployment_env }}
-          environment: ${{ steps.deploy.outputs.deployment_env }}
-          environment_url: ${{ steps.deploy.outputs.deployment_url }}
-          mediaType: '{ "previews": ["flash", "ant-man"] }'
+          name: pr-preview
+          path: preview
+          retention-days: 3
+          if-no-files-found: error

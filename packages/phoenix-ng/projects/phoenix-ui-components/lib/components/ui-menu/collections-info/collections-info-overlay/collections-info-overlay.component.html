@@ -1,9 +1,10 @@
 <!-- Show objects -->
 <app-overlay
   overlayTitle="Collections Info"
-  icon="info"
+  icon="eventData"
   [resizable]="true"
   [active]="showObjectsInfo"
+  accordionId="right-dock"
 >
   <!-- Using ngIf to remove it from DOM since this panel requires heavy computing -->
   <div *ngIf="showObjectsInfo" class="collectionsInfo m-2">
@@ -142,7 +143,7 @@
               *ngFor="let column of collectionColumns"
               [attr.data-label]="getPrettySymbol(column)"
             >
-              {{ object[column] }}
+              {{ formatValue(object[column]) }}
             </td>
           </tr>
         </tbody>

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/ui-menu/animate-camera/download-animation-dialog/download-animation-dialog.component.scss"],
+  "sourcesContent": [".loader-wrapper {\n  background-color: rgba(33, 37, 41, 0.95); // match bootstrap dark bg\n  border-radius: 8px;\n\n  img {\n    width: 100px;\n    height: auto;\n    animation: pulse 2s infinite;\n  }\n\n  .loading-bar-container {\n    width: 80%;\n    margin-top: 1rem;\n\n    mat-progress-bar {\n      height: 10px;\n      border-radius: 5px;\n    }\n  }\n\n  p {\n    font-size: 1.1rem;\n    margin-bottom: 0;\n  }\n}\n\n@keyframes pulse {\n  0% {\n    transform: scale(1);\n    opacity: 1;\n  }\n  50% {\n    transform: scale(1.1);\n    opacity: 0.8;\n  }\n  100% {\n    transform: scale(1);\n    opacity: 1;\n  }\n}\n"],
+  "mappings": "AAAA,CAAA,eACE,iBAAA,UADF,cAEE,IAEA,CAJF,eAIE,IACE,MAAA,MACA,OAAA,KACA,UAAA,MAAA,GAAA,SAGF,CAVF,eAUE,CAAA,sBACE,MAAA,IACA,WAAA,KAEA,CAdJ,eAcI,CAJF,sBAIE,iBACE,OAAA,KAfN,cAgBM,IAIJ,CApBF,eAoBE,EACE,UAAA,OACA,cAAA,EAIJ,WAnBI,MAoBF,GACE,UAAA,MAAA,GACA,QAAA,EAEF,IACE,UAAA,MAAA,KACA,QAAA,GAEF,GACE,UAAA,MAAA,GACA,QAAA",
+  "names": []
+}

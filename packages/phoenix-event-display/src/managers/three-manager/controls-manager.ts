@@ -8,6 +8,7 @@ import {
   Group,
   Scene,
   Mesh,
+  InstancedMesh,
   TubeGeometry,
   MathUtils,
 } from 'three';
@@ -704,6 +705,10 @@ export class ControlsManager {
             }
           }
         });
+      } else if (object instanceof InstancedMesh) {
+        // InstancedMesh: compute bounding sphere across all instances
+        object.computeBoundingSphere();
+        objectPosition = object.boundingSphere?.center ?? new Vector3();
       } else if (object.position.equals(origin)) {
         // Get the center of bounding sphere of objects with no position
         objectPosition = object.geometry?.boundingSphere?.center;

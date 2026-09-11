@@ -6,6 +6,7 @@ import { InfoLogger } from '../../../../helpers/info-logger';
 import { ThreeManager } from '../../../../managers/three-manager';
 import { PhoenixMenuNode } from '../../../../managers/ui-manager/phoenix-menu/phoenix-menu-node';
 import { PhoenixMenuUI } from '../../../../managers/ui-manager/phoenix-menu/phoenix-menu-ui';
+import { Cut } from '../../../../lib/models/cut.model';
 
 jest.mock('../../../../managers/three-manager');
 
@@ -103,6 +104,51 @@ describe('PhoenixMenuUI', () => {
     const eventDataFolder = phoenixMenuUI.getEventDataTypeFolder('test');
 
     expect(eventDataFolder.name).toBe('test');
+  });
+
+  it('should re-apply cuts to registered collections on event switch', () => {
+    const cuts = [new Cut('eta', -4, 4, 0.1)];
+    cuts[0].maxValue = 0.5;
+
+    const mockCollectionFilter = jest.fn();
+    phoenixMenuUIPrivate.sceneManager = {
+      collectionFilter: mockCollectionFilter,
+      getObjectByName: jest
+        .fn()
+        .mockReturnValue({ getObjectByName: jest.fn() }),
+      objectVisibility: jest.fn(),
+      groupVisibility: jest.fn(),
+    };
+
+    phoenixMenuUI.addEventDataFolder();
+    phoenixMenuUI.addEventDataTypeFolder('test');
+    phoenixMenuUI.addCollection('test', 'Tracks_', cuts);
+    phoenixMenuUI.reapplyCollectionCuts();
+
+    expect(mockCollectionFilter).toHaveBeenCalledWith('Tracks_', cuts);
+  });
+
+  it('should clear cut registry when event data folder is rebuilt', () => {
+    const cuts = [new Cut('eta', -4, 4, 0.1)];
+
+    phoenixMenuUIPrivate.sceneManager = {
+      collectionFilter: jest.fn(),
+      getObjectByName: jest
+        .fn()
+        .mockReturnValue({ getObjectByName: jest.fn() }),
+      objectVisibility: jest.fn(),
+      groupVisibility: jest.fn(),
+    };
+
+    phoenixMenuUI.addEventDataFolder();
+    phoenixMenuUI.addEventDataTypeFolder('test');
+    phoenixMenuUI.addCollection('test', 'Tracks_', cuts);
+
+    expect(Object.keys(phoenixMenuUIPrivate.collectionCuts).length).toBe(1);
+
+    phoenixMenuUI.addEventDataFolder();
+
+    expect(Object.keys(phoenixMenuUIPrivate.collectionCuts).length).toBe(0);
   });
 
   describe('PhoenixMenuNode', () => {

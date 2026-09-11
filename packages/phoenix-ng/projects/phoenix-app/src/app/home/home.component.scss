@@ -1,3 +1,10 @@
+.home-theme-toggle {
+  position: fixed;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 10000;
+}
+
 h1 {
   font-family: 'Circular';
 }
@@ -64,5 +71,10 @@ footer {
         color: var(--phoenix-text-color-secondary);
       }
     }
+  }
+
+  .version {
+    font-size: 0.85em;
+    opacity: 0.75;
   }
 }

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/phoenix-ui-components/lib/components/phoenix-menu/shortcuts-dialog/shortcuts-dialog.component.scss"],
+  "sourcesContent": [".dialog {\n  min-width: 400px;\n  max-height: 80vh;\n  background-color: var(--phoenix-background-color-secondary, #222);\n  color: var(--phoenix-text-color, #fff);\n\n  .dialog-content {\n    overflow-y: auto;\n    max-height: calc(80vh - 120px);\n\n    span {\n      display: flex;\n      align-items: center;\n    }\n  }\n}\n"],
+  "mappings": "AAAA,CAAA,OACE,UAAA,MACA,WAAA,KACA,iBAAA,IAAA,oCAAA,EAAA,MACA,MAAA,IAAA,oBAAA,EAAA,MAEA,CANF,OAME,CAAA,eACE,WAAA,KACA,WAAA,KAAA,KAAA,EAAA,OAEA,CAVJ,OAUI,CAJF,eAIE,KACE,QAAA,KACA,YAAA",
+  "names": []
+}

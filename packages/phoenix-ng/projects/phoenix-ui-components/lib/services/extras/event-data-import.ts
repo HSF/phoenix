@@ -3,6 +3,7 @@ export enum EventDataFormat {
   EDM4HEPJSON = 'EDM4HEPJSON',
   JIVEXML = 'JIVEXML',
   PHYSLITE = 'PHYSLITE',
+  ATLASESD = 'ATLASESD',
   IG = 'IG',
   ZIP = 'ZIP',
 }

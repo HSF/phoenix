@@ -42,6 +42,11 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <span class="icon ion-ios-paper"></span>CHANGELOG
                             </a>
                         </li>
+                        <li class="link">
+                            <a href="license.html"  data-type="chapter-link">
+                                <span class="icon ion-ios-paper"></span>LICENSE
+                            </a>
+                        </li>
                                 <li class="link">
                                     <a href="dependencies.html" data-type="chapter-link">
                                         <span class="icon ion-ios-list"></span>Dependencies
@@ -71,6 +76,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/ARManager.html" data-type="entity-link" >ARManager</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/ATLASESDLoader.html" data-type="entity-link" >ATLASESDLoader</a>
                             </li>
                             <li class="link">
                                 <a href="classes/CMSLoader.html" data-type="entity-link" >CMSLoader</a>
@@ -166,6 +174,15 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/SelectionManager.html" data-type="entity-link" >SelectionManager</a>
                             </li>
                             <li class="link">
+                                <a href="classes/SessionManager.html" data-type="entity-link" >SessionManager</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/SessionPlayer.html" data-type="entity-link" >SessionPlayer</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/SessionRecorder.html" data-type="entity-link" >SessionRecorder</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/State.html" data-type="entity-link" >State</a>
                             </li>
                             <li class="link">
@@ -209,40 +226,49 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/AnimationPreset.html" data-type="entity-link" >AnimationPreset</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/CaloCellParams.html" data-type="entity-link" >CaloCellParams</a>
+                                <a href="interfaces/ATLASESDLoaderOptions.html" data-type="entity-link" >ATLASESDLoaderOptions</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/CaloClusterParams.html" data-type="entity-link" >CaloClusterParams</a>
+                                <a href="interfaces/CameraSample.html" data-type="entity-link" >CameraSample</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/CompoundObjectParams.html" data-type="entity-link" >CompoundObjectParams</a>
+                                <a href="interfaces/CutJSON.html" data-type="entity-link" >CutJSON</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/Configuration.html" data-type="entity-link" >Configuration</a>
+                                <a href="interfaces/CutStateJSON.html" data-type="entity-link" >CutStateJSON</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/ESDAuxClassDef.html" data-type="entity-link" >ESDAuxClassDef</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/ESDResolvedCollection.html" data-type="entity-link" >ESDResolvedCollection</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/EtaPhiConfig.html" data-type="entity-link" >EtaPhiConfig</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/EventDataLoader.html" data-type="entity-link" >EventDataLoader</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/HitParams.html" data-type="entity-link" >HitParams</a>
+                                <a href="interfaces/EventSummary.html" data-type="entity-link" >EventSummary</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/IrregularCaloCellParams.html" data-type="entity-link" >IrregularCaloCellParams</a>
+                                <a href="interfaces/FourMomentum.html" data-type="entity-link" >FourMomentum</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/JetParams.html" data-type="entity-link" >JetParams</a>
+                                <a href="interfaces/KinematicsColumn.html" data-type="entity-link" >KinematicsColumn</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/MissingEnergyParams.html" data-type="entity-link" >MissingEnergyParams</a>
+                                <a href="interfaces/KinematicsConfig.html" data-type="entity-link" >KinematicsConfig</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/MasterclassConfig.html" data-type="entity-link" >MasterclassConfig</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/ObjectTypeConfig.html" data-type="entity-link" >ObjectTypeConfig</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/PhoenixEventData.html" data-type="entity-link" >PhoenixEventData</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/PhoenixEventsData.html" data-type="entity-link" >PhoenixEventsData</a>
+                                <a href="interfaces/ParticleTagDef.html" data-type="entity-link" >ParticleTagDef</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/PhoenixUI.html" data-type="entity-link" >PhoenixUI</a>
@@ -251,13 +277,28 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/PHYSLITECollectionDef.html" data-type="entity-link" >PHYSLITECollectionDef</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/PlanarCaloCellParams.html" data-type="entity-link" >PlanarCaloCellParams</a>
+                                <a href="interfaces/PlayerHost.html" data-type="entity-link" >PlayerHost</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/TrackParams.html" data-type="entity-link" >TrackParams</a>
+                                <a href="interfaces/RecorderHost.html" data-type="entity-link" >RecorderHost</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/VertexParams.html" data-type="entity-link" >VertexParams</a>
+                                <a href="interfaces/RecorderStartOptions.html" data-type="entity-link" >RecorderStartOptions</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/SessionEvent.html" data-type="entity-link" >SessionEvent</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/SessionManagerHost.html" data-type="entity-link" >SessionManagerHost</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/SessionSource.html" data-type="entity-link" >SessionSource</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/SessionV1.html" data-type="entity-link" >SessionV1</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/TaggedParticle.html" data-type="entity-link" >TaggedParticle</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/Window.html" data-type="entity-link" >Window</a>

@@ -1,5 +1,6 @@
 import { Color, Object3D } from 'three';
 import { Cut } from '../../lib/models/cut.model';
+import { ColorByOptionKeys } from './color-options';
 
 /**
  * Common interface for implement Phoenix UI menu.
@@ -39,12 +40,14 @@ export interface PhoenixUI<T> {
    * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
    * @param collectionColor Default color of the collection.
+   * @param colorByOptions Options to color the collection by. If not provided, defaults based on the event data type are used.
    */
   addCollection(
     eventDataType: string,
     collectionName: string,
     cuts?: Cut[],
     collectionColor?: Color,
+    colorByOptions?: ColorByOptionKeys[],
   ): void;
 
   /**

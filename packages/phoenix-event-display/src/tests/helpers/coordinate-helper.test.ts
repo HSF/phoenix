@@ -1,10 +1,26 @@
 import { CoordinateHelper } from '../../helpers/coordinate-helper';
 
 describe('CoordinateHelper', () => {
-  it('should check if angles are within range: -PI < phi < PI and 0 < theta < 2PI', () => {
-    const phi = 1.0;
-    const theta = 3.0;
-    expect(CoordinateHelper.anglesAreSane(phi, theta)).toBe(true);
+  it('should accept angles within range: 0 < theta < PI and -PI < phi < PI', () => {
+    // Arguments are (theta, phi) - theta is the polar angle.
+    expect(CoordinateHelper.anglesAreSane(3.0, 1.0)).toBe(true);
+    expect(CoordinateHelper.anglesAreSane(Math.PI / 2, 0.0)).toBe(true);
+    expect(CoordinateHelper.anglesAreSane(0.1, -3.0)).toBe(true);
+  });
+
+  it('should reject a theta outside (0, PI)', () => {
+    expect(CoordinateHelper.anglesAreSane(4.0, 1.0)).toBe(false);
+    expect(CoordinateHelper.anglesAreSane(-0.1, 1.0)).toBe(false);
+    // Boundaries are exclusive, since thetaToEta diverges at 0 and PI.
+    expect(CoordinateHelper.anglesAreSane(0.0, 1.0)).toBe(false);
+    expect(CoordinateHelper.anglesAreSane(Math.PI, 1.0)).toBe(false);
+  });
+
+  it('should reject a phi outside (-PI, PI)', () => {
+    expect(CoordinateHelper.anglesAreSane(1.0, 4.0)).toBe(false);
+    expect(CoordinateHelper.anglesAreSane(1.0, -4.0)).toBe(false);
+    expect(CoordinateHelper.anglesAreSane(1.0, Math.PI)).toBe(false);
+    expect(CoordinateHelper.anglesAreSane(1.0, -Math.PI)).toBe(false);
   });
 
   it('should convert pseudorapidity eta to spherical coordinate theta', () => {

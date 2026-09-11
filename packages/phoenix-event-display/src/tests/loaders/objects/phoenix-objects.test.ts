@@ -1,5 +1,14 @@
-import { Line, LineSegments, Mesh, Object3D, Points } from 'three';
+import {
+  Line,
+  LineSegments,
+  Mesh,
+  Object3D,
+  Points,
+  PointsMaterial,
+  InstancedMesh,
+} from 'three';
 import { PhoenixObjects } from '../../../loaders/objects/phoenix-objects';
+import { EVENT_DATA_TYPE_COLORS } from '../../../helpers/constants';
 
 describe('PhoenixObjects', () => {
   let phoenixObjects: PhoenixObjects;
@@ -78,6 +87,29 @@ describe('PhoenixObjects', () => {
     expect(trackParams).toMatchObject(trackObject.userData);
   });
 
+  it('should dynamically calculate track parameters (dca, angle, d0, z0, phi, eta) from pos when missing', () => {
+    const trackParams: any = {
+      pos: [
+        [0.0, 10.0, 0.0],
+        [10.0, 10.0, 10.0],
+      ],
+      color: '0xffffff',
+    };
+
+    const trackObject = PhoenixObjects.getTrack(trackParams);
+
+    expect(trackParams).toHaveProperty('d0');
+    expect(trackParams).toHaveProperty('z0');
+    expect(trackParams).toHaveProperty('phi');
+    expect(trackParams).toHaveProperty('eta');
+    expect(trackParams).toHaveProperty('dca');
+    expect(trackParams).toHaveProperty('angle');
+
+    expect(trackParams.d0).toBeCloseTo(-10, 4);
+    expect(trackParams.dca).toBeCloseTo(10, 4);
+    expect(trackParams.angle).toBeCloseTo(45, 4);
+  });
+
   it('should create a Jet from the given parameters and get it as an object', () => {
     const jetParams = {
       eta: 1,
@@ -150,6 +182,50 @@ describe('PhoenixObjects', () => {
 
     expect(hitsParamsBox).toMatchObject(hitsObjectBox.userData);
   });
+
+  it.each([
+    ['Point', 'Points'],
+    ['Box', 'Mesh'],
+  ])(
+    'should draw %s hits without a color in the default color for hits',
+    (type) => {
+      // Hits used to end up black, as the color of hits without one of their
+      // own was parsed as NaN.
+      const hits = PhoenixObjects.getHits([
+        {
+          pos: [
+            -2545.135009765625, -2425.1064453125, 7826.09912109375,
+            -2545.135009765625, -1.1222461462020874, 7826.09912109375,
+          ],
+          type,
+        },
+      ]) as Points | Mesh;
+
+      expect((hits.material as PointsMaterial).color.getHexString()).toBe(
+        EVENT_DATA_TYPE_COLORS.Hits.getHexString(),
+      );
+    },
+  );
+
+  it.each(['00ff00', '#00ff00', '0x00ff00'])(
+    'should draw hits with the color %p given in the event data',
+    (color) => {
+      const hits = PhoenixObjects.getHits([
+        {
+          pos: [
+            -2545.135009765625, -2425.1064453125, 7826.09912109375,
+            -2545.135009765625, -1.1222461462020874, 7826.09912109375,
+          ],
+          type: 'Point',
+          color,
+        },
+      ]) as Points;
+
+      expect((hits.material as PointsMaterial).color.getHexString()).toBe(
+        '00ff00',
+      );
+    },
+  );
 
   it('should create a Cluster and get it as an object', () => {
     const clusterParams = {
@@ -248,6 +324,33 @@ describe('PhoenixObjects', () => {
     expect(obj).toBeInstanceOf(Object3D);
     expect(obj.name).toBe('PlanarCaloCell');
     expect(obj.type).toBe('Mesh');
+  });
+
+  it('should create an InstancedMesh from CaloCells parameters', () => {
+    const cellsParams: any[] = [
+      { energy: 100, phi: 0.5, eta: 1.0, theta: 0.8 },
+      { energy: 200, phi: -0.3, eta: -1.5, theta: 2.1 },
+      { energy: 50, phi: 1.2, eta: 0.0, theta: 1.57 },
+    ];
+
+    const result = PhoenixObjects.getCaloCellsInstanced(cellsParams);
+
+    expect(result).toBeInstanceOf(InstancedMesh);
+    expect(result.name).toBe('CaloCell');
+
+    const mesh = result as InstancedMesh;
+    expect(mesh.count).toBe(3);
+    expect(mesh.userData._isInstancedCaloCells).toBe(true);
+    expect(mesh.userData._instanceData).toBe(cellsParams);
+    expect(mesh.userData._originalMatrices).toBeNull();
+
+    // Each cell should have been assigned an _instanceId and shared uuid
+    expect(cellsParams[0]._instanceId).toBe(0);
+    expect(cellsParams[1]._instanceId).toBe(1);
+    expect(cellsParams[2]._instanceId).toBe(2);
+    expect(cellsParams[0].uuid).toBe(mesh.uuid);
+    expect(cellsParams[1].uuid).toBe(mesh.uuid);
+    expect(cellsParams[2].uuid).toBe(mesh.uuid);
   });
 
   it('should create a Vertex from the given parameters and get it as a MET object', () => {

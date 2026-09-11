@@ -24,9 +24,12 @@ import {
   CanvasTexture,
   ShaderMaterial,
   DoubleSide,
+  InstancedMesh,
+  Matrix4,
 } from 'three';
 import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry.js';
 import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
+import { parseColor } from '../../helpers/color-utils';
 import { RKHelper } from '../../helpers/rk-helper';
 import { CoordinateHelper } from '../../helpers/coordinate-helper';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
@@ -37,6 +40,69 @@ import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUti
  * Physics objects that make up an event in Phoenix.
  */
 export class PhoenixObjects {
+  /**
+   * Calculates and populates missing track properties (d0, z0, phi, eta, dca, angle) for cuts.
+   */
+  private static calculateTrackParams(track: any) {
+    if (track?.dparams) {
+      if (!track?.phi) {
+        track.phi = track.dparams[2];
+      }
+      if (!track?.eta) {
+        track.eta = CoordinateHelper.thetaToEta(track.dparams[3]);
+      }
+      if (!track?.d0) {
+        track.d0 = track.dparams[0];
+      }
+      if (!track?.z0) {
+        track.z0 = track.dparams[1];
+      }
+    }
+
+    const positions = track.pos;
+    if (positions && positions.length >= 2) {
+      const p0 = positions[0];
+      const p1 = positions[1];
+      const dx = p1[0] - p0[0];
+      const dy = p1[1] - p0[1];
+      const dz = p1[2] - p0[2];
+      const d_xy = Math.sqrt(dx * dx + dy * dy);
+      const v_len = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+      if (!track.phi) {
+        track.phi = Math.atan2(dy, dx);
+      }
+      if (!track.eta && v_len > 0) {
+        const theta = Math.acos(dz / v_len);
+        track.eta = CoordinateHelper.thetaToEta(theta);
+      }
+      if (!track.d0) {
+        if (d_xy > 0) {
+          track.d0 = (p0[0] * dy - p0[1] * dx) / d_xy;
+        } else {
+          track.d0 = Math.sqrt(p0[0] * p0[0] + p0[1] * p0[1]);
+        }
+      }
+      if (!track.z0) {
+        if (d_xy > 0) {
+          track.z0 = p0[2] - (dz * (p0[0] * dx + p0[1] * dy)) / (d_xy * d_xy);
+        } else {
+          track.z0 = p0[2];
+        }
+      }
+      if (!track.dca) {
+        track.dca = Math.abs(track.d0);
+      }
+      if (!track.angle) {
+        if (track.dparams && track.dparams[3] !== undefined) {
+          track.angle = track.dparams[3] * (180 / Math.PI);
+        } else if (v_len > 0) {
+          track.angle = Math.acos(dz / v_len) * (180 / Math.PI);
+        }
+      }
+    }
+  }
+
   /**
    * Get tracks as three.js obejct.
    * @param tracks Tracks params to construct tacks from.
@@ -66,20 +132,7 @@ export class PhoenixObjects {
       }
 
       // For cuts etc we currently need to have the cut parameters on the track
-      if (track?.dparams) {
-        if (!track?.phi) {
-          track.phi = track.dparams[2];
-        }
-        if (!track?.eta) {
-          track.eta = CoordinateHelper.thetaToEta(track.dparams[3]);
-        }
-        if (!track?.d0) {
-          track.d0 = track.dparams[0];
-        }
-        if (!track?.z0) {
-          track.z0 = track.dparams[1];
-        }
-      }
+      PhoenixObjects.calculateTrackParams(track);
 
       const points = track.pos.map(
         (p: (number | undefined)[]) => new Vector3(p[0], p[1], p[2]),
@@ -87,9 +140,9 @@ export class PhoenixObjects {
       const curve = new CatmullRomCurve3(points);
       const vertices = curve.getPoints(50);
 
-      const color = track.color
-        ? parseInt(track.color, 16)
-        : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
+      const color =
+        parseColor(track.color)?.getHex() ??
+        EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
       track.tid = tracksMesh.addTrack(vertices, color, track.linewidth);
       track.material = tracksMaterial;
@@ -131,25 +184,12 @@ export class PhoenixObjects {
     }
 
     // For cuts etc we currently need to have the cut parameters on the track
-    if (trackParams?.dparams) {
-      if (!trackParams?.phi) {
-        trackParams.phi = trackParams.dparams[2];
-      }
-      if (!trackParams?.eta) {
-        trackParams.eta = CoordinateHelper.thetaToEta(trackParams.dparams[3]);
-      }
-      if (!trackParams?.d0) {
-        trackParams.d0 = trackParams.dparams[0];
-      }
-      if (!trackParams?.z0) {
-        trackParams.z0 = trackParams.dparams[1];
-      }
-    }
+    PhoenixObjects.calculateTrackParams(trackParams);
 
     // const length = 100;
-    const objectColor = trackParams.color
-      ? parseInt(trackParams.color, 16)
-      : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
+    const objectColor =
+      parseColor(trackParams.color)?.getHex() ??
+      EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
     const linewidth = trackParams.linewidth ? trackParams.linewidth : 2;
     const points = [];
@@ -407,10 +447,9 @@ export class PhoenixObjects {
     geometry.setAttribute('position', new BufferAttribute(pointPos, 3));
     geometry.computeBoundingSphere();
     // material
-    const color = hitsParams[0].color ?? EVENT_DATA_TYPE_COLORS.Hits;
     const material = new PointsMaterial({
       size: 10,
-      color: parseInt(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
+      color: parseColor(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
     });
     // object
     const pointsObj = new Points(geometry, material);
@@ -536,7 +575,7 @@ export class PhoenixObjects {
     geometry.computeBoundingSphere();
     // material
     const material = new MeshPhongMaterial({
-      color: parseInt(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
+      color: parseColor(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
     });
     // object
     const box = new Mesh(geometry, material);
@@ -771,6 +810,102 @@ export class PhoenixObjects {
     caloCellParams.uuid = cube.uuid;
 
     return cube;
+  }
+
+  /**
+   * Create all CaloCells as a single InstancedMesh for performance.
+   * Receives the entire collection array and returns one object with
+   * per-instance transforms and colors, reducing 187K draw calls to 1.
+   * @param cellsParams Array of all cell parameters in the collection.
+   * @returns InstancedMesh containing all cells.
+   */
+  public static getCaloCellsInstanced(cellsParams: any[]): Object3D {
+    const defaultRadius = 1700;
+    const defaultZ = 2000;
+    const defaultSide = 30;
+    const defaultLength = 30;
+
+    const count = cellsParams.length;
+    const unitBox = new BoxGeometry(1, 1, 1);
+    const material = new MeshPhongMaterial({
+      color: cellsParams[0]?.color ?? EVENT_DATA_TYPE_COLORS.CaloClusters,
+      transparent: true,
+      opacity: 0.7,
+    });
+
+    const mesh = new InstancedMesh(unitBox, material, count);
+
+    // Reusable temporaries to avoid per-iteration allocation
+    const tempMatrix = new Matrix4();
+    const tempPosition = new Vector3();
+    const tempScale = new Vector3();
+    const tempColor = new Color();
+    const tempObj = new Object3D();
+
+    for (let i = 0; i < count; i++) {
+      const cell = cellsParams[i];
+
+      // Position (reuse existing helper)
+      const position = PhoenixObjects.getCaloPosition(
+        cell,
+        defaultRadius,
+        defaultZ,
+      );
+
+      // Cell dimensions — scale encodes variable width/length
+      const cellWidth = cell.side ?? defaultSide;
+      let cellLength = cell.length ?? defaultLength;
+      if (cellLength < cellWidth) {
+        cellLength = cellWidth;
+      }
+
+      // Orientation via lookAt (same 3-branch logic as getCaloCell)
+      tempObj.position.copy(position);
+      tempObj.rotation.set(0, 0, 0);
+      tempObj.updateMatrix();
+      if (!cell.radius && !cell.z) {
+        tempObj.lookAt(0, 0, 0);
+      } else if (cell.z && !cell.radius) {
+        tempObj.lookAt(position.x, position.y, 0);
+      }
+      if (cell.radius) {
+        tempObj.lookAt(0, 0, position.z);
+      }
+
+      // Compose transform: position + orientation + scale
+      tempScale.set(cellWidth, cellWidth, cellLength);
+      tempMatrix.compose(position, tempObj.quaternion, tempScale);
+      mesh.setMatrixAt(i, tempMatrix);
+
+      // Per-instance color
+      tempColor.set(cell.color ?? EVENT_DATA_TYPE_COLORS.CaloClusters);
+      mesh.setColorAt(i, tempColor);
+
+      // Write back identifiers for filtering and collection lookups
+      cell._instanceId = i;
+      cell.uuid = mesh.uuid;
+    }
+
+    mesh.instanceMatrix.needsUpdate = true;
+    if (mesh.instanceColor) {
+      mesh.instanceColor.needsUpdate = true;
+    }
+
+    // Compute bounding sphere across all instances for correct frustum culling.
+    // Without this, Three.js uses the unit-box bounding sphere and cells
+    // disappear when panning.
+    mesh.computeBoundingSphere();
+
+    mesh.name = 'CaloCell';
+    mesh.userData = {
+      _isInstancedCaloCells: true,
+      _instanceData: cellsParams,
+      _originalMatrices: null, // lazily populated on first filter
+      _scaleValue: 1, // current scale factor (for filter↔scale coordination)
+      _scaleAxis: null as string | null,
+    };
+
+    return mesh;
   }
 
   /**

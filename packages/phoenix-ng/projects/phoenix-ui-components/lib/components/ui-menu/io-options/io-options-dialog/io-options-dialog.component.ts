@@ -1,3 +1,4 @@
+import { NotificationService } from '../../../../services/notification.service';
 import { type OnInit, Component, Input } from '@angular/core';
 import {
   CMSLoader,
@@ -5,6 +6,7 @@ import {
   readZipFile,
   Edm4hepJsonLoader,
   PHYSLITELoader,
+  ATLASESDLoader,
 } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -51,10 +53,18 @@ export class IOOptionsDialogComponent implements OnInit {
       this.handleZipEventDataInput.bind(this),
       '.zip',
     ),
+    // Both ROOT formats accept '.root', so the button labels have to say which
+    // is which — the template renders "Load {{ fileType }}".
     new ImportOption(
       EventDataFormat.PHYSLITE,
-      '.root',
+      'PHYSLITE (.root)',
       this.handlePHYSLITEInput.bind(this),
+      '.root',
+    ),
+    new ImportOption(
+      EventDataFormat.ATLASESD,
+      'ATLAS ESD (.root)',
+      this.handleATLASESDInput.bind(this),
       '.root',
     ),
     new ImportOption(
@@ -68,6 +78,7 @@ export class IOOptionsDialogComponent implements OnInit {
   constructor(
     private eventDisplay: EventDisplayService,
     public dialogRef: MatDialogRef<IOOptionsDialogComponent>,
+    private notificationService: NotificationService,
   ) {}
 
   ngOnInit() {
@@ -110,19 +121,47 @@ export class IOOptionsDialogComponent implements OnInit {
 
   handleJSONEventDataInput(files: FileList) {
     const callback = (content: any) => {
-      const json = typeof content === 'string' ? JSON.parse(content) : content;
-      this.eventDisplay.parsePhoenixEvents(json);
+      try {
+        const json =
+          typeof content === 'string' ? JSON.parse(content) : content;
+        this.eventDisplay.parsePhoenixEvents(json);
+      } catch (error) {
+        this.eventDisplay
+          .getInfoLogger()
+          .add(
+            'Could not parse JSON event file. Please ensure it is valid JSON.',
+            'Error',
+          );
+        this.notificationService.error(
+          'Could not parse JSON event file. Please ensure it is valid JSON.',
+        );
+        console.error('Error parsing JSON event file:', error);
+      }
     };
     this.handleFileInput(files[0], 'json', callback);
   }
 
   handleEDM4HEPJSONEventDataInput(files: FileList) {
     const callback = (content: any) => {
-      const json = typeof content === 'string' ? JSON.parse(content) : content;
-      const edm4hepJsonLoader = new Edm4hepJsonLoader();
-      edm4hepJsonLoader.setRawEventData(json);
-      edm4hepJsonLoader.processEventData();
-      this.eventDisplay.parsePhoenixEvents(edm4hepJsonLoader.getEventData());
+      try {
+        const json =
+          typeof content === 'string' ? JSON.parse(content) : content;
+        const edm4hepJsonLoader = new Edm4hepJsonLoader();
+        edm4hepJsonLoader.setRawEventData(json);
+        edm4hepJsonLoader.processEventData();
+        this.eventDisplay.parsePhoenixEvents(edm4hepJsonLoader.getEventData());
+      } catch (error) {
+        this.eventDisplay
+          .getInfoLogger()
+          .add(
+            'Could not parse EDM4HEP JSON file. Please ensure it is valid JSON.',
+            'Error',
+          );
+        this.notificationService.error(
+          'Could not parse EDM4HEP JSON file. Please ensure it is valid JSON.',
+        );
+        console.error('Error parsing EDM4HEP JSON file:', error);
+      }
     };
     this.handleFileInput(files[0], 'edm4hep.json', callback);
   }
@@ -180,11 +219,18 @@ export class IOOptionsDialogComponent implements OnInit {
   async handleROOTInput(files: FileList) {
     const rootObjectName = prompt('Enter object name in ROOT file');
 
-    await this.eventDisplay.loadRootGeometry(
-      URL.createObjectURL(files[0]),
-      rootObjectName,
-      files[0].name.split('.')[0],
-    );
+    // The object URL pins the whole file in memory, so release it once the
+    // geometry has been read - ROOT files are routinely hundreds of MB.
+    const objectUrl = URL.createObjectURL(files[0]);
+    try {
+      await this.eventDisplay.loadRootGeometry(
+        objectUrl,
+        rootObjectName,
+        files[0].name.split('.')[0],
+      );
+    } finally {
+      URL.revokeObjectURL(objectUrl);
+    }
 
     this.onClose();
   }
@@ -195,10 +241,12 @@ export class IOOptionsDialogComponent implements OnInit {
     }
 
     const name = files[0].name.split('.')[0];
-    await this.eventDisplay.loadRootJSONGeometry(
-      URL.createObjectURL(files[0]),
-      name,
-    );
+    const objectUrl = URL.createObjectURL(files[0]);
+    try {
+      await this.eventDisplay.loadRootJSONGeometry(objectUrl, name);
+    } finally {
+      URL.revokeObjectURL(objectUrl);
+    }
 
     this.onClose();
   }
@@ -238,6 +286,36 @@ export class IOOptionsDialogComponent implements OnInit {
       this.eventDisplay
         .getInfoLogger()
         .add('Failed to load PHYSLITE file: ' + error.message, 'Error');
+      this.notificationService.error(
+        'Failed to load PHYSLITE file: ' + error.message,
+      );
+    }
+
+    this.onClose();
+  }
+
+  async handleATLASESDInput(files: FileList) {
+    if (
+      !this.isFileOfExtension(
+        files[0].name,
+        'root,root.1,pool.root,pool.root.1',
+      )
+    ) {
+      return;
+    }
+
+    const loader = new ATLASESDLoader();
+
+    try {
+      const eventsData = await loader.getEventData(files[0] as any);
+      this.eventDisplay.parsePhoenixEvents(eventsData);
+    } catch (error) {
+      this.eventDisplay
+        .getInfoLogger()
+        .add('Failed to load ATLAS ESD file: ' + error.message, 'Error');
+      this.notificationService.error(
+        'Failed to load ATLAS ESD file: ' + error.message,
+      );
     }
 
     this.onClose();
@@ -266,6 +344,7 @@ export class IOOptionsDialogComponent implements OnInit {
     } catch (error) {
       console.error('Error while reading zip', error);
       this.eventDisplay.getInfoLogger().add('Could not read zip file', 'Error');
+      this.notificationService.error('Could not read zip file.');
       return;
     }
 
@@ -310,6 +389,7 @@ export class IOOptionsDialogComponent implements OnInit {
         const errorMessage = `Failed to read file "${file.name}". The file may be corrupted, too large, or inaccessible.`;
         console.error('FileReader error:', reader.error);
         this.eventDisplay.getInfoLogger().add(errorMessage, 'Error');
+        this.notificationService.error(errorMessage);
       };
       reader.readAsText(file);
     }
@@ -332,6 +412,7 @@ export class IOOptionsDialogComponent implements OnInit {
       accepted;
     console.error('Error: ' + msg);
     this.eventDisplay.getInfoLogger().add(msg, 'Error');
+    this.notificationService.error(msg);
 
     return false;
   }

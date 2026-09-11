@@ -1,0 +1,15 @@
+<div
+  class="loader-wrapper d-flex flex-column justify-content-center align-items-center w-100 h-100 p-5 text-center"
+>
+  <img src="assets/images/logo-small.svg" alt="Loader" />
+  <p class="mt-5 text-light">
+    Generating Video...<br />
+    <small class="text-muted">(This may take a while)</small>
+  </p>
+  <div class="loading-bar-container">
+    <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+    <div class="progress-text text-light mt-2">
+      {{ progress | number: '1.0-0' }}%
+    </div>
+  </div>
+</div>

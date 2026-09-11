@@ -153,17 +153,17 @@ export class AnimationsManager {
     onEnd?: () => void,
     onAnimationStart?: () => void,
   ) {
+    const eventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
+    if (!eventData) {
+      return;
+    }
+
     // 🔥 Hide labels at the start of the animation
     const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
     if (labelsGroup) labelsGroup.visible = false;
 
     const extraAnimationSphereDuration = tweenDuration * 0.25;
     tweenDuration *= 0.75;
-
-    const eventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
-    if (!eventData) {
-      return;
-    }
 
     const animationSphere = new Sphere(new Vector3(), 0);
     const objectsToAnimateWithSphere: {

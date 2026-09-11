@@ -102,6 +102,8 @@ export class ThreeManager {
     null;
   /** 'click' event listener callback to show 3D distance between two clicked points */
   private show3DDistanceCallback: ((event: MouseEvent) => void) | null = null;
+  /** 'contextmenu' event listener callback to stop shifting the cartesian grid */
+  private stopShiftingCallback: ((event: MouseEvent) => void) | null = null;
 
   /** Origin of the cartesian grid w.r.t. world origin */
   public origin: Vector3 = new Vector3(0, 0, 0);
@@ -321,6 +323,14 @@ export class ThreeManager {
       this.sceneManager = new SceneManager(this.ignoreList);
     }
     return this.sceneManager;
+  }
+
+  /**
+   * Get the renderer manager for accessing renderer-related functions.
+   * @returns The renderer manager.
+   */
+  public getRendererManager(): RendererManager {
+    return this.rendererManager;
   }
 
   /**
@@ -725,19 +735,33 @@ export class ThreeManager {
       };
     }
 
-    const rightClickCallback = (_event: any) => {
-      if (this.shiftCartesianGridCallback) {
-        window.removeEventListener('click', this.shiftCartesianGridCallback);
-      }
+    // Drop the listeners from a previous shift before adding new ones, so
+    // repeated shifts do not stack up duplicate handlers on window.
+    this.removeShiftGridListeners();
+
+    this.stopShiftingCallback = () => {
       this.stopShifting.emit(true);
       this.shiftGrid = false;
-      window.removeEventListener('contextmenu', rightClickCallback);
+      this.removeShiftGridListeners();
     };
 
     if (this.shiftCartesianGridCallback) {
       window.addEventListener('click', this.shiftCartesianGridCallback);
     }
-    window.addEventListener('contextmenu', rightClickCallback);
+    window.addEventListener('contextmenu', this.stopShiftingCallback);
+  }
+
+  /**
+   * Remove the window listeners used while shifting the cartesian grid.
+   */
+  private removeShiftGridListeners() {
+    if (this.shiftCartesianGridCallback) {
+      window.removeEventListener('click', this.shiftCartesianGridCallback);
+    }
+    if (this.stopShiftingCallback) {
+      window.removeEventListener('contextmenu', this.stopShiftingCallback);
+      this.stopShiftingCallback = null;
+    }
   }
 
   /**
@@ -1005,12 +1029,10 @@ export class ThreeManager {
    * @returns Promise for loading the scene.
    */
   public async parsePhnxScene(scene: any): Promise<void> {
-    const callback = (geometries?: Object3D, eventData?: Object3D) => {
-      if (geometries != null) this.sceneManager.getScene().add(geometries);
-      if (eventData != null) this.sceneManager.getScene().add(eventData);
-    };
-
-    await this.importManager.parsePhnxScene(scene, callback);
+    const { geometries, eventData } =
+      await this.importManager.parsePhnxScene(scene);
+    if (geometries != null) this.sceneManager.getScene().add(geometries);
+    if (eventData != null) this.sceneManager.getScene().add(eventData);
   }
 
   /**
@@ -1182,10 +1204,11 @@ export class ThreeManager {
   // ********************************
 
   /**
-   * Get the selection manager.
+   * Get the selection manager. Public so external integrations (e.g. the
+   * masterclass panel) can hook into hover and click events directly.
    * @returns Selection manager responsible for managing selection of 3D objects.
    */
-  private getSelectionManager(): SelectionManager {
+  public getSelectionManager(): SelectionManager {
     if (!this.selectionManager) {
       this.selectionManager = new SelectionManager();
     }
@@ -1801,10 +1824,8 @@ export class ThreeManager {
       window.removeEventListener('mousemove', this.mousemoveCallback);
       this.mousemoveCallback = null;
     }
-    if (this.shiftCartesianGridCallback) {
-      window.removeEventListener('click', this.shiftCartesianGridCallback);
-      this.shiftCartesianGridCallback = null;
-    }
+    this.removeShiftGridListeners();
+    this.shiftCartesianGridCallback = null;
 
     // Clean up any dangling DOM elements from interactive features
     document.getElementById('3dcoordinates')?.remove();

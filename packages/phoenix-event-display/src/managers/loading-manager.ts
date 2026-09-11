@@ -107,6 +107,14 @@ export class LoadingManager {
   }
 
   /**
+   * Check whether items are currently loading.
+   * @returns True if items are being loaded.
+   */
+  public isCurrentlyLoading(): boolean {
+    return this.toLoad.length > 0 && this.toLoad.length !== this.loaded.length;
+  }
+
+  /**
    * Reset the loading manager and its items.
    */
   public reset() {

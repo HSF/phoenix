@@ -1,6 +1,6 @@
 {
   "name": "phoenix-ui-components",
-  "version": "3.0.6",
+  "version": "4.2.1",
   "description": "Reusable Angular components of the Phoenix event display application.",
   "author": "Phoenix contributors (https://github.com/HSF/phoenix/graphs/contributors)",
   "license": "Apache-2.0",
@@ -21,22 +21,26 @@
     "@angular/compiler": "*",
     "@angular/core": "*",
     "@angular/platform-browser-dynamic": "*",
+    "@angular/router": "*",
     "phoenix-event-display": "*",
     "zone.js": "*"
   },
   "dependencies": {
-    "@angular/animations": "^20.3.16",
+    "@angular/animations": "^20.3.28",
     "@angular/cdk": "^20.2.14",
-    "@angular/forms": "^20.3.16",
+    "@angular/forms": "^20.3.28",
     "@angular/material": "^20.2.14",
-    "@angular/platform-browser": "^20.3.16",
+    "@angular/platform-browser": "^20.3.28",
     "css-element-queries": "^1.2.3",
+    "jszip": "^3.10.1",
     "qrcode": "1.5.4",
+    "recordrtc": "^5.6.2",
     "rxjs": "^7.8.2",
-    "three": "~0.178.0",
+    "three": "~0.184.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
+    "@types/recordrtc": "^5.6.15",
     "node-fetch": "^3.3.2",
     "rimraf": "^6.1.2"
   },
@@ -44,13 +48,9 @@
   "typings": "dist/index.d.ts",
   "sideEffects": false,
   "exports": {
-    "./package.json": {
-      "default": "./package.json"
-    },
     ".": {
       "types": "./dist/index.d.ts",
-      "esm2022": "./dist/esm2022/phoenix-ui-components.mjs",
-      "esm": "./dist/esm2022/phoenix-ui-components.mjs",
+      "import": "./dist/fesm2022/phoenix-ui-components.mjs",
       "default": "./dist/fesm2022/phoenix-ui-components.mjs"
     },
     "./theming": {

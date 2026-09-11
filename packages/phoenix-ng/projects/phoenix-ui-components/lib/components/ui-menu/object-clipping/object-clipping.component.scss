@@ -2,7 +2,21 @@
   overflow: visible;
 }
 
+.angle-label {
+  padding: 0.5rem 1rem 0;
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
 mat-slider {
   margin-left: 0.75rem;
   margin-right: 0.75rem;
+}
+
+.angle-input {
+  width: 4.5rem;
+  margin-right: 0.5rem;
+  padding: 0.25rem 0.35rem;
+  text-align: right;
+  box-sizing: border-box;
 }

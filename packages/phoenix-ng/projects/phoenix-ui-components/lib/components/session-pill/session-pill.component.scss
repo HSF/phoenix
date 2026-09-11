@@ -1,0 +1,150 @@
+.session-pill {
+  position: fixed;
+  bottom: 80px;
+  left: 16px;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: rgba(20, 22, 30, 0.82);
+  color: #e8eaf2;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  user-select: none;
+  max-width: 80vw;
+
+  .label {
+    font-weight: 600;
+    letter-spacing: 0.4px;
+
+    &.error {
+      color: #ff7676;
+    }
+  }
+
+  .time,
+  .count {
+    font-variant-numeric: tabular-nums;
+    opacity: 0.9;
+  }
+
+  .dot-sep {
+    opacity: 0.4;
+  }
+
+  .rec-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ff4040;
+    box-shadow: 0 0 6px rgba(255, 64, 64, 0.6);
+    animation: phoenixSessionPulse 1.2s infinite ease-in-out;
+  }
+
+  .action {
+    background: rgba(255, 255, 255, 0.06);
+    color: inherit;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    padding: 4px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition:
+      background 120ms ease,
+      border-color 120ms ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+
+    &.stop {
+      background: rgba(255, 64, 64, 0.18);
+      border-color: rgba(255, 64, 64, 0.4);
+
+      &:hover {
+        background: rgba(255, 64, 64, 0.28);
+      }
+    }
+
+    &.close {
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &.play {
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+    }
+  }
+
+  .scrub {
+    width: 180px;
+    accent-color: #80c1ff;
+  }
+
+  .speeds {
+    display: inline-flex;
+    gap: 4px;
+
+    .speed {
+      background: transparent;
+      color: inherit;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      padding: 3px 8px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      opacity: 0.65;
+      transition:
+        opacity 120ms ease,
+        background 120ms ease;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &.selected {
+        background: rgba(128, 193, 255, 0.18);
+        border-color: rgba(128, 193, 255, 0.5);
+        opacity: 1;
+      }
+    }
+  }
+}
+
+@keyframes phoenixSessionPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(0.85);
+  }
+}

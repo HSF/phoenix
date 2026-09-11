@@ -178,6 +178,31 @@ describe('CollectionsInfoOverlayComponent', () => {
     expect(component.hideInvisible).toBe(false);
   });
 
+  it('should format numbers to 2 decimal places', () => {
+    expect(component.formatValue(1.123456)).toBe('1.12');
+    expect(component.formatValue(5)).toBe('5');
+    expect(component.formatValue(-1.239)).toBe('-1.24');
+  });
+
+  it('should format a track pos array (array of [x, y, z] points) recursively', () => {
+    // Real shape returned for track.pos: an array of points, each an
+    // [x, y, z] triplet - i.e. a 2D array, not a flat array of numbers.
+    const pos = [
+      [0.0025628636759723617, -0.011743023176942868, -0.05242818281548735],
+      [29.50923086259338, -107.72085890394575, -487.4091843499314],
+    ];
+
+    expect(component.formatValue(pos)).toBe(
+      '[[0.00, -0.01, -0.05], [29.51, -107.72, -487.41]]',
+    );
+  });
+
+  it('should format a Vector3-like object as [x, y, z]', () => {
+    expect(component.formatValue({ x: 1.239, y: 2, z: -3.14159 })).toBe(
+      '[1.24, 2, -3.14]',
+    );
+  });
+
   it('should add label to object', () => {
     const mockUuid = '1234';
     const mockLabel = 'testLabel';
