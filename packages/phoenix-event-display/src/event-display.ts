@@ -74,8 +74,6 @@ export class EventDisplay {
   private stateManager: StateManager;
   /** URL manager for managing options given through URL. */
   private urlOptionsManager: URLOptionsManager;
-  /** Event bus for external integration. */
-  private eventBus: Map<string, Set<(data: any) => void>> = new Map();
   /** Flag to track if EventDisplay has been initialized. */
   private isInitialized: boolean = false;
   /** Stored keydown handler for event navigation shortcuts. */
@@ -1240,40 +1238,6 @@ export class EventDisplay {
           delete labelsObject[eventDataType][collection][index];
         }
       }
-    }
-  }
-
-  /**
-   * Subscribe to a named event on the event bus.
-   * @param eventName Name of the event to listen for.
-   * @param callback Function to call when the event is emitted.
-   * @returns Unsubscribe function.
-   */
-  public on(eventName: string, callback: (data: any) => void): () => void {
-    if (!this.eventBus.has(eventName)) {
-      this.eventBus.set(eventName, new Set());
-    }
-    this.eventBus.get(eventName).add(callback);
-    return () => {
-      const listeners = this.eventBus.get(eventName);
-      if (listeners) {
-        listeners.delete(callback);
-        if (listeners.size === 0) {
-          this.eventBus.delete(eventName);
-        }
-      }
-    };
-  }
-
-  /**
-   * Emit a named event on the event bus.
-   * @param eventName Name of the event to emit.
-   * @param data Optional data to pass to listeners.
-   */
-  public emit(eventName: string, data?: any): void {
-    const listeners = this.eventBus.get(eventName);
-    if (listeners) {
-      listeners.forEach((cb) => cb(data));
     }
   }
 }
