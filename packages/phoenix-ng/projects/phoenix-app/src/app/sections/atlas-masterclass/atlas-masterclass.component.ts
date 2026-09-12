@@ -59,6 +59,7 @@ export class AtlasMasterclassComponent implements OnInit, OnDestroy {
     showCollectionsInfo: false,
     showGeometryBrowser: false,
     showMasterclassPanel: true,
+    showHistogramPanel: true,
   };
 
   /** ATLAS Z-path masterclass config (electron, muon, photon tags). */
