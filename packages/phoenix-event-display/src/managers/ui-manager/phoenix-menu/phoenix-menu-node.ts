@@ -133,8 +133,13 @@ export class PhoenixMenuNode {
         this.childrenToggleState[child.name] = child.toggleState;
         child.toggleSelfAndDescendants(value);
       } else {
-        // Restore previous toggle state of children
-        child.toggleState = this.childrenToggleState[child.name];
+        // Restore previous toggle state of children. There is no saved entry
+        // for a child which was never toggled off through this node - for
+        // instance when this node was switched off by a loaded state rather
+        // than by its own toggle - so fall back to the child's current state
+        // instead of propagating `undefined` down the tree.
+        child.toggleState =
+          this.childrenToggleState[child.name] ?? child.toggleState ?? true;
         child.toggleSelfAndDescendants(child.toggleState);
       }
     }
@@ -229,7 +234,10 @@ export class PhoenixMenuNode {
 
     phoenixNodeJSON['name'] = this.name;
     phoenixNodeJSON['nodeLevel'] = this.nodeLevel;
-    phoenixNodeJSON['toggleState'] = this.toggleState;
+    // `?? true` so that a node whose toggle state was somehow lost is still
+    // serialised with one - `JSON.stringify` drops an `undefined` value
+    // entirely, and a state file missing the key cannot restore visibility.
+    phoenixNodeJSON['toggleState'] = this.toggleState ?? true;
     phoenixNodeJSON['childrenActive'] = this.childrenActive;
     phoenixNodeJSON['configs'] = this.configs;
     phoenixNodeJSON['children'] = [];
@@ -260,6 +268,18 @@ export class PhoenixMenuNode {
     if (jsonObject['toggleState'] !== undefined) {
       this.toggleState = jsonObject['toggleState'];
       this.onToggle?.(this.toggleState);
+    } else if (this.onToggle) {
+      // A node which can hide something is expected to carry a toggle state.
+      // Missing it means the scene can end up disagreeing with the file - the
+      // menu shows one thing, the state file says nothing - so say so rather
+      // than leaving the mismatch to be found on screen. Nodes without a
+      // toggle handler (the "Cut Options" style folders) are left alone, as
+      // hand-written configs routinely omit their toggle state.
+      console.warn(
+        `No toggle state for "${this.name}" in the saved state, so its ` +
+          'visibility is left as it is. The state was likely written by a ' +
+          'version of Phoenix which could drop the toggle state of a node.',
+      );
     }
 
     for (const configState of jsonObject['configs'] ?? []) {

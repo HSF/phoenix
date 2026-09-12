@@ -230,5 +230,72 @@ describe('PhoenixMenuNode', () => {
 
       expect(onChange).toHaveBeenCalledWith('#a8a8a8');
     });
+
+    it('should warn when a node which can be toggled has no toggle state', () => {
+      const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+      const node = new PhoenixMenuNode('Pixel', undefined, jest.fn());
+
+      node.loadStateFromJSON({ name: 'Pixel' });
+
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('Pixel'));
+      warn.mockRestore();
+    });
+
+    it('should not warn about a node which has nothing to toggle', () => {
+      const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+      const node = new PhoenixMenuNode('Cut Options');
+
+      node.loadStateFromJSON({ name: 'Cut Options' });
+
+      expect(warn).not.toHaveBeenCalled();
+      warn.mockRestore();
+    });
+  });
+
+  describe('toggleSelfAndDescendants', () => {
+    /** A group with two collections under it, as the event data menu is built. */
+    const eventDataGroup = () => {
+      const group = new PhoenixMenuNode('Hits', undefined, jest.fn());
+      group.addChild('Pixel', jest.fn());
+      group.addChild('SCT', jest.fn());
+      return group;
+    };
+
+    it('should restore the previous state of children toggled off through it', () => {
+      const group = eventDataGroup();
+      group.children[1].toggleSelfAndDescendants(false);
+
+      group.toggleSelfAndDescendants(false);
+      group.toggleSelfAndDescendants(true);
+
+      expect(group.children[0].toggleState).toBe(true);
+      expect(group.children[1].toggleState).toBe(false);
+    });
+
+    it('should not leave children without a toggle state when switched on first', () => {
+      const group = eventDataGroup();
+      // A loaded state switches the group off without descending into it, so
+      // nothing is remembered about the children.
+      group.loadStateFromJSON({ name: 'Hits', toggleState: false });
+
+      group.toggleSelfAndDescendants(true);
+
+      for (const child of group.children) {
+        expect(child.toggleState).toBe(true);
+        expect(child.onToggle).toHaveBeenCalledWith(true);
+      }
+    });
+
+    it('should save a toggle state for every node', () => {
+      const group = eventDataGroup();
+      group.loadStateFromJSON({ name: 'Hits', toggleState: false });
+      group.toggleSelfAndDescendants(true);
+      group.children[0].toggleSelfAndDescendants(false);
+
+      const state = savedState(group);
+
+      expect(state['children'][0]).toHaveProperty('toggleState', false);
+      expect(state['children'][1]).toHaveProperty('toggleState', true);
+    });
   });
 });
