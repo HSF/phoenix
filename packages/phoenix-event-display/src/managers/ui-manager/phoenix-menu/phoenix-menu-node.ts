@@ -125,12 +125,22 @@ export class PhoenixMenuNode {
    * @param value If the node itself and descendants are to be made true or false.
    */
   toggleSelfAndDescendants(value: boolean) {
+    // Whether this node is actually going from on to off, as opposed to being
+    // switched off again while already off - which happens whenever an
+    // ancestor is toggled off.
+    const isBeingSwitchedOff = !value && (this.toggleState ?? true);
+
     this.onToggle?.(value);
     this.toggleState = value;
     for (const child of this.children) {
       if (!value) {
-        // Save previous toggle state of children and toggle them false
-        this.childrenToggleState[child.name] = child.toggleState;
+        // Save previous toggle state of children and toggle them false. Only
+        // on the way from on to off: an already off node has children it has
+        // itself forced to false, and saving those would overwrite what they
+        // were before with the states this node imposed on them.
+        if (isBeingSwitchedOff) {
+          this.childrenToggleState[child.name] = child.toggleState;
+        }
         child.toggleSelfAndDescendants(value);
       } else {
         // Restore previous toggle state of children. There is no saved entry

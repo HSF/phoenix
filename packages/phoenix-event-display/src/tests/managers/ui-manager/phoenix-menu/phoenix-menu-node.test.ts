@@ -286,6 +286,26 @@ describe('PhoenixMenuNode', () => {
       }
     });
 
+    it('should keep what children were before, when an ancestor is toggled off too', () => {
+      const root = new PhoenixMenuNode('Event Data', undefined, jest.fn());
+      const group = root.addChild('Hits', jest.fn());
+      group.addChild('Pixel', jest.fn());
+      group.addChild('SCT', jest.fn());
+
+      group.children[1].toggleSelfAndDescendants(false); // SCT off
+      group.toggleSelfAndDescendants(false); // the group off
+      root.toggleSelfAndDescendants(false); // and all of Event Data off
+
+      root.toggleSelfAndDescendants(true);
+      group.toggleSelfAndDescendants(true);
+
+      // Pixel was on before any of this, so it comes back on. Switching the
+      // group off through Event Data must not have overwritten that with the
+      // false the group had already imposed on it.
+      expect(group.children[0].toggleState).toBe(true);
+      expect(group.children[1].toggleState).toBe(false);
+    });
+
     it('should save a toggle state for every node', () => {
       const group = eventDataGroup();
       group.loadStateFromJSON({ name: 'Hits', toggleState: false });
