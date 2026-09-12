@@ -10,10 +10,19 @@ import {
 /** Keys for options available for coloring event data by. */
 export enum ColorByOptionKeys {
   COLLECTION = 'collection',
+  RANDOM = 'random',
   CHARGE = 'charge',
   MOM = 'mom',
   VERTEX = 'vertex',
 }
+
+/**
+ * Type for the "Color by" select. It carries the seed of the random colors, so
+ * that the seed is saved and restored with the rest of the menu state - the
+ * seed has to be back in place before the select is applied, and every property
+ * of a config is restored before that config is applied.
+ */
+type ConfigColorBySelect = ConfigSelect & { seed?: number };
 
 /** Type for a single color by option. */
 type ColorByOption = {
@@ -37,15 +46,24 @@ export class ColorOptions {
   private colorOptionsFolder: PhoenixMenuNode;
   /** Configuration holding the single color of the whole collection. */
   private colorConfig: ConfigColor;
+  /** The single color the whole collection is drawn in. */
+  private collectionColor?: string;
   /** Configuration holding the selected option to color by. */
-  private colorByConfig?: ConfigSelect;
+  private colorByConfig: ConfigColorBySelect;
 
   /** All color by options possible. */
   private allColorByOptions: ColorByOption[] = [
     {
       key: ColorByOptionKeys.COLLECTION,
       name: 'Collection color',
+      initialize: this.initCollectionColorOptions.bind(this),
       apply: this.applyCollectionColor.bind(this),
+    },
+    {
+      key: ColorByOptionKeys.RANDOM,
+      name: 'Random',
+      initialize: this.initRandomColorOptions.bind(this),
+      apply: this.applyRandomColorOptions.bind(this),
     },
     {
       key: ColorByOptionKeys.CHARGE,
@@ -107,53 +125,32 @@ export class ColorOptions {
       'color-options',
     );
 
-    this.colorConfig = {
-      type: 'color',
-      label: 'Color',
-      color: collectionColor
-        ? `#${collectionColor?.getHexString()}`
-        : undefined,
-      onChange: (value) => {
-        this.colorConfig.color = value;
-        // Giving the collection a single color is itself a choice of how to
-        // color it. Recording it keeps the menu honest, and stops the color
-        // being overwritten by another option when the state is loaded back.
-        this.selectColorByOption(ColorByOptionKeys.COLLECTION);
-        this.colorManager.collectionColor(this.collectionName, value);
-      },
-    };
-    this.colorOptionsFolder.addConfig(this.colorConfig);
+    this.collectionColor = collectionColor
+      ? `#${collectionColor?.getHexString()}`
+      : undefined;
 
-    this.colorOptionsFolder.addConfig({
-      type: 'button',
-      label: 'Random',
-      onClick: () =>
-        this.colorManager.collectionColorRandom(
-          this.collectionName,
-          this.colorOptionsFolder,
-        ),
-    });
+    // Check which color by options are to be included. The collection color
+    // and a random one need nothing of the event data, so every collection can
+    // be colored by them: without the first there is no way back to a single
+    // color, or to express one in a saved state. The collection color comes
+    // first, as it is what a collection is drawn with to begin with.
+    const alwaysIncluded = [
+      ColorByOptionKeys.COLLECTION,
+      ColorByOptionKeys.RANDOM,
+    ];
+    this.colorByOptions = this.allColorByOptions.filter(
+      (colorByOption) =>
+        alwaysIncluded.includes(colorByOption.key) ||
+        colorByOptionsToInclude?.includes(colorByOption.key),
+    );
 
-    // Check which color by options are to be included.
-
-    if (
-      colorByOptionsToInclude?.length &&
-      colorByOptionsToInclude?.length > 0
-    ) {
-      // The collection color is always an option: without it there is no way
-      // to go back to a single color, or to express one in a saved state.
-      this.colorByOptions = this.allColorByOptions.filter(
-        (colorByOption) =>
-          colorByOption.key === ColorByOptionKeys.COLLECTION ||
-          colorByOptionsToInclude.includes(colorByOption.key),
-      );
-
-      this.initColorByOptions();
-      this.colorByOptions.forEach((colorByOption) =>
-        colorByOption.initialize?.(),
-      );
-      this.onlySelectedColorByOption();
-    }
+    // The selector is added before the configs of any option, so that the
+    // choice sits above the settings it governs.
+    this.initColorByOptions();
+    this.colorByOptions.forEach((colorByOption) =>
+      colorByOption.initialize?.(),
+    );
+    this.onlySelectedColorByOption();
   }
 
   /**
@@ -163,9 +160,10 @@ export class ColorOptions {
     this.selectedColorByOption = this.colorByOptions[0].key;
 
     // Configurations
-    const colorByConfig: ConfigSelect = {
+    const colorByConfig: ConfigColorBySelect = {
       type: 'select',
       label: 'Color by',
+      seed: ColorOptions.newRandomSeed(),
       options: this.colorByOptions.map((colorByOption) => colorByOption.name),
       onChange: (updatedColorByOption) => {
         const newColorByOption = this.colorByOptions.find(
@@ -192,42 +190,101 @@ export class ColorOptions {
     colorByConfig.value = this.colorByOptions[0].name;
   }
 
-  /**
-   * Select an option to color by, without applying it. Used for choices which
-   * are made through another config, such as picking a color for the whole
-   * collection.
-   * @param key Key of the option to select.
-   */
-  private selectColorByOption(key: ColorByOptionKeys) {
-    const colorByOption = this.colorByOptions?.find(
-      (option) => option.key === key,
-    );
-    if (!colorByOption) {
-      // This collection has no color by options, so there is nothing to select.
-      return;
-    }
-
-    this.selectedColorByOption = colorByOption.key;
-    if (this.colorByConfig) {
-      this.colorByConfig.value = colorByOption.name;
-    }
-    this.onlySelectedColorByOption();
-  }
-
   // Collection color options.
+
+  /**
+   * Initialize the options for coloring the whole collection in one color.
+   */
+  private initCollectionColorOptions() {
+    this.colorConfig = {
+      type: 'color',
+      label: 'Color',
+      group: ColorByOptionKeys.COLLECTION,
+      color: this.collectionColor,
+      onChange: (value) => {
+        this.collectionColor = value;
+
+        // A saved state applies every color it holds, including this one when
+        // the collection is colored by something else - which would repaint
+        // over that. The swatch is hidden unless it is the selected option, so
+        // the user cannot reach it out of turn either.
+        if (this.selectedColorByOption === ColorByOptionKeys.COLLECTION) {
+          this.colorManager.collectionColor(this.collectionName, value);
+        }
+      },
+    };
+    this.colorOptionsFolder.addConfig(this.colorConfig);
+  }
 
   /**
    * Apply the single color of the whole collection.
    */
   private applyCollectionColor() {
-    if (this.colorConfig.color === undefined) {
+    if (this.collectionColor === undefined) {
       return;
     }
 
     this.colorManager.collectionColor(
       this.collectionName,
-      this.colorConfig.color,
+      this.collectionColor,
     );
+  }
+
+  // Random options.
+
+  /**
+   * Initialize random color options.
+   */
+  private initRandomColorOptions() {
+    this.colorOptionsFolder.addConfig({
+      type: 'button',
+      label: 'Random',
+      group: ColorByOptionKeys.RANDOM,
+      onClick: () => {
+        this.colorByConfig.seed = ColorOptions.newRandomSeed();
+        this.applyRandomColorOptions();
+      },
+    });
+  }
+
+  /**
+   * Apply random color options, giving each object of the collection its own
+   * color so that objects drawn on top of each other can be told apart.
+   */
+  private applyRandomColorOptions() {
+    // The objects of a collection are always built in the same order, so their
+    // position in it identifies them well enough to color them from the seed.
+    let objectIndex = 0;
+    this.colorManager.colorObjectsByComputedColor(this.collectionName, () =>
+      this.randomColor(objectIndex++),
+    );
+  }
+
+  /**
+   * Get a new seed for the random colors.
+   * @returns A seed for the random colors.
+   */
+  private static newRandomSeed(): number {
+    return Math.floor(Math.random() * 0xffffffff);
+  }
+
+  /**
+   * Get the random color of an object from the seed and the object's position
+   * in the collection, so that the same seed always gives the same colors and
+   * a saved state is restored as it was.
+   * @param objectIndex Position of the object in the collection.
+   * @returns The color for the object.
+   */
+  private randomColor(objectIndex: number): Color {
+    let hash = (this.colorByConfig.seed ?? 0) + objectIndex * 0x9e3779b1;
+    hash = Math.imul(hash ^ (hash >>> 16), 0x21f0aaad);
+    hash = Math.imul(hash ^ (hash >>> 15), 0x735a2d97);
+    hash = (hash ^ (hash >>> 15)) >>> 0;
+
+    // Picking a hue rather than a color keeps every object clearly visible and
+    // clearly different, which coloring at random in RGB does not - that can
+    // land on colors close to the background, or close to each other.
+    return new Color().setHSL((hash % 360) / 360, 0.7, 0.55);
   }
 
   // Charge options.

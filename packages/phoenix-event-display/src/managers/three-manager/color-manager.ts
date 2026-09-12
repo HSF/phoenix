@@ -9,8 +9,6 @@ import {
   type ShaderMaterial,
 } from 'three';
 import { SceneManager } from './scene-manager';
-import { PhoenixMenuNode } from '../ui-manager/phoenix-menu/phoenix-menu-node';
-import { type ConfigColor } from '../ui-manager/phoenix-menu/config-types';
 
 /**
  * Color manager for three.js functions related to coloring of objects.
@@ -89,12 +87,8 @@ export class ColorManager {
   /**
    * Changes the color of all objects inside an event data collection to some random color.
    * @param collectionName Name of the collection.
-   * @param optionsFolder Reporting random color back to the menu color box.
    */
-  public collectionColorRandom(
-    collectionName: string,
-    optionsFolder?: PhoenixMenuNode,
-  ) {
+  public collectionColorRandom(collectionName: string) {
     if (!this.sceneManager || !this.sceneManager.getScene()) {
       return;
     }
@@ -108,17 +102,6 @@ export class ColorManager {
           child.traverse((object) => {
             const randomColor = Math.floor(Math.random() * 0xffffff);
             setColorForObject(object, randomColor);
-            if (typeof optionsFolder === 'undefined') {
-              return;
-            }
-            if (optionsFolder.configs.length < 1) {
-              return;
-            }
-            if (optionsFolder.configs[0].type !== 'color') {
-              return;
-            }
-            const configColor = optionsFolder.configs[0] as ConfigColor;
-            configColor.color = `#${randomColor.toString(16)}`;
           });
         }
       }

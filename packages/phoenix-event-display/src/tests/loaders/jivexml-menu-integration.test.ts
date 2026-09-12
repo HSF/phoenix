@@ -78,16 +78,18 @@ describe('JiveXML to Phoenix menu integration', () => {
       return select?.options;
     };
 
-    // Every collection can be colored with its own single color; only the one
-    // with linked vertices can be colored by vertex.
+    // Every collection can be colored with its own single color or at random;
+    // only the one with linked vertices can be colored by vertex.
     expect(getColorByOptions('Tracks_')).toEqual([
       'Collection color',
+      'Random',
       'Charge q',
       'Momentum |p|',
       'Vertex',
     ]);
     expect(getColorByOptions('OtherTracks')).toEqual([
       'Collection color',
+      'Random',
       'Charge q',
       'Momentum |p|',
     ]);

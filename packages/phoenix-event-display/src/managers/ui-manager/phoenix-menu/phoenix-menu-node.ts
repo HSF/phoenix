@@ -321,14 +321,21 @@ export class PhoenixMenuNode {
       // console.log('nodeConfig', nodeConfig);
       if (nodeConfig) {
         for (const prop in configState) {
-          if (prop === 'options' || prop === 'onChange' || prop === 'hidden') {
+          if (
+            prop === 'options' ||
+            prop === 'onChange' ||
+            prop === 'group' ||
+            prop === 'hidden'
+          ) {
             // The available options of a `select` are structural (derived from
             // the loaded event data), not user state - a saved state must not
             // overwrite them.
             // The function 'onChange' depends on the available options.
             // Whether a config is shown is derived from the state which is
             // being restored here, so it is left to the owner of the config to
-            // work out once everything has been applied.
+            // work out once everything has been applied. The `group` it is
+            // derived from is structural too: a state written by an older
+            // version of Phoenix can group a config differently, or not at all.
             continue;
           }
           const key = prop as keyof typeof nodeConfig;
