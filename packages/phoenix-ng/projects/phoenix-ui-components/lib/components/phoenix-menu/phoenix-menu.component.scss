@@ -9,10 +9,23 @@
 
 #phoenixMenu {
   background: var(--phoenix-background-color-secondary);
-  max-height: 75vh;
+  /* Grow to whatever the window allows, leaving room for the `top` offset
+     above and the shortcuts button below, and scroll as a single list once
+     there is more than that. Nested levels must not cap themselves, or the
+     menu ends up as a stack of tiny scroll boxes. */
+  max-height: calc(100vh - 8.5rem);
   overflow-y: auto;
   box-shadow: var(--phoenix-box-shadow);
   z-index: 100;
+
+  /* Custom thin scrollbar to avoid clutter */
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--phoenix-text-color-secondary, #999);
+    border-radius: 4px;
+  }
 
   @media screen and (max-width: 768px) {
     top: 4rem;

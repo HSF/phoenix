@@ -2,6 +2,7 @@ import {
   Component,
   ContentChild,
   Input,
+  NgZone,
   ViewChild,
   type OnInit,
   type AfterViewInit,
@@ -9,11 +10,19 @@ import {
   ViewEncapsulation,
   ElementRef,
 } from '@angular/core';
-import { ResizeSensor } from 'css-element-queries';
 
 import { EventDisplayService } from '../../../services/event-display.service';
 
 let maxZIndex = 100;
+
+/** State of an in-progress resize of the overlay. */
+interface ResizeSession {
+  pointerId: number;
+  startX: number;
+  startY: number;
+  startWidth: number;
+  startHeight: number;
+}
 
 /**
  * Component for overlay panel.
@@ -55,9 +64,6 @@ export class OverlayComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Aspect ratio of the overlay view. */
   aspectRatio: number = window.innerWidth / window.innerHeight;
 
-  /** Bound resize handler for cleanup. */
-  private resizeHandler = () => this.resetHandlePosition();
-
   // ********************************************************************************
   // * Below code is specific to the overlay resize feature. (LOOK INTO CSS RESIZE) *
   // ********************************************************************************
@@ -75,9 +81,13 @@ export class OverlayComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Minimum resizable height */
   private MIN_RES_HEIGHT: number = 100;
 
+  /** The resize currently being dragged, or `null` if there is none. */
+  private resizeSession: ResizeSession | null = null;
+
   constructor(
     private eventDisplay: EventDisplayService,
     private elementRef: ElementRef,
+    private ngZone: NgZone,
   ) {}
 
   ngOnInit() {}
@@ -101,108 +111,191 @@ export class OverlayComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /**
-   * Move the resizable handle to the bottom right after the component is created.
-   */
   ngAfterViewInit() {
     this.bringToFront();
-
-    if (this.resizable) {
-      const resizeHandleElement = this.resizeHandleCorner.nativeElement;
-      resizeHandleElement.style.bottom = '0';
-      resizeHandleElement.style.right = '0';
-
-      new ResizeSensor(this.overlayCard.nativeElement, () => {
-        this.resetHandlePosition();
-      });
-
-      window.addEventListener('resize', this.resizeHandler);
-    }
   }
 
   /**
-   * Clean up event listeners when the component is destroyed.
+   * Clean up any resize still in progress when the component is destroyed.
    */
   ngOnDestroy() {
-    window.removeEventListener('resize', this.resizeHandler);
+    this.stopResize();
   }
 
   /**
-   * Resize the overlay card when the resize handle is dragged.
+   * Start resizing the overlay card.
+   *
+   * The pointer is captured by the handle so that every subsequent move and,
+   * crucially, the closing `pointerup` are delivered to us even if the cursor
+   * leaves the handle or the window. Without the capture a fast drag can end
+   * outside the handle and leave the overlay glued to the cursor.
+   * @param event Pointer event that started the resize.
    */
-  onResize() {
-    const resizeHandleElement = this.resizeHandleCorner.nativeElement;
-    const overlayCardElement = this.overlayCard.nativeElement;
+  onResizeStart(event: PointerEvent) {
+    if (!this.resizable || this.resizeSession) {
+      return;
+    }
 
-    const dragRect = resizeHandleElement.getBoundingClientRect();
-    const overlayRect = overlayCardElement.getBoundingClientRect();
+    event.preventDefault();
+    this.bringToFront();
 
-    const width = dragRect.left - overlayRect.left + dragRect.width;
-    let height = dragRect.top - overlayRect.top + dragRect.height;
+    // The 3D overlay sizes its canvas, everything else sizes the whole card,
+    // so measure whichever one the drag is going to act on.
+    const startRect = (
+      this.overlayWindow?.nativeElement ?? this.overlayCard.nativeElement
+    ).getBoundingClientRect();
+    this.resizeSession = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      startWidth: startRect.width,
+      startHeight: startRect.height,
+    };
 
-    this.setHandleTransform(overlayRect, dragRect);
+    const handle = this.resizeHandleCorner.nativeElement as HTMLElement;
+    try {
+      handle.setPointerCapture?.(event.pointerId);
+    } catch {
+      // Capturing is best effort; the listeners below still end the resize.
+    }
 
-    if (width > this.MIN_RES_WIDTH && height > this.MIN_RES_HEIGHT) {
-      if (this.keepAspectRatioFixed) {
-        height = width / this.aspectRatio;
+    // Resizing only writes to the DOM and the renderer, so it does not need to
+    // trigger change detection on every pointer move.
+    this.ngZone.runOutsideAngular(() => {
+      handle.addEventListener('pointermove', this.onResizeMove);
+      handle.addEventListener('pointerup', this.onResizeEnd);
+      handle.addEventListener('pointercancel', this.onResizeEnd);
+      handle.addEventListener('lostpointercapture', this.onResizeEnd);
+      document.addEventListener('keydown', this.onResizeKeyDown);
+    });
+  }
+
+  /** Resize the overlay to follow the pointer. */
+  private onResizeMove = (event: PointerEvent) => {
+    const session = this.resizeSession;
+    if (!session || event.pointerId !== session.pointerId) {
+      return;
+    }
+    // The button can be released where the page never sees it, e.g. outside the
+    // window. Noticing that the button is gone stops the overlay from staying
+    // glued to the cursor.
+    if (event.pointerType === 'mouse' && event.buttons === 0) {
+      this.stopResize();
+      return;
+    }
+    event.preventDefault();
+
+    const width = Math.max(
+      this.MIN_RES_WIDTH,
+      session.startWidth + (event.clientX - session.startX),
+    );
+    const height = Math.max(
+      this.MIN_RES_HEIGHT,
+      session.startHeight + (event.clientY - session.startY),
+    );
+
+    this.applySize(
+      width,
+      this.keepAspectRatioFixed ? width / this.aspectRatio : height,
+    );
+  };
+
+  /** End the resize once the pointer is released, cancelled or lost. */
+  private onResizeEnd = (event: PointerEvent) => {
+    if (
+      this.resizeSession &&
+      event.pointerId !== this.resizeSession.pointerId
+    ) {
+      return;
+    }
+    this.stopResize();
+  };
+
+  /** Abandon the resize and restore the original size on Escape. */
+  private onResizeKeyDown = (event: KeyboardEvent) => {
+    if (event.key !== 'Escape' || !this.resizeSession) {
+      return;
+    }
+    const { startWidth, startHeight } = this.resizeSession;
+    this.stopResize();
+    if (startWidth > 0 && startHeight > 0) {
+      this.applySize(startWidth, startHeight);
+    }
+  };
+
+  /**
+   * Stop the resize in progress, if any, releasing the pointer and detaching
+   * every listener added when it started.
+   */
+  private stopResize() {
+    const session = this.resizeSession;
+    if (!session) {
+      return;
+    }
+    this.resizeSession = null;
+
+    document.removeEventListener('keydown', this.onResizeKeyDown);
+
+    const handle = this.resizeHandleCorner?.nativeElement as HTMLElement;
+    if (!handle) {
+      return;
+    }
+    handle.removeEventListener('pointermove', this.onResizeMove);
+    handle.removeEventListener('pointerup', this.onResizeEnd);
+    handle.removeEventListener('pointercancel', this.onResizeEnd);
+    handle.removeEventListener('lostpointercapture', this.onResizeEnd);
+    try {
+      if (handle.hasPointerCapture?.(session.pointerId)) {
+        handle.releasePointerCapture(session.pointerId);
       }
-
-      if (this.overlayWindow?.nativeElement) {
-        const oldratioW = width / this.overlayWindow.nativeElement.width;
-        const oldratioH = height / this.overlayWindow.nativeElement.height;
-        this.eventDisplay
-          .getThreeManager()
-          .getOverlayRenderer()
-          .setSize(width, height);
-        this.eventDisplay
-          .getThreeManager()
-          .syncOverlayViewPort(oldratioW, oldratioH);
-      } else {
-        // Fallback for generic content that does not have a 3D canvas
-        this.overlayCard.nativeElement.style.width = width + 'px';
-        this.overlayCard.nativeElement.style.height = height + 'px';
-        const contentWrapper = this.overlayCard.nativeElement.querySelector(
-          '.overlay-card-content',
-        );
-        if (contentWrapper) {
-          contentWrapper.style.flex = '1';
-          contentWrapper.style.overflow = 'hidden';
-          contentWrapper.style.maxHeight = 'none';
-          const contentBody = contentWrapper.firstElementChild as HTMLElement;
-          if (contentBody) {
-            contentBody.style.width = '100%';
-            contentBody.style.height = '100%';
-            contentBody.style.maxWidth = 'none';
-            contentBody.style.maxHeight = 'none';
-          }
-        }
-      }
+    } catch {
+      // The pointer may already be gone; nothing left to release.
     }
   }
 
   /**
-   * Reset resize handle position.
+   * Resize the overlay content to the given size.
+   * @param width New width of the overlay content in pixels.
+   * @param height New height of the overlay content in pixels.
    */
-  resetHandlePosition() {
-    const resizeHandleElement = this.resizeHandleCorner.nativeElement;
+  private applySize(width: number, height: number) {
+    const canvas = this.overlayWindow?.nativeElement;
 
-    this.setHandleTransform(
-      this.overlayCard.nativeElement.getBoundingClientRect(),
-      resizeHandleElement.getBoundingClientRect(),
+    if (canvas) {
+      const oldratioW = width / canvas.width;
+      const oldratioH = height / canvas.height;
+      this.eventDisplay
+        .getThreeManager()
+        .getOverlayRenderer()
+        .setSize(width, height);
+      this.eventDisplay
+        .getThreeManager()
+        .syncOverlayViewPort(oldratioW, oldratioH);
+      return;
+    }
+
+    // Fallback for generic content that does not have a 3D canvas
+    const overlayCardElement = this.overlayCard.nativeElement;
+    overlayCardElement.style.width = width + 'px';
+    overlayCardElement.style.height = height + 'px';
+    const contentWrapper = overlayCardElement.querySelector(
+      '.overlay-card-content',
     );
-
-    resizeHandleElement.style.bottom = null;
-    resizeHandleElement.style.right = null;
-  }
-
-  /**
-   * Set the position of the resize handle using transform3d.
-   * @param overlayRect Bounding client rectangle of the overlay card.
-   * @param dragRect Bounding client rectangle of the resize handle.
-   */
-  private setHandleTransform(overlayRect: any, dragRect: any) {
-    const translateX = overlayRect.width - dragRect.width;
-    const translateY = overlayRect.height - dragRect.height;
-    this.resizeHandleCorner.nativeElement.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
+    if (contentWrapper) {
+      contentWrapper.style.flex = '1';
+      contentWrapper.style.overflow = 'auto';
+      contentWrapper.style.maxHeight = 'none';
+      const contentBody = contentWrapper.firstElementChild as HTMLElement;
+      if (contentBody) {
+        // Fill the card when there is room to spare, but keep the natural
+        // height when there is not so the wrapper can scroll instead of
+        // clipping the content.
+        contentBody.style.width = '100%';
+        contentBody.style.height = 'auto';
+        contentBody.style.minHeight = '100%';
+        contentBody.style.maxWidth = 'none';
+        contentBody.style.maxHeight = 'none';
+      }
+    }
   }
 }
