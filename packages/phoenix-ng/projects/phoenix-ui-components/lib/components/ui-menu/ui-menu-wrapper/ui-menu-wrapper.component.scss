@@ -17,8 +17,17 @@
   border-radius: 30px;
   max-width: 95%;
   padding: 0.3rem 1rem;
-  overflow-x: scroll;
+  overflow-x: auto;
   z-index: 90;
+
+  /* Hide the scrollbar: a visible one reserves a gutter under the icons even
+     when the toolbar fits, and looks out of place inside the rounded pill. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 #hideUIMenu {
