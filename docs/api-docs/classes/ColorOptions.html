@@ -174,11 +174,24 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#collectionColor" >collectionColor</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#collectionName" >collectionName</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#colorByConfig" >colorByConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#colorByOptions" >colorByOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#colorConfig" >colorConfig</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -210,7 +223,15 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#applyCollectionColor" >applyCollectionColor</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#applyMomColorOptions" >applyMomColorOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#applyRandomColorOptions" >applyRandomColorOptions</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -230,6 +251,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#initCollectionColorOptions" >initCollectionColorOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#initColorByOptions" >initColorByOptions</a>
                             </li>
                             <li>
@@ -238,7 +263,20 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#initRandomColorOptions" >initRandomColorOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                <a href="#newRandomSeed" >newRandomSeed</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#onlySelectedColorByOption" >onlySelectedColorByOption</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#randomColor" >randomColor</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -267,7 +305,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/managers/ui-manager/color-options.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">src/managers/ui-manager/color-options.ts:106</a></div>
                             </td>
                         </tr>
 
@@ -387,6 +425,18 @@
                     <td class="col-md-4">
                         <i>Default value : </i><code>[
     {
+      key: ColorByOptionKeys.COLLECTION,
+      name: &#x27;Collection color&#x27;,
+      initialize: this.initCollectionColorOptions.bind(this),
+      apply: this.applyCollectionColor.bind(this),
+    },
+    {
+      key: ColorByOptionKeys.RANDOM,
+      name: &#x27;Random&#x27;,
+      initialize: this.initRandomColorOptions.bind(this),
+      apply: this.applyRandomColorOptions.bind(this),
+    },
+    {
       key: ColorByOptionKeys.CHARGE,
       name: &#x27;Charge &#x27; + PrettySymbols.getPrettySymbol(&#x27;charge&#x27;),
       initialize: this.initChargeColorOptions.bind(this),
@@ -408,7 +458,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/managers/ui-manager/color-options.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/managers/ui-manager/color-options.ts:55</a></div>
                         </td>
                     </tr>
 
@@ -450,13 +500,47 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/managers/ui-manager/color-options.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/managers/ui-manager/color-options.ts:89</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Default values for colors for color by charge.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collectionColor"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>collectionColor</b></span>
+                        <a href="#collectionColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/managers/ui-manager/color-options.ts:50</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The single color the whole collection is drawn in.</p>
 </div>
                 </td>
             </tr>
@@ -483,13 +567,46 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/managers/ui-manager/color-options.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/managers/ui-manager/color-options.ts:40</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Collection name of the event data type.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="colorByConfig"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>colorByConfig</b></span>
+                        <a href="#colorByConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#ConfigColorBySelect" target="_self" >ConfigColorBySelect</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/managers/ui-manager/color-options.ts:52</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Configuration holding the selected option to color by.</p>
 </div>
                 </td>
             </tr>
@@ -516,13 +633,46 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/managers/ui-manager/color-options.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/managers/ui-manager/color-options.ts:42</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Available options to color by in this instance of color options.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="colorConfig"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>colorConfig</b></span>
+                        <a href="#colorConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#ConfigColor" target="_self" >ConfigColor</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/managers/ui-manager/color-options.ts:48</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Configuration holding the single color of the whole collection.</p>
 </div>
                 </td>
             </tr>
@@ -549,7 +699,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/managers/ui-manager/color-options.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/managers/ui-manager/color-options.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -596,7 +746,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/managers/ui-manager/color-options.ts:66</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">src/managers/ui-manager/color-options.ts:97</a></div>
                         </td>
                     </tr>
 
@@ -629,7 +779,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/managers/ui-manager/color-options.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/managers/ui-manager/color-options.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -671,8 +821,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="202"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:202</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="324"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:324</a></div>
                         </td>
                     </tr>
 
@@ -680,6 +830,47 @@
             <tr>
                 <td class="col-md-4">
                         <div class="io-description"><p>Apply charge color options.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyCollectionColor"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>applyCollectionColor</b></span>
+                        <a href="#applyCollectionColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>applyCollectionColor()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="222"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:222</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Apply the single color of the whole collection.</p>
 </div>
 
                         <div class="io-description">
@@ -712,8 +903,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="276"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:276</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="398"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:398</a></div>
                         </td>
                     </tr>
 
@@ -721,6 +912,48 @@
             <tr>
                 <td class="col-md-4">
                         <div class="io-description"><p>Apply momentum color options.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyRandomColorOptions"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>applyRandomColorOptions</b></span>
+                        <a href="#applyRandomColorOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>applyRandomColorOptions()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="254"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:254</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Apply random color options, giving each object of the collection its own
+color so that objects drawn on top of each other can be told apart.</p>
 </div>
 
                         <div class="io-description">
@@ -753,8 +986,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="323"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:323</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="445"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:445</a></div>
                         </td>
                     </tr>
 
@@ -794,8 +1027,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="285"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:285</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="407"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:407</a></div>
                         </td>
                     </tr>
 
@@ -837,8 +1070,8 @@ to where their momentum lies in the min/max range (clamped at the ends).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="312"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:312</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="434"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:434</a></div>
                         </td>
                     </tr>
 
@@ -914,8 +1147,8 @@ to where their momentum lies in the min/max range (clamped at the ends).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="173"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:173</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="295"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:295</a></div>
                         </td>
                     </tr>
 
@@ -923,6 +1156,47 @@ to where their momentum lies in the min/max range (clamped at the ends).</p>
             <tr>
                 <td class="col-md-4">
                         <div class="io-description"><p>Initialize charge color options.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initCollectionColorOptions"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>initCollectionColorOptions</b></span>
+                        <a href="#initCollectionColorOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initCollectionColorOptions()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="198"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:198</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Initialize the options for coloring the whole collection in one color.</p>
 </div>
 
                         <div class="io-description">
@@ -955,8 +1229,8 @@ to where their momentum lies in the min/max range (clamped at the ends).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="138"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:138</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="159"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:159</a></div>
                         </td>
                     </tr>
 
@@ -996,8 +1270,8 @@ to where their momentum lies in the min/max range (clamped at the ends).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="236"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:236</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="358"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:358</a></div>
                         </td>
                     </tr>
 
@@ -1011,6 +1285,93 @@ to where their momentum lies in the min/max range (clamped at the ends).</p>
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initRandomColorOptions"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>initRandomColorOptions</b></span>
+                        <a href="#initRandomColorOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initRandomColorOptions()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="238"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:238</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Initialize random color options.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="newRandomSeed"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Static</span>
+                        <span ><b>newRandomSeed</b></span>
+                        <a href="#newRandomSeed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>newRandomSeed()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="267"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:267</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Get a new seed for the random colors.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>A seed for the random colors.</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1037,8 +1398,8 @@ to where their momentum lies in the min/max range (clamped at the ends).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="338"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:338</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="460"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:460</a></div>
                         </td>
                     </tr>
 
@@ -1052,6 +1413,85 @@ to where their momentum lies in the min/max range (clamped at the ends).</p>
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="randomColor"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>randomColor</b></span>
+                        <a href="#randomColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>randomColor(objectIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="278"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:278</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Get the random color of an object from the seed and the object&#39;s position
+in the collection, so that the same seed always gives the same colors and
+a saved state is restored as it was.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>objectIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Position of the object in the collection.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Color</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>The color for the object.</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1078,8 +1518,8 @@ to where their momentum lies in the min/max range (clamped at the ends).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="221"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:221</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="343"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:343</a></div>
                         </td>
                     </tr>
 
@@ -1163,14 +1603,27 @@ to where their momentum lies in the min/max range (clamped at the ends).</p>
 import { PrettySymbols } from &#x27;../../helpers/pretty-symbols&#x27;;
 import { ColorManager } from &#x27;../three-manager/color-manager&#x27;;
 import { PhoenixMenuNode } from &#x27;./phoenix-menu/phoenix-menu-node&#x27;;
-import { type ConfigSelect } from &#x27;./phoenix-menu/config-types&#x27;;
+import {
+  type ConfigColor,
+  type ConfigSelect,
+} from &#x27;./phoenix-menu/config-types&#x27;;
 
 /** Keys for options available for coloring event data by. */
 export enum ColorByOptionKeys {
+  COLLECTION &#x3D; &#x27;collection&#x27;,
+  RANDOM &#x3D; &#x27;random&#x27;,
   CHARGE &#x3D; &#x27;charge&#x27;,
   MOM &#x3D; &#x27;mom&#x27;,
   VERTEX &#x3D; &#x27;vertex&#x27;,
 }
+
+/**
+ * Type for the &quot;Color by&quot; select. It carries the seed of the random colors, so
+ * that the seed is saved and restored with the rest of the menu state - the
+ * seed has to be back in place before the select is applied, and every property
+ * of a config is restored before that config is applied.
+ */
+type ConfigColorBySelect &#x3D; ConfigSelect &amp; { seed?: number };
 
 /** Type for a single color by option. */
 type ColorByOption &#x3D; {
@@ -1192,9 +1645,27 @@ export class ColorOptions {
   private selectedColorByOption: ColorByOptionKeys;
   /** Phoenix menu node containing color configurations. */
   private colorOptionsFolder: PhoenixMenuNode;
+  /** Configuration holding the single color of the whole collection. */
+  private colorConfig: ConfigColor;
+  /** The single color the whole collection is drawn in. */
+  private collectionColor?: string;
+  /** Configuration holding the selected option to color by. */
+  private colorByConfig: ConfigColorBySelect;
 
   /** All color by options possible. */
   private allColorByOptions: ColorByOption[] &#x3D; [
+    {
+      key: ColorByOptionKeys.COLLECTION,
+      name: &#x27;Collection color&#x27;,
+      initialize: this.initCollectionColorOptions.bind(this),
+      apply: this.applyCollectionColor.bind(this),
+    },
+    {
+      key: ColorByOptionKeys.RANDOM,
+      name: &#x27;Random&#x27;,
+      initialize: this.initRandomColorOptions.bind(this),
+      apply: this.applyRandomColorOptions.bind(this),
+    },
     {
       key: ColorByOptionKeys.CHARGE,
       name: &#x27;Charge &#x27; + PrettySymbols.getPrettySymbol(&#x27;charge&#x27;),
@@ -1255,42 +1726,32 @@ export class ColorOptions {
       &#x27;color-options&#x27;,
     );
 
-    this.colorOptionsFolder.addConfig({
-      type: &#x27;color&#x27;,
-      label: &#x27;Color&#x27;,
-      color: collectionColor
-        ? &#x60;#${collectionColor?.getHexString()}&#x60;
-        : undefined,
-      onChange: (value) &#x3D;&gt;
-        this.colorManager.collectionColor(this.collectionName, value),
-    });
+    this.collectionColor &#x3D; collectionColor
+      ? &#x60;#${collectionColor?.getHexString()}&#x60;
+      : undefined;
 
-    this.colorOptionsFolder.addConfig({
-      type: &#x27;button&#x27;,
-      label: &#x27;Random&#x27;,
-      onClick: () &#x3D;&gt;
-        this.colorManager.collectionColorRandom(
-          this.collectionName,
-          this.colorOptionsFolder,
-        ),
-    });
+    // Check which color by options are to be included. The collection color
+    // and a random one need nothing of the event data, so every collection can
+    // be colored by them: without the first there is no way back to a single
+    // color, or to express one in a saved state. The collection color comes
+    // first, as it is what a collection is drawn with to begin with.
+    const alwaysIncluded &#x3D; [
+      ColorByOptionKeys.COLLECTION,
+      ColorByOptionKeys.RANDOM,
+    ];
+    this.colorByOptions &#x3D; this.allColorByOptions.filter(
+      (colorByOption) &#x3D;&gt;
+        alwaysIncluded.includes(colorByOption.key) ||
+        colorByOptionsToInclude?.includes(colorByOption.key),
+    );
 
-    // Check which color by options are to be included.
-
-    if (
-      colorByOptionsToInclude?.length &amp;&amp;
-      colorByOptionsToInclude?.length &gt; 0
-    ) {
-      this.colorByOptions &#x3D; this.allColorByOptions.filter((colorByOption) &#x3D;&gt;
-        colorByOptionsToInclude.includes(colorByOption.key),
-      );
-
-      this.initColorByOptions();
-      this.colorByOptions.forEach((colorByOption) &#x3D;&gt;
-        colorByOption.initialize?.(),
-      );
-      this.onlySelectedColorByOption();
-    }
+    // The selector is added before the configs of any option, so that the
+    // choice sits above the settings it governs.
+    this.initColorByOptions();
+    this.colorByOptions.forEach((colorByOption) &#x3D;&gt;
+      colorByOption.initialize?.(),
+    );
+    this.onlySelectedColorByOption();
   }
 
   /**
@@ -1300,13 +1761,10 @@ export class ColorOptions {
     this.selectedColorByOption &#x3D; this.colorByOptions[0].key;
 
     // Configurations
-
-    // &#x60;value&#x60; is deliberately not set initially so that applying the config
-    // state on creation does not override the collection color. It is set on
-    // user selection so the choice survives saving/loading the menu state.
-    const colorByConfig: ConfigSelect &#x3D; {
+    const colorByConfig: ConfigColorBySelect &#x3D; {
       type: &#x27;select&#x27;,
       label: &#x27;Color by&#x27;,
+      seed: ColorOptions.newRandomSeed(),
       options: this.colorByOptions.map((colorByOption) &#x3D;&gt; colorByOption.name),
       onChange: (updatedColorByOption) &#x3D;&gt; {
         const newColorByOption &#x3D; this.colorByOptions.find(
@@ -1323,7 +1781,111 @@ export class ColorOptions {
       },
     };
 
+    this.colorByConfig &#x3D; colorByConfig;
     this.colorOptionsFolder.addConfig(colorByConfig);
+
+    // The value is set after the config has been added, as adding it would
+    // otherwise apply the option and re-color a collection which is already
+    // drawn correctly. It is set at all so that the selected option is always
+    // part of the saved state, even if the user never changes it.
+    colorByConfig.value &#x3D; this.colorByOptions[0].name;
+  }
+
+  // Collection color options.
+
+  /**
+   * Initialize the options for coloring the whole collection in one color.
+   */
+  private initCollectionColorOptions() {
+    this.colorConfig &#x3D; {
+      type: &#x27;color&#x27;,
+      label: &#x27;Color&#x27;,
+      group: ColorByOptionKeys.COLLECTION,
+      color: this.collectionColor,
+      onChange: (value) &#x3D;&gt; {
+        this.collectionColor &#x3D; value;
+
+        // A saved state applies every color it holds, including this one when
+        // the collection is colored by something else - which would repaint
+        // over that. The swatch is hidden unless it is the selected option, so
+        // the user cannot reach it out of turn either.
+        if (this.selectedColorByOption &#x3D;&#x3D;&#x3D; ColorByOptionKeys.COLLECTION) {
+          this.colorManager.collectionColor(this.collectionName, value);
+        }
+      },
+    };
+    this.colorOptionsFolder.addConfig(this.colorConfig);
+  }
+
+  /**
+   * Apply the single color of the whole collection.
+   */
+  private applyCollectionColor() {
+    if (this.collectionColor &#x3D;&#x3D;&#x3D; undefined) {
+      return;
+    }
+
+    this.colorManager.collectionColor(
+      this.collectionName,
+      this.collectionColor,
+    );
+  }
+
+  // Random options.
+
+  /**
+   * Initialize random color options.
+   */
+  private initRandomColorOptions() {
+    this.colorOptionsFolder.addConfig({
+      type: &#x27;button&#x27;,
+      label: &#x27;Random&#x27;,
+      group: ColorByOptionKeys.RANDOM,
+      onClick: () &#x3D;&gt; {
+        this.colorByConfig.seed &#x3D; ColorOptions.newRandomSeed();
+        this.applyRandomColorOptions();
+      },
+    });
+  }
+
+  /**
+   * Apply random color options, giving each object of the collection its own
+   * color so that objects drawn on top of each other can be told apart.
+   */
+  private applyRandomColorOptions() {
+    // The objects of a collection are always built in the same order, so their
+    // position in it identifies them well enough to color them from the seed.
+    let objectIndex &#x3D; 0;
+    this.colorManager.colorObjectsByComputedColor(this.collectionName, () &#x3D;&gt;
+      this.randomColor(objectIndex++),
+    );
+  }
+
+  /**
+   * Get a new seed for the random colors.
+   * @returns A seed for the random colors.
+   */
+  private static newRandomSeed(): number {
+    return Math.floor(Math.random() * 0xffffffff);
+  }
+
+  /**
+   * Get the random color of an object from the seed and the object&#x27;s position
+   * in the collection, so that the same seed always gives the same colors and
+   * a saved state is restored as it was.
+   * @param objectIndex Position of the object in the collection.
+   * @returns The color for the object.
+   */
+  private randomColor(objectIndex: number): Color {
+    let hash &#x3D; (this.colorByConfig.seed ?? 0) + objectIndex * 0x9e3779b1;
+    hash &#x3D; Math.imul(hash ^ (hash &gt;&gt;&gt; 16), 0x21f0aaad);
+    hash &#x3D; Math.imul(hash ^ (hash &gt;&gt;&gt; 15), 0x735a2d97);
+    hash &#x3D; (hash ^ (hash &gt;&gt;&gt; 15)) &gt;&gt;&gt; 0;
+
+    // Picking a hue rather than a color keeps every object clearly visible and
+    // clearly different, which coloring at random in RGB does not - that can
+    // land on colors close to the background, or close to each other.
+    return new Color().setHSL((hash % 360) / 360, 0.7, 0.55);
   }
 
   // Charge options.

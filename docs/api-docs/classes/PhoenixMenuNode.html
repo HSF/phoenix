@@ -1000,8 +1000,8 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="149"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:149</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="164"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:164</a></div>
                         </td>
                     </tr>
 
@@ -1100,8 +1100,8 @@ state, as opposed to being newly added to the menu.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="192"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:192</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="207"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:207</a></div>
                         </td>
                     </tr>
 
@@ -1175,8 +1175,8 @@ matches what the menu displays.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="329"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:329</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="369"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:369</a></div>
                         </td>
                     </tr>
 
@@ -1250,8 +1250,8 @@ matches what the menu displays.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="347"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:347</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="387"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:387</a></div>
                         </td>
                     </tr>
 
@@ -1325,8 +1325,8 @@ matches what the menu displays.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="227"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:227</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="242"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:242</a></div>
                         </td>
                     </tr>
 
@@ -1368,8 +1368,8 @@ matches what the menu displays.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="248"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:248</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="266"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:266</a></div>
                         </td>
                     </tr>
 
@@ -1786,16 +1786,31 @@ export class PhoenixMenuNode {
    * @param value If the node itself and descendants are to be made true or false.
    */
   toggleSelfAndDescendants(value: boolean) {
+    // Whether this node is actually going from on to off, as opposed to being
+    // switched off again while already off - which happens whenever an
+    // ancestor is toggled off.
+    const isBeingSwitchedOff &#x3D; !value &amp;&amp; (this.toggleState ?? true);
+
     this.onToggle?.(value);
     this.toggleState &#x3D; value;
     for (const child of this.children) {
       if (!value) {
-        // Save previous toggle state of children and toggle them false
-        this.childrenToggleState[child.name] &#x3D; child.toggleState;
+        // Save previous toggle state of children and toggle them false. Only
+        // on the way from on to off: an already off node has children it has
+        // itself forced to false, and saving those would overwrite what they
+        // were before with the states this node imposed on them.
+        if (isBeingSwitchedOff) {
+          this.childrenToggleState[child.name] &#x3D; child.toggleState;
+        }
         child.toggleSelfAndDescendants(value);
       } else {
-        // Restore previous toggle state of children
-        child.toggleState &#x3D; this.childrenToggleState[child.name];
+        // Restore previous toggle state of children. There is no saved entry
+        // for a child which was never toggled off through this node - for
+        // instance when this node was switched off by a loaded state rather
+        // than by its own toggle - so fall back to the child&#x27;s current state
+        // instead of propagating &#x60;undefined&#x60; down the tree.
+        child.toggleState &#x3D;
+          this.childrenToggleState[child.name] ?? child.toggleState ?? true;
         child.toggleSelfAndDescendants(child.toggleState);
       }
     }
@@ -1890,7 +1905,10 @@ export class PhoenixMenuNode {
 
     phoenixNodeJSON[&#x27;name&#x27;] &#x3D; this.name;
     phoenixNodeJSON[&#x27;nodeLevel&#x27;] &#x3D; this.nodeLevel;
-    phoenixNodeJSON[&#x27;toggleState&#x27;] &#x3D; this.toggleState;
+    // &#x60;?? true&#x60; so that a node whose toggle state was somehow lost is still
+    // serialised with one - &#x60;JSON.stringify&#x60; drops an &#x60;undefined&#x60; value
+    // entirely, and a state file missing the key cannot restore visibility.
+    phoenixNodeJSON[&#x27;toggleState&#x27;] &#x3D; this.toggleState ?? true;
     phoenixNodeJSON[&#x27;childrenActive&#x27;] &#x3D; this.childrenActive;
     phoenixNodeJSON[&#x27;configs&#x27;] &#x3D; this.configs;
     phoenixNodeJSON[&#x27;children&#x27;] &#x3D; [];
@@ -1921,6 +1939,18 @@ export class PhoenixMenuNode {
     if (jsonObject[&#x27;toggleState&#x27;] !&#x3D;&#x3D; undefined) {
       this.toggleState &#x3D; jsonObject[&#x27;toggleState&#x27;];
       this.onToggle?.(this.toggleState);
+    } else if (this.onToggle) {
+      // A node which can hide something is expected to carry a toggle state.
+      // Missing it means the scene can end up disagreeing with the file - the
+      // menu shows one thing, the state file says nothing - so say so rather
+      // than leaving the mismatch to be found on screen. Nodes without a
+      // toggle handler (the &quot;Cut Options&quot; style folders) are left alone, as
+      // hand-written configs routinely omit their toggle state.
+      console.warn(
+        &#x60;No toggle state for &quot;${this.name}&quot; in the saved state, so its &#x60; +
+          &#x27;visibility is left as it is. The state was likely written by a &#x27; +
+          &#x27;version of Phoenix which could drop the toggle state of a node.&#x27;,
+      );
     }
 
     for (const configState of jsonObject[&#x27;configs&#x27;] ?? []) {
@@ -1952,11 +1982,21 @@ export class PhoenixMenuNode {
       // console.log(&#x27;nodeConfig&#x27;, nodeConfig);
       if (nodeConfig) {
         for (const prop in configState) {
-          if (prop &#x3D;&#x3D;&#x3D; &#x27;options&#x27; || prop &#x3D;&#x3D;&#x3D; &#x27;onChange&#x27;) {
+          if (
+            prop &#x3D;&#x3D;&#x3D; &#x27;options&#x27; ||
+            prop &#x3D;&#x3D;&#x3D; &#x27;onChange&#x27; ||
+            prop &#x3D;&#x3D;&#x3D; &#x27;group&#x27; ||
+            prop &#x3D;&#x3D;&#x3D; &#x27;hidden&#x27;
+          ) {
             // The available options of a &#x60;select&#x60; are structural (derived from
             // the loaded event data), not user state - a saved state must not
             // overwrite them.
             // The function &#x27;onChange&#x27; depends on the available options.
+            // Whether a config is shown is derived from the state which is
+            // being restored here, so it is left to the owner of the config to
+            // work out once everything has been applied. The &#x60;group&#x60; it is
+            // derived from is structural too: a state written by an older
+            // version of Phoenix can group a config differently, or not at all.
             continue;
           }
           const key &#x3D; prop as keyof typeof nodeConfig;

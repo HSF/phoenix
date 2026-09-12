@@ -256,6 +256,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/FourMomentum.html" data-type="entity-link" >FourMomentum</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/HistogramConfig.html" data-type="entity-link" >HistogramConfig</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/HistogramHint.html" data-type="entity-link" >HistogramHint</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/KinematicsColumn.html" data-type="entity-link" >KinematicsColumn</a>
                             </li>
                             <li class="link">

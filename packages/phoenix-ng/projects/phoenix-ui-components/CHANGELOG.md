@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.3](https://github.com/HSF/phoenix/compare/v4.2.2...v4.2.3) (2026-09-12)
+
+
+### Bug Fixes
+
+* **app:** better resizing behaviour of panels ([#1020](https://github.com/HSF/phoenix/issues/1020)) ([8be93b0](https://github.com/HSF/phoenix/commit/8be93b01d82ad57ddbb04cd5e2238bf44caa1df8))
+* **app:** make histogram panel addition configurable ([#1021](https://github.com/HSF/phoenix/issues/1021)) ([588a250](https://github.com/HSF/phoenix/commit/588a250729751ad5314d699b3786518ec366fad3))
+
+
+### Features
+
+* add in-browser histogram panel using jsroot ([#840](https://github.com/HSF/phoenix/issues/840)) ([#843](https://github.com/HSF/phoenix/issues/843)) ([e9e9945](https://github.com/HSF/phoenix/commit/e9e99451f1bd0d827b91aecece83e614189666e8))
+
+
+
+
+
 ## [4.2.1](https://github.com/HSF/phoenix/compare/v4.2.0...v4.2.1) (2026-09-10)
 
 

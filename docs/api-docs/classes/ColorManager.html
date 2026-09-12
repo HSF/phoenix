@@ -206,7 +206,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/managers/three-manager/color-manager.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/managers/three-manager/color-manager.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -279,8 +279,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="74"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:74</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="72"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:72</a></div>
                         </td>
                     </tr>
 
@@ -364,15 +364,15 @@
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>collectionColorRandom(collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, optionsFolder?: <a href="../classes/PhoenixMenuNode.html" target="_self">PhoenixMenuNode</a>)</code>
+                    <code>collectionColorRandom(collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="94"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:94</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="91"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:91</a></div>
                         </td>
                     </tr>
 
@@ -411,22 +411,6 @@
 
                                             </td>
                                         </tr>
-                                        <tr>
-                                                <td>optionsFolder</td>
-                                            <td>
-                                                            <code><a href="../classes/PhoenixMenuNode.html" target="_self" >PhoenixMenuNode</a></code>
-                                            </td>
-
-                                            <td>
-                                                    Yes
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Reporting random color back to the menu color box.</p>
-
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -461,8 +445,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="52"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:52</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="50"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:50</a></div>
                         </td>
                     </tr>
 
@@ -553,8 +537,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="31"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:31</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="29"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -661,8 +645,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="134"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:134</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="117"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:117</a></div>
                         </td>
                     </tr>
 
@@ -738,8 +722,6 @@
   type ShaderMaterial,
 } from &#x27;three&#x27;;
 import { SceneManager } from &#x27;./scene-manager&#x27;;
-import { PhoenixMenuNode } from &#x27;../ui-manager/phoenix-menu/phoenix-menu-node&#x27;;
-import { type ConfigColor } from &#x27;../ui-manager/phoenix-menu/config-types&#x27;;
 
 /**
  * Color manager for three.js functions related to coloring of objects.
@@ -818,12 +800,8 @@ export class ColorManager {
   /**
    * Changes the color of all objects inside an event data collection to some random color.
    * @param collectionName Name of the collection.
-   * @param optionsFolder Reporting random color back to the menu color box.
    */
-  public collectionColorRandom(
-    collectionName: string,
-    optionsFolder?: PhoenixMenuNode,
-  ) {
+  public collectionColorRandom(collectionName: string) {
     if (!this.sceneManager || !this.sceneManager.getScene()) {
       return;
     }
@@ -837,17 +815,6 @@ export class ColorManager {
           child.traverse((object) &#x3D;&gt; {
             const randomColor &#x3D; Math.floor(Math.random() * 0xffffff);
             setColorForObject(object, randomColor);
-            if (typeof optionsFolder &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
-              return;
-            }
-            if (optionsFolder.configs.length &lt; 1) {
-              return;
-            }
-            if (optionsFolder.configs[0].type !&#x3D;&#x3D; &#x27;color&#x27;) {
-              return;
-            }
-            const configColor &#x3D; optionsFolder.configs[0] as ConfigColor;
-            configColor.color &#x3D; &#x60;#${randomColor.toString(16)}&#x60;;
           });
         }
       }

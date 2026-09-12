@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.3](https://github.com/HSF/phoenix/compare/v4.2.2...v4.2.3) (2026-09-12)
+
+
+### Bug Fixes
+
+* **event-display:** keep a collection's color over a save and load ([#1025](https://github.com/HSF/phoenix/issues/1025)) ([a066d32](https://github.com/HSF/phoenix/commit/a066d32dacf237ac6464e4cfb2958e98660d4638)), closes [#1023](https://github.com/HSF/phoenix/issues/1023)
+* **event-display:** menu node undefined toggle state ([#1024](https://github.com/HSF/phoenix/issues/1024)) ([1797365](https://github.com/HSF/phoenix/commit/17973651f4845c8fd0223fbd31ae88577201fd92)), closes [#1022](https://github.com/HSF/phoenix/issues/1022)
+
+
+### Features
+
+* add in-browser histogram panel using jsroot ([#840](https://github.com/HSF/phoenix/issues/840)) ([#843](https://github.com/HSF/phoenix/issues/843)) ([e9e9945](https://github.com/HSF/phoenix/commit/e9e99451f1bd0d827b91aecece83e614189666e8))
+* **event-display:** put "Color by" first and color at random from a seed ([#1026](https://github.com/HSF/phoenix/issues/1026)) ([a9c339e](https://github.com/HSF/phoenix/commit/a9c339ed8c16c60f19a8e813deb66c5bea4580b7)), closes [#1023](https://github.com/HSF/phoenix/issues/1023)
+
+
+
+
+
 ## [4.2.2](https://github.com/HSF/phoenix/compare/v4.2.1...v4.2.2) (2026-09-10)
 
 
