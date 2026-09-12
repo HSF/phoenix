@@ -58,6 +58,10 @@ describe('AtlasMasterclassComponent', () => {
     expect(component.uiConfig.showMasterclassPanel).toBe(true);
   });
 
+  it('should enable the histogram panel', () => {
+    expect(component.uiConfig.showHistogramPanel).toBe(true);
+  });
+
   it('should use the ATLAS masterclass config', () => {
     expect(component.masterclassConfig.title).toContain('Masterclass');
     expect(component.masterclassConfig.particleTags.length).toBeGreaterThan(0);

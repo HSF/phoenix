@@ -72,7 +72,10 @@
   <app-share-link *ngIf="uiConfig.showShareLink"></app-share-link>
 
   <!-- Histogram panel -->
-  <app-histogram-panel [config]="histogramConfig"></app-histogram-panel>
+  <app-histogram-panel
+    *ngIf="uiConfig?.showHistogramPanel"
+    [config]="histogramConfig"
+  ></app-histogram-panel>
 
   <!-- Extra options -->
   <ng-content></ng-content>
