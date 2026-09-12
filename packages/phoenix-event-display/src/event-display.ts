@@ -996,6 +996,9 @@ export class EventDisplay {
       buildGeometryFromParameters: (parameters: { [key: string]: any }) =>
         this.buildGeometryFromParameters(parameters),
       scene: this.getThreeManager().getSceneManager().getScene(),
+      on: (eventName: string, callback: (data: any) => void) =>
+        this.on(eventName, callback),
+      emit: (eventName: string, data?: any) => this.emit(eventName, data),
     };
   }
 

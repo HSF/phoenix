@@ -1,0 +1,131 @@
+.histogram-container {
+  padding: 0.5rem;
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+// Wrapper holds the canvas + hint lines in relative position
+.histogram-wrapper {
+  position: relative;
+  min-height: 280px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #1a1a2e;
+}
+
+.histogram-canvas {
+  width: 100%;
+  height: 280px;
+  border-radius: 6px;
+  overflow: hidden;
+
+  // Scoped dark theme overrides for jsroot SVG
+  ::ng-deep {
+    svg {
+      background: #1a1a2e !important;
+    }
+  }
+}
+
+// Reference lines for known resonances
+// Aligned to jsroot's pad margins (10% each side by default)
+.hint-line {
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  border-left: 1.5px dashed;
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hint-label {
+  position: absolute;
+  top: -2px;
+  left: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  opacity: 0.95;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+// Empty state
+.histogram-empty {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  pointer-events: none;
+
+  .empty-hint {
+    font-size: 0.75rem;
+    color: var(--phoenix-text-color-secondary);
+    opacity: 0.5;
+    text-align: center;
+    max-width: 250px;
+    line-height: 1.4;
+  }
+}
+
+// Footer — single row with stats left, actions right
+.histogram-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3rem 0.2rem 0;
+}
+
+.histogram-stats {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+
+  .stat-label {
+    font-size: 0.7rem;
+    color: var(--phoenix-text-color-secondary);
+    opacity: 0.6;
+  }
+
+  .stat-value {
+    font-size: 0.8rem;
+    color: var(--phoenix-text-color);
+    font-weight: 500;
+  }
+
+  .stat-sep {
+    font-size: 0.7rem;
+    color: var(--phoenix-text-color-secondary);
+    opacity: 0.3;
+    margin: 0 0.1rem;
+  }
+}
+
+.histogram-actions {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.btn-action {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--phoenix-text-color-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+}

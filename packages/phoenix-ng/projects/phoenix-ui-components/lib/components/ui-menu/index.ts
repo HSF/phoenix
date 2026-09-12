@@ -44,6 +44,8 @@ export * from './eta-phi-panel/eta-phi-panel.component';
 export * from './eta-phi-panel/eta-phi-panel-overlay/eta-phi-panel-overlay.component';
 export * from './more-info/more-info.component';
 export * from './ui-menu-wrapper/ui-menu-wrapper.component';
+export * from './histogram-panel/histogram-panel.component';
+export * from './histogram-panel/histogram-panel-overlay/histogram-panel-overlay.component';
 export * from './kinematics-panel/kinematics-panel.component';
 export * from './kinematics-panel/kinematics-panel-overlay/kinematics-panel-overlay.component';
 export * from './masterclass-panel/masterclass-panel.component';

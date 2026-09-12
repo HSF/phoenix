@@ -1,0 +1,61 @@
+<app-overlay
+  [overlayTitle]="config.title"
+  icon="histogram"
+  [active]="showHistogram"
+  [resizable]="false"
+>
+  <div class="histogram-container" *ngIf="showHistogram">
+    <!-- Empty state guidance -->
+    <div class="histogram-empty" *ngIf="entries === 0">
+      <span class="empty-hint">{{
+        config.emptyText || 'Waiting for data...'
+      }}</span>
+    </div>
+
+    <!-- Histogram canvas with hint overlays -->
+    <div class="histogram-wrapper">
+      <div #histogramDiv class="histogram-canvas"></div>
+
+      <!-- Reference lines for known resonances -->
+      <div
+        class="hint-line"
+        *ngFor="let hint of config.hints"
+        [style.left.%]="getHintPosition(hint.mass)"
+        [style.borderColor]="hint.color || '#ffffff55'"
+      >
+        <span class="hint-label" [style.color]="hint.color || '#ffffff88'">{{
+          getHintLabel(hint)
+        }}</span>
+      </div>
+    </div>
+
+    <!-- Footer: stats + actions -->
+    <div class="histogram-footer">
+      <div class="histogram-stats">
+        <span class="stat-label">Entries:</span>
+        <span class="stat-value">{{ entries }}</span>
+        <span class="stat-sep">|</span>
+        <span class="stat-label">Mean:</span>
+        <span class="stat-value">{{
+          entries > 0 ? (mean | number: '1.1-1') + ' GeV' : '—'
+        }}</span>
+      </div>
+      <div class="histogram-actions">
+        <button
+          class="btn-action"
+          (click)="resetHistogram()"
+          matTooltip="Clear all entries"
+        >
+          Reset
+        </button>
+        <button
+          class="btn-action"
+          (click)="exportCSV()"
+          matTooltip="Download bin data as TSV"
+        >
+          Export
+        </button>
+      </div>
+    </div>
+  </div>
+</app-overlay>

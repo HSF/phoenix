@@ -5,6 +5,7 @@ import {
 } from '../../services/extras/event-data-import';
 import { defaultAnimationPresets } from './animate-camera/animate-camera.component';
 import type {
+  HistogramConfig,
   KinematicsConfig,
   MasterclassConfig,
 } from 'phoenix-event-display';
@@ -62,6 +63,8 @@ export class UiMenuComponent {
 
   @Input()
   animationPresets = defaultAnimationPresets;
+  @Input()
+  histogramConfig?: HistogramConfig;
 
   @Input()
   uiConfig: UIMenuConfig = { ...defaultUIMenuConfig };
