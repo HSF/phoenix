@@ -2,10 +2,14 @@ import { Color } from 'three';
 import { PrettySymbols } from '../../helpers/pretty-symbols';
 import { ColorManager } from '../three-manager/color-manager';
 import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
-import { type ConfigSelect } from './phoenix-menu/config-types';
+import {
+  type ConfigColor,
+  type ConfigSelect,
+} from './phoenix-menu/config-types';
 
 /** Keys for options available for coloring event data by. */
 export enum ColorByOptionKeys {
+  COLLECTION = 'collection',
   CHARGE = 'charge',
   MOM = 'mom',
   VERTEX = 'vertex',
@@ -31,9 +35,18 @@ export class ColorOptions {
   private selectedColorByOption: ColorByOptionKeys;
   /** Phoenix menu node containing color configurations. */
   private colorOptionsFolder: PhoenixMenuNode;
+  /** Configuration holding the single color of the whole collection. */
+  private colorConfig: ConfigColor;
+  /** Configuration holding the selected option to color by. */
+  private colorByConfig?: ConfigSelect;
 
   /** All color by options possible. */
   private allColorByOptions: ColorByOption[] = [
+    {
+      key: ColorByOptionKeys.COLLECTION,
+      name: 'Collection color',
+      apply: this.applyCollectionColor.bind(this),
+    },
     {
       key: ColorByOptionKeys.CHARGE,
       name: 'Charge ' + PrettySymbols.getPrettySymbol('charge'),
@@ -94,15 +107,22 @@ export class ColorOptions {
       'color-options',
     );
 
-    this.colorOptionsFolder.addConfig({
+    this.colorConfig = {
       type: 'color',
       label: 'Color',
       color: collectionColor
         ? `#${collectionColor?.getHexString()}`
         : undefined,
-      onChange: (value) =>
-        this.colorManager.collectionColor(this.collectionName, value),
-    });
+      onChange: (value) => {
+        this.colorConfig.color = value;
+        // Giving the collection a single color is itself a choice of how to
+        // color it. Recording it keeps the menu honest, and stops the color
+        // being overwritten by another option when the state is loaded back.
+        this.selectColorByOption(ColorByOptionKeys.COLLECTION);
+        this.colorManager.collectionColor(this.collectionName, value);
+      },
+    };
+    this.colorOptionsFolder.addConfig(this.colorConfig);
 
     this.colorOptionsFolder.addConfig({
       type: 'button',
@@ -120,8 +140,12 @@ export class ColorOptions {
       colorByOptionsToInclude?.length &&
       colorByOptionsToInclude?.length > 0
     ) {
-      this.colorByOptions = this.allColorByOptions.filter((colorByOption) =>
-        colorByOptionsToInclude.includes(colorByOption.key),
+      // The collection color is always an option: without it there is no way
+      // to go back to a single color, or to express one in a saved state.
+      this.colorByOptions = this.allColorByOptions.filter(
+        (colorByOption) =>
+          colorByOption.key === ColorByOptionKeys.COLLECTION ||
+          colorByOptionsToInclude.includes(colorByOption.key),
       );
 
       this.initColorByOptions();
@@ -139,10 +163,6 @@ export class ColorOptions {
     this.selectedColorByOption = this.colorByOptions[0].key;
 
     // Configurations
-
-    // `value` is deliberately not set initially so that applying the config
-    // state on creation does not override the collection color. It is set on
-    // user selection so the choice survives saving/loading the menu state.
     const colorByConfig: ConfigSelect = {
       type: 'select',
       label: 'Color by',
@@ -162,7 +182,52 @@ export class ColorOptions {
       },
     };
 
+    this.colorByConfig = colorByConfig;
     this.colorOptionsFolder.addConfig(colorByConfig);
+
+    // The value is set after the config has been added, as adding it would
+    // otherwise apply the option and re-color a collection which is already
+    // drawn correctly. It is set at all so that the selected option is always
+    // part of the saved state, even if the user never changes it.
+    colorByConfig.value = this.colorByOptions[0].name;
+  }
+
+  /**
+   * Select an option to color by, without applying it. Used for choices which
+   * are made through another config, such as picking a color for the whole
+   * collection.
+   * @param key Key of the option to select.
+   */
+  private selectColorByOption(key: ColorByOptionKeys) {
+    const colorByOption = this.colorByOptions?.find(
+      (option) => option.key === key,
+    );
+    if (!colorByOption) {
+      // This collection has no color by options, so there is nothing to select.
+      return;
+    }
+
+    this.selectedColorByOption = colorByOption.key;
+    if (this.colorByConfig) {
+      this.colorByConfig.value = colorByOption.name;
+    }
+    this.onlySelectedColorByOption();
+  }
+
+  // Collection color options.
+
+  /**
+   * Apply the single color of the whole collection.
+   */
+  private applyCollectionColor() {
+    if (this.colorConfig.color === undefined) {
+      return;
+    }
+
+    this.colorManager.collectionColor(
+      this.collectionName,
+      this.colorConfig.color,
+    );
   }
 
   // Charge options.
