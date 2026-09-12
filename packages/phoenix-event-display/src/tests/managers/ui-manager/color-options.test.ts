@@ -107,16 +107,53 @@ describe('ColorOptions', () => {
       expect(colorManager.colorObjectsByProperty).not.toHaveBeenCalled();
     });
 
-    it('should select the collection color when one is picked', () => {
+    it('should put the selector above the configs of the selected option', () => {
+      createTrackColorOptions();
+
+      const configs = collectionFolder.findInTree('Color Options')?.configs;
+
+      expect(configs?.[0].label).toBe('Color by');
+      expect(
+        configs
+          ?.filter((config) => !config.hidden)
+          .map((config) => config.label),
+      ).toEqual(['Color by', 'Color']);
+    });
+
+    it('should hide the collection color when coloring by something else', () => {
       createTrackColorOptions();
       selectColorBy('Charge q');
 
+      expect(getConfig('Color')?.hidden).toBe(true);
+      expect(
+        collectionFolder
+          .findInTree('Color Options')
+          ?.configs.filter((config) => !config.hidden)
+          .map((config) => config.label),
+      ).toEqual(['Color by', 'q=-1', 'q=0', 'q=1']);
+    });
+
+    it('should not repaint the collection while coloring by something else', () => {
+      // A saved state applies every color it holds, this one included, and the
+      // selector is restored before it.
+      createTrackColorOptions();
+      selectColorBy('Charge q');
+      jest.clearAllMocks();
+
       (getConfig('Color') as any).onChange('#0adb2d');
 
-      expect(getConfig('Color by')?.['value']).toBe('Collection color');
+      expect(colorManager.collectionColor).not.toHaveBeenCalled();
+      expect(getConfig('Color by')?.['value']).toBe('Charge q');
+    });
+
+    it('should go back to the collection color when it is selected again', () => {
+      createTrackColorOptions();
+      selectColorBy('Charge q');
+      selectColorBy('Collection color');
+
       expect(colorManager.collectionColor).toHaveBeenLastCalledWith(
         'CombinedMuonTracks',
-        '#0adb2d',
+        '#ff8000',
       );
     });
 
@@ -174,6 +211,69 @@ describe('ColorOptions', () => {
       expect(colorManager.colorObjectsByProperty).not.toHaveBeenCalled();
     });
 
+    it('should offer the collection color and a random one to any collection', () => {
+      // Neither needs anything of the event data, so a collection with no
+      // other option - hits, jets - can still be colored by them.
+      new ColorOptions(colorManager, collectionFolder, new Color(0xff8000));
+
+      expect(getConfig('Color by')?.['options']).toEqual([
+        'Collection color',
+        'Random',
+      ]);
+    });
+
+    it('should give each object its own color when coloring at random', () => {
+      createTrackColorOptions();
+      selectColorBy('Random');
+
+      expect(colorManager.colorObjectsByComputedColor).toHaveBeenCalled();
+      expect(
+        collectionFolder
+          .findInTree('Color Options')
+          ?.configs.filter((config) => !config.hidden)
+          .map((config) => config.label),
+      ).toEqual(['Color by', 'Random']);
+    });
+
+    /** Color the first few objects of the collection at random. */
+    const randomColors = () => {
+      (colorManager.colorObjectsByComputedColor as jest.Mock).mockClear();
+      selectColorBy('Random');
+      const getColor = (colorManager.colorObjectsByComputedColor as jest.Mock)
+        .mock.calls[0][1];
+      return [0, 1, 2, 3].map(() => getColor({}).getHexString());
+    };
+
+    it('should give every object a different random color', () => {
+      createTrackColorOptions();
+
+      const colors = randomColors();
+
+      expect(new Set(colors).size).toBe(colors.length);
+    });
+
+    it('should give new random colors only when they are asked for', () => {
+      createTrackColorOptions();
+
+      const colors = randomColors();
+      expect(randomColors()).toEqual(colors);
+
+      (getConfig('Random') as any).onClick();
+      expect(randomColors()).not.toEqual(colors);
+    });
+
+    it('should keep a random coloring over a save and load', () => {
+      createTrackColorOptions();
+      const colors = randomColors();
+
+      const state = saveState();
+      collectionFolder = new PhoenixMenuNode('CombinedMuonTracks');
+      createTrackColorOptions();
+      collectionFolder.loadStateFromJSON(state);
+
+      expect(randomColors()).toEqual(colors);
+    });
+
     it('should only show the configs of the selected option after a load', () => {
       createTrackColorOptions();
       selectColorBy('Charge q');
@@ -186,6 +286,32 @@ describe('ColorOptions', () => {
 
       expect(getConfig('q=1')?.hidden).toBe(false);
       expect(getConfig('|p| min')?.hidden).toBe(true);
+    });
+
+    it('should group its configs itself rather than take the grouping from a state', () => {
+      // States saved before the collection color and the random one were
+      // options hold a "Color" and a "Random" which belonged to no group.
+      createTrackColorOptions();
+
+      const state = saveState();
+      const colorOptionsState = state['children'].find(
+        (child: any) => child.name === 'Color Options',
+      );
+      for (const label of ['Color', 'Random']) {
+        delete colorOptionsState.configs.find(
+          (config: any) => config.label === label,
+        ).group;
+      }
+      delete colorOptionsState.configs.find(
+        (config: any) => config.label === 'Color by',
+      ).value;
+
+      collectionFolder.loadStateFromJSON(state);
+
+      expect(getConfig('Color')?.group).toBe(ColorByOptionKeys.COLLECTION);
+      expect(getConfig('Random')?.group).toBe(ColorByOptionKeys.RANDOM);
+      expect(getConfig('Color')?.hidden).toBe(false);
+      expect(getConfig('Random')?.hidden).toBe(true);
     });
   });
 });
