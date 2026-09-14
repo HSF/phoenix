@@ -18,6 +18,18 @@ export interface CutJSON {
   minCutActive: boolean;
   /** Whether the upper bound cut is currently active. */
   maxCutActive: boolean;
+  /**
+   * The bounds and flags "Reset cuts" restores, i.e. the collection's full
+   * range rather than the narrowing the user saved. Optional so that state
+   * files written before this was persisted still load; for those the active
+   * values are used, which is the old behaviour.
+   */
+  defaults?: {
+    minValue: number;
+    maxValue: number;
+    minCutActive: boolean;
+    maxCutActive: boolean;
+  };
 }
 
 /**
@@ -85,14 +97,22 @@ export class Cut {
    * and active flags.
    */
   clone(): Cut {
-    return new Cut(
+    // Build from the defaults so the copy resets to the collection's real
+    // range, then apply the current state on top. Constructing from the
+    // current values would make any narrowing the new default.
+    const cut = new Cut(
       this.field,
-      this.minValue,
-      this.maxValue,
+      this.defaultMinValue,
+      this.defaultMaxValue,
       this.step,
-      this.minCutActive,
-      this.maxCutActive,
+      this.defaultApplyMinValue,
+      this.defaultApplyMaxValue,
     );
+    cut.minValue = this.minValue;
+    cut.maxValue = this.maxValue;
+    cut.minCutActive = this.minCutActive;
+    cut.maxCutActive = this.maxCutActive;
+    return cut;
   }
 
   /**
@@ -119,6 +139,12 @@ export class Cut {
       step: Number(this.step),
       minCutActive: Boolean(this.minCutActive),
       maxCutActive: Boolean(this.maxCutActive),
+      defaults: {
+        minValue: Number(this.defaultMinValue),
+        maxValue: Number(this.defaultMaxValue),
+        minCutActive: Boolean(this.defaultApplyMinValue),
+        maxCutActive: Boolean(this.defaultApplyMaxValue),
+      },
     };
   }
 
@@ -127,14 +153,25 @@ export class Cut {
    * Handles cases where values might come as strings from JSON.parse().
    */
   static fromJSON(json: CutJSON): Cut {
-    return new Cut(
+    // Construct from the saved defaults so "Reset cuts" still restores the
+    // collection's full range. State files written before `defaults` was
+    // persisted fall back to the active values, preserving the old behaviour.
+    const defaults = json.defaults;
+    const cut = new Cut(
       json.field,
-      Number(json.minValue),
-      Number(json.maxValue),
+      Number(defaults?.minValue ?? json.minValue),
+      Number(defaults?.maxValue ?? json.maxValue),
       Number(json.step ?? 1),
-      Boolean(json.minCutActive ?? true),
-      Boolean(json.maxCutActive ?? true),
+      Boolean(defaults?.minCutActive ?? json.minCutActive ?? true),
+      Boolean(defaults?.maxCutActive ?? json.maxCutActive ?? true),
     );
+
+    // Then restore the state the user actually saved.
+    cut.minValue = Number(json.minValue);
+    cut.maxValue = Number(json.maxValue);
+    cut.minCutActive = Boolean(json.minCutActive ?? true);
+    cut.maxCutActive = Boolean(json.maxCutActive ?? true);
+    return cut;
   }
 
   /**
