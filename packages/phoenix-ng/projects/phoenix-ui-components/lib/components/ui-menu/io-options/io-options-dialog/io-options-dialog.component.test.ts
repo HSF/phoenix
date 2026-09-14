@@ -191,3 +191,111 @@ describe('IoOptionsDialogComponent', () => {
     expect(mockEventDisplayService.exportToOBJ).toHaveBeenCalled();
   });
 });
+
+/**
+ * A .phnx file is read by FileReader and handed to `parsePhoenixDisplay`,
+ * which calls `JSON.parse` on the raw text. `parsePhoenixDisplay` is `async`,
+ * so a malformed file surfaces as a rejected promise, and nothing in the
+ * `FileReader.onload` callback awaits it - `reader.onerror` only fires for
+ * read failures. The rejection goes unhandled and the user, who picked a file
+ * and pressed a button, sees nothing happen at all.
+ *
+ * The sibling JSON handlers (`handleJSONEventDataInput`,
+ * `handleEDM4HEPJSONEventDataInput`) already report malformed input this way.
+ */
+describe('IOOptionsDialogComponent invalid .phnx handling', () => {
+  let component: IOOptionsDialogComponent;
+  let fixture: ComponentFixture<IOOptionsDialogComponent>;
+
+  const infoLoggerAdd = jest.fn();
+  const notificationError = jest.fn();
+  /** Stands in for the real async parse: JSON.parse throws after the async
+   * boundary, so the caller sees a rejected promise, not a sync throw. */
+  const parsePhoenixDisplay = jest.fn(
+    async (content: string) => JSON.parse(content) as unknown,
+  );
+
+  const mockDialogRef = { close: jest.fn() };
+
+  const mockEventDisplayService = {
+    parsePhoenixDisplay,
+    getInfoLogger: () => ({ add: infoLoggerAdd }),
+  };
+
+  beforeEach(() => {
+    infoLoggerAdd.mockClear();
+    notificationError.mockClear();
+    parsePhoenixDisplay.mockClear();
+
+    TestBed.configureTestingModule({
+      imports: [BrowserAnimationsModule, PhoenixUIModule],
+      providers: [
+        { provide: EventDisplayService, useValue: mockEventDisplayService },
+        { provide: MatDialogRef, useValue: mockDialogRef },
+      ],
+      declarations: [IOOptionsDialogComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(IOOptionsDialogComponent);
+    component = fixture.componentInstance;
+    (component as any).notificationService = { error: notificationError };
+    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    fixture.destroy();
+  });
+
+  /**
+   * Run a handler and return the callback it passed to handleFileInput, so the
+   * parse path can be driven directly without a real FileReader.
+   */
+  function captureCallback(
+    run: (files: FileList) => void,
+  ): (content: string, name?: string) => void {
+    let captured: (content: string, name?: string) => void;
+    jest
+      .spyOn(component, 'handleFileInput')
+      .mockImplementation((_file, _ext, callback) => {
+        captured = callback;
+      });
+    run.call(
+      component,
+      mockFileList([
+        new File(['not json'], 'broken.phnx', { type: 'text/plain' }),
+      ]),
+    );
+    return captured;
+  }
+
+  it.each([
+    ['scene', (c: IOOptionsDialogComponent) => c.handleSceneInput.bind(c)],
+    ['phoenix', (c: IOOptionsDialogComponent) => c.handlePhoenixInput.bind(c)],
+  ])('reports an error for an invalid %s file', async (_label, pick) => {
+    const callback = captureCallback(pick(component));
+
+    expect(() => callback('not json')).not.toThrow();
+    // The rejection is handled on a later microtask.
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(parsePhoenixDisplay).toHaveBeenCalled();
+    expect(notificationError).toHaveBeenCalledWith(
+      expect.stringContaining('.phnx'),
+    );
+    expect(infoLoggerAdd).toHaveBeenCalled();
+  });
+
+  it('loads a valid .phnx file without reporting an error', async () => {
+    const callback = captureCallback(
+      component.handlePhoenixInput.bind(component),
+    );
+
+    callback('{"sceneConfiguration":{},"scene":{}}');
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(parsePhoenixDisplay).toHaveBeenCalled();
+    expect(notificationError).not.toHaveBeenCalled();
+  });
+});
