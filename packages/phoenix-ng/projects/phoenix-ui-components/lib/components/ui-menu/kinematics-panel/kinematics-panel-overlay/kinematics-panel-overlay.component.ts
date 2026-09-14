@@ -294,10 +294,15 @@ export class KinematicsPanelOverlayComponent implements OnInit, OnDestroy {
     const blob = new Blob([tsv], { type: 'text/tab-separated-values' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
+    a.style.display = 'none';
     a.href = url;
     a.download = filename;
     a.click();
-    URL.revokeObjectURL(url);
+    a.remove();
+    // The download is started asynchronously by the click above, so revoking
+    // synchronously here can cancel it. Release the URL on the next tick, once
+    // the browser has taken its own reference to the blob.
+    setTimeout(() => URL.revokeObjectURL(url));
   }
 
   /** Format a value for display. */

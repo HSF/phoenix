@@ -57,3 +57,81 @@ describe('MasterclassPanelOverlayComponent collection filtering (#923)', () => {
     expect(c.selectedCollection).toBe('Tracks_');
   });
 });
+
+/**
+ * The anchor click starts the download asynchronously, so revoking the object
+ * URL in the same task can cancel it before the browser has taken its own
+ * reference to the blob. `saveFile` defers the revoke for exactly this reason
+ * (see helpers/file.ts); this panel must do the same.
+ */
+describe('MasterclassPanelOverlayComponent export', () => {
+  const OBJECT_URL = 'blob:phoenix/masterclass';
+
+  const originalCreate = (URL as any).createObjectURL;
+  const originalRevoke = (URL as any).revokeObjectURL;
+
+  let createObjectURL: jest.Mock;
+  let revokeObjectURL: jest.Mock;
+
+  beforeEach(() => {
+    jest.useFakeTimers();
+    createObjectURL = jest.fn().mockReturnValue(OBJECT_URL);
+    revokeObjectURL = jest.fn();
+    // jsdom does not implement the object URL APIs.
+    (URL as any).createObjectURL = createObjectURL;
+    (URL as any).revokeObjectURL = revokeObjectURL;
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+    jest.restoreAllMocks();
+    (URL as any).createObjectURL = originalCreate;
+    (URL as any).revokeObjectURL = originalRevoke;
+  });
+
+  /**
+   * Build a bare instance. `exportResults` only reads `massResults`, so
+   * constructing through Angular DI is unnecessary.
+   */
+  function makeComponent(): MasterclassPanelOverlayComponent {
+    const component: MasterclassPanelOverlayComponent = Object.create(
+      MasterclassPanelOverlayComponent.prototype,
+    );
+    component.massResults = [{ eventType: 'Z', mass: 91188 }] as any;
+    return component;
+  }
+
+  it('does not revoke the object URL synchronously', () => {
+    const component = makeComponent();
+
+    component.exportResults();
+
+    expect(createObjectURL).toHaveBeenCalledTimes(1);
+    // Revoking here would cancel the download the click just started.
+    expect(revokeObjectURL).not.toHaveBeenCalled();
+
+    jest.runAllTimers();
+
+    expect(revokeObjectURL).toHaveBeenCalledWith(OBJECT_URL);
+  });
+
+  it('does not create an object URL when there are no results', () => {
+    const component = makeComponent();
+    component.massResults = [];
+
+    component.exportResults();
+    jest.runAllTimers();
+
+    expect(createObjectURL).not.toHaveBeenCalled();
+    expect(revokeObjectURL).not.toHaveBeenCalled();
+  });
+
+  it('does not leave the temporary anchor in the document', () => {
+    const component = makeComponent();
+
+    component.exportResults();
+    jest.runAllTimers();
+
+    expect(document.querySelectorAll('a[download]')).toHaveLength(0);
+  });
+});
