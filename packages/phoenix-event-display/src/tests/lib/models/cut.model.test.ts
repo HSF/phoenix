@@ -72,6 +72,14 @@ describe('Cut', () => {
         step: 0.1,
         minCutActive: true,
         maxCutActive: false,
+        // Carried so "Reset cuts" still restores the collection's full range
+        // after a save/load round trip.
+        defaults: {
+          minValue: -1.0,
+          maxValue: 1.0,
+          minCutActive: true,
+          maxCutActive: false,
+        },
       });
     });
 
@@ -155,5 +163,95 @@ describe('Cut', () => {
       expect(restored.cutPassed(5)).toBe(false);
       expect(restored.cutPassed(60)).toBe(false);
     });
+  });
+});
+
+/**
+ * A Cut remembers the bounds it was constructed with as the values `reset()`
+ * restores. `clone()` and `fromJSON()` both rebuild a Cut through the
+ * constructor using the *current* bounds, so any narrowing the user has done
+ * silently becomes the new default and "Reset cuts" can no longer restore the
+ * collection's real range.
+ */
+describe('Cut default bounds survive clone and fromJSON', () => {
+  it('resets a clone to the original defaults, not the narrowed values', () => {
+    const original = new Cut('pT', 0, 100, 1);
+
+    // The user drags the slider in.
+    original.minValue = 40;
+    original.maxValue = 60;
+
+    const cloned = original.clone();
+    cloned.reset();
+
+    expect(cloned.minValue).toBe(0);
+    expect(cloned.maxValue).toBe(100);
+  });
+
+  it('keeps the clone resettable even when cloned before any change', () => {
+    const original = new Cut('eta', -4, 4, 0.1);
+    const cloned = original.clone();
+
+    cloned.minValue = -1;
+    cloned.maxValue = 1;
+    cloned.reset();
+
+    expect(cloned.minValue).toBe(-4);
+    expect(cloned.maxValue).toBe(4);
+  });
+
+  it('restores config defaults after a save/load round trip', () => {
+    const cut = new Cut('pT', 0, 100, 1);
+
+    // Narrow it, then persist and restore as StateManager does.
+    cut.minValue = 40;
+    cut.maxValue = 60;
+    const restored = Cut.fromJSON(cut.toJSON());
+
+    // The saved narrowing is the active state ...
+    expect(restored.minValue).toBe(40);
+    expect(restored.maxValue).toBe(60);
+
+    // ... but "Reset cuts" must still return to the collection's full range.
+    restored.reset();
+
+    expect(restored.minValue).toBe(0);
+    expect(restored.maxValue).toBe(100);
+  });
+
+  it('falls back to the active values for a state file without defaults', () => {
+    // Written by a Phoenix build from before `defaults` was persisted.
+    const legacy = {
+      field: 'pT',
+      minValue: 40,
+      maxValue: 60,
+      step: 1,
+      minCutActive: true,
+      maxCutActive: true,
+    };
+
+    const restored = Cut.fromJSON(legacy);
+
+    expect(restored.minValue).toBe(40);
+    expect(restored.maxValue).toBe(60);
+
+    // No defaults were saved, so the old behaviour stands: reset returns to
+    // the values the file carried, rather than inventing a range.
+    restored.reset();
+    expect(restored.minValue).toBe(40);
+    expect(restored.maxValue).toBe(60);
+  });
+
+  it('round trips the active cut flags without changing their defaults', () => {
+    const cut = new Cut('phi', -3.14, 3.14, 0.01, true, false);
+
+    cut.enableMinCut(false);
+    cut.enableMaxCut(true);
+
+    const restored = Cut.fromJSON(cut.toJSON());
+    restored.reset();
+
+    expect(restored.minCutActive).toBe(true);
+    expect(restored.maxCutActive).toBe(false);
   });
 });
