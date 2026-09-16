@@ -258,10 +258,15 @@ export class MasterclassPanelOverlayComponent implements OnInit, OnDestroy {
     const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
+    a.style.display = 'none';
     a.href = url;
     a.download = 'Invariant_Masses.txt';
     a.click();
-    URL.revokeObjectURL(url);
+    a.remove();
+    // The download is started asynchronously by the click above, so revoking
+    // synchronously here can cancel it. Release the URL on the next tick, once
+    // the browser has taken its own reference to the blob.
+    setTimeout(() => URL.revokeObjectURL(url));
   }
 
   // ── Helpers ─────────────────────────────────────────────

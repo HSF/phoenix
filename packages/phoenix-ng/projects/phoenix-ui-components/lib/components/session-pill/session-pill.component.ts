@@ -134,7 +134,10 @@ export class SessionPillComponent implements OnInit, OnDestroy {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    // The download is started asynchronously by the click above, so revoking
+    // synchronously here can cancel it. Release the URL on the next tick, once
+    // the browser has taken its own reference to the blob.
+    setTimeout(() => URL.revokeObjectURL(url));
   }
 
   /**
