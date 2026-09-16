@@ -195,7 +195,7 @@ export class IOOptionsDialogComponent implements OnInit {
 
   handleSceneInput(files: FileList) {
     const callback = (content: any) => {
-      this.eventDisplay.parsePhoenixDisplay(content);
+      this.parsePhoenixFile(content);
     };
     this.handleFileInput(files[0], 'phnx', callback);
   }
@@ -211,9 +211,38 @@ export class IOOptionsDialogComponent implements OnInit {
 
   handlePhoenixInput(files: FileList) {
     const callback = (content: any) => {
-      this.eventDisplay.parsePhoenixDisplay(content);
+      this.parsePhoenixFile(content);
     };
     this.handleFileInput(files[0], 'phnx', callback);
+  }
+
+  /**
+   * Load a .phnx file, reporting malformed content instead of failing silently.
+   *
+   * `parsePhoenixDisplay` calls `JSON.parse` on the raw text. It is `async`, so
+   * that failure surfaces as a rejected promise rather than a synchronous
+   * throw, and it runs inside the `FileReader.onload` callback where nothing
+   * awaits it - `onerror` only covers read failures. Both paths are handled
+   * here: `try` for anything thrown before the first await, `catch` on the
+   * promise for the rejection.
+   * @param content Raw text content of the .phnx file.
+   */
+  private parsePhoenixFile(content: any) {
+    const onError = (error: any) => {
+      const message =
+        'Could not parse .phnx file. Please ensure it is valid JSON.';
+      this.eventDisplay.getInfoLogger().add(message, 'Error');
+      this.notificationService.error(message);
+      console.error('Error parsing .phnx file:', error);
+    };
+
+    try {
+      Promise.resolve(this.eventDisplay.parsePhoenixDisplay(content)).catch(
+        onError,
+      );
+    } catch (error) {
+      onError(error);
+    }
   }
 
   async handleROOTInput(files: FileList) {
