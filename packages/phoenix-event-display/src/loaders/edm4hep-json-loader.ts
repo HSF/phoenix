@@ -210,27 +210,40 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     trackCollection.forEach((rawTrack: edm4hep.Track) => {
       const pos: number[][] = []; // An array of positions is needed to render the tracks as bars
 
-      // @todo trackerhits might always exist
-      if ('trackerHits' in rawTrack && rawTrack.trackerHits.length > 0) {
+      if (
+        Array.isArray(rawTrack.trackerHits) &&
+        rawTrack.trackerHits.length > 0
+      ) {
         rawTrack.trackerHits.forEach((trackerHitRef: ObjectID) => {
           const trackerHits: edm4hep.Hit[] = this.getCollByID(
             rawEvent,
             trackerHitRef.collectionID,
           );
 
-          pos.push([
-            trackerHits[trackerHitRef.index].position.x * 0.1,
-            trackerHits[trackerHitRef.index].position.y * 0.1,
-            trackerHits[trackerHitRef.index].position.z * 0.1,
-          ]);
+          const hit = trackerHits?.[trackerHitRef.index];
+          if (hit?.position) {
+            pos.push([
+              hit.position.x * 0.1,
+              hit.position.y * 0.1,
+              hit.position.z * 0.1,
+            ]);
+          }
         });
-      } else {
+      }
+
+      if (
+        pos.length === 0 &&
+        Array.isArray(rawTrack.trackStates) &&
+        rawTrack.trackStates.length > 0
+      ) {
         rawTrack.trackStates.forEach((trackState: edm4hep.TrackState) => {
-          pos.push([
-            trackState.referencePoint.x * 0.1,
-            trackState.referencePoint.y * 0.1,
-            trackState.referencePoint.z * 0.1,
-          ]);
+          if (trackState?.referencePoint) {
+            pos.push([
+              trackState.referencePoint.x * 0.1,
+              trackState.referencePoint.y * 0.1,
+              trackState.referencePoint.z * 0.1,
+            ]);
+          }
         });
       }
 
