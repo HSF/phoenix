@@ -29,6 +29,7 @@ export const readZipFile = async (file: File | ArrayBuffer) => {
 export const loadEventsFromZip = async (
   file: File | ArrayBuffer,
   jiveXMLLoader?: any,
+  infoLogger?: any,
 ): Promise<{ [key: string]: any }> => {
   const filesWithData = await readZipFile(file);
   const allEventsObject: { [key: string]: any } = {};
@@ -40,7 +41,8 @@ export const loadEventsFromZip = async (
       try {
         Object.assign(allEventsObject, JSON.parse(filesWithData[fileName]));
       } catch (error) {
-        console.error(`Error parsing JSON file ${fileName} from zip:`, error);
+        console.error(`Could not parse ${fileName} - invalid JSON.`, error);
+        infoLogger?.add(`Could not parse ${fileName}`, 'Error');
       }
     });
 
@@ -62,6 +64,7 @@ export const loadEventsFromZip = async (
           `Error parsing JiveXML file ${fileName} from zip:`,
           error,
         );
+        infoLogger?.add(`Could not parse ${fileName}`, 'Error');
       }
     });
   }

@@ -337,7 +337,11 @@ export class EventDisplay {
         this.configuration?.eventDataLoader instanceof JiveXMLLoader
           ? (this.configuration.eventDataLoader as JiveXMLLoader)
           : undefined;
-      const eventsData = await loadEventsFromZip(zipData, jiveloader);
+      const eventsData = await loadEventsFromZip(
+        zipData,
+        jiveloader,
+        this.getInfoLogger(),
+      );
       if (Object.keys(eventsData).length > 0) {
         this.parsePhoenixEvents(eventsData);
       } else {
