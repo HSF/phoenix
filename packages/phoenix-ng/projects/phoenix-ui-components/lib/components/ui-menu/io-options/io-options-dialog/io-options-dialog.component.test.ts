@@ -34,6 +34,7 @@ describe('IoOptionsDialogComponent', () => {
   const mockEventDisplayService = {
     buildEventDataFromJSON: jest.fn(),
     parsePhoenixEvents: jest.fn(),
+    parseZipEventData: jest.fn(),
     parseOBJGeometry: jest.fn(),
     parsePhoenixDisplay: jest.fn(),
     parseGLTFGeometry: jest.fn(),
