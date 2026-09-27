@@ -360,46 +360,11 @@ export class IOOptionsDialogComponent implements OnInit {
   }
 
   async handleZipEventDataInput(files: FileList) {
-    if (!this.isFileOfExtension(files[0].name, 'zip,json.zip')) {
+    if (!this.isFileOfExtension(files[0].name, 'zip,json.zip,phnxzip')) {
       return;
     }
 
-    const allEventsObject = {};
-    let filesWithData: { [fileName: string]: string };
-
-    // Using a try catch block to catch any errors in Promises
-    try {
-      filesWithData = await readZipFile(files[0]);
-    } catch (error) {
-      console.error('Error while reading zip', error);
-      this.eventDisplay.getInfoLogger().add('Could not read zip file', 'Error');
-      this.notificationService.error('Could not read zip file.');
-      return;
-    }
-
-    // JSON event data
-    Object.keys(filesWithData)
-      .filter((fileName) => fileName.endsWith('.json'))
-      .forEach((fileName) => {
-        Object.assign(allEventsObject, JSON.parse(filesWithData[fileName]));
-      });
-
-    // JiveXML event data
-    const jiveloader = this.getJiveXMLLoader();
-
-    Object.keys(filesWithData)
-      .filter((fileName) => {
-        return fileName.endsWith('.xml') || fileName.startsWith('JiveXML');
-      })
-      .forEach((fileName) => {
-        jiveloader.process(filesWithData[fileName]);
-        const eventData = jiveloader.getEventData();
-        Object.assign(allEventsObject, { [fileName]: eventData });
-      });
-    // For some reason the above doesn't pick up JiveXML_XXX_YYY.zip
-
-    this.eventDisplay.parsePhoenixEvents(allEventsObject);
-
+    await this.eventDisplay.parseZipEventData(files[0]);
     this.onClose();
   }
 

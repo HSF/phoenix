@@ -25,6 +25,8 @@ import {
   SessionManager,
   type SessionManagerHost,
 } from './managers/session-manager';
+import { loadEventsFromZip } from './helpers/zip';
+import { JiveXMLLoader } from './loaders/jivexml-loader';
 
 declare global {
   /**
@@ -323,6 +325,31 @@ export class EventDisplay {
     this.onEventsChange.forEach((callback) => callback(eventKeys));
 
     return eventKeys;
+  }
+
+  /**
+   * Load and parse events from a zip file or ArrayBuffer containing JSON or JiveXML event files.
+   * @param zipData File or ArrayBuffer containing the zip archive data.
+   */
+  public async parseZipEventData(zipData: File | ArrayBuffer) {
+    try {
+      const jiveloader =
+        this.configuration?.eventDataLoader instanceof JiveXMLLoader
+          ? (this.configuration.eventDataLoader as JiveXMLLoader)
+          : undefined;
+      const eventsData = await loadEventsFromZip(zipData, jiveloader);
+      if (Object.keys(eventsData).length > 0) {
+        this.parsePhoenixEvents(eventsData);
+      } else {
+        this.getInfoLogger().add(
+          'No valid event files found in zip archive.',
+          'Warning',
+        );
+      }
+    } catch (error) {
+      console.error('Error while reading zip event data:', error);
+      this.getInfoLogger().add('Could not read zip event file.', 'Error');
+    }
   }
 
   /**

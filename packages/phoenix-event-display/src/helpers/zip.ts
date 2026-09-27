@@ -19,3 +19,52 @@ export const readZipFile = async (file: File | ArrayBuffer) => {
 
   return filesWithData;
 };
+
+/**
+ * Extract and parse all JSON and XML (JiveXML) event files contained inside a zip archive.
+ * @param file The zip file or array buffer to be read.
+ * @param jiveXMLLoader Optional JiveXMLLoader instance to process XML events.
+ * @returns Object with parsed event names as keys and event data objects as values.
+ */
+export const loadEventsFromZip = async (
+  file: File | ArrayBuffer,
+  jiveXMLLoader?: any,
+): Promise<{ [key: string]: any }> => {
+  const filesWithData = await readZipFile(file);
+  const allEventsObject: { [key: string]: any } = {};
+
+  // Parse JSON event data
+  Object.keys(filesWithData)
+    .filter((fileName) => fileName.endsWith('.json'))
+    .forEach((fileName) => {
+      try {
+        Object.assign(allEventsObject, JSON.parse(filesWithData[fileName]));
+      } catch (error) {
+        console.error(`Error parsing JSON file ${fileName} from zip:`, error);
+      }
+    });
+
+  // Parse JiveXML event data if present
+  const xmlFiles = Object.keys(filesWithData).filter(
+    (fileName) => fileName.endsWith('.xml') || fileName.startsWith('JiveXML'),
+  );
+
+  if (xmlFiles.length > 0 && jiveXMLLoader) {
+    xmlFiles.forEach((fileName) => {
+      try {
+        jiveXMLLoader.process(filesWithData[fileName]);
+        const eventData = jiveXMLLoader.getEventData();
+        if (eventData) {
+          Object.assign(allEventsObject, { [fileName]: eventData });
+        }
+      } catch (error) {
+        console.error(
+          `Error parsing JiveXML file ${fileName} from zip:`,
+          error,
+        );
+      }
+    });
+  }
+
+  return allEventsObject;
+};
