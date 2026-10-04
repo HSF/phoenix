@@ -158,8 +158,10 @@ export class AnimationsManager {
       return;
     }
 
-    // 🔥 Hide labels at the start of the animation
+    // 🔥 Hide labels at the start of the animation, remembering whether they
+    // were on so a toggled-off labels group is not switched back on at the end.
     const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
+    const labelsWereVisible = labelsGroup?.visible ?? true;
     if (labelsGroup) labelsGroup.visible = false;
 
     const extraAnimationSphereDuration = tweenDuration * 0.25;
@@ -169,6 +171,7 @@ export class AnimationsManager {
     const objectsToAnimateWithSphere: {
       eventObject: Object3D;
       position: any;
+      wasVisible: boolean;
     }[] = [];
 
     const allTweens = [];
@@ -250,6 +253,11 @@ export class AnimationsManager {
             ? eventObject.position
             : eventObject.geometry.boundingSphere.center;
 
+          // Remember whether the object was visible before the animation
+          // hid it. Objects filtered out by a cut are already invisible, and
+          // must stay that way once the animation reveals the rest.
+          const wasVisible = eventObject.visible;
+
           if (eventObject.name === 'Hit') {
             position = Array.from(
               eventObject.geometry.attributes['position'].array,
@@ -263,6 +271,7 @@ export class AnimationsManager {
           objectsToAnimateWithSphere.push({
             eventObject: eventObject,
             position: position,
+            wasVisible: wasVisible,
           });
         }
       }
@@ -294,7 +303,7 @@ export class AnimationsManager {
             geometry.computeBoundingSphere();
           }
         } else if (updateAnimationSphere.containsPoint(obj.position)) {
-          obj.eventObject.visible = true;
+          obj.eventObject.visible = obj.wasVisible;
         }
       });
     };
@@ -323,9 +332,9 @@ export class AnimationsManager {
     animationSphereTweenClone.onComplete(() => {
       onAnimationSphereUpdate(new Sphere(new Vector3(), Infinity));
 
-      // 🔥 Show labels again when the animation ends
+      // 🔥 Restore labels to their pre-animation state when the animation ends
       const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
-      if (labelsGroup) labelsGroup.visible = true;
+      if (labelsGroup) labelsGroup.visible = labelsWereVisible;
 
       onEnd?.();
     });
@@ -349,8 +358,10 @@ export class AnimationsManager {
       return;
     }
 
-    // 🔥 Hide labels at the start of the animation
+    // 🔥 Hide labels at the start of the animation, remembering whether they
+    // were on so a toggled-off labels group is not switched back on at the end.
     const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
+    const labelsWereVisible = labelsGroup?.visible ?? true;
     if (labelsGroup) labelsGroup.visible = false;
 
     // Sphere to get spherical set of clipping planes from
@@ -411,6 +422,9 @@ export class AnimationsManager {
           eventObject.material.clippingPlanes = null;
         }
       });
+
+      // 🔥 Restore labels to their pre-animation state when the animation ends
+      if (labelsGroup) labelsGroup.visible = labelsWereVisible;
 
       onEnd?.();
     });

@@ -2,7 +2,15 @@
  * @jest-environment jsdom
  */
 import { Easing, Group as TweenGroup } from '@tweenjs/tween.js';
-import { Camera, Object3D, PerspectiveCamera, Scene, Vector3 } from 'three';
+import {
+  BoxGeometry,
+  Camera,
+  Mesh,
+  Object3D,
+  PerspectiveCamera,
+  Scene,
+  Vector3,
+} from 'three';
 import {
   AnimationsManager,
   AnimationPreset,
@@ -85,6 +93,79 @@ describe('AnimationsManager', () => {
         () => {},
       );
       expect(scene.getObjectByName).toHaveBeenCalled();
+    });
+
+    it('should keep objects hidden by a cut hidden through the animation', () => {
+      const eventData = scene.getObjectByName(SceneManager.EVENT_DATA_ID);
+      const collection = new Object3D();
+      collection.name = 'CaloCalTopoCluster_xAOD';
+      eventData.add(collection);
+
+      // Two clusters, as a collection filter would leave them: the one whose
+      // energy fails the cut is already hidden before the animation starts.
+      const passingCluster = new Mesh(new BoxGeometry(1, 1, 1));
+      passingCluster.name = 'Cluster';
+      passingCluster.position.set(10, 0, 0);
+      passingCluster.userData = { energy: 1000 };
+
+      const cutCluster = new Mesh(new BoxGeometry(1, 1, 1));
+      cutCluster.name = 'Cluster';
+      cutCluster.position.set(20, 0, 0);
+      cutCluster.userData = { energy: 122411 };
+      cutCluster.visible = false;
+
+      collection.add(passingCluster, cutCluster);
+
+      const tweenGroup = (animationsManager as any).tweenGroup as TweenGroup;
+      animationsManager.animateEvent(500);
+
+      // Run the animation to completion, which sweeps a sphere of infinite
+      // radius over every object.
+      tweenGroup.update(performance.now() + 100000);
+
+      expect(passingCluster.visible).toBe(true);
+      expect(cutCluster.visible).toBe(false);
+    });
+
+    it('should restore the labels after a clipping animation', () => {
+      const labelsGroup = new Object3D();
+      labelsGroup.name = SceneManager.LABELS_ID;
+      labelsGroup.visible = true;
+      scene.add(labelsGroup);
+
+      // animateEventWithClipping needs a renderer, which the shared setup
+      // leaves undefined.
+      const tweenGroup = new TweenGroup();
+      const manager = new AnimationsManager(
+        scene,
+        camera,
+        {
+          getMainRenderer: () => ({ localClippingEnabled: false }),
+          setLocalClippingEnabled: jest.fn(),
+        } as unknown as RendererManager,
+        tweenGroup,
+      );
+
+      manager.animateEventWithClipping(500);
+      expect(labelsGroup.visible).toBe(false);
+
+      tweenGroup.update(performance.now() + 100000);
+
+      expect(labelsGroup.visible).toBe(true);
+    });
+
+    it('should leave labels off after an animation if they were toggled off', () => {
+      const labelsGroup = new Object3D();
+      labelsGroup.name = SceneManager.LABELS_ID;
+      // The user has turned labels off before running the animation.
+      labelsGroup.visible = false;
+      scene.add(labelsGroup);
+
+      const tweenGroup = (animationsManager as any).tweenGroup as TweenGroup;
+      animationsManager.animateEvent(500);
+      tweenGroup.update(performance.now() + 100000);
+
+      expect(labelsGroup.visible).toBe(false);
     });
 
     it('should animate the propagation and generation of event data using clipping planes after particle collison', () => {
