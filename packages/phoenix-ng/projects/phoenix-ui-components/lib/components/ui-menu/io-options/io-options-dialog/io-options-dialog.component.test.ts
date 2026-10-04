@@ -95,18 +95,13 @@ describe('IoOptionsDialogComponent', () => {
     });
 
     it('should handle JiveXML event data input', async () => {
-      await fetch(
-        'https://raw.githubusercontent.com/HSF/phoenix/main/packages/phoenix-ng/projects/phoenix-app/src/assets/files/JiveXML/JiveXML_336567_2327102923.xml',
-      )
-        .then((res) => res.text())
-        .then((res) => {
-          const files = mockFileList([
-            new File([res], 'testfile.xml', { type: 'text/xml' }),
-          ]);
-          component.handleJiveXMLDataInput(files);
-          expect(component.handleFileInput).toHaveBeenCalled();
-        });
-    }, 60000);
+      const mockXml = '<?xml version="1.0"?><Event></Event>';
+      const files = mockFileList([
+        new File([mockXml], 'testfile.xml', { type: 'text/xml' }),
+      ]);
+      component.handleJiveXMLDataInput(files);
+      expect(component.handleFileInput).toHaveBeenCalled();
+    });
 
     describe('handleFileInput sync', () => {
       afterEach(() => {
@@ -163,16 +158,17 @@ describe('IoOptionsDialogComponent', () => {
   it('should handle zipped event data', async () => {
     const zip = new JSZip();
     zip.file('test_data.json', '{ "event": null }');
-    const jivexmlData = await fetch(
-      'https://raw.githubusercontent.com/HSF/phoenix/main/packages/phoenix-ng/projects/phoenix-app/src/assets/files/JiveXML/JiveXML_336567_2327102923.xml',
-    );
-    zip.file('test_data.xml', jivexmlData.text());
+    const mockXml = '<?xml version="1.0"?><Event></Event>';
+    zip.file('test_data.xml', mockXml);
     const zipBlob = await zip.generateAsync({ type: 'blob' });
     const files = mockFileList([
       new File([zipBlob], 'test_data.zip', { type: 'application/zip' }),
     ]);
     component.handleZipEventDataInput(files);
-  }, 60000);
+    // Need to await promises resolving inside the component
+    await new Promise(process.nextTick);
+    expect(mockEventDisplayService.parseZipEventData).toHaveBeenCalled();
+  });
 
   it('should handle ig event data', async () => {
     const ig = new JSZip();

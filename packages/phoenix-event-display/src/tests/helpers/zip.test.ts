@@ -36,4 +36,21 @@ describe('Zip Helper', () => {
     expect(mockJiveLoader.process).toHaveBeenCalledWith('<g></g>');
     expect(events['JiveXML_1.xml']).toEqual({ EventXML: {} });
   });
+
+  it('should parse mixed JSON and XML archive', async () => {
+    const zip = new JSZip();
+    zip.file('event1.json', '{"Event1": {"Tracks": {}}}');
+    zip.file('JiveXML_1.xml', '<g></g>');
+    const blob = await zip.generateAsync({ type: 'arraybuffer' });
+
+    const mockJiveLoader = {
+      process: jest.fn(),
+      getEventData: jest.fn().mockReturnValue({ EventXML: {} }),
+    };
+
+    const events = await loadEventsFromZip(blob, mockJiveLoader as any);
+    expect(events['Event1']).toBeDefined();
+    expect(mockJiveLoader.process).toHaveBeenCalledWith('<g></g>');
+    expect(events['JiveXML_1.xml']).toEqual({ EventXML: {} });
+  });
 });
