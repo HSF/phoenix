@@ -58,6 +58,41 @@ describe('MasterclassPanelOverlayComponent collection filtering (#923)', () => {
   });
 });
 
+describe('MasterclassPanelOverlayComponent recordResult (#1042)', () => {
+  it('emits result-recorded payload with mass converted to GeV', () => {
+    const eventDisplay: any = {
+      emit: jest.fn(),
+    };
+    const component = new MasterclassPanelOverlayComponent(eventDisplay);
+    component.taggedParticles = [
+      {
+        uuid: '1',
+        tag: 'muon',
+        fourMomentum: { E: 50000, px: 0, py: 0, pz: 0 },
+        pT: 0,
+        eta: 0,
+        phi: 0,
+      },
+      {
+        uuid: '2',
+        tag: 'muon',
+        fourMomentum: { E: 41187, px: 0, py: 0, pz: 0 },
+        pT: 0,
+        eta: 0,
+        phi: 0,
+      },
+    ];
+    // Total E = 91187 MeV
+    component.recordResult();
+
+    expect(eventDisplay.emit).toHaveBeenCalledWith('result-recorded', {
+      eventType: 'm',
+      mass: 91.187,
+      particleCount: 2,
+    });
+  });
+});
+
 /**
  * The anchor click starts the download asynchronously, so revoking the object
  * URL in the same task can cancel it before the browser has taken its own
