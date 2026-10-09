@@ -204,6 +204,39 @@ describe('URLOptionsManager', () => {
       const display: any = {
         parsePhoenixEvents,
         getInfoLogger: () => ({ add: infoLoggerAdd }),
+        parseZipEventData: jest
+          .fn()
+          .mockImplementation(async (fileBuffer: File | ArrayBuffer) => {
+            let filesWithData: { [fileName: string]: string };
+            try {
+              filesWithData = await readZipFile(fileBuffer);
+            } catch (error) {
+              infoLoggerAdd('Could not read zip file', 'Error');
+              return;
+            }
+
+            const allEventsObject = {};
+            Object.keys(filesWithData)
+              .filter((fileName) => fileName.endsWith('.json'))
+              .forEach((fileName) => {
+                try {
+                  Object.assign(
+                    allEventsObject,
+                    JSON.parse(filesWithData[fileName]),
+                  );
+                } catch (error) {
+                  console.error(
+                    `Could not parse ${fileName} - invalid JSON.`,
+                    error,
+                  );
+                  infoLoggerAdd(`Could not parse ${fileName}`, 'Error');
+                }
+              });
+
+            if (Object.keys(allEventsObject).length > 0) {
+              parsePhoenixEvents(allEventsObject);
+            }
+          }),
       };
       window.fetch = jest.fn().mockResolvedValue({
         arrayBuffer: async () => new ArrayBuffer(8),
