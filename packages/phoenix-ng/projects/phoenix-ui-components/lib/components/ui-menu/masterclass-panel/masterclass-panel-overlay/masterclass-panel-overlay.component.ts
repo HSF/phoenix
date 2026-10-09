@@ -226,7 +226,10 @@ export class MasterclassPanelOverlayComponent implements OnInit, OnDestroy {
     };
     this.massResults.push(result);
 
-    this.eventDisplay.emit('result-recorded', result);
+    this.eventDisplay.emit('result-recorded', {
+      ...result,
+      mass: result.mass / 1000,
+    });
 
     this.setStatus(
       `Recorded: ${result.eventType} \u2192 ${this.massGeV(result.mass)} GeV`,
