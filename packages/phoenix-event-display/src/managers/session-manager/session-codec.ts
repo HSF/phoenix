@@ -66,16 +66,29 @@ async function pipeThroughStream(
   return out;
 }
 
+/** Options for {@link decodeSessionFromBase64}. */
+export interface DecodeSessionOptions {
+  /**
+   * Largest decompressed size accepted, in bytes. Defaults to
+   * MAX_DECOMPRESSED_BYTES. Injectable so the compression-bomb guard can be
+   * tested with a few kilobytes instead of inflating tens of megabytes.
+   */
+  maxBytes?: number;
+}
+
 /**
  * Decode a base64 deflate-compressed session payload, validate it, and
  * cap the decompressed output to defend against compression bombs.
  * @param base64 Base64 input from a URL parameter or share link.
+ * @param options Optional decoding limits.
  * @returns Validated SessionV1.
  * @throws Error when the payload is malformed, oversized, or invalid.
  */
 export async function decodeSessionFromBase64(
   base64: string,
+  options: DecodeSessionOptions = {},
 ): Promise<SessionV1> {
+  const maxBytes = options.maxBytes ?? MAX_DECOMPRESSED_BYTES;
   if (typeof base64 !== 'string' || base64.length === 0) {
     throw new Error('Session payload is empty.');
   }
@@ -106,7 +119,7 @@ export async function decodeSessionFromBase64(
     }
     if (chunk.done) break;
     total += chunk.value.byteLength;
-    if (total > MAX_DECOMPRESSED_BYTES) {
+    if (total > maxBytes) {
       await reader.cancel().catch(() => {});
       throw new Error('Session payload exceeds decompressed size limit.');
     }

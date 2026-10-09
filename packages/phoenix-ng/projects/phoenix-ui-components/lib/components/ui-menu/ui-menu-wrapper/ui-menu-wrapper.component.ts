@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   standalone: false, // this is now required when using NgModule
@@ -8,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class UiMenuWrapperComponent {
   hideUIMenu: boolean = false;
+
+  /** Whether the Ctrl/Cmd+K command palette is mounted (#942). */
+  @Input() showCommandPalette = true;
 }

@@ -1,0 +1,431 @@
+// Command palette styling. Uses the real Phoenix theme tokens (--phoenix-*)
+// so the panel adapts to light/dark like every other Phoenix overlay, with
+// hardcoded fallbacks for safety. The one bold, unmistakably-Phoenix element
+// is the brand gradient on the "on" switch; everything else stays quiet.
+
+// Signature Phoenix brand gradient (the logo / energy ramp).
+$phoenix-gradient: linear-gradient(
+  90deg,
+  #1e8bb0,
+  #00acb9,
+  #00ca9d,
+  #81df69,
+  #f1e833
+);
+// Accent (#00bcd4 in both themes); rgba($accent, a) gives the alpha tints.
+$accent: #00bcd4;
+
+// A floating panel, NOT a full-screen backdrop: covering the continuously
+// rendering WebGL canvas with a fixed inset:0 layer forces the browser out of
+// its fast canvas-presentation path into per-frame compositing of the whole
+// heavy scene, which drags/freezes the view on modest GPUs. Every other Phoenix
+// overlay (event-browser, session-pill) floats the same way. See #942.
+.cmdp-panel {
+  // Text-safe colours. The shared Phoenix tokens miss WCAG 2.2 AA (4.5:1) in
+  // the light theme: the accent #00bcd4 as text is 2.1:1 on #f5f5f5 and the
+  // secondary grey #777 is 4.1:1. The light values are darker shades of the
+  // same hues, checked on the panel and on the tinted selected row / active
+  // tab (the lowest figure is noted). Focus rings and the selected-row bar use
+  // the accent ink too, so they clear 3:1 non-text contrast.
+  --cmdp-muted: #5e5e5e; // 5.2:1
+  --cmdp-accent-ink: #006b77; // 5.0:1
+  --cmdp-ok-ink: #18794e; // 5.0:1
+  --cmdp-err-ink: #c62828; // 5.2:1
+
+  position: fixed;
+  top: 12vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  width: min(560px, 92vw);
+  max-height: 72vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--phoenix-background-color-secondary, #1e1e24);
+  color: var(--phoenix-text-color, #f5f5f5);
+  border: 1px solid var(--phoenix-border, transparent);
+  border-radius: 12px;
+  box-shadow: var(--phoenix-box-shadow, 0 12px 40px rgba(0, 0, 0, 0.5));
+  font-size: 14px;
+}
+
+// Dark theme: the shared tokens already pass on #292929 (secondary 10.5:1,
+// accent 6.3:1), so use them. The error red is lightened because #e0555b is
+// only 3.9:1 there.
+:host-context([data-theme='dark']) .cmdp-panel {
+  --cmdp-muted: var(--phoenix-text-color-secondary, #dbdbdb);
+  --cmdp-accent-ink: var(--phoenix-accent, #00bcd4); // 6.3:1 on #292929
+  --cmdp-ok-ink: #2bb673;
+  --cmdp-err-ink: #f07178; // 5.1:1
+}
+
+.cmdp-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px 18px;
+  border: none;
+  border-bottom: 1px solid var(--phoenix-border, rgba(255, 255, 255, 0.12));
+  background: transparent;
+  color: inherit;
+  font-size: 15px;
+  outline: none;
+
+  &::placeholder {
+    color: var(--cmdp-muted);
+  }
+}
+
+.cmdp-list {
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  overflow-y: auto;
+}
+
+.cmdp-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: 'title cat' 'desc desc';
+  gap: 2px 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+
+  // Hover highlight is pure CSS on purpose: a JS (mouseenter) handler would
+  // trigger a full app-wide Angular change-detection tick on every mouse move
+  // over the list, which freezes the heavy 3D scene (#942). Keyboard arrows
+  // drive `.selected`.
+  &:hover,
+  &.selected {
+    background: rgba($accent, 0.14);
+  }
+  &.selected {
+    box-shadow: inset 2px 0 0 var(--cmdp-accent-ink);
+  }
+}
+
+.cmdp-item-title {
+  grid-area: title;
+  font-weight: 600;
+}
+.cmdp-item-cat {
+  grid-area: cat;
+  align-self: center;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--cmdp-accent-ink);
+}
+.cmdp-item-desc {
+  grid-area: desc;
+  font-size: 12px;
+  color: var(--cmdp-muted);
+}
+
+.cmdp-empty {
+  padding: 18px;
+  text-align: center;
+  color: var(--cmdp-muted);
+}
+
+// ---- Parameter form ----
+.cmdp-form-head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px 18px 6px;
+}
+.cmdp-form-title {
+  font-weight: 600;
+  font-size: 15px;
+}
+.cmdp-form-sub {
+  font-size: 12px;
+  color: var(--cmdp-muted);
+}
+
+.cmdp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 18px;
+
+  // Boolean rows put the label and switch on one line.
+  &--row {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+}
+
+.cmdp-label {
+  flex: 1;
+  font-size: 13px;
+  text-transform: capitalize;
+  color: var(--phoenix-text-color, #eee);
+}
+.cmdp-label-desc {
+  text-transform: none;
+  color: var(--cmdp-muted);
+}
+
+// Gradient pill switch (replaces the raw checkbox). The native checkbox is
+// visually hidden but drives state + keyboard/screen-reader accessibility.
+.cmdp-switch-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.cmdp-switch-track {
+  position: relative;
+  flex: none;
+  width: 44px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--phoenix-background-color-tertiary, #444);
+  transition: background 0.2s ease;
+}
+.cmdp-switch-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease;
+}
+.cmdp-switch-input:checked ~ .cmdp-switch-track {
+  background: $phoenix-gradient;
+}
+.cmdp-switch-input:checked ~ .cmdp-switch-track .cmdp-switch-knob {
+  transform: translateX(20px);
+}
+.cmdp-switch-input:focus-visible ~ .cmdp-switch-track {
+  outline: 2px solid var(--cmdp-accent-ink);
+  outline-offset: 2px;
+}
+.cmdp-switch-state {
+  flex: none;
+  min-width: 22px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--cmdp-muted);
+}
+
+// Themed select + text/number inputs.
+.cmdp-select-wrap {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid var(--cmdp-muted);
+    border-bottom: 2px solid var(--cmdp-muted);
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+  }
+}
+.cmdp-select,
+.cmdp-text {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  border: 1px solid var(--phoenix-border, rgba(255, 255, 255, 0.15));
+  border-radius: 8px;
+  background: var(--phoenix-background-color-tertiary, #2a2a30);
+  color: var(--phoenix-text-color, #eee);
+  font-size: 14px;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+
+  &:focus {
+    border-color: var(--cmdp-accent-ink);
+    box-shadow: 0 0 0 2px rgba($accent, 0.25);
+  }
+}
+.cmdp-select {
+  padding-right: 34px;
+  cursor: pointer;
+}
+
+.cmdp-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 18px 18px;
+}
+.cmdp-btn {
+  padding: 8px 18px;
+  border: 1px solid var(--phoenix-border, rgba(255, 255, 255, 0.2));
+  border-radius: 8px;
+  background: transparent;
+  color: var(--phoenix-text-color, #eee);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    filter 0.15s ease,
+    background 0.15s ease;
+
+  &:hover {
+    background: rgba($accent, 0.1);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--cmdp-accent-ink);
+    outline-offset: 2px;
+  }
+}
+.cmdp-btn-run {
+  color: #fff;
+  border-color: transparent;
+  // Starts a touch darker than the Phoenix primary: white on #118ab2 is only
+  // 3.96:1, while #0b7ca1 is 4.76:1. Hover darkens rather than brightens for
+  // the same reason (brightness 1.08 would drop the label to about 4.2:1).
+  background: linear-gradient(135deg, #0b7ca1, #0c6f8f);
+
+  &:hover {
+    filter: brightness(0.92);
+    background: linear-gradient(135deg, #0b7ca1, #0c6f8f);
+  }
+}
+
+// ---- Commands / Ask mode toggle ----
+.cmdp-modes {
+  display: flex;
+  gap: 6px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--phoenix-border, rgba(255, 255, 255, 0.12));
+}
+.cmdp-mode {
+  flex: 1;
+  padding: 7px 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--cmdp-muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+
+  &:hover {
+    color: var(--phoenix-text-color, #eee);
+  }
+  &.active {
+    background: rgba($accent, 0.16);
+    color: var(--phoenix-text-color, #fff);
+    box-shadow: inset 0 0 0 1px rgba($accent, 0.4);
+  }
+}
+
+// ---- Ask (natural language) view ----
+.cmdp-ask-meta {
+  padding: 12px 18px;
+  font-size: 12px;
+  color: var(--cmdp-muted);
+}
+.cmdp-hint {
+  color: var(--cmdp-muted);
+}
+.cmdp-ask-status {
+  padding: 4px 18px 14px;
+  font-size: 13px;
+  color: var(--cmdp-muted);
+}
+.cmdp-ask-result {
+  padding: 6px 18px 16px;
+  font-size: 14px;
+
+  &.ok {
+    color: var(--cmdp-ok-ink);
+  }
+  &.err {
+    color: var(--cmdp-err-ink);
+  }
+}
+
+// Tutor answer card.
+.cmdp-answer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cmdp-answer-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cmdp-accent-ink);
+}
+.cmdp-answer-body {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--phoenix-text-color, #eee);
+}
+.cmdp-answer-action {
+  align-self: flex-start;
+}
+.cmdp-answer-related {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.cmdp-answer-related-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--cmdp-muted);
+  margin-right: 2px;
+}
+.cmdp-chip {
+  padding: 3px 10px;
+  border: 1px solid rgba($accent, 0.4);
+  border-radius: 999px;
+  background: rgba($accent, 0.1);
+  color: var(--phoenix-text-color, #eee);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba($accent, 0.22);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--cmdp-accent-ink);
+    outline-offset: 1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cmdp-switch-knob,
+  .cmdp-switch-track,
+  .cmdp-btn,
+  .cmdp-mode {
+    transition: none;
+  }
+}
+
+// "Did you mean ...?" for a mistyped command.
+.cmdp-suggestion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  color: var(--cmdp-muted);
+}
+.cmdp-suggestion-text {
+  font-size: 13px;
+}

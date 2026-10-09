@@ -59,3 +59,4 @@ export * from './managers/state-manager';
 export * from './managers/loading-manager';
 export * from './managers/url-options-manager';
 export * from './managers/session-manager';
+export * from './managers/command-registry';

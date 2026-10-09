@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Phoenix agent bridge demo</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        height: 100vh;
+        color: #eee;
+        background: #1a1a1a;
+      }
+      #panel {
+        padding: 16px;
+        overflow-y: auto;
+        border-right: 1px solid #333;
+      }
+      h1 {
+        font-size: 16px;
+        margin: 0 0 4px;
+      }
+      p.hint {
+        font-size: 12px;
+        color: #aaa;
+        margin: 0 0 16px;
+      }
+      button {
+        display: block;
+        width: 100%;
+        margin: 4px 0;
+        padding: 8px 10px;
+        text-align: left;
+        border: 1px solid #444;
+        border-radius: 6px;
+        background: #242424;
+        color: #eee;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      button:hover {
+        border-color: #00bcd4;
+      }
+      #log {
+        margin-top: 16px;
+        font-family: ui-monospace, monospace;
+        font-size: 11px;
+        white-space: pre-wrap;
+        color: #9fe;
+      }
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="panel">
+      <h1>Phoenix agent bridge</h1>
+      <p class="hint">
+        This page embeds Phoenix and drives it over postMessage, the same way an
+        external application or AI agent would. Serve this page over http from
+        localhost on a different port than Phoenix (for example
+        <code>npx http-server examples -p 8080</code>). Opening it as a file://
+        page will not work: that origin is opaque ("null") and Phoenix refuses
+        it. Click initialize first; only an initialized client receives the
+        event stream.
+      </p>
+      <button id="init">initialize</button>
+      <button id="list">tools/list</button>
+      <div id="tools"></div>
+      <div id="log"></div>
+    </div>
+    <iframe id="phoenix"></iframe>
+
+    <script>
+      // The one Phoenix this page talks to. Everything below is checked against
+      // this origin, which is the part embedders should copy.
+      const PHOENIX_URL = new URL('http://localhost:4200/atlas?agent=1');
+      const PHOENIX_ORIGIN = PHOENIX_URL.origin;
+
+      const frame = document.getElementById('phoenix');
+      frame.src = PHOENIX_URL.href;
+      const logEl = document.getElementById('log');
+      const toolsEl = document.getElementById('tools');
+      let nextId = 1;
+
+      const log = (label, data) => {
+        logEl.textContent =
+          `${label} ${JSON.stringify(data)}\n` + logEl.textContent;
+      };
+
+      /** Send one JSON-RPC request to the embedded Phoenix, and to nobody else. */
+      const call = (method, params) => {
+        const message = { jsonrpc: '2.0', id: nextId++, method };
+        if (params) message.params = params;
+        // An exact targetOrigin, never '*': if the frame has navigated to some
+        // other site, the browser drops the message instead of delivering it.
+        frame.contentWindow.postMessage(message, PHOENIX_ORIGIN);
+      };
+
+      window.addEventListener('message', (event) => {
+        // Trust nothing until the sender is proven to be the Phoenix frame:
+        // right origin AND the very window this page embedded. Any other page
+        // or frame can post to this window too.
+        if (event.origin !== PHOENIX_ORIGIN) return;
+        if (event.source !== frame.contentWindow) return;
+
+        // Then validate the shape before using any of it.
+        const message = event.data;
+        if (!message || typeof message !== 'object') return;
+        if (message.jsonrpc !== '2.0') return;
+
+        if (message.method === 'phoenix/event') {
+          log('event', message.params);
+          return;
+        }
+        if (!('id' in message)) return;
+        log('reply', message);
+
+        // Render a button per tool when a tools/list reply arrives.
+        const tools = message.result && message.result.tools;
+        if (!Array.isArray(tools)) return;
+        toolsEl.replaceChildren();
+        for (const tool of tools) {
+          if (!tool || typeof tool.name !== 'string') continue;
+          const button = document.createElement('button');
+          // textContent, never innerHTML: tool text is data, not markup.
+          button.textContent = `${tool.name}${tool.mutates ? '' : '  (read-only)'}`;
+          button.onclick = () => {
+            const args = {};
+            const properties =
+              (tool.inputSchema && tool.inputSchema.properties) || {};
+            for (const [name, prop] of Object.entries(properties)) {
+              // tools/list carries the live allowed values in `enum`.
+              const choices = Array.isArray(prop.enum)
+                ? ` (one of: ${prop.enum.join(', ')})`
+                : '';
+              const value = window.prompt(
+                `${tool.name}: ${name}${choices}`,
+                '',
+              );
+              if (value === null || value === '') continue;
+              args[name] =
+                prop.type === 'boolean'
+                  ? value === 'true'
+                  : prop.type === 'number' || prop.type === 'integer'
+                    ? Number(value)
+                    : value;
+            }
+            call('tools/call', { name: tool.name, arguments: args });
+          };
+          toolsEl.appendChild(button);
+        }
+      });
+
+      document.getElementById('init').onclick = () => call('initialize');
+      document.getElementById('list').onclick = () => call('tools/list');
+    </script>
+  </body>
+</html>

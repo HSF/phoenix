@@ -19,6 +19,7 @@
 * [Convert GDML/ROOT Geometry to GLTF](./convert-gdml-to-gltf.md)
 * [Geometry tips and tricks](./geometry-tips.md)
 * [How to make a Phoenix release](./../release.md)
+* [Controlling Phoenix from another page or an agent](./agent-bridge.md)
 * [How Phoenix tests work](./test-setup.md)
 
 ## Phoenix architecture

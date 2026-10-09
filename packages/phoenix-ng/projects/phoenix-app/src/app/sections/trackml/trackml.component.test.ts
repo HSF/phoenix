@@ -20,6 +20,9 @@ describe('TrackmlComponent', () => {
     getSessionManager: jest.fn().mockReturnValue({
       state: { value: { kind: 'idle' }, onUpdate: jest.fn(() => jest.fn()) },
     }),
+    getCommandRegistry: jest.fn().mockReturnValue({
+      list: jest.fn(() => []),
+    }),
     getStateManager: jest.fn().mockReturnThis(),
     clippingEnabled: jest.fn().mockReturnThis(),
     startClippingAngle: jest.fn().mockReturnThis(),

@@ -5282,6 +5282,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mlc-ai/web-llm@npm:^0.2.84":
+  version: 0.2.84
+  resolution: "@mlc-ai/web-llm@npm:0.2.84"
+  dependencies:
+    loglevel: ^1.9.1
+  checksum: fd86cb5260d5e97960e35ba7c96c99ef94d35c2ff491ef85bff21499841501df4febf6af07fd2b00aeb1c503116c673f182163b2cfd739f4fe09671c29c365a6
+  languageName: node
+  linkType: hard
+
 "@modelcontextprotocol/sdk@npm:1.26.0":
   version: 1.26.0
   resolution: "@modelcontextprotocol/sdk@npm:1.26.0"
@@ -15260,7 +15269,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loglevel@npm:^1.9.2":
+"loglevel@npm:^1.9.1, loglevel@npm:^1.9.2":
   version: 1.9.2
   resolution: "loglevel@npm:1.9.2"
   checksum: 896c67b90a507bfcfc1e9a4daa7bf789a441dd70d95cd13b998d6dd46233a3bfadfb8fadb07250432bbfb53bf61e95f2520f9b11f9d3175cc460e5c251eca0af
@@ -17412,6 +17421,7 @@ __metadata:
     "@angular/platform-browser-dynamic": ^20.3.28
     "@angular/router": ^20.3.28
     "@frsource/cypress-plugin-visual-regression-diff": ^3.3.10
+    "@mlc-ai/web-llm": ^0.2.84
     "@types/qrcode": ^1.5.6
     "@types/recordrtc": ^5.6.15
     concurrently: ^9.2.1

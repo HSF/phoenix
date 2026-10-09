@@ -261,6 +261,46 @@ export class ThreeManager {
     this.rendererManager.getMainRenderer().setAnimationLoop(null);
   }
 
+  /**
+   * How many callers currently want rendering paused. A COUNT, not a flag:
+   * two overlapping requests (a student pressing Enter twice) each pause and
+   * resume around their own work, and with a boolean the first to finish would
+   * resume the render loop while the second is still using the GPU, silently
+   * removing the protection against the OS GPU watchdog.
+   */
+  private renderPauseCount = 0;
+
+  /**
+   * Pause the render loop to free the GPU for a heavy off-thread job, namely
+   * in-browser model inference (#942). The WebGL render loop and WebLLM's
+   * WebGPU compute share one physical GPU: if they contend, a single compute
+   * pass can exceed the OS GPU-watchdog window (~2 s, Windows TDR), which resets
+   * the driver, invalidates command buffers and blanks the canvas for ~2 s.
+   * Pausing leaves the last frame on screen (a still detector, not a black one)
+   * and lets inference finish under the watchdog. Idempotent.
+   */
+  public pauseRendering() {
+    this.renderPauseCount++;
+    if (this.renderPauseCount > 1) return; // already paused by another caller
+    this.rendererManager.getMainRenderer().setAnimationLoop(null);
+  }
+
+  /**
+   * Release one {@link pauseRendering} request, resuming the render loop only
+   * once every caller has released. A stray resume (with nothing paused) is a
+   * no-op rather than pushing the count negative.
+   */
+  public resumeRendering() {
+    if (this.renderPauseCount === 0) return;
+    this.renderPauseCount--;
+    if (this.renderPauseCount > 0) return; // someone else still needs the GPU
+    if (this.animationLoop) {
+      this.rendererManager
+        .getMainRenderer()
+        .setAnimationLoop(this.animationLoop);
+    }
+  }
+
   /** Previous timestamp for frame time calculation. */
   now_0: any = null;
   /** Frame time delta calculation value. */
@@ -830,6 +870,18 @@ export class ThreeManager {
   // *************************************
   // * Functions redirection From ControlsManager. *
   // *************************************
+
+  /**
+   * Whether the main camera is currently orthographic.
+   *
+   * Reverting is a flip, so a caller that wants a PARTICULAR projection (an
+   * agent repeating a request, or a student saying "switch to orthographic"
+   * twice) needs to read the state before deciding to act.
+   * @returns True when the main camera is an OrthographicCamera.
+   */
+  public isMainCameraOrthographic(): boolean {
+    return this.controlsManager.getMainCamera() instanceof OrthographicCamera;
+  }
 
   /**
    * Reverts the main camera type between PerspectiveCamera and OrthographicCamera.

@@ -1,0 +1,291 @@
+<!-- Modal dialog (APG): cdkTrapFocus keeps Tab inside the panel; the component
+     moves focus in on open and back to where it was on close. -->
+<div
+  *ngIf="open"
+  class="cmdp-panel"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Command palette"
+  cdkTrapFocus
+>
+  <!-- Mode toggle (hidden while a parameter form is open) -->
+  <div class="cmdp-modes" *ngIf="!activeCommand" role="tablist">
+    <button
+      type="button"
+      class="cmdp-mode"
+      [class.active]="mode === 'commands'"
+      role="tab"
+      [attr.aria-selected]="mode === 'commands'"
+      (click)="setMode('commands')"
+    >
+      Commands
+    </button>
+    <button
+      type="button"
+      class="cmdp-mode"
+      [class.active]="mode === 'ask'"
+      role="tab"
+      [attr.aria-selected]="mode === 'ask'"
+      (click)="setMode('ask')"
+    >
+      Ask
+    </button>
+  </div>
+
+  <!-- Command picker: APG combobox with a listbox popup. DOM focus stays in the
+       input and aria-activedescendant names the option the arrows highlight,
+       so the rows need no tab stops of their own. -->
+  <ng-container *ngIf="!activeCommand && mode === 'commands'">
+    <input
+      type="text"
+      class="cmdp-input"
+      placeholder="Type a command…"
+      role="combobox"
+      aria-label="Search commands"
+      aria-autocomplete="list"
+      [attr.aria-expanded]="filtered.length > 0"
+      [attr.aria-controls]="filtered.length > 0 ? 'cmdp-listbox' : null"
+      [attr.aria-activedescendant]="
+        filtered.length > 0 ? optionIdPrefix + selectedIndex : null
+      "
+      [ngModel]="query"
+      (ngModelChange)="updateQuery($event)"
+    />
+    <ul
+      *ngIf="filtered.length > 0"
+      id="cmdp-listbox"
+      class="cmdp-list"
+      role="listbox"
+      aria-label="Commands"
+      tabindex="-1"
+    >
+      <li
+        *ngFor="let cmd of filtered; let i = index"
+        class="cmdp-item"
+        role="option"
+        [id]="optionIdPrefix + i"
+        [attr.aria-selected]="i === selectedIndex"
+        [class.selected]="i === selectedIndex"
+        (click)="choose(cmd)"
+      >
+        <span class="cmdp-item-title">{{ cmd.title || cmd.name }}</span>
+        <span class="cmdp-item-cat">{{ cmd.category }}</span>
+        <span class="cmdp-item-desc">{{ cmd.description }}</span>
+      </li>
+    </ul>
+    <!-- Outside the listbox (only options belong in it). The live region is
+         always rendered so the message is announced when it appears. -->
+    <div aria-live="polite">
+      <div *ngIf="filtered.length === 0" class="cmdp-empty">
+        No matching commands
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Ask in natural language -->
+  <ng-container *ngIf="!activeCommand && mode === 'ask'">
+    <input
+      type="text"
+      class="cmdp-input"
+      [ngModel]="askText"
+      (ngModelChange)="askText = $event; askNeedsText = false"
+      (keydown.enter)="runAsk()"
+      placeholder="Ask Phoenix to do something…"
+      aria-label="Ask in natural language"
+    />
+    <div class="cmdp-ask-meta">
+      <ng-container *ngIf="aiModelAvailable; else noModel">
+        <button
+          *ngIf="aiStatus === 'idle'"
+          type="button"
+          class="cmdp-btn"
+          (click)="enableAi()"
+        >
+          Enable local AI (one-time download, runs on your device)
+        </button>
+        <span *ngIf="aiStatus === 'loading'"
+          >Loading model… {{ aiProgressPercent }}%</span
+        >
+        <span *ngIf="aiStatus === 'ready'">Local AI ready.</span>
+        <span *ngIf="aiStatus === 'error'"
+          >AI unavailable, using keyword matching.</span
+        >
+      </ng-container>
+      <ng-template #noModel>
+        <span class="cmdp-hint">
+          Keyword mode. Try "next event", "dark theme", "show axis".
+        </span>
+      </ng-template>
+    </div>
+    <!-- Always rendered so "Thinking" and the empty-request hint get announced. -->
+    <div aria-live="polite">
+      <div *ngIf="askBusy" class="cmdp-ask-status">Thinking…</div>
+      <div *ngIf="askNeedsText && !askBusy" class="cmdp-ask-status">
+        Type a request first, for example "next event" or "dark theme".
+      </div>
+    </div>
+    <div
+      *ngIf="askOutcome && !askBusy"
+      class="cmdp-ask-result"
+      [class.ok]="askOutcome.ok && !askOutcome.answer"
+      [class.err]="!askOutcome.ok"
+    >
+      <!-- Tutor answer (a vetted explanation) -->
+      <div *ngIf="askOutcome.answer" class="cmdp-answer">
+        <div class="cmdp-answer-title">{{ askOutcome.answer.title }}</div>
+        <div class="cmdp-answer-body">{{ askOutcome.answer.body }}</div>
+        <button
+          *ngIf="askOutcome.answer.action"
+          type="button"
+          class="cmdp-btn cmdp-btn-run cmdp-answer-action"
+          (click)="runAnswerAction(askOutcome.answer.action)"
+        >
+          {{ askOutcome.answer.action.label }}
+        </button>
+        <div
+          class="cmdp-answer-related"
+          *ngIf="askOutcome.answer.related.length"
+        >
+          <span class="cmdp-answer-related-label">Related</span>
+          <button
+            type="button"
+            class="cmdp-chip"
+            *ngFor="let r of askOutcome.answer.related"
+            (click)="askAbout(r.title)"
+          >
+            {{ r.title }}
+          </button>
+        </div>
+      </div>
+
+      <!-- A command ran -->
+      <span *ngIf="askOutcome.ok && !askOutcome.answer"
+        >Ran {{ askOutcome.command
+        }}{{ askOutcome.usedFallback ? ' (keyword)' : '' }}</span
+      >
+
+      <!-- Did you mean <topic>? (a badly mistyped question) -->
+      <div *ngIf="askOutcome.suggestedTopic" class="cmdp-suggestion">
+        <span class="cmdp-suggestion-text">Did you mean</span>
+        <button
+          type="button"
+          class="cmdp-chip"
+          (click)="askAbout(askOutcome.suggestedTopic.title)"
+        >
+          {{ askOutcome.suggestedTopic.title }}
+        </button>
+        <span class="cmdp-suggestion-text">?</span>
+      </div>
+
+      <!-- Did you mean ...? (a mistyped command is proposed, never run) -->
+      <div *ngIf="askOutcome.suggestion" class="cmdp-suggestion">
+        <span class="cmdp-suggestion-text">Did you mean</span>
+        <button
+          type="button"
+          class="cmdp-chip"
+          (click)="runSuggestion(askOutcome.suggestion)"
+        >
+          {{ askOutcome.suggestion.label }}
+        </button>
+        <span class="cmdp-suggestion-text">?</span>
+      </div>
+
+      <!-- Error or honest no-answer -->
+      <span
+        *ngIf="
+          !askOutcome.ok && !askOutcome.suggestion && !askOutcome.suggestedTopic
+        "
+        >{{ askOutcome.error }}</span
+      >
+    </div>
+  </ng-container>
+
+  <!-- Parameter form -->
+  <ng-container *ngIf="activeCommand">
+    <div class="cmdp-form-head">
+      <span class="cmdp-form-title">{{
+        activeCommand.title || activeCommand.name
+      }}</span>
+      <span class="cmdp-form-sub" *ngIf="activeCommand.description">{{
+        activeCommand.description
+      }}</span>
+    </div>
+
+    <ng-container *ngFor="let p of formFields; trackBy: trackByName">
+      <!-- Boolean: gradient pill switch. The whole row is the label so a click
+           anywhere toggles the (visually hidden, keyboard-accessible) checkbox. -->
+      <label
+        class="cmdp-field cmdp-field--row"
+        *ngIf="p.prop.type === 'boolean'"
+      >
+        <span class="cmdp-label"
+          >{{ p.name
+          }}<span class="cmdp-label-desc" *ngIf="p.prop.description"
+            >: {{ p.prop.description }}</span
+          ></span
+        >
+        <input
+          class="cmdp-switch-input"
+          [id]="'cmdp-' + p.name"
+          type="checkbox"
+          [attr.aria-label]="p.name"
+          [(ngModel)]="paramValues[p.name]"
+        />
+        <span class="cmdp-switch-track" aria-hidden="true"
+          ><span class="cmdp-switch-knob"></span
+        ></span>
+        <span class="cmdp-switch-state" aria-hidden="true">{{
+          paramValues[p.name] ? 'on' : 'off'
+        }}</span>
+      </label>
+
+      <!-- Enum / free value: stacked label + themed control. -->
+      <div class="cmdp-field" *ngIf="p.prop.type !== 'boolean'">
+        <label class="cmdp-label" [attr.for]="'cmdp-' + p.name">
+          {{ p.name
+          }}<span class="cmdp-label-desc" *ngIf="p.prop.description"
+            >: {{ p.prop.description }}</span
+          >
+        </label>
+
+        <div class="cmdp-select-wrap" *ngIf="p.options.length > 0">
+          <select
+            class="cmdp-select"
+            [id]="'cmdp-' + p.name"
+            [(ngModel)]="paramValues[p.name]"
+          >
+            <option value="">Select…</option>
+            <option *ngFor="let opt of p.options" [value]="opt">
+              {{ opt }}
+            </option>
+          </select>
+        </div>
+
+        <input
+          class="cmdp-text"
+          *ngIf="p.options.length === 0"
+          [id]="'cmdp-' + p.name"
+          [type]="
+            p.prop.type === 'number' || p.prop.type === 'integer'
+              ? 'number'
+              : 'text'
+          "
+          [(ngModel)]="paramValues[p.name]"
+        />
+      </div>
+    </ng-container>
+
+    <div class="cmdp-actions">
+      <button type="button" class="cmdp-btn cmdp-btn-ghost" (click)="back()">
+        Back
+      </button>
+      <button
+        type="button"
+        class="cmdp-btn cmdp-btn-run"
+        (click)="submitParams()"
+      >
+        Run
+      </button>
+    </div>
+  </ng-container>
+</div>

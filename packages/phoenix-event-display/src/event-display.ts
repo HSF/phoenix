@@ -25,6 +25,11 @@ import {
   SessionManager,
   type SessionManagerHost,
 } from './managers/session-manager';
+import {
+  CommandRegistry,
+  registerDefaultCommands,
+  type CommandHost,
+} from './managers/command-registry';
 
 declare global {
   /**
@@ -59,6 +64,8 @@ export class EventDisplay {
     new Set();
   /** Session recorder/player coordinator for #883 (lazy initialized). */
   private sessionManager: SessionManager | null = null;
+  /** Command registry (#942), lazily initialized. */
+  private commandRegistry: CommandRegistry | null = null;
   /** Stored keydown handler for session recording shortcut. */
   private sessionRecordKeydownHandler: ((e: KeyboardEvent) => void) | null =
     null;
@@ -287,6 +294,77 @@ export class EventDisplay {
         controls.update();
       },
     };
+  }
+
+  /**
+   * Get the CommandRegistry (#942): named, schema-described actions over the
+   * Phoenix API. Lazily instantiated and populated with the default set.
+   * @returns The CommandRegistry singleton for this EventDisplay.
+   */
+  public getCommandRegistry(): CommandRegistry {
+    if (!this.commandRegistry) {
+      this.commandRegistry = new CommandRegistry(this.buildCommandHost());
+      registerDefaultCommands(this.commandRegistry);
+    }
+    return this.commandRegistry;
+  }
+
+  /**
+   * Build the host adapter that bridges command handlers to the live
+   * EventDisplay (managers, bus, object resolution).
+   * @returns The command host adapter.
+   */
+  private buildCommandHost(): CommandHost {
+    return {
+      eventDisplay: this,
+      ui: this.getUIManager(),
+      three: this.getThreeManager(),
+      state: this.getStateManager(),
+      emit: (name, data) => this.emit(name, data),
+      resolveObject: (collection, index) => {
+        const objects = this.getCollection(collection);
+        const object = objects?.[index];
+        return object?.uuid ? { uuid: object.uuid } : undefined;
+      },
+      listGeometryParts: () => this.getGeometryPartNames(),
+    };
+  }
+
+  /**
+   * Names of the detector-geometry parts currently in the scene.
+   *
+   * Read live rather than configured, because every experiment has a different
+   * detector: ATLAS, CMS, LHCb and TrackML share no part names. Two things
+   * depend on it. The `part` argument of the geometry command advertises these
+   * as its allowed values, which is what lets an agent reading the tool schema
+   * pick a real one instead of guessing; and the command refuses a name that is
+   * not in this list, rather than reporting success for something it did not
+   * do. Both were inert while this returned an empty list.
+   *
+   * Only the top two levels are returned: those are the parts a person names
+   * ("the calorimeter", "the pixel detector"), while deeper nodes are internal
+   * subdivisions. The result is capped so a large detector tree cannot bloat
+   * the tool schema sent to a model.
+   * @returns Part names, outermost first, without duplicates.
+   */
+  public getGeometryPartNames(): string[] {
+    const names = new Set<string>();
+    try {
+      const geometries = this.getThreeManager()
+        ?.getSceneManager?.()
+        ?.getGeometries?.() as { children?: any[] } | undefined;
+      for (const child of geometries?.children ?? []) {
+        if (child?.name) names.add(child.name);
+        for (const grandChild of child?.children ?? []) {
+          if (grandChild?.name) names.add(grandChild.name);
+        }
+        if (names.size >= 120) break;
+      }
+    } catch {
+      // The scene may not exist yet (called before geometry loads). An empty
+      // list leaves the argument unconstrained, which is the safe direction.
+    }
+    return [...names].slice(0, 120);
   }
 
   /**

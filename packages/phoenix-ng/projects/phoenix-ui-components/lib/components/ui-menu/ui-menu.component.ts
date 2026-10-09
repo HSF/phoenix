@@ -29,6 +29,7 @@ export interface UIMenuConfig {
   showKinematicsPanel?: boolean;
   showMasterclassPanel?: boolean;
   showHistogramPanel?: boolean;
+  showCommandPalette?: boolean;
 }
 
 export const defaultUIMenuConfig: UIMenuConfig = {
@@ -50,6 +51,7 @@ export const defaultUIMenuConfig: UIMenuConfig = {
   showKinematicsPanel: true,
   showMasterclassPanel: false,
   showHistogramPanel: false,
+  showCommandPalette: true,
 };
 
 @Component({

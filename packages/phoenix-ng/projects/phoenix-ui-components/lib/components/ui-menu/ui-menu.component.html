@@ -1,4 +1,9 @@
-<app-ui-menu-wrapper>
+<app-ui-menu-wrapper [showCommandPalette]="uiConfig.showCommandPalette">
+  <!-- Command palette: type a command or ask in natural language -->
+  <app-command-palette-toggle
+    *ngIf="uiConfig.showCommandPalette"
+  ></app-command-palette-toggle>
+
   <!-- Event selector -->
   <app-event-selector></app-event-selector>
 

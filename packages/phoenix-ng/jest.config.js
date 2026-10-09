@@ -31,7 +31,7 @@ module.exports = {
     `/node_modules/(?!.*\\.m?js$|${esModules.join('|')})`,
   ],
 
-  testRegex: '(/__test__/.*|(\\.|/)(component.test))\\.(j|t)sx?$',
+  testRegex: '(/__test__/.*|(\\.|/)(component|service)\\.test)\\.(j|t)sx?$',
 
   verbose: true,
 

@@ -139,13 +139,11 @@ describe('session-codec', () => {
     expect(decoded.events.length).toBe(big.events.length);
   });
 
-  it('rejects a compression bomb that exceeds the decompressed size cap', async () => {
-    // ~60 MB of highly-compressible zeros deflates to a tiny payload but
-    // would blow past MAX_DECOMPRESSED_BYTES (50 MB) when inflated.
-    const huge = new Uint8Array(60 * 1024 * 1024);
+  /** Deflate raw bytes into the base64 form a share link carries. */
+  async function deflateToBase64(raw: Uint8Array): Promise<string> {
     const cs = new CompressionStream('deflate');
     const writer = cs.writable.getWriter();
-    writer.write(huge).catch(() => {});
+    writer.write(raw).catch(() => {});
     writer.close().catch(() => {});
     const reader = cs.readable.getReader();
     const chunks: Uint8Array[] = [];
@@ -165,9 +163,29 @@ describe('session-codec', () => {
     let binary = '';
     for (let i = 0; i < merged.length; i++)
       binary += String.fromCharCode(merged[i]);
-    await expect(decodeSessionFromBase64(btoa(binary))).rejects.toThrow(
-      /size limit/i,
+    return btoa(binary);
+  }
+
+  it('rejects a compression bomb that exceeds the decompressed size cap', async () => {
+    // The guard is exercised with a small injected cap. The previous version
+    // inflated 60 MB to cross the real 50 MB cap, took 7 to 40 seconds on the
+    // same idle machine, and failed two runs in three.
+    const bomb = await deflateToBase64(new Uint8Array(8 * 1024));
+    await expect(
+      decodeSessionFromBase64(bomb, { maxBytes: 1024 }),
+    ).rejects.toThrow(/size limit/i);
+  });
+
+  it('the cap is what decides: the same payload passes under a larger cap', async () => {
+    const payload = await deflateToBase64(
+      new TextEncoder().encode(JSON.stringify(makeSession())),
     );
+    await expect(
+      decodeSessionFromBase64(payload, { maxBytes: 16 }),
+    ).rejects.toThrow(/size limit/i);
+    await expect(
+      decodeSessionFromBase64(payload, { maxBytes: 1024 * 1024 }),
+    ).resolves.toBeDefined();
   });
 
   it('produces an application/json blob via encodeSessionToBlob', () => {
