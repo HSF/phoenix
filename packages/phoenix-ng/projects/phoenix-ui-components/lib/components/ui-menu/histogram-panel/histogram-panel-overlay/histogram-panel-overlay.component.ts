@@ -17,6 +17,13 @@ import { draw, redraw } from 'jsroot/draw';
 /** localStorage key prefix for histogram persistence. */
 const STORAGE_PREFIX = 'phoenix-histogram-';
 
+/**
+ * Upper bound on values kept in localStorage. Without a cap a long masterclass
+ * session grows the entry unboundedly until setItem throws a quota error and
+ * persistence silently stops working.
+ */
+const MAX_STORED_VALUES = 5000;
+
 @Component({
   standalone: false,
   selector: 'app-histogram-panel-overlay',
@@ -33,6 +40,10 @@ export class HistogramPanelOverlayComponent implements OnInit, OnDestroy {
       setTimeout(() => this.drawHistogram(), 0);
     } else if (!val) {
       this.drawn = false;
+      // Drop any redraw queued while the panel was open. Leaving it armed both
+      // holds the handle forever (so the next scheduleRedraw is a no-op and
+      // live updates stop) and fires a redraw against a detached element.
+      this.cancelRedraw();
     }
   }
   get showHistogram(): boolean {
@@ -84,8 +95,14 @@ export class HistogramPanelOverlayComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribe?.();
+    this.cancelRedraw();
+  }
+
+  /** Cancel a queued redraw and release its handle. */
+  private cancelRedraw() {
     if (this.redrawTimer) {
       clearTimeout(this.redrawTimer);
+      this.redrawTimer = null;
     }
   }
 
@@ -193,11 +210,31 @@ export class HistogramPanelOverlayComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Whether a value falls inside the configured axis range.
+   *
+   * jsroot's TH1.Fill clamps anything outside [xmin, xmax] into the underflow
+   * or overflow cell, so such a value is never drawn. Counting it in `entries`
+   * and `mean` would report statistics that the plot does not show.
+   */
+  private isInRange(value: number): boolean {
+    return (
+      typeof value === 'number' &&
+      Number.isFinite(value) &&
+      value >= this.config.xmin &&
+      value < this.config.xmax
+    );
+  }
+
   /** Add a value and schedule a debounced redraw. */
   addValue(value: number) {
     if (!this.histogram) return;
+    if (!this.isInRange(value)) return;
     this.histogram.Fill(value);
     this.rawValues.push(value);
+    if (this.rawValues.length > MAX_STORED_VALUES) {
+      this.rawValues.shift();
+    }
     this.entries++;
     this.sumValues += value;
     this.mean = this.sumValues / this.entries;
@@ -293,10 +330,15 @@ export class HistogramPanelOverlayComponent implements OnInit, OnDestroy {
     const blob = new Blob([tsv], { type: 'text/tab-separated-values' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
+    a.style.display = 'none';
     a.href = url;
     a.download = filename;
     a.click();
-    URL.revokeObjectURL(url);
+    a.remove();
+    // The click above starts the download asynchronously, so revoking here
+    // synchronously can cancel it. Release the URL on the next tick, once the
+    // browser has taken its own reference to the blob.
+    setTimeout(() => URL.revokeObjectURL(url));
   }
 
   // --- localStorage persistence ---
@@ -323,16 +365,20 @@ export class HistogramPanelOverlayComponent implements OnInit, OnDestroy {
       const saved = localStorage.getItem(this.storageKey);
       if (!saved) return;
 
-      const values: number[] = JSON.parse(saved);
+      const values: unknown = JSON.parse(saved);
       if (!Array.isArray(values) || values.length === 0) return;
 
-      for (const v of values) {
-        this.histogram.Fill(v);
-        this.rawValues.push(v);
+      // Persisted data can be stale (written under a different range) or hand
+      // edited, so re-validate rather than trusting it.
+      for (const v of values.slice(-MAX_STORED_VALUES)) {
+        if (!this.isInRange(v as number)) continue;
+        const value = v as number;
+        this.histogram.Fill(value);
+        this.rawValues.push(value);
         this.entries++;
-        this.sumValues += v;
+        this.sumValues += value;
       }
-      this.mean = this.sumValues / this.entries;
+      this.mean = this.entries > 0 ? this.sumValues / this.entries : 0;
     } catch {
       // Corrupted data — start fresh
     }
