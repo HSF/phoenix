@@ -1,5 +1,4 @@
 import JSZip from 'jszip';
-import fetch from 'node-fetch';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IOOptionsDialogComponent } from './io-options-dialog.component';
@@ -46,6 +45,10 @@ describe('IoOptionsDialogComponent', () => {
   };
 
   beforeEach(() => {
+    mockDialogRef.close.mockClear();
+    mockEventDisplayService.buildEventDataFromJSON.mockClear();
+    mockEventDisplayService.parseZipEventData.mockReset();
+
     TestBed.configureTestingModule({
       imports: [BrowserAnimationsModule, PhoenixUIModule],
       providers: [
@@ -94,13 +97,35 @@ describe('IoOptionsDialogComponent', () => {
       jest.spyOn(component, 'handleFileInput').mockImplementation(() => {});
     });
 
-    it('should handle JiveXML event data input', async () => {
-      const mockXml = '<?xml version="1.0"?><Event></Event>';
-      const files = mockFileList([
-        new File([mockXml], 'testfile.xml', { type: 'text/xml' }),
-      ]);
-      component.handleJiveXMLDataInput(files);
-      expect(component.handleFileInput).toHaveBeenCalled();
+    it('should parse JiveXML event data from the file input callback', () => {
+      const xml =
+        '<Event eventNumber="42" runNumber="7" lumiBlock="3" dateTime="2026-01-01"/>';
+      const file = new File([xml], 'testfile.xml', { type: 'text/xml' });
+
+      component.handleJiveXMLDataInput(mockFileList([file]));
+
+      expect(component.handleFileInput).toHaveBeenCalledWith(
+        file,
+        'xml',
+        expect.any(Function),
+      );
+      const [, , parseJiveXML] = jest.mocked(component.handleFileInput).mock
+        .calls[0];
+      parseJiveXML(xml);
+
+      expect(
+        mockEventDisplayService.buildEventDataFromJSON,
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        mockEventDisplayService.buildEventDataFromJSON,
+      ).toHaveBeenCalledWith(
+        expect.objectContaining({
+          eventNumber: '42',
+          runNumber: '7',
+          lumiBlock: '3',
+          time: '2026-01-01',
+        }),
+      );
     });
 
     describe('handleFileInput sync', () => {
@@ -155,19 +180,26 @@ describe('IoOptionsDialogComponent', () => {
     });
   });
 
-  it('should handle zipped event data', async () => {
-    const zip = new JSZip();
-    zip.file('test_data.json', '{ "event": null }');
-    const mockXml = '<?xml version="1.0"?><Event></Event>';
-    zip.file('test_data.xml', mockXml);
-    const zipBlob = await zip.generateAsync({ type: 'blob' });
-    const files = mockFileList([
-      new File([zipBlob], 'test_data.zip', { type: 'application/zip' }),
-    ]);
-    component.handleZipEventDataInput(files);
-    // Need to await promises resolving inside the component
-    await new Promise(process.nextTick);
-    expect(mockEventDisplayService.parseZipEventData).toHaveBeenCalled();
+  it('should close after the selected ZIP file has finished parsing', async () => {
+    const file = new File([], 'test_data.zip', { type: 'application/zip' });
+    let completeParsing: () => void;
+    const parsing = new Promise<void>((resolve) => {
+      completeParsing = resolve;
+    });
+    mockEventDisplayService.parseZipEventData.mockReturnValueOnce(parsing);
+
+    const handling = component.handleZipEventDataInput(mockFileList([file]));
+
+    expect(mockEventDisplayService.parseZipEventData).toHaveBeenCalledTimes(1);
+    expect(mockEventDisplayService.parseZipEventData).toHaveBeenCalledWith(
+      file,
+    );
+    expect(mockDialogRef.close).not.toHaveBeenCalled();
+
+    completeParsing();
+    await handling;
+
+    expect(mockDialogRef.close).toHaveBeenCalledTimes(1);
   });
 
   it('should handle ig event data', async () => {

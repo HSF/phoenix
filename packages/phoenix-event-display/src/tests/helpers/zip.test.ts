@@ -1,5 +1,9 @@
+/**
+ * @jest-environment jsdom
+ */
 import JSZip from 'jszip';
 import { readZipFile, loadEventsFromZip } from '../../helpers/zip';
+import { JiveXMLLoader } from '../../loaders/jivexml-loader';
 
 describe('Zip Helper', () => {
   it('should read zip file and return contents', async () => {
@@ -37,20 +41,24 @@ describe('Zip Helper', () => {
     expect(events['JiveXML_1.xml']).toEqual({ EventXML: {} });
   });
 
-  it('should parse mixed JSON and XML archive', async () => {
+  it('should preserve JSON events and parse JiveXML metadata from a mixed zip', async () => {
+    const jsonEvent = { eventNumber: '21', Tracks: {} };
+    const xml =
+      '<Event eventNumber="42" runNumber="7" lumiBlock="3" dateTime="2026-01-01"/>';
     const zip = new JSZip();
-    zip.file('event1.json', '{"Event1": {"Tracks": {}}}');
-    zip.file('JiveXML_1.xml', '<g></g>');
-    const blob = await zip.generateAsync({ type: 'arraybuffer' });
+    zip.file('test_data.json', JSON.stringify({ jsonEvent }));
+    zip.file('test_data.xml', xml);
+    const archive = await zip.generateAsync({ type: 'arraybuffer' });
 
-    const mockJiveLoader = {
-      process: jest.fn(),
-      getEventData: jest.fn().mockReturnValue({ EventXML: {} }),
-    };
+    const events = await loadEventsFromZip(archive, new JiveXMLLoader());
 
-    const events = await loadEventsFromZip(blob, mockJiveLoader as any);
-    expect(events['Event1']).toBeDefined();
-    expect(mockJiveLoader.process).toHaveBeenCalledWith('<g></g>');
-    expect(events['JiveXML_1.xml']).toEqual({ EventXML: {} });
+    expect(Object.keys(events).sort()).toEqual(['jsonEvent', 'test_data.xml']);
+    expect(events.jsonEvent).toEqual(jsonEvent);
+    expect(events['test_data.xml']).toMatchObject({
+      eventNumber: '42',
+      runNumber: '7',
+      lumiBlock: '3',
+      time: '2026-01-01',
+    });
   });
 });
