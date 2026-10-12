@@ -37,6 +37,17 @@
     [animationPresets]="animationPresets"
   ></app-animate-camera>
 
+  <!-- Browsers (Event Browser, Collections Info, Geometry Browser) -->
+  <app-browsers
+    *ngIf="
+      uiConfig?.showBrowsers !== false &&
+      (uiConfig?.showEventBrowser ||
+        uiConfig?.showCollectionsInfo ||
+        uiConfig?.showGeometryBrowser)
+    "
+    [uiConfig]="uiConfig"
+  ></app-browsers>
+
   <!-- More information panels -->
   <app-more-info
     [uiConfig]="uiConfig"

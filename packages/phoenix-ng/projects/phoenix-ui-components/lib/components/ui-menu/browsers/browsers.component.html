@@ -1,0 +1,67 @@
+<div class="hidden-panels">
+  <app-event-browser
+    #eventBrowser
+    *ngIf="uiConfig?.showEventBrowser"
+  ></app-event-browser>
+  <app-collections-info
+    #collectionsInfo
+    *ngIf="uiConfig?.showCollectionsInfo"
+  ></app-collections-info>
+  <app-geometry-browser
+    #geometryBrowser
+    *ngIf="uiConfig?.showGeometryBrowser"
+  ></app-geometry-browser>
+</div>
+
+<mat-menu #browsers>
+  <button mat-menu-item *ngIf="uiConfig?.showEventBrowser">
+    <mat-checkbox
+      [checked]="showEventBrowser"
+      (click)="$event.stopPropagation()"
+      (change)="toggleEventBrowser()"
+    >
+      <span class="item-content">
+        <svg class="item-icon">
+          <use href="assets/icons/event-browser.svg#event-browser"></use>
+        </svg>
+        Event Browser
+      </span>
+    </mat-checkbox>
+  </button>
+  <button mat-menu-item *ngIf="uiConfig?.showCollectionsInfo">
+    <mat-checkbox
+      [checked]="showCollectionsInfo"
+      (click)="$event.stopPropagation()"
+      (change)="toggleCollectionsInfo()"
+    >
+      <span class="item-content">
+        <svg class="item-icon">
+          <use href="assets/icons/eventData.svg#eventData"></use>
+        </svg>
+        Collections Info
+      </span>
+    </mat-checkbox>
+  </button>
+  <button mat-menu-item *ngIf="uiConfig?.showGeometryBrowser">
+    <mat-checkbox
+      [checked]="showGeometryBrowser"
+      (click)="$event.stopPropagation()"
+      (change)="toggleGeometryBrowser()"
+    >
+      <span class="item-content">
+        <svg class="item-icon">
+          <use href="assets/icons/top-cube.svg#top-cube"></use>
+        </svg>
+        Geometry Browser
+      </span>
+    </mat-checkbox>
+  </button>
+</mat-menu>
+
+<app-menu-toggle
+  [matMenuTriggerFor]="browsers"
+  tooltip="Browsers"
+  icon="folder"
+  [active]="false"
+>
+</app-menu-toggle>

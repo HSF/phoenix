@@ -42,6 +42,7 @@ export * from './event-browser/event-browser.component';
 export * from './event-browser/event-browser-overlay/event-browser-overlay.component';
 export * from './eta-phi-panel/eta-phi-panel.component';
 export * from './eta-phi-panel/eta-phi-panel-overlay/eta-phi-panel-overlay.component';
+export * from './browsers/browsers.component';
 export * from './more-info/more-info.component';
 export * from './ui-menu-wrapper/ui-menu-wrapper.component';
 export * from './histogram-panel/histogram-panel.component';
