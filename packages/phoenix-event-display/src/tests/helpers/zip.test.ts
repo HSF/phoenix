@@ -61,4 +61,46 @@ describe('Zip Helper', () => {
       time: '2026-01-01',
     });
   });
+
+  it('should warn when zip contains XML files but no decoder is available', async () => {
+    const zip = new JSZip();
+    zip.file('JiveXML_1.xml', '<g></g>');
+    const blob = await zip.generateAsync({ type: 'arraybuffer' });
+
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const mockInfoLogger = {
+      add: jest.fn(),
+    };
+
+    const events = await loadEventsFromZip(
+      blob,
+      undefined,
+      mockInfoLogger as any,
+    );
+
+    expect(warnSpy).toHaveBeenCalledWith(
+      'XML event files found in zip archive, but no JiveXML loader is available to decode them.',
+    );
+    expect(mockInfoLogger.add).toHaveBeenCalledWith(
+      'XML event files found in zip archive, but no JiveXML loader is available to decode them.',
+      'Warning',
+    );
+    expect(events).toEqual({});
+    warnSpy.mockRestore();
+  });
+
+  it('should warn without infoLogger when zip contains XML files and no decoder', async () => {
+    const zip = new JSZip();
+    zip.file('JiveXML_1.xml', '<g></g>');
+    const blob = await zip.generateAsync({ type: 'arraybuffer' });
+
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const events = await loadEventsFromZip(blob);
+
+    expect(warnSpy).toHaveBeenCalledWith(
+      'XML event files found in zip archive, but no JiveXML loader is available to decode them.',
+    );
+    expect(events).toEqual({});
+    warnSpy.mockRestore();
+  });
 });

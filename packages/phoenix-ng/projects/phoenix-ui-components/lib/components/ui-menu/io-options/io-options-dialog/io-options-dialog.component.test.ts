@@ -202,6 +202,31 @@ describe('IoOptionsDialogComponent', () => {
     expect(mockDialogRef.close).toHaveBeenCalledTimes(1);
   });
 
+  it('should notify error and keep dialog open if ZIP parsing fails', async () => {
+    const file = new File([], 'corrupt.zip', { type: 'application/zip' });
+    mockEventDisplayService.parseZipEventData.mockRejectedValueOnce(
+      new Error('Corrupt zip archive'),
+    );
+    const notificationErrorSpy = jest
+      .spyOn((component as any).notificationService, 'error')
+      .mockImplementation(() => {});
+    const consoleErrorSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+
+    await component.handleZipEventDataInput(mockFileList([file]));
+
+    expect(mockEventDisplayService.parseZipEventData).toHaveBeenCalledWith(
+      file,
+    );
+    expect(notificationErrorSpy).toHaveBeenCalledWith(
+      'Could not read zip file.',
+    );
+    expect(mockDialogRef.close).not.toHaveBeenCalled();
+
+    consoleErrorSpy.mockRestore();
+  });
+
   it('should handle ig event data', async () => {
     const ig = new JSZip();
     ig.file('test_data', '{}');

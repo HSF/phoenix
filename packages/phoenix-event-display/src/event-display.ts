@@ -336,7 +336,7 @@ export class EventDisplay {
       const jiveloader =
         this.configuration?.eventDataLoader instanceof JiveXMLLoader
           ? (this.configuration.eventDataLoader as JiveXMLLoader)
-          : undefined;
+          : new JiveXMLLoader();
       const eventsData = await loadEventsFromZip(
         zipData,
         jiveloader,
@@ -353,6 +353,7 @@ export class EventDisplay {
     } catch (error) {
       console.error('Error while reading zip event data:', error);
       this.getInfoLogger().add('Could not read zip event file.', 'Error');
+      throw error;
     }
   }
 

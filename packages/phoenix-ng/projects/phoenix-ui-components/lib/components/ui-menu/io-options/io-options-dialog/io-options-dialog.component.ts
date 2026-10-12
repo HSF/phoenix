@@ -364,7 +364,14 @@ export class IOOptionsDialogComponent implements OnInit {
       return;
     }
 
-    await this.eventDisplay.parseZipEventData(files[0]);
+    try {
+      await this.eventDisplay.parseZipEventData(files[0]);
+    } catch (error) {
+      console.error('Error while reading zip', error);
+      this.notificationService.error('Could not read zip file.');
+      return;
+    }
+
     this.onClose();
   }
 
