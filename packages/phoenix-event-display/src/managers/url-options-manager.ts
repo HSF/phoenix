@@ -98,6 +98,10 @@ export class URLOptionsManager {
       );
     }
 
+    if (!type && (file.endsWith('.zip') || file.endsWith('.phnxzip'))) {
+      type = 'zip';
+    }
+
     console.log('Try to load event file: ', file, 'of type', type);
     // Try to load config from URL
     const loadConfig = () => {
@@ -197,51 +201,7 @@ export class URLOptionsManager {
    */
   private async handleZipFileEvents(fileURL: string) {
     const fileBuffer = await (await fetch(fileURL)).arrayBuffer();
-    const allEventsObject = {};
-    let filesWithData: { [fileName: string]: string };
-
-    // Using a try catch block to catch any errors in Promises
-    try {
-      filesWithData = await readZipFile(fileBuffer);
-    } catch (error) {
-      console.error('Error while reading zip', error);
-      this.eventDisplay.getInfoLogger().add('Could not read zip file', 'Error');
-      return;
-    }
-
-    // JSON event data
-    Object.keys(filesWithData)
-      .filter((fileName) => fileName.endsWith('.json'))
-      .forEach((fileName) => {
-        // The zip comes from a URL, so an entry may not be valid JSON. Report
-        // the bad file and carry on, rather than losing the whole archive.
-        try {
-          Object.assign(allEventsObject, JSON.parse(filesWithData[fileName]));
-        } catch (error) {
-          console.error(`Could not parse ${fileName} - invalid JSON.`, error);
-          this.eventDisplay
-            .getInfoLogger()
-            .add(`Could not parse ${fileName}`, 'Error');
-        }
-      });
-
-    // JiveXML event data
-    const jiveloader =
-      this.configuration.eventDataLoader instanceof JiveXMLLoader
-        ? (this.configuration.eventDataLoader as JiveXMLLoader)
-        : new JiveXMLLoader();
-    Object.keys(filesWithData)
-      .filter((fileName) => {
-        return fileName.endsWith('.xml') || fileName.startsWith('JiveXML');
-      })
-      .forEach((fileName) => {
-        jiveloader.process(filesWithData[fileName]);
-        const eventData = jiveloader.getEventData();
-        Object.assign(allEventsObject, { [fileName]: eventData });
-      });
-    // For some reason the above doesn't pick up JiveXML_XXX_YYY.zip
-
-    this.eventDisplay.parsePhoenixEvents(allEventsObject);
+    await this.eventDisplay.parseZipEventData(fileBuffer);
   }
 
   /**

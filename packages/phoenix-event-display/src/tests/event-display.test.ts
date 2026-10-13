@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import JSZip from 'jszip';
 import { EventDisplay } from '../event-display';
 
 describe('EventDisplay', () => {
@@ -43,6 +44,59 @@ describe('EventDisplay', () => {
       eventDisplay.cleanup();
 
       expect(eventDisplay.onStateChange).toEqual([]);
+    });
+  });
+
+  describe('parseZipEventData', () => {
+    let eventDisplay: any;
+    let mockInfoLogger: any;
+
+    beforeEach(() => {
+      eventDisplay = Object.create(EventDisplay.prototype);
+      eventDisplay.configuration = {};
+      mockInfoLogger = {
+        add: jest.fn(),
+      };
+      eventDisplay.getInfoLogger = () => mockInfoLogger;
+      eventDisplay.parsePhoenixEvents = jest.fn();
+    });
+
+    it('should parse zip event data and fall back to JiveXMLLoader for XML events', async () => {
+      const zip = new JSZip();
+      zip.file('test.json', '{"Event1": {"Tracks": {}}}');
+      zip.file('test.xml', '<Event eventNumber="123" runNumber="456"/>');
+      const blob = await zip.generateAsync({ type: 'arraybuffer' });
+
+      await eventDisplay.parseZipEventData(blob);
+
+      expect(eventDisplay.parsePhoenixEvents).toHaveBeenCalledWith(
+        expect.objectContaining({
+          Event1: expect.anything(),
+          'test.xml': expect.objectContaining({
+            eventNumber: '123',
+            runNumber: '456',
+          }),
+        }),
+      );
+    });
+
+    it('should rethrow error and log when reading zip fails', async () => {
+      const consoleErrorSpy = jest
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
+
+      const invalidData = new ArrayBuffer(8);
+      await expect(
+        eventDisplay.parseZipEventData(invalidData),
+      ).rejects.toThrow();
+
+      expect(consoleErrorSpy).toHaveBeenCalled();
+      expect(mockInfoLogger.add).toHaveBeenCalledWith(
+        'Could not read zip event file.',
+        'Error',
+      );
+
+      consoleErrorSpy.mockRestore();
     });
   });
 });

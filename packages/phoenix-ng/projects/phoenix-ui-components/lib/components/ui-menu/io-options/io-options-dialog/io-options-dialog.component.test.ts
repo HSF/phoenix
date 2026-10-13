@@ -1,5 +1,4 @@
 import JSZip from 'jszip';
-import fetch from 'node-fetch';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IOOptionsDialogComponent } from './io-options-dialog.component';
@@ -34,6 +33,7 @@ describe('IoOptionsDialogComponent', () => {
   const mockEventDisplayService = {
     buildEventDataFromJSON: jest.fn(),
     parsePhoenixEvents: jest.fn(),
+    parseZipEventData: jest.fn(),
     parseOBJGeometry: jest.fn(),
     parsePhoenixDisplay: jest.fn(),
     parseGLTFGeometry: jest.fn(),
@@ -45,6 +45,10 @@ describe('IoOptionsDialogComponent', () => {
   };
 
   beforeEach(() => {
+    mockDialogRef.close.mockClear();
+    mockEventDisplayService.buildEventDataFromJSON.mockClear();
+    mockEventDisplayService.parseZipEventData.mockReset();
+
     TestBed.configureTestingModule({
       imports: [BrowserAnimationsModule, PhoenixUIModule],
       providers: [
@@ -93,19 +97,36 @@ describe('IoOptionsDialogComponent', () => {
       jest.spyOn(component, 'handleFileInput').mockImplementation(() => {});
     });
 
-    it('should handle JiveXML event data input', async () => {
-      await fetch(
-        'https://raw.githubusercontent.com/HSF/phoenix/main/packages/phoenix-ng/projects/phoenix-app/src/assets/files/JiveXML/JiveXML_336567_2327102923.xml',
-      )
-        .then((res) => res.text())
-        .then((res) => {
-          const files = mockFileList([
-            new File([res], 'testfile.xml', { type: 'text/xml' }),
-          ]);
-          component.handleJiveXMLDataInput(files);
-          expect(component.handleFileInput).toHaveBeenCalled();
-        });
-    }, 60000);
+    it('should parse JiveXML event data from the file input callback', () => {
+      const xml =
+        '<Event eventNumber="42" runNumber="7" lumiBlock="3" dateTime="2026-01-01"/>';
+      const file = new File([xml], 'testfile.xml', { type: 'text/xml' });
+
+      component.handleJiveXMLDataInput(mockFileList([file]));
+
+      expect(component.handleFileInput).toHaveBeenCalledWith(
+        file,
+        'xml',
+        expect.any(Function),
+      );
+      const [, , parseJiveXML] = jest.mocked(component.handleFileInput).mock
+        .calls[0];
+      parseJiveXML(xml);
+
+      expect(
+        mockEventDisplayService.buildEventDataFromJSON,
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        mockEventDisplayService.buildEventDataFromJSON,
+      ).toHaveBeenCalledWith(
+        expect.objectContaining({
+          eventNumber: '42',
+          runNumber: '7',
+          lumiBlock: '3',
+          time: '2026-01-01',
+        }),
+      );
+    });
 
     describe('handleFileInput sync', () => {
       afterEach(() => {
@@ -159,19 +180,52 @@ describe('IoOptionsDialogComponent', () => {
     });
   });
 
-  it('should handle zipped event data', async () => {
-    const zip = new JSZip();
-    zip.file('test_data.json', '{ "event": null }');
-    const jivexmlData = await fetch(
-      'https://raw.githubusercontent.com/HSF/phoenix/main/packages/phoenix-ng/projects/phoenix-app/src/assets/files/JiveXML/JiveXML_336567_2327102923.xml',
+  it('should close after the selected ZIP file has finished parsing', async () => {
+    const file = new File([], 'test_data.zip', { type: 'application/zip' });
+    let completeParsing: () => void;
+    const parsing = new Promise<void>((resolve) => {
+      completeParsing = resolve;
+    });
+    mockEventDisplayService.parseZipEventData.mockReturnValueOnce(parsing);
+
+    const handling = component.handleZipEventDataInput(mockFileList([file]));
+
+    expect(mockEventDisplayService.parseZipEventData).toHaveBeenCalledTimes(1);
+    expect(mockEventDisplayService.parseZipEventData).toHaveBeenCalledWith(
+      file,
     );
-    zip.file('test_data.xml', jivexmlData.text());
-    const zipBlob = await zip.generateAsync({ type: 'blob' });
-    const files = mockFileList([
-      new File([zipBlob], 'test_data.zip', { type: 'application/zip' }),
-    ]);
-    component.handleZipEventDataInput(files);
-  }, 60000);
+    expect(mockDialogRef.close).not.toHaveBeenCalled();
+
+    completeParsing();
+    await handling;
+
+    expect(mockDialogRef.close).toHaveBeenCalledTimes(1);
+  });
+
+  it('should notify error and keep dialog open if ZIP parsing fails', async () => {
+    const file = new File([], 'corrupt.zip', { type: 'application/zip' });
+    mockEventDisplayService.parseZipEventData.mockRejectedValueOnce(
+      new Error('Corrupt zip archive'),
+    );
+    const notificationErrorSpy = jest
+      .spyOn((component as any).notificationService, 'error')
+      .mockImplementation(() => {});
+    const consoleErrorSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+
+    await component.handleZipEventDataInput(mockFileList([file]));
+
+    expect(mockEventDisplayService.parseZipEventData).toHaveBeenCalledWith(
+      file,
+    );
+    expect(notificationErrorSpy).toHaveBeenCalledWith(
+      'Could not read zip file.',
+    );
+    expect(mockDialogRef.close).not.toHaveBeenCalled();
+
+    consoleErrorSpy.mockRestore();
+  });
 
   it('should handle ig event data', async () => {
     const ig = new JSZip();
