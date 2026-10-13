@@ -299,6 +299,9 @@ export class JiveXMLLoader extends PhoenixLoader {
           track.author = trackAuthor[i];
 
         let theta = Math.atan(1 / cotTheta[i]);
+        if (theta < 0) {
+          theta += Math.PI;
+        }
 
         track.pT = Math.abs(pT[i]) * 1000; // JiveXML uses GeV
         const momentum = track.pT / Math.sin(theta);
@@ -318,10 +321,6 @@ export class JiveXMLLoader extends PhoenixLoader {
         //   storeTrack = true;
         // }
 
-        if (theta < 0) {
-          theta += Math.PI;
-          // TODO - check if we need to flip phi here?
-        }
         // FIXME - should probably handle this better ... what if phi = 4PI for example?
         if (track.phi > Math.PI) {
           track.phi -= 2.0 * Math.PI;
