@@ -1,0 +1,20 @@
+.hidden-panels {
+  display: none;
+}
+
+.item-content {
+  display: inline-flex;
+  align-items: center;
+}
+
+.item-icon {
+  inline-size: 1.2rem;
+  block-size: 1.2rem;
+  margin-inline-end: 0.5rem;
+  fill: currentColor;
+}
+
+::ng-deep .cdk-overlay-pane:has(.mat-mdc-menu-panel),
+::ng-deep .cdk-overlay-pane:has(.mat-menu-panel) {
+  z-index: 99999 !important;
+}
