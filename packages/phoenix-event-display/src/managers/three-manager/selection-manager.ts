@@ -511,6 +511,7 @@ export class SelectionManager {
     this.selectionIsDragging = false;
 
     // Clear all outlines and selections
+    this.clearInstanceHighlight();
     this.effectsManager.clearAllSelections();
     this.effectsManager.setHoverOutline(null);
     this.selectedObjects.clear();
