@@ -325,12 +325,12 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
           ref = rawHit.MCParticle;
         }
 
-        // Hits without an associated particle (e.g. reconstructed tracker hits) are of an unknown type
+        // Hits without an associated particle are of an unknown type (i.e. reconstructed tracker hits)
         const particle =
           ref && this.getCollByID(rawEvent, ref.collectionID)?.[ref.index];
 
         const particleType =
-          Edm4hepJsonLoader.pidNames[particle?.PDG] ?? // SimTrackerHit
+          Edm4hepJsonLoader.pidNames[Math.abs(particle?.PDG)] ?? // SimTrackerHit
           edm4hep.ParticleType.Other; // TrackerHit and TrackerHit3D
 
         categories[particleType].push({
