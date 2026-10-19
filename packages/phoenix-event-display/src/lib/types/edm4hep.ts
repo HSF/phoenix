@@ -4,6 +4,7 @@ import type * as Schema3 from './edm4hep-schemas/schema3';
 import type * as Schema4 from './edm4hep-schemas/schema4';
 import type * as Schema5 from './edm4hep-schemas/schema5';
 import type * as Schema6 from './edm4hep-schemas/schema6';
+import type * as Schema7 from './edm4hep-schemas/schema7';
 
 /** Every supported schema version (new versions only need to be added here) */
 type Schemas =
@@ -12,7 +13,8 @@ type Schemas =
   | Schema3.Types
   | Schema4.Types
   | Schema5.Types
-  | Schema6.Types;
+  | Schema6.Types
+  | Schema7.Types;
 
 export type Vertex = Schemas['Vertex'];
 
