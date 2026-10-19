@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
+import { Schema1 } from './schema1';
 import {
   CovMatrix3f,
   CovMatrix4f,
@@ -9,6 +10,9 @@ import {
   Vector3d,
   ObjectID,
 } from './utils';
+
+// Types unchanged since Schema1 are linked, and purely additive changes extend them.
+// Anything else that changed is reassigned. For example, Coll always refers to the types of its own schema.
 
 export namespace Schema2 {
   /** Vertex */
@@ -102,22 +106,10 @@ export namespace Schema2 {
   };
 
   /** Calorimeter hit */
-  export type CalorimeterHit = {
-    cellID: bigint; // detector specific (geometrical) cell id
-    energy: number; // [GeV] energy of the hit
-    energyError: number; // [GeV] error of the hit energy
-    time: number; // [ns] time of the hit
-    position: Vector3f; // [mm] position of the hit in world coordinates
-    type: number; // type of hit
-  };
+  export type CalorimeterHit = Schema1.CalorimeterHit;
 
   /** Simulated calorimeter hit */
-  export type SimCalorimeterHit = {
-    cellID: bigint; // ID of the sensor that created this hit
-    energy: number; // [GeV] energy of the hit
-    position: Vector3f; // [mm] position of the hit in world coordinates
-    contributions: ObjectID[]; // Monte Carlo step contributions
-  };
+  export type SimCalorimeterHit = Schema1.SimCalorimeterHit;
 
   /** Calorimeter Hit Cluster */
   export type Cluster = {
@@ -152,13 +144,9 @@ export namespace Schema2 {
   };
 
   /** Event Header. Additional parameters are assumed to go into the metadata tree. */
-  export type EventHeader = {
-    eventNumber: number; // event number
-    runNumber: number; // run number
-    timeStamp: bigint; // time stamp
-    weight: number; // event weight
+  export interface EventHeader extends Schema1.EventHeader {
     weights: number[]; // event weights in case there are multiple. **NOTE that weights[0] might not be the same as weight!** Event weight names should be stored using the edm4hep::EventWeights name in the file level metadata
-  };
+  }
 
   /** Link between a ReconstructedParticle and the corresponding MCParticle */
   export type RecoMCParticleLink = {
