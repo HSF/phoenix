@@ -1,52 +1,19 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import {
-  CovMatrix3f,
-  CovMatrix4f,
-  CovMatrix6f,
-  Vector2f,
-  Vector3f,
-  Vector3d,
-  ObjectID,
-} from './utils';
+import { Vector3d } from './utils';
+import { Schema4 } from './schema4';
+
+// Types unchanged since the previous schema are linked, and purely additive changes extend them.
+// Anything else that changed is reassigned. For example, Coll always refers to the types of its own schema.
 
 export namespace Schema5 {
   /** Vertex */
-  export type Vertex = {
-    type: number; // flagword that defines the type of the vertex, see reserved bits for more information
-    chi2: number; // chi-squared of the vertex fit
-    ndf: number; // number of degrees of freedom of the vertex fit
-    position: Vector3f; // [mm]  position of the vertex
-    covMatrix: CovMatrix3f; // [mm^2] covariance matrix of the position
-    algorithmType: number; // type code for the algorithm that has been used to create the vertex
-    parameters: number[]; // additional parameters related to this vertex
-    particles: ObjectID[]; // particles that have been used to form this vertex, aka the decay particles emerging from this vertex
-  };
+  export type Vertex = Schema4.Vertex;
 
   /** Parametrized description of a particle track */
-  export type TrackState = {
-    location: number; // for use with At{Other|IP|FirstHit|LastHit|Calorimeter|Vertex}|LastLocation
-    D0: number; // transverse impact parameter
-    phi: number; // [rad] azimuthal angle of the track at this location (i.e. not phi0)
-    omega: number; // [1/mm] is the signed curvature of the track
-    Z0: number; // longitudinal impact parameter
-    tanLambda: number; // lambda is the dip angle of the track in r-z
-    time: number; // [ns] time of the track at this trackstate
-    referencePoint: Vector3f; // [mm] Reference point of the track parameters, e.g. the origin at the IP, or the position  of the first/last hits or the entry point into the calorimeter
-    covMatrix: CovMatrix6f; // covariance matrix of the track parameters.
-  };
+  export type TrackState = Schema4.TrackState;
 
   /** Reconstructed track */
-  export type Track = {
-    type: number; // flagword that defines the type of track
-    chi2: number; // chi-squared of the track fit
-    ndf: number; // number of degrees of freedom of the track fit
-    Nholes: number; // number of holes on track
-    subdetectorHitNumbers: number[]; // number of hits in particular subdetectors
-    subdetectorHoleNumbers: number[]; // number of holes in particular subdetectors
-    trackStates: TrackState[]; // track states
-    trackerHits: ObjectID[]; // hits that have been used to create this track
-    tracks: ObjectID[]; // tracks (segments) that have been combined to create this track
-  };
+  export type Track = Schema4.Track;
 
   /** Tracker hit interface class */
   // Types: TrackerHit3D, TrackerHitPlane, SenseWireHit
@@ -61,32 +28,10 @@ export namespace Schema5 {
   }
 
   /** Tracker hit */
-  export interface TrackerHit3D extends TrackerHit {
-    cellID: bigint; // ID of the sensor that created this hit
-    type: number; // type of raw data hit
-    quality: number; // quality bit flag of the hit
-    time: number; // [ns] time of the hit
-    eDep: number; // [GeV] energy deposited on the hit
-    eDepError: number; // [GeV] error measured on eDep
-    position: Vector3d; // [mm] hit position
-    covMatrix: CovMatrix3f; // [mm^2] covariance matrix of the position (x,y,z)
-  }
+  export type TrackerHit3D = Schema4.TrackerHit3D;
 
   /** Tracker hit plane */
-  export interface TrackerHitPlane extends TrackerHit {
-    cellID: bigint; // ID of the sensor that created this hit
-    type: number; // type of raw data hit
-    quality: number; // quality bit flag of the hit
-    time: number; // [ns] time of the hit
-    eDep: number; // [GeV] energy deposited on the hit
-    eDepError: number; // [GeV] error measured on eDep
-    u: Vector2f; // [rad] direction of the first measurement given as (theta, phi) in spherical coordinates
-    v: Vector2f; // [rad] direction of the second measurement given as (theta, phi) in spherical coordinates
-    du: number; // [mm] measurement error along the direction
-    dv: number; // [mm] measurement error along the direction
-    position: Vector3d; // [mm] hit position
-    covMatrix: CovMatrix3f; // [mm^2] covariance of the position (x,y,z)
-  }
+  export type TrackerHitPlane = Schema4.TrackerHitPlane;
 
   /** Sense wire hit, knowing only the distance to the wire. The circle representing possible positions is parametrized with its center, radius and normal vector (given by the wire direction). */
   export interface SenseWireHit extends TrackerHit {
@@ -106,99 +51,28 @@ export namespace Schema5 {
   }
 
   /** Simulated tracker hit */
-  export type SimTrackerHit = {
-    cellID: bigint; // ID of the sensor that created this hit
-    eDep: number; // [GeV] energy deposited in the hit
-    time: number; // [ns] proper time of the hit in the lab frame
-    pathLength: number; // path length of the particle in the sensitive material that resulted in this hit
-    quality: number; // quality bit flag
-    position: Vector3d; // [mm] the hit position
-    momentum: Vector3f; // [GeV] the 3-momentum of the particle at the hits position
-    particle: ObjectID[]; // MCParticle that caused the hit
-  };
+  export type SimTrackerHit = Schema4.SimTrackerHit;
 
   /** Calorimeter hit */
-  export type CalorimeterHit = {
-    cellID: bigint; // detector specific (geometrical) cell id
-    energy: number; // [GeV] energy of the hit
-    energyError: number; // [GeV] error of the hit energy
-    time: number; // [ns] time of the hit
-    position: Vector3f; // [mm] position of the hit in world coordinates
-    type: number; // type of hit
-  };
+  export type CalorimeterHit = Schema4.CalorimeterHit;
 
   /** Simulated calorimeter hit */
-  export type SimCalorimeterHit = {
-    cellID: bigint; // ID of the sensor that created this hit
-    energy: number; // [GeV] energy of the hit
-    position: Vector3f; // [mm] position of the hit in world coordinates
-    contributions: ObjectID[]; // Monte Carlo step contributions
-  };
+  export type SimCalorimeterHit = Schema4.SimCalorimeterHit;
 
   /** Calorimeter Hit Cluster */
-  export type Cluster = {
-    type: number; // flagword that defines the type of cluster
-    energy: number; // [GeV] energy of the cluster
-    energyError: number; // [GeV] error on the energy
-    position: Vector3f; // [mm] position of the cluster
-    positionError: CovMatrix3f; // [mm^2] covariance matrix of the position
-    iTheta: number; // [rad] Polar angle of the cluster's intrinsic direction (used e.g. for vertexing). Not to be confused with the cluster position seen from IP
-    phi: number; // [rad] Azimuthal angle of the cluster's intrinsic direction (used e.g. for vertexing). Not to be confused with the cluster position seen from IP
-    directionError: Vector3f; // [mm^2] covariance matrix of the direction
-    shapeParameters: number[]; // shape parameters. The corresponding names of the shape parameters should be stored in the collection named by edm4hep::labels::ShapeParameterNames in the file-level metadata, as a vector of strings in the same order as the parameters.
-    subdetectorEnergies: number[]; // energy observed in a particular subdetector
-    clusters: ObjectID[]; // clusters that have been combined to this cluster
-    hits: ObjectID[]; // hits that have been combined to this cluster
-  };
+  export type Cluster = Schema4.Cluster;
 
   /** Reconstructed Particle */
-  export type ReconstructedParticle = {
-    PDG: number; // PDG of the reconstructed particle.
-    energy: number; // [GeV] energy of the reconstructed particle. Four momentum state is not kept consistent internally
-    momentum: Vector3f; // [GeV]  particle momentum. Four momentum state is not kept consistent internally
-    referencePoint: Vector3f; // [mm] reference, i.e. where the particle has been measured
-    charge: number; // [e] charge of the reconstructed particle
-    mass: number; // [GeV]  mass of the reconstructed particle, set independently from four vector. Four momentum state is not kept consistent internally
-    goodnessOfPID: number; // overall goodness of the PID on a scale of [0;1]
-    covMatrix: CovMatrix4f; // [GeV^2] covariance matrix of the reconstructed particle 4vector
-    decayVertex: ObjectID; // decay vertex for the particle (if it is a composite particle)
-    clusters: ObjectID[]; // clusters that have been used for this particle
-    tracks: ObjectID[]; // tracks that have been used for this particle
-    particles: ObjectID[]; // reconstructed particles that have been combined to this particle
-  };
+  export type ReconstructedParticle = Schema4.ReconstructedParticle;
 
   /** Event Header. Additional parameters are assumed to go into the metadata tree. */
-  export type EventHeader = {
-    eventNumber: bigint; // event number
-    runNumber: number; // run number
-    timeStamp: bigint; // time stamp
-    weight: number; // event weight
-    weights: number[]; // event weights in case there are multiple. **NOTE that weights[0] might not be the same as weight!** The corresponding names of the event weights should be stored in the collection named by edm4hep::labels::EventWeightsNames in the file-level metadata.
-  };
+  export type EventHeader = Schema4.EventHeader;
 
   /** Link between a ReconstructedParticle and an MCParticle */
-  export type RecoMCParticleLink = {
-    weight: number; // weight of this link
-    from: ObjectID; // reference to the reconstructed particle
-    to: ObjectID; // reference to the Monte-Carlo particle
-  };
+  export type RecoMCParticleLink = Schema4.RecoMCParticleLink;
 
   /** The Monte Carlo particle - based on the lcio::MCParticle. */
-  export type MCParticle = {
-    PDG: number; // PDG code of the particle
-    generatorStatus: number; // status of the particle as defined by the generator
-    simulatorStatus: number; // status of the particle from the simulation program - use BIT constants below
-    charge: number; // [e] particle charge
-    time: number; // [ns] creation time of the particle in wrt. the event, e.g. for preassigned decays or decays in flight from the simulator
-    mass: number; // [GeV] mass of the particle
-    vertex: Vector3d; // [mm] production vertex of the particle
-    endpoint: Vector3d; // [mm] endpoint of the particle
-    momentum: Vector3d; // [GeV] particle 3-momentum at the production vertex
-    momentumAtEndpoint: Vector3d; // [GeV] particle 3-momentum at the endpoint
-    helicity: number; // particle helicity (9 if unset)
-    parents: ObjectID[]; // The parents of this particle
-    daughters: ObjectID[]; // The daughters this particle
-  };
+  export type MCParticle = Schema4.MCParticle;
 
   export type EventHeaderCollection = EventHeader[];
   export type VertexCollection = Vertex[];
