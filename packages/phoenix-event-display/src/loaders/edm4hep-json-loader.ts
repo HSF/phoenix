@@ -111,6 +111,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
                   this.getCaloClusters(collection);
                 break;
               case 'edm4hep::ReconstructedParticleCollection':
+                // This excludes collections such as VertexJets, RefinedVertexJets, JetNoIso, PFOsFromJets, or RefinedVertexJets_vtx_RP
                 if (collName === 'Jet')
                   newEvent.Jets[collName] = this.getJets(collection);
                 else if (collName.toLowerCase().includes('missing'))
