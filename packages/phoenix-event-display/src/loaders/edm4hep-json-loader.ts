@@ -167,9 +167,13 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     )
       return;
 
+    // 'from' and 'to' are single-element arrays in Schema 2
+    const first = (ref: ObjectID | ObjectID[]): ObjectID =>
+      Array.isArray(ref) ? ref[0] : ref;
+
     linkCollection.forEach((link: edm4hep.Association | edm4hep.Link) => {
-      const recIndex = 'rec' in link ? link.rec.index : link.from.index;
-      const simIndex = 'sim' in link ? link.sim.index : link.to.index;
+      const recIndex = 'rec' in link ? link.rec.index : first(link.from).index;
+      const simIndex = 'sim' in link ? link.sim.index : first(link.to).index;
       const pdgid = Math.abs(mcParticleCollection[simIndex].PDG);
 
       reconstructedParticleCollection[recIndex].tracks.forEach(({ index }) => {

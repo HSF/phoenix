@@ -149,8 +149,8 @@ export interface EventHeader extends Schema1.EventHeader {
 /** Link between a ReconstructedParticle and the corresponding MCParticle */
 export type RecoMCParticleLink = {
   weight: number; // weight of this link
-  from: ObjectID; // reference to the reconstructed particle
-  to: ObjectID; // reference to the Monte-Carlo particle
+  from: ObjectID[]; // reference to the reconstructed particle
+  to: ObjectID[]; // reference to the Monte-Carlo particle
 };
 
 /** The Monte Carlo particle - based on the lcio::MCParticle. */

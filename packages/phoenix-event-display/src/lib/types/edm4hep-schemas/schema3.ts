@@ -45,7 +45,12 @@ export type EventHeader = {
 };
 
 /** Link between a ReconstructedParticle and an MCParticle */
-export type RecoMCParticleLink = Schema2.RecoMCParticleLink;
+// Not derived from Schema2.RecoMCParticleLink: from and to are no longer one-element arrays
+export type RecoMCParticleLink = {
+  weight: number; // weight of this link
+  from: ObjectID; // reference to the reconstructed particle
+  to: ObjectID; // reference to the Monte-Carlo particle
+};
 
 /** The Monte Carlo particle - based on the lcio::MCParticle. */
 // Not derived from Schema2.MCParticle: colorFlow was removed.
