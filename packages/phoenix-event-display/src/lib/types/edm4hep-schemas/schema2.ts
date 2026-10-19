@@ -238,3 +238,17 @@ export type Coll =
       collType: 'edm4hep::RecoMCParticleLink';
       collection: RecoMCParticleLink[];
     };
+
+export interface Types {
+  Vertex: Vertex;
+  TrackState: TrackState;
+  Track: Track;
+  Hit: TrackerHit3D | TrackerHitPlane | SimTrackerHit;
+  CaloCell: CalorimeterHit | SimCalorimeterHit;
+  CaloCluster: Cluster;
+  ReconstructedParticle: ReconstructedParticle;
+  EventHeader: EventHeader;
+  MCParticle: MCParticle;
+  Link: RecoMCParticleLink;
+  Coll: Coll;
+}

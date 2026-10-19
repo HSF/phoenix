@@ -227,3 +227,17 @@ export type Coll =
       collType: 'edm4hep::MCRecoParticleAssociation';
       collection: MCRecoParticleAssociation[];
     };
+
+export interface Types {
+  Vertex: Vertex;
+  TrackState: TrackState;
+  Track: Track;
+  Hit: TrackerHit | SimTrackerHit;
+  CaloCell: CalorimeterHit | SimCalorimeterHit;
+  CaloCluster: Cluster;
+  ReconstructedParticle: ReconstructedParticle;
+  EventHeader: EventHeader;
+  MCParticle: MCParticle;
+  Link: never; // Schema1 has an Association instead of a Link
+  Coll: Coll;
+}
