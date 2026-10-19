@@ -9,7 +9,7 @@ import {
   JetParams,
   MissingEnergyParams,
 } from '../lib/types/event-data';
-import { edm4hep } from '../lib/types/edm4hep';
+import * as edm4hep from '../lib/types/edm4hep';
 import { ObjectID } from '../lib/types/edm4hep-schemas/utils';
 
 /**
@@ -325,21 +325,20 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
           ref = rawHit.MCParticle;
         }
 
-        if (ref !== null) {
-          const pdg =
-            this.getCollByID(rawEvent, ref.collectionID)?.[ref.index]?.PDG ??
-            null;
+        // Hits without an associated particle (e.g. reconstructed tracker hits) are of an unknown type
+        const particle =
+          ref && this.getCollByID(rawEvent, ref.collectionID)?.[ref.index];
 
-          const particleType =
-            Edm4hepJsonLoader.pidNames[pdg] ?? edm4hep.ParticleType.Other;
+        const particleType =
+          Edm4hepJsonLoader.pidNames[particle?.PDG] ?? // SimTrackerHit
+          edm4hep.ParticleType.Other; // TrackerHit and TrackerHit3D
 
-          categories[particleType].push({
-            type: 'CircularPoint',
-            pos,
-            color: `#${Edm4hepJsonLoader.pidColors[particleType]}`,
-            size: 2,
-          });
-        }
+        categories[particleType].push({
+          type: 'CircularPoint',
+          pos,
+          color: `#${Edm4hepJsonLoader.pidColors[particleType]}`,
+          size: 2,
+        });
       }
     });
 
