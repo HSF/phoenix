@@ -41,7 +41,7 @@ export type Cluster = {
   positionError: CovMatrix3f; // [mm^2] covariance matrix of the position
   iTheta: number; // [rad] Polar angle of the cluster's intrinsic direction (used e.g. for vertexing). Not to be confused with the cluster position seen from IP
   iPhi: number; // [rad] Azimuthal angle of the cluster's intrinsic direction (used e.g. for vertexing). Not to be confused with the cluster position seen from IP
-  directionError: Vector3f; // [mm^2] covariance matrix of the direction
+  directionError: Vector3f; // [rad^2] covariance matrix of the direction
   shapeParameters: number[]; // shape parameters. The corresponding names of the shape parameters should be stored in the collection named by edm4hep::labels::ShapeParameterNames in the file-level metadata, as a vector of strings in the same order as the parameters.
   subdetectorEnergies: number[]; // energy observed in a particular subdetector
   clusters: ObjectID[]; // clusters that have been combined to this cluster
