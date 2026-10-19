@@ -1,141 +1,54 @@
-/* eslint-disable @typescript-eslint/no-namespace */
-import { Schema1 } from './edm4hep-schemas/schema1';
-import { Schema2 } from './edm4hep-schemas/schema2';
-import { Schema3 } from './edm4hep-schemas/schema3';
-import { Schema4 } from './edm4hep-schemas/schema4';
-import { Schema5 } from './edm4hep-schemas/schema5';
-import { Schema6 } from './edm4hep-schemas/schema6';
+import type * as Schema1 from './edm4hep-schemas/schema1';
+import type * as Schema2 from './edm4hep-schemas/schema2';
+import type * as Schema3 from './edm4hep-schemas/schema3';
+import type * as Schema4 from './edm4hep-schemas/schema4';
+import type * as Schema5 from './edm4hep-schemas/schema5';
+import type * as Schema6 from './edm4hep-schemas/schema6';
 
-export namespace edm4hep {
-  export type Vertex =
-    | Schema1.Vertex
-    | Schema2.Vertex
-    | Schema3.Vertex
-    | Schema4.Vertex
-    | Schema5.Vertex
-    | Schema6.Vertex;
+/** Every supported schema version (new versions only need to be added here) */
+type Schemas =
+  | Schema1.Types
+  | Schema2.Types
+  | Schema3.Types
+  | Schema4.Types
+  | Schema5.Types
+  | Schema6.Types;
 
-  export type TrackState =
-    | Schema1.TrackState
-    | Schema2.TrackState
-    | Schema3.TrackState
-    | Schema4.TrackState
-    | Schema5.TrackState
-    | Schema6.TrackState;
+export type Vertex = Schemas['Vertex'];
 
-  export type Track = (
-    | Schema1.Track
-    | Schema2.Track
-    | Schema3.Track
-    | Schema4.Track
-    | Schema5.Track
-    | Schema6.Track
-  ) & {
-    // MUTATED PROPERTIES
-    pid: string;
-  };
+export type TrackState = Schemas['TrackState'];
 
-  export type Hit =
-    | Schema1.TrackerHit
-    | Schema1.SimTrackerHit
-    | Schema2.TrackerHit3D
-    | Schema2.TrackerHitPlane
-    | Schema2.SimTrackerHit
-    | Schema3.TrackerHit3D
-    | Schema3.TrackerHitPlane
-    | Schema3.SimTrackerHit
-    | Schema4.TrackerHit3D
-    | Schema4.TrackerHitPlane
-    | Schema4.SimTrackerHit
-    | Schema5.TrackerHit3D
-    | Schema5.TrackerHitPlane
-    | Schema5.SenseWireHit
-    | Schema5.SimTrackerHit
-    | Schema6.TrackerHit3D
-    | Schema6.TrackerHitPlane
-    | Schema6.SenseWireHit
-    | Schema6.SimTrackerHit;
+export type Track = Schemas['Track'] & {
+  // MUTATED PROPERTIES
+  pid: string;
+};
 
-  export type CaloCell =
-    | Schema1.CalorimeterHit
-    | Schema1.SimCalorimeterHit
-    | Schema2.CalorimeterHit
-    | Schema2.SimCalorimeterHit
-    | Schema3.CalorimeterHit
-    | Schema3.SimCalorimeterHit
-    | Schema4.CalorimeterHit
-    | Schema4.SimCalorimeterHit
-    | Schema5.CalorimeterHit
-    | Schema5.SimCalorimeterHit
-    | Schema6.CalorimeterHit
-    | Schema6.SimCalorimeterHit;
+export type Hit = Schemas['Hit'];
 
-  export type CaloCluster =
-    | Schema1.Cluster
-    | Schema2.Cluster
-    | Schema3.Cluster
-    | Schema4.Cluster
-    | Schema5.Cluster
-    | Schema6.Cluster;
+export type CaloCell = Schemas['CaloCell'];
 
-  export type ReconstructedParticle =
-    | Schema1.ReconstructedParticle
-    | Schema2.ReconstructedParticle
-    | Schema3.ReconstructedParticle
-    | Schema4.ReconstructedParticle
-    | Schema5.ReconstructedParticle
-    | Schema6.ReconstructedParticle;
+export type CaloCluster = Schemas['CaloCluster'];
 
-  export type EventHeader =
-    | Schema1.EventHeader
-    | Schema2.EventHeader
-    | Schema3.EventHeader
-    | Schema4.EventHeader
-    | Schema5.EventHeader
-    | Schema6.EventHeader;
+export type ReconstructedParticle = Schemas['ReconstructedParticle'];
 
-  export type MCParticle =
-    | Schema1.MCParticle
-    | Schema2.MCParticle
-    | Schema3.MCParticle
-    | Schema4.MCParticle
-    | Schema5.MCParticle
-    | Schema6.MCParticle;
+export type EventHeader = Schemas['EventHeader'];
 
-  export type Association = Schema1.MCRecoParticleAssociation;
+export type MCParticle = Schemas['MCParticle'];
 
-  export type Link =
-    | Schema2.RecoMCParticleLink
-    | Schema3.RecoMCParticleLink
-    | Schema4.RecoMCParticleLink
-    | Schema5.RecoMCParticleLink
-    | Schema6.RecoMCParticleLink;
+export type Association = Schema1.MCRecoParticleAssociation;
 
-  export type Item =
-    | Schema1.Coll
-    | Schema2.Coll
-    | Schema3.Coll
-    | Schema4.Coll
-    | Schema5.Coll
-    | Schema6.Coll;
+export type Link = Schemas['Link'];
 
-  export type Event = {
-    [name: string]:
-      | Schema1.Coll
-      | Schema2.Coll
-      | Schema3.Coll
-      | Schema4.Coll
-      | Schema5.Coll
-      | Schema6.Coll;
-  };
+export type Item = Schemas['Coll'];
 
-  export enum ParticleType {
-    Electron = 'electron',
-    Muon = 'muon',
-    Photon = 'photon',
-    Pion = 'pion',
-    Proton = 'proton',
-    Kaon = 'kaon',
-    Other = 'other',
-  }
+export type Event = { [name: string]: Schemas['Coll'] };
+
+export enum ParticleType {
+  Electron = 'electron',
+  Muon = 'muon',
+  Photon = 'photon',
+  Pion = 'pion',
+  Proton = 'proton',
+  Kaon = 'kaon',
+  Other = 'other',
 }
