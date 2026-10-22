@@ -1,4 +1,5 @@
 import {
+  CylinderGeometry,
   Line,
   LineSegments,
   Mesh,
@@ -127,6 +128,18 @@ describe('PhoenixObjects', () => {
     expect(jetObject.type).toBe('Mesh');
 
     expect(jetParams).toMatchObject(jetObject.userData);
+  });
+
+  it('should use pt to set the Jet length when energy and et are not given', () => {
+    const jetObject = PhoenixObjects.getJet({
+      eta: 1,
+      phi: 1,
+      pt: 10,
+      color: '#000000',
+    }) as Mesh;
+
+    const geometry = jetObject.geometry as CylinderGeometry;
+    expect(geometry.parameters.height).toBeCloseTo(2, 4);
   });
 
   it('should create Hits of Line type from the given parameters and get it as an object', () => {
