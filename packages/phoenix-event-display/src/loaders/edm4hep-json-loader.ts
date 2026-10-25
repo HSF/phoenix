@@ -9,7 +9,7 @@ import {
   JetParams,
   MissingEnergyParams,
 } from '../lib/types/event-data';
-import { edm4hep } from '../lib/types/edm4hep';
+import * as edm4hep from '../lib/types/edm4hep';
 import { ObjectID } from '../lib/types/edm4hep-schemas/utils';
 
 /**
@@ -111,6 +111,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
                   this.getCaloClusters(collection);
                 break;
               case 'edm4hep::ReconstructedParticleCollection':
+                // This excludes collections such as VertexJets, RefinedVertexJets, JetNoIso, PFOsFromJets, or RefinedVertexJets_vtx_RP
                 if (collName === 'Jet')
                   newEvent.Jets[collName] = this.getJets(collection);
                 else if (collName.toLowerCase().includes('missing'))
@@ -167,9 +168,13 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     )
       return;
 
+    // 'from' and 'to' are single-element arrays in Schema 2
+    const first = (ref: ObjectID | ObjectID[]): ObjectID =>
+      Array.isArray(ref) ? ref[0] : ref;
+
     linkCollection.forEach((link: edm4hep.Association | edm4hep.Link) => {
-      const recIndex = 'rec' in link ? link.rec.index : link.from.index;
-      const simIndex = 'sim' in link ? link.sim.index : link.to.index;
+      const recIndex = 'rec' in link ? link.rec.index : first(link.from).index;
+      const simIndex = 'sim' in link ? link.sim.index : first(link.to).index;
       const pdgid = Math.abs(mcParticleCollection[simIndex].PDG);
 
       reconstructedParticleCollection[recIndex].tracks.forEach(({ index }) => {
@@ -325,21 +330,20 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
           ref = rawHit.MCParticle;
         }
 
-        if (ref !== null) {
-          const pdg =
-            this.getCollByID(rawEvent, ref.collectionID)?.[ref.index]?.PDG ??
-            null;
+        // Hits without an associated particle are of an unknown type (i.e. reconstructed tracker hits)
+        const particle =
+          ref && this.getCollByID(rawEvent, ref.collectionID)?.[ref.index];
 
-          const particleType =
-            Edm4hepJsonLoader.pidNames[pdg] ?? edm4hep.ParticleType.Other;
+        const particleType =
+          Edm4hepJsonLoader.pidNames[Math.abs(particle?.PDG)] ?? // SimTrackerHit
+          edm4hep.ParticleType.Other; // TrackerHit and TrackerHit3D
 
-          categories[particleType].push({
-            type: 'CircularPoint',
-            pos,
-            color: `#${Edm4hepJsonLoader.pidColors[particleType]}`,
-            size: 2,
-          });
-        }
+        categories[particleType].push({
+          type: 'CircularPoint',
+          pos,
+          color: `#${Edm4hepJsonLoader.pidColors[particleType]}`,
+          size: 2,
+        });
       }
     });
 
