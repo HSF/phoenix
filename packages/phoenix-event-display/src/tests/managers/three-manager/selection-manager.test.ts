@@ -3,7 +3,17 @@
  */
 import { InfoLogger } from '../../../helpers/info-logger';
 import { EffectsManager } from '../../../managers/three-manager/effects-manager';
-import { Object3D, PerspectiveCamera, Scene, Vector2, Vector3 } from 'three';
+import {
+  BoxGeometry,
+  Color,
+  InstancedMesh,
+  MeshBasicMaterial,
+  Object3D,
+  PerspectiveCamera,
+  Scene,
+  Vector2,
+  Vector3,
+} from 'three';
 import { SelectionManager } from '../../../managers/three-manager/selection-manager';
 import THREE from '../../helpers/webgl-mock';
 
@@ -66,6 +76,61 @@ describe('SelectionManager', () => {
     expect(activeObj.value).toBe('');
     expect(activeObj['callbacks']).toEqual([]);
   });
+
+  it.each([0, 1])(
+    'should restore hovered cell %i when selection is disabled',
+    (instanceId) => {
+      const canvas = document.createElement('canvas');
+      canvas.id = 'three-canvas';
+      document.body.appendChild(canvas);
+      const camera = new PerspectiveCamera();
+      const scene = new Scene();
+      const effectsManager = new EffectsManager(
+        camera,
+        scene,
+        new THREE.WebGLRenderer(),
+      );
+      const geometry = new BoxGeometry();
+      const material = new MeshBasicMaterial();
+      const cells = new InstancedMesh(geometry, material, 2);
+      cells.setColorAt(0, new Color(1, 0, 0));
+      cells.setColorAt(1, new Color(0, 1, 0));
+      cells.userData = {
+        _isInstancedCaloCells: true,
+        _lastHitInstanceId: instanceId,
+      };
+      const originalColors = cells.instanceColor.array.slice();
+
+      selectionManager.init(
+        () => ({ object: camera }),
+        undefined,
+        undefined,
+        scene,
+        effectsManager,
+        new InfoLogger(),
+      );
+      selectionManager.setSelectedObject({ name: '', attributes: [] });
+
+      try {
+        selectionManager.setSelecting(true);
+        selectionManager.applyIntersectionResult(cells);
+        const hoveredColor = new Color();
+        cells.getColorAt(instanceId, hoveredColor);
+        expect(hoveredColor).toEqual(new Color(1, 1, 1));
+        const highlightedVersion = cells.instanceColor.version;
+
+        selectionManager.setSelecting(false);
+
+        expect(cells.instanceColor.array).toEqual(originalColors);
+        expect(cells.instanceColor.version).toBeGreaterThan(highlightedVersion);
+      } finally {
+        selectionManager.cleanup();
+        canvas.remove();
+        geometry.dispose();
+        material.dispose();
+      }
+    },
+  );
 
   it('should set if selecting is to be enabled or disabled', () => {
     jest.spyOn(selectionManagerPrivate, 'enableSelecting');
