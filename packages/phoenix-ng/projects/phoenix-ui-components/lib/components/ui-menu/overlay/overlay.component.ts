@@ -138,6 +138,7 @@ export class OverlayComponent implements OnInit, AfterViewInit, OnDestroy {
 
     event.preventDefault();
     this.bringToFront();
+    this.anchorToTopLeft();
 
     // The 3D overlay sizes its canvas, everything else sizes the whole card,
     // so measure whichever one the drag is going to act on.
@@ -168,6 +169,34 @@ export class OverlayComponent implements OnInit, AfterViewInit, OnDestroy {
       handle.addEventListener('lostpointercapture', this.onResizeEnd);
       document.addEventListener('keydown', this.onResizeKeyDown);
     });
+  }
+
+  /**
+   * Anchor the overlay by its top left corner.
+   *
+   * Overlays opened with a `bottom`/`right` position keep that corner fixed,
+   * so growing them moves the top left corner instead of the one being dragged.
+   * Switch to top/left anchoring without moving the overlay on screen.
+   */
+  private anchorToTopLeft() {
+    const host = this.elementRef.nativeElement as HTMLElement;
+    const wrapper = host.closest<HTMLElement>('.cdk-global-overlay-wrapper');
+    const pane = host.closest<HTMLElement>('.cdk-overlay-pane');
+    if (!wrapper || !pane) {
+      return;
+    }
+
+    const before = pane.getBoundingClientRect();
+    wrapper.style.justifyContent = 'flex-start';
+    wrapper.style.alignItems = 'flex-start';
+    pane.style.marginLeft = '0px';
+    pane.style.marginTop = '0px';
+    pane.style.marginRight = '0px';
+    pane.style.marginBottom = '0px';
+
+    const after = pane.getBoundingClientRect();
+    pane.style.marginLeft = `${before.left - after.left}px`;
+    pane.style.marginTop = `${before.top - after.top}px`;
   }
 
   /** Resize the overlay to follow the pointer. */
