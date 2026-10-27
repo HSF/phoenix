@@ -99,7 +99,7 @@ Jets are a list of Jet objects with the following attributes :
 * `eta` - eta direction
 * `phi`- phi direction
 * `theta` (opt) - if not given, eta is used to calculate theta
-* `energy`, `et` (opt) - energy of the Jets, used to set its length
+* `energy`, `et`, `pt` (opt) - magnitude of the Jets, used to set its length. If more than one is given, `energy` is used first, then `et`, then `pt`
 * `coneR` (opt) - the radius of the jet cone. If not given, radius is 10% of the length
 * `color` (opt) - Color to draw the jet.
 * `origin_X`, `origin_Y`, `origin_Z` (opt) - origin of the jet (defaults to [0, 0, 0])

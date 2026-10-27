@@ -256,8 +256,10 @@ export class PhoenixObjects {
     const theta = jetParams.theta
       ? jetParams.theta
       : CoordinateHelper.etaToTheta(eta);
-    // Jet energy parameter can either be 'energy' or 'et'
-    const length = (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
+    // Jet magnitude parameter can be 'energy', 'et' or 'pt' (first one given is used)
+    const length =
+      (jetParams.energy ? jetParams.energy : jetParams.et || jetParams.pt) *
+      0.2;
 
     // Add displacement of the origin of the jet
     // If x is given else jet is at origin
