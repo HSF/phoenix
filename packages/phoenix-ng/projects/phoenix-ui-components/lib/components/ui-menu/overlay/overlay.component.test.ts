@@ -103,6 +103,34 @@ describe('OverlayComponent', () => {
       expect(card.style.height).toBe('360px');
     });
 
+    it('should anchor a bottom/right positioned overlay by its top left corner', () => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'cdk-global-overlay-wrapper';
+      wrapper.style.justifyContent = 'flex-end';
+      wrapper.style.alignItems = 'flex-end';
+      const pane = document.createElement('div');
+      pane.className = 'cdk-overlay-pane';
+      pane.style.marginRight = '15px';
+      pane.style.marginBottom = '80px';
+      wrapper.appendChild(pane);
+      pane.appendChild(fixture.nativeElement);
+
+      // Bottom/right anchored at first, then at the top left of the wrapper.
+      pane.getBoundingClientRect = jest
+        .fn()
+        .mockReturnValueOnce({ left: 500, top: 200 } as DOMRect)
+        .mockReturnValueOnce({ left: 0, top: 0 } as DOMRect);
+
+      component.onResizeStart(pointerEvent('pointerdown', 400, 300));
+
+      expect(wrapper.style.justifyContent).toBe('flex-start');
+      expect(wrapper.style.alignItems).toBe('flex-start');
+      expect(pane.style.marginLeft).toBe('500px');
+      expect(pane.style.marginTop).toBe('200px');
+      expect(pane.style.marginRight).toBe('0px');
+      expect(pane.style.marginBottom).toBe('0px');
+    });
+
     it('should not resize below the minimum size', () => {
       component.onResizeStart(pointerEvent('pointerdown', 400, 300));
       handle.dispatchEvent(pointerEvent('pointermove', 0, 0));
