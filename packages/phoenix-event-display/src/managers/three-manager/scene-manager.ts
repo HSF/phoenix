@@ -84,8 +84,8 @@ export class SceneManager {
   public cameraLight: DirectionalLight;
   /** Font for text geometry. */
   private textFont: Font = new Font(HelvetikerFont);
-  /** An object containing look at camera change callbacks for labels. */
-  private labelTextLookCallbacks: { [key: string]: () => void } = {};
+  /** Unsubscribe functions for the camera listener owned by each label. */
+  private labelCameraSubscriptions = new Map<string, () => void>();
   /** Numbers on the X, Y and Z axes */
   private axesNumbers: Mesh[] = [];
 
@@ -261,10 +261,13 @@ export class SceneManager {
    * @param name Name of the label to remove.
    */
   public removeLabel(name: string) {
-    const object = this.scene.getObjectByName(name);
+    this.labelCameraSubscriptions.get(name)?.();
+    this.labelCameraSubscriptions.delete(name);
     const labelsGroup = this.getObjectsGroup(SceneManager.LABELS_ID);
-    if (labelsGroup && object) {
+    const object = labelsGroup.children.find((child) => child.name === name);
+    if (object) {
       labelsGroup.remove(object);
+      this.disposeObject3D(object);
     }
   }
 
@@ -482,6 +485,9 @@ export class SceneManager {
    * to prevent memory leaks during event switching.
    */
   public clearEventData() {
+    this.labelCameraSubscriptions.forEach((_unsubscribe, labelId) => {
+      this.removeLabel(labelId);
+    });
     const eventData = this.getEventData();
     if (eventData != null) {
       this.disposeObject3D(eventData);
@@ -1145,12 +1151,8 @@ export class SceneManager {
     if (!object) return;
     object.userData.label = label;
 
+    this.removeLabel(labelId);
     const labelsGroup = this.getObjectsGroup(SceneManager.LABELS_ID);
-    const labelObject = this.scene.getObjectByName(labelId);
-
-    if (labelObject) {
-      labelsGroup.remove(labelObject);
-    }
 
     const textMesh = this.getText(label, new Color('#a8a8a8'));
     textMesh.position.fromArray(objectPosition.toArray());
@@ -1158,18 +1160,14 @@ export class SceneManager {
 
     labelsGroup.add(textMesh);
 
-    cameraControls.removeEventListener(
-      'change',
-      this.labelTextLookCallbacks[uuid],
-    );
-    this.labelTextLookCallbacks[uuid] = () => {
+    const lookAtCamera = () => {
       textMesh.lookAt(cameraControls.object.position);
     };
-    this.labelTextLookCallbacks[uuid]();
-    cameraControls.addEventListener(
-      'change',
-      this.labelTextLookCallbacks[uuid],
-    );
+    lookAtCamera();
+    cameraControls.addEventListener('change', lookAtCamera);
+    this.labelCameraSubscriptions.set(labelId, () => {
+      cameraControls.removeEventListener('change', lookAtCamera);
+    });
   }
 
   /**
