@@ -82,7 +82,9 @@ export class PhoenixMenuNode {
    */
   removeChild(child: PhoenixMenuNode): PhoenixMenuNode {
     const childIndex = this.children.indexOf(child);
-    this.children.splice(childIndex, 1);
+    if (childIndex !== -1) {
+      this.children.splice(childIndex, 1);
+    }
     return this;
   }
 

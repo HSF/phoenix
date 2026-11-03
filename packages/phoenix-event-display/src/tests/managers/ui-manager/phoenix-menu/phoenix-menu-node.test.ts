@@ -318,4 +318,28 @@ describe('PhoenixMenuNode', () => {
       expect(state['children'][1]).toHaveProperty('toggleState', true);
     });
   });
+
+  describe('removeChild', () => {
+    it('should remove an existing child node', () => {
+      const parent = new PhoenixMenuNode('Parent');
+      const child = parent.addChild('Child');
+
+      expect(parent.children.length).toBe(1);
+      parent.removeChild(child);
+      expect(parent.children.length).toBe(0);
+    });
+
+    it('should not remove any child if child to remove is not found', () => {
+      const parent = new PhoenixMenuNode('Parent');
+      const child1 = parent.addChild('Child 1');
+      const child2 = parent.addChild('Child 2');
+      const orphan = new PhoenixMenuNode('Orphan');
+
+      parent.removeChild(orphan);
+
+      expect(parent.children.length).toBe(2);
+      expect(parent.children[0]).toBe(child1);
+      expect(parent.children[1]).toBe(child2);
+    });
+  });
 });
