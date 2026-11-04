@@ -111,6 +111,53 @@ describe('PhoenixObjects', () => {
     expect(trackParams.angle).toBeCloseTo(45, 4);
   });
 
+  it('should preserve valid 0 values for track parameters and not treat them as missing', () => {
+    const trackParams: any = {
+      pos: [
+        [0.0, 10.0, 0.0],
+        [10.0, 10.0, 10.0],
+      ],
+      d0: 0,
+      z0: 0,
+      phi: 0,
+      eta: 0,
+      dca: 0,
+      angle: 0,
+      color: '0xffffff',
+    };
+
+    PhoenixObjects.getTrack(trackParams);
+
+    expect(trackParams.d0).toBe(0);
+    expect(trackParams.z0).toBe(0);
+    expect(trackParams.phi).toBe(0);
+    expect(trackParams.eta).toBe(0);
+    expect(trackParams.dca).toBe(0);
+    expect(trackParams.angle).toBe(0);
+  });
+
+  it('should not overwrite explicit 0 track values with dparams values', () => {
+    const trackParams: any = {
+      pos: [
+        [0.0, 10.0, 0.0],
+        [10.0, 10.0, 10.0],
+      ],
+      dparams: [15.0, 25.0, 1.5, 1.2],
+      d0: 0,
+      z0: 0,
+      phi: 0,
+      eta: 0,
+      color: '0xffffff',
+    };
+
+    PhoenixObjects.getTrack(trackParams);
+
+    expect(trackParams.d0).toBe(0);
+    expect(trackParams.z0).toBe(0);
+    expect(trackParams.phi).toBe(0);
+    expect(trackParams.eta).toBe(0);
+  });
+
   it('should create a Jet from the given parameters and get it as an object', () => {
     const jetParams = {
       eta: 1,
