@@ -37,6 +37,10 @@
   pointer-events: auto;
 }
 
+:host-context(.ss-mode) .shortcuts-button-wrapper {
+  visibility: hidden;
+}
+
 .shortcuts-btn {
   background-color: var(--phoenix-background-color-secondary);
   color: var(--phoenix-text-color);
