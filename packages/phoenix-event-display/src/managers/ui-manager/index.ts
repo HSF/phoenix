@@ -647,6 +647,29 @@ export class UIManager {
   }
 
   /**
+   * Get the list of removed geometries from the Phoenix menu.
+   * @returns List of removed geometries.
+   */
+  public getRemovedGeometries() {
+    return this.getPhoenixMenuUI()?.getRemovedGeometries() ?? [];
+  }
+
+  /**
+   * Restore a previously removed geometry back to the scene and the menu.
+   * @param idOrName UUID or name of the geometry to restore.
+   */
+  public restoreGeometry(idOrName: string) {
+    this.getPhoenixMenuUI()?.restoreGeometry(idOrName);
+  }
+
+  /**
+   * Restore all previously removed geometries back to the scene and the menu.
+   */
+  public restoreAllGeometries() {
+    this.getPhoenixMenuUI()?.restoreAllGeometries();
+  }
+
+  /**
    * Get all the UI menus.
    * @returns An array containing UI menus. (Phoenix menu, dat.GUI menu etc.)
    */

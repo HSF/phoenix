@@ -324,6 +324,34 @@ describe('SceneManager', () => {
       expect(sceneManager.getGeometries().remove).toHaveBeenCalled();
     });
 
+    it('should remove a geometry from its parent if nested', () => {
+      const parentGroup = new Group();
+      const childObj = new Object3D();
+      parentGroup.add(childObj);
+      jest.spyOn(parentGroup, 'remove');
+      jest.spyOn(sceneManager.getGeometries(), 'remove');
+
+      sceneManager.removeGeometry(childObj);
+
+      expect(parentGroup.remove).toHaveBeenCalledWith(childObj);
+      expect(sceneManager.getGeometries().remove).toHaveBeenCalledWith(
+        childObj,
+      );
+    });
+
+    it('should add a geometry to the scene or custom parent', () => {
+      const geom = new Object3D();
+      jest.spyOn(sceneManager.getGeometries(), 'add');
+
+      sceneManager.addGeometry(geom);
+      expect(sceneManager.getGeometries().add).toHaveBeenCalledWith(geom);
+
+      const customParent = new Group();
+      jest.spyOn(customParent, 'add');
+      sceneManager.addGeometry(geom, customParent);
+      expect(customParent.add).toHaveBeenCalledWith(geom);
+    });
+
     it('should scale an object', () => {
       sceneManager.scaleObject(object, 0.5);
       expect(object.scale.x).toBe(0.5);

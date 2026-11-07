@@ -2,6 +2,7 @@ import { GUI } from 'dat.gui';
 import {
   BufferGeometry,
   Color,
+  Group,
   Mesh,
   MeshPhongMaterial,
   Object3D,
@@ -30,6 +31,14 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
   };
   /** dat.GUI menu folder containing geometries data. */
   private geomFolder: GUI;
+  /** dat.GUI menu folder containing restored geometries. */
+  private restoreFolder: GUI;
+  /** List of geometries that have been removed and can be restored. */
+  private removedGeometries: {
+    object: Object3D;
+    menuSubfolder?: string;
+    parent3D?: Object3D;
+  }[] = [];
   /** dat.GUI menu folder containing event related data. */
   private eventFolder: GUI;
   /** dat.GUI menu folder containing labels. */
@@ -74,6 +83,8 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     if (gui != null) {
       gui.remove();
     }
+    this.removedGeometries = [];
+    this.restoreFolder = undefined;
   }
 
   /**
@@ -128,7 +139,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       y: 0,
       z: 0,
       detectorOpacity: 1.0,
-      remove: this.removeOBJ(object),
+      remove: this.removeOBJ(object, _menuSubfolder),
       scale: 1,
     };
 
@@ -188,17 +199,71 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
   }
 
   /**
-   * Remove object from the dat.GUI menu.
+   * Remove object from the dat.GUI menu and track for restoration.
    * @param object Geometry object to be removed.
+   * @param menuSubfolder Subfolder in the menu to add the geometry to.
    */
-  private removeOBJ(object: Object3D) {
+  private removeOBJ(object: Object3D, menuSubfolder?: string) {
     return () => {
+      const parent3D = object.parent;
       const folder = this.geomFolder.__folders[object.name];
       if (folder) {
         this.geomFolder.removeFolder(folder);
       }
       this.sceneManager.removeGeometry(object);
+      this.removedGeometries.push({ object, menuSubfolder, parent3D });
+      this.updateRemovedGeometriesFolder();
     };
+  }
+
+  /**
+   * Update the removed geometries folder in the dat.GUI menu.
+   */
+  private updateRemovedGeometriesFolder() {
+    if (this.restoreFolder) {
+      this.geomFolder.removeFolder(this.restoreFolder);
+      this.restoreFolder = undefined;
+    }
+    if (this.removedGeometries.length === 0) {
+      return;
+    }
+    this.restoreFolder = this.geomFolder.addFolder('Removed Geometries');
+    for (const item of this.removedGeometries) {
+      this.restoreFolder
+        .add(
+          {
+            restore: () => {
+              this.restoreGeometry(item.object);
+            },
+          },
+          'restore',
+        )
+        .name(`Restore ${item.object.name || 'Geometry'}`);
+    }
+  }
+
+  /**
+   * Restore a previously removed geometry to the scene and the dat.GUI menu.
+   * @param object Geometry object to restore.
+   */
+  public restoreGeometry(object: Object3D) {
+    const index = this.removedGeometries.findIndex((g) => g.object === object);
+    if (index === -1) {
+      return;
+    }
+    const [removed] = this.removedGeometries.splice(index, 1);
+    const { menuSubfolder, parent3D } = removed;
+    if (parent3D && parent3D.parent) {
+      parent3D.add(object);
+    } else {
+      const geometries = this.sceneManager?.getGeometries?.() as Group;
+      if (geometries?.add) {
+        geometries.add(object);
+      }
+    }
+    object.visible = true;
+    this.addGeometry(object, menuSubfolder);
+    this.updateRemovedGeometriesFolder();
   }
 
   /**

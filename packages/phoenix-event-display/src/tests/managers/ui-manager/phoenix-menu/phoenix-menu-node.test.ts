@@ -342,4 +342,58 @@ describe('PhoenixMenuNode', () => {
       expect(parent.children[1]).toBe(child2);
     });
   });
+
+  describe('removeConfig and removeConfigsByGroup', () => {
+    it('should remove a config by reference', () => {
+      const node = new PhoenixMenuNode('Test');
+      const config = {
+        type: 'button' as const,
+        label: 'Action',
+        onClick: jest.fn(),
+      };
+      node.addConfig(config);
+      expect(node.configs.length).toBe(1);
+
+      node.removeConfig(config);
+      expect(node.configs.length).toBe(0);
+    });
+
+    it('should remove a config by label', () => {
+      const node = new PhoenixMenuNode('Test');
+      node.addConfig({
+        type: 'button',
+        label: 'Action',
+        onClick: jest.fn(),
+      });
+      expect(node.configs.length).toBe(1);
+
+      node.removeConfig('Action');
+      expect(node.configs.length).toBe(0);
+    });
+
+    it('should remove configs by group', () => {
+      const node = new PhoenixMenuNode('Test');
+      node.addConfig({
+        type: 'checkbox',
+        label: 'Keep',
+        onChange: jest.fn(),
+      });
+      node.addConfig({
+        type: 'label',
+        label: 'Header',
+        group: 'test-group',
+      });
+      node.addConfig({
+        type: 'button',
+        label: 'Grouped Button',
+        group: 'test-group',
+        onClick: jest.fn(),
+      });
+
+      expect(node.configs.length).toBe(3);
+      node.removeConfigsByGroup('test-group');
+      expect(node.configs.length).toBe(1);
+      expect(node.configs[0].label).toBe('Keep');
+    });
+  });
 });

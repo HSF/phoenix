@@ -1,4 +1,4 @@
-import { type PhoenixMenuConfigs } from './config-types';
+import { type ConfigLabel, type PhoenixMenuConfigs } from './config-types';
 
 /**
  * A single node of phoenix menu item.
@@ -119,6 +119,36 @@ export class PhoenixMenuNode {
     this.configs.push(config);
     // Apply the values of config
     this.applyConfigState(config);
+    return this;
+  }
+
+  /**
+   * Remove a config from the phoenix menu item.
+   * @param configOrLabel Config object or label of config to be removed.
+   * @returns The current node.
+   */
+  removeConfig(
+    configOrLabel: PhoenixMenuConfigs[keyof PhoenixMenuConfigs] | string,
+  ): PhoenixMenuNode {
+    const index =
+      typeof configOrLabel === 'string'
+        ? this.configs.findIndex((c) => c.label === configOrLabel)
+        : this.configs.indexOf(configOrLabel);
+    if (index !== -1) {
+      this.configs.splice(index, 1);
+    }
+    return this;
+  }
+
+  /**
+   * Remove configs matching a group.
+   * @param group Group name of configs to remove.
+   * @returns The current node.
+   */
+  removeConfigsByGroup(group: string): PhoenixMenuNode {
+    this.configs = this.configs.filter(
+      (c) => (c as ConfigLabel).group !== group,
+    );
     return this;
   }
 

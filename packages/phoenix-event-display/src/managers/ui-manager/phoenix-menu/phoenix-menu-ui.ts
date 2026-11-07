@@ -1,6 +1,7 @@
 import {
   BufferGeometry,
   Color,
+  Group,
   Mesh,
   MeshPhongMaterial,
   Object3D,
@@ -11,6 +12,23 @@ import { PhoenixMenuNode } from './phoenix-menu-node';
 import { Cut } from '../../../lib/models/cut.model';
 import { ColorByOptionKeys, ColorOptions } from '../color-options';
 import type { PhoenixUI } from '../phoenix-ui';
+import type { ConfigSelect } from './config-types';
+
+/**
+ * Information about a geometry that has been removed from the scene and menu.
+ */
+interface RemovedGeometry {
+  /** Unique ID of the removed geometry. */
+  id: string;
+  /** Display name of the removed geometry. */
+  name: string;
+  /** Three.js 3D object of the geometry. */
+  object: Object3D;
+  /** Subfolder in the menu where the geometry was located. */
+  menuSubfolder?: string;
+  /** Three.js parent object before removal. */
+  parent3D?: Object3D;
+}
 
 /**
  * A wrapper class for Phoenix menu to perform UI related operations.
@@ -33,6 +51,9 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
 
   /** Registry of active cuts per collection name for re-application on event switch. */
   private collectionCuts: { [collectionName: string]: Cut[] } = {};
+
+  /** List of geometries that have been removed and can be restored. */
+  private removedGeometries: RemovedGeometry[] = [];
 
   /** Callback fired when UI state / visibility / cuts change. */
   public onStateChange?: () => void;
@@ -58,6 +79,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     }
 
     this.eventFolderState = undefined;
+    this.removedGeometries = [];
   }
 
   /**
@@ -174,10 +196,214 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         type: 'button',
         label: 'Remove',
         onClick: () => {
-          objFolder.remove();
-          this.sceneManager.removeGeometry(object);
+          this.removeGeometry(object, objFolder, menuSubfolder);
         },
       });
+  }
+
+  /**
+   * Remove a geometry from the scene and the menu, and track it for restoration.
+   * @param object Geometry object to be removed.
+   * @param objFolder Phoenix menu node of the geometry object.
+   * @param menuSubfolder Subfolder in the menu where the geometry was located.
+   */
+  public removeGeometry(
+    object: Object3D,
+    objFolder?: PhoenixMenuNode,
+    menuSubfolder?: string,
+  ) {
+    const parent3D = object.parent;
+    if (objFolder) {
+      objFolder.remove();
+    } else {
+      const rawName = object.name || '';
+      const nameStart = rawName.lastIndexOf(' > ');
+      const nodeName =
+        nameStart < 0 ? rawName : rawName.substring(nameStart + 3);
+      const node = this.geomFolder?.findInTree(nodeName);
+      node?.remove();
+    }
+
+    this.sceneManager?.removeGeometry(object);
+
+    const rawName = object.name || '';
+    let nameStart = rawName.lastIndexOf(' > ');
+    if (nameStart < 0) {
+      nameStart = 0;
+    } else {
+      nameStart += 3;
+    }
+    const baseName = rawName.substring(nameStart) || rawName || 'Geometry';
+    const displayName = menuSubfolder
+      ? `${baseName} (${menuSubfolder})`
+      : baseName;
+
+    let finalDisplayName = displayName;
+    let counter = 1;
+    while (this.removedGeometries.some((g) => g.name === finalDisplayName)) {
+      counter++;
+      finalDisplayName = `${displayName} (${counter})`;
+    }
+
+    this.removedGeometries.push({
+      id: object.uuid,
+      name: finalDisplayName,
+      object,
+      menuSubfolder,
+      parent3D,
+    });
+
+    this.updateRemovedGeometriesConfig();
+    this.onStateChange?.();
+  }
+
+  /**
+   * Update the removed geometries section in the top level geometry configuration.
+   */
+  private updateRemovedGeometriesConfig() {
+    if (!this.geomFolder) {
+      return;
+    }
+
+    this.geomFolder.removeConfigsByGroup('removed-geometries');
+
+    if (this.removedGeometries.length === 0) {
+      return;
+    }
+
+    if (this.removedGeometries.length === 1) {
+      const item = this.removedGeometries[0];
+      this.geomFolder.addConfig({
+        type: 'label',
+        label: 'Removed Geometry',
+        group: 'removed-geometries',
+      });
+      this.geomFolder.addConfig({
+        type: 'button',
+        label: `Restore ${item.name}`,
+        group: 'removed-geometries',
+        onClick: () => {
+          this.restoreGeometry(item.id);
+        },
+      });
+    } else {
+      this.geomFolder.addConfig({
+        type: 'label',
+        label: 'Removed Geometries',
+        group: 'removed-geometries',
+      });
+
+      let selectedId = this.removedGeometries[0].id;
+      const options = this.removedGeometries.map((g) => g.name);
+
+      const selectConfig: ConfigSelect = {
+        type: 'select',
+        label: 'Restore',
+        group: 'removed-geometries',
+        options: options,
+        value: options[0],
+        onChange: (selectedOption) => {
+          const found = this.removedGeometries.find(
+            (g) => g.name === selectedOption,
+          );
+          if (found) {
+            selectedId = found.id;
+            selectConfig.value = selectedOption;
+          }
+        },
+      };
+      this.geomFolder.addConfig(selectConfig);
+
+      this.geomFolder.addConfig({
+        type: 'button',
+        label: 'Restore Selected',
+        group: 'removed-geometries',
+        onClick: () => {
+          this.restoreGeometry(selectedId);
+        },
+      });
+
+      this.geomFolder.addConfig({
+        type: 'button',
+        label: 'Restore All',
+        group: 'removed-geometries',
+        onClick: () => {
+          this.restoreAllGeometries();
+        },
+      });
+    }
+  }
+
+  /**
+   * Restore a previously removed geometry back to the scene and the menu.
+   * @param idOrName UUID or display name of the geometry to restore.
+   */
+  public restoreGeometry(idOrName: string) {
+    const index = this.removedGeometries.findIndex(
+      (g) => g.id === idOrName || g.name === idOrName,
+    );
+    if (index === -1) {
+      return;
+    }
+
+    const [removed] = this.removedGeometries.splice(index, 1);
+    const { object, menuSubfolder, parent3D } = removed;
+
+    if (parent3D && parent3D.parent) {
+      parent3D.add(object);
+    } else {
+      const geometries = this.sceneManager?.getGeometries?.() as Group;
+      if (geometries?.add) {
+        geometries.add(object);
+      }
+    }
+    object.visible = true;
+
+    this.addGeometry(object, menuSubfolder);
+    this.updateRemovedGeometriesConfig();
+    this.onStateChange?.();
+  }
+
+  /**
+   * Restore all previously removed geometries back to the scene and the menu.
+   */
+  public restoreAllGeometries() {
+    const toRestore = [...this.removedGeometries];
+    this.removedGeometries = [];
+
+    for (const removed of toRestore) {
+      const { object, menuSubfolder, parent3D } = removed;
+      if (parent3D && parent3D.parent) {
+        parent3D.add(object);
+      } else {
+        const geometries = this.sceneManager?.getGeometries?.() as Group;
+        if (geometries?.add) {
+          geometries.add(object);
+        }
+      }
+      object.visible = true;
+
+      this.addGeometry(object, menuSubfolder);
+    }
+
+    this.updateRemovedGeometriesConfig();
+    this.onStateChange?.();
+  }
+
+  /**
+   * Get the list of currently removed geometries.
+   * @returns Array of removed geometry descriptors.
+   */
+  public getRemovedGeometries(): {
+    id: string;
+    name: string;
+    object: Object3D;
+  }[] {
+    return this.removedGeometries.map(({ id, name, object }) => ({
+      id,
+      name,
+      object,
+    }));
   }
 
   /**
