@@ -253,7 +253,20 @@ export class SceneManager {
    */
   public removeGeometry(object: Object3D) {
     const geometries = this.getGeometries() as Group;
+    if (object.parent && object.parent !== geometries) {
+      object.parent.remove(object);
+    }
     geometries.remove(object);
+  }
+
+  /**
+   * Adds a geometry to the scene.
+   * @param object Geometry object to be added.
+   * @param parent Optional parent to add the geometry to (defaults to geometries group).
+   */
+  public addGeometry(object: Object3D, parent?: Object3D) {
+    const targetParent = parent ?? (this.getGeometries() as Group);
+    targetParent.add(object);
   }
 
   /**
