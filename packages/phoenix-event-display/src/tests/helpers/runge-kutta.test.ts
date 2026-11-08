@@ -62,4 +62,14 @@ describe('RungeKutta', () => {
     expect(result[0].dir.y).toBeCloseTo(-0.07317743442452403);
     expect(result[0].dir.z).toBeCloseTo(0);
   });
+
+  it('should not modify the start position and direction it is given', () => {
+    const startPos = new Vector3(0, 0, 0);
+    const startDir = new Vector3(1, 0, 0);
+
+    RungeKutta.propagate(startPos, startDir, 1000, 1, 5, 50);
+
+    expect(startPos.toArray()).toEqual([0, 0, 0]);
+    expect(startDir.toArray()).toEqual([1, 0, 0]);
+  });
 });
