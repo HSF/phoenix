@@ -45,16 +45,16 @@ export class PhoenixObjects {
    */
   private static calculateTrackParams(track: any) {
     if (track?.dparams) {
-      if (!track?.phi) {
+      if (track.phi == null) {
         track.phi = track.dparams[2];
       }
-      if (!track?.eta) {
+      if (track.eta == null) {
         track.eta = CoordinateHelper.thetaToEta(track.dparams[3]);
       }
-      if (!track?.d0) {
+      if (track.d0 == null) {
         track.d0 = track.dparams[0];
       }
-      if (!track?.z0) {
+      if (track.z0 == null) {
         track.z0 = track.dparams[1];
       }
     }
@@ -69,31 +69,31 @@ export class PhoenixObjects {
       const d_xy = Math.sqrt(dx * dx + dy * dy);
       const v_len = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-      if (!track.phi) {
+      if (track.phi == null) {
         track.phi = Math.atan2(dy, dx);
       }
-      if (!track.eta && v_len > 0) {
+      if (track.eta == null && v_len > 0) {
         const theta = Math.acos(dz / v_len);
         track.eta = CoordinateHelper.thetaToEta(theta);
       }
-      if (!track.d0) {
+      if (track.d0 == null) {
         if (d_xy > 0) {
           track.d0 = (p0[0] * dy - p0[1] * dx) / d_xy;
         } else {
           track.d0 = Math.sqrt(p0[0] * p0[0] + p0[1] * p0[1]);
         }
       }
-      if (!track.z0) {
+      if (track.z0 == null) {
         if (d_xy > 0) {
           track.z0 = p0[2] - (dz * (p0[0] * dx + p0[1] * dy)) / (d_xy * d_xy);
         } else {
           track.z0 = p0[2];
         }
       }
-      if (!track.dca) {
+      if (track.dca == null) {
         track.dca = Math.abs(track.d0);
       }
-      if (!track.angle) {
+      if (track.angle == null) {
         if (track.dparams && track.dparams[3] !== undefined) {
           track.angle = track.dparams[3] * (180 / Math.PI);
         } else if (v_len > 0) {
