@@ -151,6 +151,184 @@ describe('PhoenixMenuUI', () => {
     expect(Object.keys(phoenixMenuUIPrivate.collectionCuts).length).toBe(0);
   });
 
+  describe('removed geometry restoration', () => {
+    let mockSceneManager: any;
+    let mockGeometriesGroup: any;
+
+    beforeEach(() => {
+      mockGeometriesGroup = {
+        add: jest.fn(),
+        remove: jest.fn(),
+      };
+      mockSceneManager = {
+        removeGeometry: jest.fn(),
+        getGeometries: jest.fn().mockReturnValue(mockGeometriesGroup),
+        objectVisibility: jest.fn(),
+        changeObjectColor: jest.fn(),
+        setGeometryOpacity: jest.fn(),
+        wireframeGeometries: jest.fn(),
+        groupVisibility: jest.fn(),
+        scaleObject: jest.fn(),
+        getObjectByName: jest.fn().mockReturnValue(new Object3D()),
+      };
+      phoenixMenuUIPrivate.sceneManager = mockSceneManager;
+      phoenixMenuUI.addGeometryFolder();
+    });
+
+    it('should track removed geometry and add restore button to top-level Detector config', () => {
+      const geom = new Object3D();
+      geom.name = 'Pixel';
+      phoenixMenuUI.addGeometry(geom, 'Inner Detector');
+
+      const geomNode = phoenixMenuUI['geomFolder'].findInTree('Pixel');
+      expect(geomNode).toBeTruthy();
+
+      const removeConfig = geomNode.configs.find(
+        (c) => c.type === 'button' && c.label === 'Remove',
+      ) as any;
+      expect(removeConfig).toBeTruthy();
+
+      removeConfig.onClick();
+
+      // Geometry node is removed from tree
+      expect(phoenixMenuUI['geomFolder'].findInTree('Pixel')).toBeUndefined();
+      expect(mockSceneManager.removeGeometry).toHaveBeenCalledWith(geom);
+
+      // Geometry is tracked in removed geometries
+      const removed = phoenixMenuUI.getRemovedGeometries();
+      expect(removed.length).toBe(1);
+      expect(removed[0].name).toBe('Pixel (Inner Detector)');
+
+      // Detector folder config has Removed Geometry label and Restore button
+      const detectorConfigs = phoenixMenuUI['geomFolder'].configs;
+      const labelConfig = detectorConfigs.find(
+        (c) => c.type === 'label' && c.label === 'Removed Geometry',
+      );
+      const restoreBtn = detectorConfigs.find(
+        (c) =>
+          c.type === 'button' && c.label === 'Restore Pixel (Inner Detector)',
+      ) as any;
+
+      expect(labelConfig).toBeTruthy();
+      expect(restoreBtn).toBeTruthy();
+
+      // Click restore
+      restoreBtn.onClick();
+
+      // Geometry is restored to scene and menu
+      expect(mockGeometriesGroup.add).toHaveBeenCalledWith(geom);
+      expect(phoenixMenuUI['geomFolder'].findInTree('Pixel')).toBeTruthy();
+      expect(phoenixMenuUI.getRemovedGeometries().length).toBe(0);
+
+      // Removed geometry configs are gone from Detector folder
+      const updatedConfigs = phoenixMenuUI['geomFolder'].configs;
+      expect(
+        updatedConfigs.some((c) => (c as any).group === 'removed-geometries'),
+      ).toBe(false);
+    });
+
+    it('should handle removing multiple geometries with dropdown and Restore All', () => {
+      const geom1 = new Object3D();
+      geom1.name = 'Pixel';
+      const geom2 = new Object3D();
+      geom2.name = 'SCT';
+
+      phoenixMenuUI.addGeometry(geom1);
+      phoenixMenuUI.addGeometry(geom2);
+
+      const node1 = phoenixMenuUI['geomFolder'].findInTree('Pixel');
+      const node2 = phoenixMenuUI['geomFolder'].findInTree('SCT');
+
+      (node1.configs.find((c) => c.label === 'Remove') as any).onClick();
+      (node2.configs.find((c) => c.label === 'Remove') as any).onClick();
+
+      expect(phoenixMenuUI.getRemovedGeometries().length).toBe(2);
+
+      const detectorConfigs = phoenixMenuUI['geomFolder'].configs;
+      const selectConfig = detectorConfigs.find(
+        (c) => c.type === 'select' && c.label === 'Restore',
+      ) as any;
+      const restoreSelectedBtn = detectorConfigs.find(
+        (c) => c.type === 'button' && c.label === 'Restore Selected',
+      ) as any;
+      const restoreAllBtn = detectorConfigs.find(
+        (c) => c.type === 'button' && c.label === 'Restore All',
+      ) as any;
+
+      expect(selectConfig).toBeTruthy();
+      expect(selectConfig.options).toEqual(['Pixel', 'SCT']);
+      expect(restoreSelectedBtn).toBeTruthy();
+      expect(restoreAllBtn).toBeTruthy();
+
+      // Select and restore SCT
+      selectConfig.onChange('SCT');
+      restoreSelectedBtn.onClick();
+
+      expect(phoenixMenuUI.getRemovedGeometries().length).toBe(1);
+      expect(phoenixMenuUI['geomFolder'].findInTree('SCT')).toBeTruthy();
+      expect(phoenixMenuUI['geomFolder'].findInTree('Pixel')).toBeUndefined();
+
+      // Remaining single item switches to single-button mode
+      const updatedConfigs = phoenixMenuUI['geomFolder'].configs;
+      const singleRestoreBtn = updatedConfigs.find(
+        (c) => c.type === 'button' && c.label === 'Restore Pixel',
+      ) as any;
+      expect(singleRestoreBtn).toBeTruthy();
+
+      // Restore remaining
+      singleRestoreBtn.onClick();
+      expect(phoenixMenuUI.getRemovedGeometries().length).toBe(0);
+      expect(phoenixMenuUI['geomFolder'].findInTree('Pixel')).toBeTruthy();
+    });
+
+    it('should restore all geometries at once with Restore All', () => {
+      const geom1 = new Object3D();
+      geom1.name = 'Pixel';
+      const geom2 = new Object3D();
+      geom2.name = 'SCT';
+
+      phoenixMenuUI.addGeometry(geom1);
+      phoenixMenuUI.addGeometry(geom2);
+
+      (
+        phoenixMenuUI['geomFolder']
+          .findInTree('Pixel')
+          .configs.find((c) => c.label === 'Remove') as any
+      ).onClick();
+      (
+        phoenixMenuUI['geomFolder']
+          .findInTree('SCT')
+          .configs.find((c) => c.label === 'Remove') as any
+      ).onClick();
+
+      expect(phoenixMenuUI.getRemovedGeometries().length).toBe(2);
+
+      const restoreAllBtn = phoenixMenuUI['geomFolder'].configs.find(
+        (c) => c.type === 'button' && c.label === 'Restore All',
+      ) as any;
+      restoreAllBtn.onClick();
+
+      expect(phoenixMenuUI.getRemovedGeometries().length).toBe(0);
+      expect(phoenixMenuUI['geomFolder'].findInTree('Pixel')).toBeTruthy();
+      expect(phoenixMenuUI['geomFolder'].findInTree('SCT')).toBeTruthy();
+    });
+
+    it('should clear removed geometries on clear()', () => {
+      const geom = new Object3D();
+      geom.name = 'Pixel';
+      phoenixMenuUI.addGeometry(geom);
+      (
+        phoenixMenuUI['geomFolder']
+          .findInTree('Pixel')
+          .configs.find((c) => c.label === 'Remove') as any
+      ).onClick();
+
+      expect(phoenixMenuUI.getRemovedGeometries().length).toBe(1);
+      phoenixMenuUI.clear();
+      expect(phoenixMenuUI.getRemovedGeometries().length).toBe(0);
+    });
+  });
+
   describe('PhoenixMenuNode', () => {
     let testMenuNode: PhoenixMenuNode;
     let testMenuNodeChild: PhoenixMenuNode;

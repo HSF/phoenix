@@ -219,7 +219,10 @@
             id="item-config-field"
             class="w-100"
             [value]="config.value ?? config.options[0]"
-            (change)="config.onChange($event.target.value)"
+            (change)="
+              config.onChange($event.target.value);
+              config.value = $event.target.value
+            "
           >
             <option
               *ngFor="let singleOption of config.options"

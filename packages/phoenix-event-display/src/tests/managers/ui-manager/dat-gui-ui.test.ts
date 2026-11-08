@@ -69,4 +69,38 @@ describe('DatGUIMenuUI', () => {
 
     expect(eventFolder).toBeInstanceOf(GUI);
   });
+
+  it('should remove and restore geometry in dat.GUI', () => {
+    const mockGeometries = { add: jest.fn(), remove: jest.fn() };
+    datGUIMenuPrivate.sceneManager = {
+      removeGeometry: jest.fn(),
+      getGeometries: jest.fn().mockReturnValue(mockGeometries),
+      objectVisibility: jest.fn(),
+      wireframeGeometries: jest.fn(),
+      getObjectByName: jest.fn().mockReturnValue(new Object3D()),
+    };
+
+    datGUIMenu.addGeometryFolder();
+    const geom = new Object3D();
+    geom.name = 'TestGeom';
+    datGUIMenu.addGeometry(geom);
+
+    expect(datGUIMenuPrivate.geomFolder.__folders['TestGeom']).toBeDefined();
+
+    // Trigger remove
+    datGUIMenuPrivate.guiParameters['TestGeom'].remove();
+
+    expect(datGUIMenuPrivate.geomFolder.__folders['TestGeom']).toBeUndefined();
+    expect(datGUIMenuPrivate.sceneManager.removeGeometry).toHaveBeenCalledWith(
+      geom,
+    );
+    expect(datGUIMenuPrivate.restoreFolder).toBeDefined();
+
+    // Restore
+    datGUIMenu.restoreGeometry(geom);
+
+    expect(mockGeometries.add).toHaveBeenCalledWith(geom);
+    expect(datGUIMenuPrivate.geomFolder.__folders['TestGeom']).toBeDefined();
+    expect(datGUIMenuPrivate.restoreFolder).toBeUndefined();
+  });
 });
