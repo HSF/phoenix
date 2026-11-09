@@ -351,7 +351,6 @@ export class PhoenixObjects {
    */
   public static getHits(hitsParams: any): Object3D {
     let hitsParamsClone: any;
-    let positions: any[];
     let type: string = 'Point'; // Default is point and 3 coordinates per hit
     let coordlength = 3;
     let isSimpleArray = false;
@@ -388,7 +387,6 @@ export class PhoenixObjects {
 
     // attributes
     const hitLength = hitsParams.length * coordlength;
-    if (isSimpleArray) length = hitLength; // These are already arrays
     const pointPos = new Float32Array(hitLength);
     let i = 0;
     for (const hit of hitsParams) {
@@ -495,8 +493,8 @@ export class PhoenixObjects {
     const texture = new CanvasTexture(canvas);
 
     const material = new PointsMaterial({
-      size: hitsParams[0].size ?? 10,
-      color: hitsParams[0].color ?? EVENT_DATA_TYPE_COLORS.Hits,
+      size: hitsParams[0]?.size ?? 10,
+      color: parseColor(hitsParams[0]?.color) ?? EVENT_DATA_TYPE_COLORS.Hits,
       map: texture,
       alphaMap: texture,
       alphaTest: 0.5,
@@ -532,7 +530,7 @@ export class PhoenixObjects {
     // material
     const material = new LineBasicMaterial({
       linewidth: 2,
-      color: hitsParams.color ?? EVENT_DATA_TYPE_COLORS.Hits,
+      color: parseColor(hitsParams[0]?.color) ?? EVENT_DATA_TYPE_COLORS.Hits,
     });
     // object
     const linesObj = new LineSegments(geometry, material);

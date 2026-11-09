@@ -1,6 +1,7 @@
 import {
   CylinderGeometry,
   Line,
+  LineBasicMaterial,
   LineSegments,
   Mesh,
   Object3D,
@@ -245,6 +246,7 @@ describe('PhoenixObjects', () => {
 
   it.each([
     ['Point', 'Points'],
+    ['Line', 'LineSegments'],
     ['Box', 'Mesh'],
   ])(
     'should draw %s hits without a color in the default color for hits',
@@ -259,7 +261,7 @@ describe('PhoenixObjects', () => {
           ],
           type,
         },
-      ]) as Points | Mesh;
+      ]) as Points | Mesh | LineSegments;
 
       expect((hits.material as PointsMaterial).color.getHexString()).toBe(
         EVENT_DATA_TYPE_COLORS.Hits.getHexString(),
@@ -282,6 +284,26 @@ describe('PhoenixObjects', () => {
       ]) as Points;
 
       expect((hits.material as PointsMaterial).color.getHexString()).toBe(
+        '00ff00',
+      );
+    },
+  );
+
+  it.each(['00ff00', '#00ff00', '0x00ff00'])(
+    'should draw Line hits with the color %p given in the event data',
+    (color) => {
+      const hits = PhoenixObjects.getHits([
+        {
+          pos: [
+            -2545.135009765625, -2425.1064453125, 7826.09912109375,
+            -2545.135009765625, -1.1222461462020874, 7826.09912109375,
+          ],
+          type: 'Line',
+          color,
+        },
+      ]) as LineSegments;
+
+      expect((hits.material as LineBasicMaterial).color.getHexString()).toBe(
         '00ff00',
       );
     },
