@@ -610,7 +610,16 @@ export class UIManager {
               labelsObject[eventDataType][collection],
             )) {
               const label = labelsObject[eventDataType][collection][labelIndex];
-              const objectUuid = collectionObject[labelIndex].uuid;
+              const objectUuid = collectionObject[labelIndex]?.uuid;
+              if (!objectUuid) {
+                console.warn(
+                  'Skipping label with no target in the current event:',
+                  eventDataType,
+                  collection,
+                  labelIndex,
+                );
+                continue;
+              }
               const labelId = eventDataLoader.addLabelToEventObject(
                 label,
                 collection,
