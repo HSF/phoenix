@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import { Edm4hepJsonLoader } from '../../loaders/edm4hep-json-loader';
+import { PhoenixObjects } from '../../loaders/objects/phoenix-objects';
 
 describe('Edm4hepJsonLoader', () => {
   let loader: Edm4hepJsonLoader;
@@ -199,5 +200,34 @@ describe('Edm4hepJsonLoader', () => {
     expect(eventData).toBeDefined();
     const track = eventData.Tracks['TracksCollection | other'][0];
     expect(track.pos).toEqual([]);
+  });
+
+  it('should give overlay and secondary hits a valid color', () => {
+    const rawEventData = {
+      event_1: {
+        HitsCollection: {
+          collID: 10,
+          collType: 'edm4hep::SimTrackerHitCollection',
+          collection: [
+            { position: { x: 10, y: 20, z: 30 }, quality: 1 << 31 },
+            { position: { x: 40, y: 50, z: 60 }, quality: 1 << 30 },
+          ],
+        },
+      },
+    };
+
+    loader.setRawEventData(rawEventData);
+    loader.processEventData();
+    const hits = loader.getEventData()['event_1'].Hits;
+
+    for (const label of ['overlay', 'secondary']) {
+      const collection = hits[`HitsCollection | ${label}`];
+      expect(collection[0].color).toMatch(/^#[0-9A-F]{6}$/);
+
+      const points = PhoenixObjects.getHits(collection) as any;
+      expect(points.material.color.getHexString().toUpperCase()).toBe(
+        collection[0].color.slice(1),
+      );
+    }
   });
 });
