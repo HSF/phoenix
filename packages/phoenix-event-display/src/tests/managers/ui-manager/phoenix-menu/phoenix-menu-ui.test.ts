@@ -67,10 +67,22 @@ describe('PhoenixMenuUI', () => {
 
   it('should add geometry to the menu geometry folder and set up its configurable options', () => {
     phoenixMenuUI.addGeometryFolder();
-    phoenixMenuUI.addGeometry(new Object3D(), 'test');
+    const geom = new Object3D();
+    geom.name = 'Barrel Toroid';
+    phoenixMenuUI.addGeometry(geom, 'test');
 
     expect(phoenixMenuUIPrivate.geomFolder.children[0].name).toBe('test');
     expect(phoenixMenuUIPrivate.geomFolder.parent.name).toBe('test');
+
+    const geomNode = phoenixMenuUIPrivate.geomFolder.findInTree('Barrel Toroid');
+    const sliceConfig = geomNode.configs.find(
+      (c: any) => c.type === 'checkbox' && c.label === 'Slice',
+    );
+    expect(sliceConfig).toBeTruthy();
+    expect(sliceConfig.isChecked).toBe(true);
+
+    sliceConfig.onChange(false);
+    expect(three.setGeometryClipping).toHaveBeenCalledWith(geom, false);
   });
 
   it('should add folder for event data type like tracks or hits to the menu', () => {

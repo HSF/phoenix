@@ -193,6 +193,14 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         },
       })
       .addConfig({
+        type: 'checkbox',
+        label: 'Slice',
+        isChecked: object.userData?.clippingEnabled !== false,
+        onChange: (value) => {
+          this.three.setGeometryClipping(object, value);
+        },
+      })
+      .addConfig({
         type: 'button',
         label: 'Remove',
         onClick: () => {
