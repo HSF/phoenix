@@ -932,9 +932,9 @@ export class JiveXMLLoader extends PhoenixLoader {
           thisTrackIndices.push(trackIndices[trackIndex]);
         }
         temp.push({
-          x: x[i],
-          y: y[i],
-          z: z[i],
+          x: x[i] * 10.0,
+          y: y[i] * 10.0,
+          z: z[i] * 10.0,
           chi2: chi2[i],
           primVxCand: primVxCand[i],
           vertexType: vertexType[i],
