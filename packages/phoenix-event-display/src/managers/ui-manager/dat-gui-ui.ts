@@ -341,6 +341,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       color: 0x000000,
       extendTracks: false,
       extendRadius: 1500,
+      lineWidthScale: 1,
       randomColor: () =>
         this.three.getColorManager().collectionColorRandom(collectionName),
       resetCut: () =>
@@ -391,6 +392,15 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
           this.three.extendCollectionTracks(collectionName, value, true);
         }
       });
+    if (eventDataType === 'Tracks') {
+      // Option to scale the line width of the tracks
+      collFolder
+        .add(this.guiParameters[collectionName], 'lineWidthScale', 0.1, 10, 0.1)
+        .name('Line width scale')
+        .onChange((value: number) =>
+          this.three.setCollectionLineWidthScale(collectionName, value),
+        );
+    }
     collFolder
       .add(this.guiParameters[collectionName], 'randomColor')
       .name('Random Color');

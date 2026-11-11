@@ -97,6 +97,39 @@ describe('PhoenixMenuUI', () => {
     expect(addedChild.name).toBe('Draw Options');
   });
 
+  it('should add a line width scale slider to track collections only', () => {
+    phoenixMenuUI.addEventDataFolder();
+    phoenixMenuUI.addEventDataTypeFolder('Tracks');
+    phoenixMenuUI.addEventDataTypeFolder('Hits');
+
+    phoenixMenuUI.addCollection('Tracks', 'TestTracks');
+    phoenixMenuUI.addCollection('Hits', 'TestHits');
+
+    const findLineWidthSlider = (collectionName: string) =>
+      phoenixMenuUIPrivate.eventFolder
+        .findInTree(collectionName)
+        .findInTree('Draw Options')
+        .configs.find((config) => config.label === 'Line width scale');
+
+    const slider = findLineWidthSlider('TestTracks');
+    expect(slider.type).toBe('slider');
+    expect(slider.value).toBe(1);
+    expect(findLineWidthSlider('TestHits')).toBeUndefined();
+
+    slider.onChange(2.5);
+    expect(three.setCollectionLineWidthScale).toHaveBeenCalledWith(
+      'TestTracks',
+      2.5,
+    );
+
+    // The custom value input of the slider emits strings
+    slider.onChange('3');
+    expect(three.setCollectionLineWidthScale).toHaveBeenCalledWith(
+      'TestTracks',
+      3,
+    );
+  });
+
   it('should get the folder of the event data type', () => {
     phoenixMenuUI.addEventDataFolder();
     phoenixMenuUI.addEventDataTypeFolder('test');

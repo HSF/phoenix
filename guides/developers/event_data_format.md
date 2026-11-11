@@ -86,7 +86,7 @@ Tracks is a list of Track objects with the following attributes :
 * `pos` - list of positions along the track, each given as a triplet [x, y, z]
 * `dparams` (opt) - perigee parameters of the track: 5 floats matching [d0, z0, phi, theta, qOverP]. If `pos` is missing or has fewer than 3 positions, the track is extrapolated from `dparams` using a Runge-Kutta propagator
 * `color` (opt) - Color to draw the track.
-* `linewidth` (opt) - width of the track line (default 2)
+* `linewidth` (opt) - width of the track line (default 2). This can be scaled for a whole collection with the "Line width scale" option of the collection (see [Track line width](./track-line-width.md))
 * `phi`, `eta`, `d0`, `z0` (opt) - parameters of the track, used for cuts. If not given, they are derived from `dparams` (or, for `phi`/`eta`, from the first two positions of `pos`)
 * `dca`, `angle` (opt) - distance of closest approach and polar angle in degrees, used for cuts. If not given, they are derived from the parameters above
 * `chi2`, `dof`, `pT` (opt) - used for cuts

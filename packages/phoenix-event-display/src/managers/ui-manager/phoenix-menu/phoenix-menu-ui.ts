@@ -485,7 +485,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       },
     );
 
-    this.addDrawOptions(collectionNode, collectionName);
+    this.addDrawOptions(collectionNode, collectionName, typeFolder.name);
 
     // Always register cuts for this collection if any were provided.
     // This ensures the registry has the Cut instances so StateManager
@@ -572,10 +572,12 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    * Add Draw Options folder to the menu.
    * @param collectionNode The parent node to attach folder to
    * @param collectionName The name of the collection
+   * @param eventDataType Name of the event data type of the collection.
    */
   private addDrawOptions(
     collectionNode: PhoenixMenuNode,
     collectionName: string,
+    eventDataType?: string,
   ) {
     const drawOptionsNode = collectionNode.addChild(
       'Draw Options',
@@ -617,6 +619,20 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           value,
         ),
     });
+
+    if (eventDataType === 'Tracks') {
+      drawOptionsNode.addConfig({
+        type: 'slider',
+        label: 'Line width scale',
+        value: 1,
+        min: 0.1,
+        max: 10,
+        step: 0.1,
+        allowCustomValue: true,
+        onChange: (value: number) =>
+          this.three.setCollectionLineWidthScale(collectionName, Number(value)),
+      });
+    }
 
     // Extension controls for tracks: add checkbox and radius slider
     // Maintain state in this.collectionExtendState

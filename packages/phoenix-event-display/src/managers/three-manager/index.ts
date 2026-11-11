@@ -1169,6 +1169,24 @@ export class ThreeManager {
   }
 
   /**
+   * Scale the line width of all the tracks in a track collection.
+   * Clears selections first so OutlinePass doesn't reference stale geometry.
+   *
+   * @param collectionName Name of the track collection to change the line width of.
+   * @param scale Factor to multiply the line width of the tracks with.
+   */
+  public setCollectionLineWidthScale(collectionName: string, scale: number) {
+    if (this.selectionManager) {
+      this.selectionManager.clearAllSelections();
+    }
+    if (this.effectsManager) {
+      this.effectsManager.setHoverOutline(null);
+    }
+
+    this.sceneManager.setCollectionLineWidthScale(collectionName, scale);
+  }
+
+  /**
    * Sets the renderer to be used to render the event display on the overlayed canvas.
    * @param overlayCanvas An HTML canvas on which the overlay renderer is to be set.
    */
