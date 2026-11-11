@@ -358,7 +358,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     const hue = Math.floor(Math.random() * 358);
 
     // Find smallest distance between cell centers and use it as cell size
-    let drmin = 1e9;
+    let drmin = Infinity;
     for (let i = 0; i < 1e4; ++i) {
       const j = Math.floor(Math.random() * caloCellCollection.length);
       const k = Math.floor(Math.random() * caloCellCollection.length);
@@ -385,7 +385,10 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       }
     }
 
-    const side = Math.floor(drmin) * 0.1 > 1 ? Math.floor(drmin) * 0.1 : 1;
+    const side =
+      Number.isFinite(drmin) && Math.floor(drmin) * 0.1 > 1
+        ? Math.floor(drmin) * 0.1
+        : 1;
 
     caloCellCollection.forEach((rawCell) => {
       const x = rawCell.position.x * 0.1;

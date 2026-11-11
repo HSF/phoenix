@@ -3,6 +3,7 @@
  */
 import { Edm4hepJsonLoader } from '../../loaders/edm4hep-json-loader';
 import { PhoenixObjects } from '../../loaders/objects/phoenix-objects';
+import { InstancedMesh } from 'three';
 
 describe('Edm4hepJsonLoader', () => {
   let loader: Edm4hepJsonLoader;
@@ -229,5 +230,29 @@ describe('Edm4hepJsonLoader', () => {
         collection[0].color.slice(1),
       );
     }
+  });
+
+  it('should give a calorimeter collection with a single hit a finite cell size', () => {
+    const rawEventData = {
+      event_1: {
+        YokeHits: {
+          collID: 5,
+          collType: 'edm4hep::SimCalorimeterHitCollection',
+          collection: [{ position: { x: 2000, y: 0, z: 0 }, energy: 0.5 }],
+        },
+      },
+    };
+
+    loader.setRawEventData(rawEventData);
+    loader.processEventData();
+    const cells = loader.getEventData()['event_1'].CaloCells['YokeHits'];
+
+    expect(cells).toHaveLength(1);
+    expect(cells[0].side).toBe(1);
+    expect(cells[0].length).toBe(1);
+
+    const mesh = PhoenixObjects.getCaloCellsInstanced(cells) as InstancedMesh;
+    mesh.computeBoundingSphere();
+    expect(mesh.boundingSphere.radius).toBeLessThan(1);
   });
 });
