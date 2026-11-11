@@ -594,39 +594,55 @@ export class UIManager {
           console.error('Could not parse labels file - invalid JSON.', error);
           return;
         }
-        // This contains the names of the labels, but not their colours.
-        for (const eventDataType of Object.keys(labelsObject)) {
-          for (const collection of Object.keys(labelsObject[eventDataType])) {
-            const collectionObject = eventDataLoader.getCollection(collection);
-            if (!collectionObject) {
-              console.log(
-                'WARNING - cannot find ',
-                collection,
-                ' in eventDataLoader. Skipping.',
-              );
-              continue;
-            }
-            for (const labelIndex of Object.keys(
-              labelsObject[eventDataType][collection],
-            )) {
-              const label = labelsObject[eventDataType][collection][labelIndex];
-              const objectUuid = collectionObject[labelIndex]?.uuid;
-              if (!objectUuid) {
-                console.warn(
-                  'Skipping label with no target in the current event:',
-                  eventDataType,
-                  collection,
-                  labelIndex,
-                );
+        // Name-only loaders can import a collection when its type is unambiguous.
+        const legacyCollections = eventDataLoader.addSavedLabelToEventObject
+          ? undefined
+          : Object.entries(eventDataLoader.getCollections());
+        for (const eventDataType of Object.keys(labelsObject ?? {})) {
+          const collections = labelsObject[eventDataType];
+          for (const collection of Object.keys(collections ?? {})) {
+            const matches = legacyCollections?.filter(([, names]) =>
+              names.includes(collection),
+            );
+            const legacyCollection =
+              matches?.length === 1 && matches[0][0] === eventDataType
+                ? eventDataLoader.getCollection(collection)
+                : undefined;
+            const labels = collections[collection];
+            for (const labelIndex of Object.keys(labels ?? {})) {
+              const label = labels[labelIndex];
+              const index = Number(labelIndex);
+              if (
+                typeof label !== 'string' ||
+                !Number.isSafeInteger(index) ||
+                index < 0 ||
+                String(index) !== labelIndex
+              ) {
                 continue;
               }
-              const labelId = eventDataLoader.addLabelToEventObject(
-                label,
-                collection,
-                Number(labelIndex),
-              );
-              this.addLabel(labelId);
-              this.three.addLabelToObject(label, objectUuid, labelId);
+              const legacyUuid = legacyCollection?.[index]?.uuid;
+              const target =
+                eventDataLoader.addSavedLabelToEventObject?.(
+                  label,
+                  eventDataType,
+                  collection,
+                  index,
+                ) ??
+                (legacyUuid
+                  ? {
+                      uuid: legacyUuid,
+                      labelId: eventDataLoader.addLabelToEventObject(
+                        label,
+                        collection,
+                        index,
+                      ),
+                    }
+                  : undefined);
+              if (!target || target.labelId === 'Unknown') {
+                continue;
+              }
+              this.addLabel(target.labelId);
+              this.three.addLabelToObject(label, target.uuid, target.labelId);
             }
           }
         }
