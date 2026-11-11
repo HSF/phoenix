@@ -42,6 +42,8 @@ describe('EventAutoloaderService', () => {
       Event2: { Tracks: {} },
     };
     (service as any).handleEvent(multiEvent);
-    expect(mockEventDisplay.parsePhoenixEvents).toHaveBeenCalledWith(multiEvent);
+    expect(mockEventDisplay.parsePhoenixEvents).toHaveBeenCalledWith(
+      multiEvent,
+    );
   });
 });

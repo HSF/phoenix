@@ -133,15 +133,27 @@ export class EventAutoloader {
    * for all .json and .xml files listed.
    */
   private parseApacheListing(html: string, baseUrl: string): string[] {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    const anchors = Array.from(doc.querySelectorAll('a[href]'));
     const base = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
 
-    return anchors
-      .map((a) => (a as HTMLAnchorElement).getAttribute('href') ?? '')
-      .filter((href) => /\.(json|xml)(\.zip)?$/.test(href))
-      .map((href) => (href.startsWith('http') ? href : base + href));
+    if (typeof DOMParser !== 'undefined') {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const anchors = Array.from(doc.querySelectorAll('a[href]'));
+
+      return anchors
+        .map((a) => (a as HTMLAnchorElement).getAttribute('href') ?? '')
+        .filter((href) => /\.(json|xml)(\.zip)?$/.test(href))
+        .map((href) => (href.startsWith('http') ? href : base + href));
+    }
+
+    const matches: string[] = [];
+    const regex = /href=["']([^"']+\.(?:json|xml)(?:\.zip)?)["']/gi;
+    let match: RegExpExecArray | null;
+    while ((match = regex.exec(html)) !== null) {
+      const href = match[1];
+      matches.push(href.startsWith('http') ? href : base + href);
+    }
+    return matches;
   }
 
   /**

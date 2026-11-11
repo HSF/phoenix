@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { EventAutoloader } from '../../helpers/event-autoloader';
 
 describe('EventAutoloader', () => {
@@ -85,7 +88,9 @@ describe('EventAutoloader', () => {
 
     expect(onEvent).toHaveBeenCalledTimes(2);
     expect(onEvent).toHaveBeenNthCalledWith(1, { event: 1 });
-    expect(onEvent).toHaveBeenNthCalledWith(2, { __jivexml__: '<Event>2</Event>' });
+    expect(onEvent).toHaveBeenNthCalledWith(2, {
+      __jivexml__: '<Event>2</Event>',
+    });
 
     // Polling again with the same listing should not re-emit already seen files
     onEvent.mockClear();
