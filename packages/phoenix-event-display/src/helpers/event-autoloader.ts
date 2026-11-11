@@ -113,17 +113,18 @@ export class EventAutoloader {
 
     const newFiles = this.parseApacheListing(html, url);
 
-   for (const fileUrl of newFiles) {
+    for (const fileUrl of newFiles) {
       if (this.seenFiles.has(fileUrl)) continue;
       this.seenFiles.add(fileUrl);
-      
+
       try {
         await this.fetchAndEmit(fileUrl);
       } catch (err: any) {
         // Log it, but let the loop continue to the next file!
-        this.options.onError?.(err instanceof Error ? err : new Error(String(err)));
+        this.options.onError?.(
+          err instanceof Error ? err : new Error(String(err)),
+        );
       }
-    }
     }
   }
 
@@ -132,15 +133,27 @@ export class EventAutoloader {
    * for all .json and .xml files listed.
    */
   private parseApacheListing(html: string, baseUrl: string): string[] {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    const anchors = Array.from(doc.querySelectorAll('a[href]'));
     const base = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
 
-    return anchors
-      .map((a) => (a as HTMLAnchorElement).getAttribute('href') ?? '')
-      .filter((href) => /\.(json|xml)(\.zip)?$/.test(href))
-      .map((href) => (href.startsWith('http') ? href : base + href));
+    if (typeof DOMParser !== 'undefined') {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const anchors = Array.from(doc.querySelectorAll('a[href]'));
+
+      return anchors
+        .map((a) => (a as HTMLAnchorElement).getAttribute('href') ?? '')
+        .filter((href) => /\.(json|xml)(\.zip)?$/.test(href))
+        .map((href) => (href.startsWith('http') ? href : base + href));
+    }
+
+    const matches: string[] = [];
+    const regex = /href=["']([^"']+\.(?:json|xml)(?:\.zip)?)["']/gi;
+    let match: RegExpExecArray | null;
+    while ((match = regex.exec(html)) !== null) {
+      const href = match[1];
+      matches.push(href.startsWith('http') ? href : base + href);
+    }
+    return matches;
   }
 
   /**
