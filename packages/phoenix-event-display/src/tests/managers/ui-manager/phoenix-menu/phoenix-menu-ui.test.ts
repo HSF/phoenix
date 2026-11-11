@@ -74,7 +74,8 @@ describe('PhoenixMenuUI', () => {
     expect(phoenixMenuUIPrivate.geomFolder.children[0].name).toBe('test');
     expect(phoenixMenuUIPrivate.geomFolder.parent.name).toBe('test');
 
-    const geomNode = phoenixMenuUIPrivate.geomFolder.findInTree('Barrel Toroid');
+    const geomNode =
+      phoenixMenuUIPrivate.geomFolder.findInTree('Barrel Toroid');
     const sliceConfig = geomNode.configs.find(
       (c: any) => c.type === 'checkbox' && c.label === 'Slice',
     );
