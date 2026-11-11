@@ -306,7 +306,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         categories.overlay.push({
           type: 'CircularPoint',
           pos,
-          color: `#${colorOverlay}`,
+          color: colorOverlay,
           size: 2,
         });
       } else if ((rawHit.quality & (1 << 30)) !== 0) {
@@ -316,7 +316,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         categories.secondary.push({
           type: 'CircularPoint',
           pos,
-          color: `#${colorSecondary}`,
+          color: colorSecondary,
           size: 2,
         });
       } else {
