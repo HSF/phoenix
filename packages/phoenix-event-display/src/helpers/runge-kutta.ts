@@ -133,8 +133,8 @@ export class RungeKutta {
     inbounds: (pos: Vector3) => boolean = () => true,
   ): { pos: Vector3; dir: Vector3 }[] {
     const rkState: State = new State();
-    rkState.pos = startPos;
-    rkState.dir = startDir;
+    rkState.pos = startPos.clone();
+    rkState.dir = startDir.clone();
     rkState.p = p;
     rkState.q = q;
     rkState.maxStepSize = mss;

@@ -135,15 +135,19 @@ export class RKHelper {
     else p = Number.MAX_VALUE;
     const q = Math.round(p * qop);
 
+    // Unit length: p is Number.MAX_VALUE when qop is 0, which overflows
     if (!startDir)
       startDir = CoordinateHelper.sphericalToCartesian(
-        p,
+        1,
         theta,
         phi,
       ).normalize();
 
     const inbounds = (pos: Vector3) =>
-      Math.sqrt(pos.x * pos.x + pos.y * pos.y) <= radius;
+      Math.sqrt(pos.x * pos.x + pos.y * pos.y) < radius;
+
+    // Nothing to extend if the last hit already reaches the radius
+    if (!inbounds(lastPos)) return [];
 
     const traj = RungeKutta.propagate(
       lastPos,
@@ -160,6 +164,22 @@ export class RKHelper {
       val.pos.y,
       val.pos.z,
     ]);
+
+    // The last step crosses the radius: end it on the radius instead
+    const n = extrapolatedPos.length;
+    const end = extrapolatedPos[n - 1];
+    if (end && Math.hypot(end[0], end[1]) > radius) {
+      const start = n > 1 ? extrapolatedPos[n - 2] : lastPosArr;
+      // Solve |start + t * (end - start)| = radius in the transverse plane
+      const dx = end[0] - start[0];
+      const dy = end[1] - start[1];
+      const a = dx * dx + dy * dy;
+      const b = start[0] * dx + start[1] * dy;
+      const c = start[0] * start[0] + start[1] * start[1] - radius * radius;
+      const s = Math.sqrt(b * b - a * c);
+      const t = b >= 0 ? -c / (b + s) : (s - b) / a;
+      extrapolatedPos[n - 1] = end.map((e, i) => start[i] + t * (e - start[i]));
+    }
 
     // Remove any point equal to lastPos (first point of traj may be identical)
     const eps = 1e-6;

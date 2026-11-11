@@ -96,4 +96,37 @@ describe('RKHelper', () => {
       expect(out[0].length).toBe(3);
     }
   });
+
+  it('should end the extension on the given radius', () => {
+    for (const lastHit of [500, 950]) {
+      const track = {
+        dparams: [0, 0, 0, Math.PI / 2, 0.001],
+        pos: [
+          [0, 0, 0],
+          [lastHit, 0, 0],
+        ],
+      };
+
+      const out = RKHelper.extrapolateFromLastPosition(track, 1000);
+      expect(out.length).toBeGreaterThan(0);
+      const end = out[out.length - 1];
+      expect(Math.hypot(end[0], end[1])).toBeCloseTo(1000);
+
+      // a track that already reaches the radius is not extended
+      expect(RKHelper.extrapolateFromLastPosition(track, lastHit)).toEqual([]);
+    }
+  });
+
+  it('should extend a straight track that has a single hit', () => {
+    const track = {
+      dparams: [0, 0, 0, Math.PI / 2, 0],
+      pos: [[100, 0, 0]],
+    };
+
+    const out = RKHelper.extrapolateFromLastPosition(track, 1000);
+    expect(out.length).toBe(1);
+    expect(out[0][0]).toBeCloseTo(1000);
+    expect(out[0][1]).toBeCloseTo(0);
+    expect(out[0][2]).toBeCloseTo(0);
+  });
 });
