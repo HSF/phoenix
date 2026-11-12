@@ -65,16 +65,18 @@ export class RKHelper {
     }
     const q = Math.round(p * qop);
 
-    const globalMomentum = CoordinateHelper.sphericalToCartesian(p, theta, phi);
+    // Unit length: p is Number.MAX_VALUE when qop is 0, which overflows
+    const startDir = CoordinateHelper.sphericalToCartesian(
+      1,
+      theta,
+      phi,
+    ).normalize();
 
     const startPos = CoordinateHelper.sphericalToCartesian(d0, theta, phi);
 
     // Wipe existing positions
     const positions: number[][] = [];
     positions.push([startPos.x, startPos.y, startPos.z]);
-
-    const startDir = globalMomentum.clone();
-    startDir.normalize();
 
     const traj = RungeKutta.propagate(
       startPos,
