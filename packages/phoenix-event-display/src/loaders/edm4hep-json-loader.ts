@@ -254,19 +254,55 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
       const category = rawTrack.pid ?? 'other';
 
-      categories[category].push({
+      // EDM4hep TrackState::AtIP has location value 1.
+      const ipTrackState = Array.isArray(rawTrack.trackStates)
+        ? rawTrack.trackStates.find(
+            (state: edm4hep.TrackState) => state?.location === 1,
+          )
+        : undefined;
+
+      const trackParams: TrackParams = {
         pos,
-        // @todo dparams (helix parameters for Runge-Kutta extrapolation: qOverP requires the magnetic field)
-        // @todo phi (aimuthal angle)
-        // @todo eta (peudorapidity)
-        // @todo d0 (tansverse impact parameter)
-        // @todo z0 (lngitudinal impact parameter)
-        // @todo pt (transverse momentum requires the magnetic field)
-        chi2: rawTrack.chi2, // no use by phoenix-object.ts
-        dof: rawTrack.ndf, // no use by phoenix-object.ts
-        color: Edm4hepJsonLoader.pidColors[rawTrack.pid ?? 'other'], // tracks receive hex color without '#'
+        chi2: rawTrack.chi2,
+        dof: rawTrack.ndf,
+        color: Edm4hepJsonLoader.pidColors[rawTrack.pid ?? 'other'],
         linewidth: 1,
-      });
+      };
+
+      // Extract metadata only when the corresponding values are valid.
+      if (
+        typeof ipTrackState?.phi === 'number' &&
+        Number.isFinite(ipTrackState.phi)
+      ) {
+        trackParams.phi = ipTrackState.phi;
+      }
+
+      if (
+        typeof ipTrackState?.tanLambda === 'number' &&
+        Number.isFinite(ipTrackState.tanLambda)
+      ) {
+        const eta = Math.asinh(ipTrackState.tanLambda);
+
+        if (Number.isFinite(eta)) {
+          trackParams.eta = eta;
+        }
+      }
+
+      if (
+        typeof ipTrackState?.D0 === 'number' &&
+        Number.isFinite(ipTrackState.D0)
+      ) {
+        trackParams.d0 = ipTrackState.D0;
+      }
+
+      if (
+        typeof ipTrackState?.Z0 === 'number' &&
+        Number.isFinite(ipTrackState.Z0)
+      ) {
+        trackParams.z0 = ipTrackState.Z0;
+      }
+
+      categories[category].push(trackParams);
     });
 
     return Object.entries(categories).filter(([, arr]) => arr.length !== 0) as [
