@@ -202,6 +202,133 @@ describe('Edm4hepJsonLoader', () => {
     expect(track.pos).toEqual([]);
   });
 
+  it('should extract track metadata from the IP track state', () => {
+    const rawEventData = {
+      event_1: {
+        EventHeader: {
+          collID: 1,
+          collType: 'edm4hep::EventHeaderCollection',
+          collection: [{ eventNumber: 106, runNumber: 1 }],
+        },
+        TracksCollection: {
+          collID: 20,
+          collType: 'edm4hep::TrackCollection',
+          collection: [
+            {
+              chi2: 1.2,
+              ndf: 10,
+              trackStates: [
+                {
+                  location: 2, // AtFirstHit
+                  phi: 0.5,
+                  tanLambda: 0.2,
+                  D0: 1,
+                  Z0: 2,
+                  referencePoint: { x: 10, y: 20, z: 30 },
+                },
+                {
+                  location: 1, // AtIP
+                  phi: 1.2,
+                  tanLambda: 1.5,
+                  D0: 3,
+                  Z0: 4,
+                  referencePoint: { x: 40, y: 50, z: 60 },
+                },
+              ],
+            },
+          ],
+        },
+      },
+    };
+
+    loader.setRawEventData(rawEventData);
+    loader.processEventData();
+
+    const track =
+      loader.getEventData()['event_1'].Tracks['TracksCollection | other'][0];
+
+    expect(track.phi).toBe(1.2);
+    expect(track.eta).toBeCloseTo(Math.asinh(1.5));
+    expect(track.d0).toBe(3);
+    expect(track.z0).toBe(4);
+  });
+
+  it('should leave track metadata unset when no IP state exists', () => {
+    const rawEventData = {
+      event_1: {
+        TracksCollection: {
+          collID: 20,
+          collType: 'edm4hep::TrackCollection',
+          collection: [
+            {
+              chi2: 0.8,
+              ndf: 5,
+              trackStates: [
+                {
+                  location: 2, // AtFirstHit
+                  phi: 0.5,
+                  tanLambda: 0.2,
+                  D0: 1,
+                  Z0: 2,
+                  referencePoint: { x: 10, y: 20, z: 30 },
+                },
+              ],
+            },
+          ],
+        },
+      },
+    };
+
+    loader.setRawEventData(rawEventData);
+    loader.processEventData();
+
+    const track =
+      loader.getEventData()['event_1'].Tracks['TracksCollection | other'][0];
+
+    expect(track.phi).toBeUndefined();
+    expect(track.eta).toBeUndefined();
+    expect(track.d0).toBeUndefined();
+    expect(track.z0).toBeUndefined();
+  });
+
+  it('should ignore non-finite IP track metadata', () => {
+    const rawEventData = {
+      event_1: {
+        TracksCollection: {
+          collID: 20,
+          collType: 'edm4hep::TrackCollection',
+          collection: [
+            {
+              chi2: 0.8,
+              ndf: 5,
+              trackStates: [
+                {
+                  location: 1, // AtIP
+                  phi: NaN,
+                  tanLambda: Infinity,
+                  D0: NaN,
+                  Z0: Infinity,
+                  referencePoint: { x: 10, y: 20, z: 30 },
+                },
+              ],
+            },
+          ],
+        },
+      },
+    };
+
+    loader.setRawEventData(rawEventData);
+    loader.processEventData();
+
+    const track =
+      loader.getEventData()['event_1'].Tracks['TracksCollection | other'][0];
+
+    expect(track.phi).toBeUndefined();
+    expect(track.eta).toBeUndefined();
+    expect(track.d0).toBeUndefined();
+    expect(track.z0).toBeUndefined();
+  });
+
   it('should give overlay and secondary hits a valid color', () => {
     const rawEventData = {
       event_1: {
