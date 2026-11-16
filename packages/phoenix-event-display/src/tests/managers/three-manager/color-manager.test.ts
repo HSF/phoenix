@@ -153,4 +153,110 @@ describe('ColorManager', () => {
 
     expect(jetMaterial.uniforms.jetColor.value.getHexString()).toBe('0adb2d');
   });
+
+  describe('colorTracksByVertex', () => {
+    it('should color tracks by vertex when linkedTracks is a 2D array', () => {
+      const scene = new Scene();
+      const vertices = new Group();
+      vertices.name = 'Vertices';
+      const vertex = new Mesh(
+        new BufferGeometry(),
+        new MeshPhongMaterial({ color: 0xff0000 }),
+      );
+      vertex.name = 'Vertex';
+      vertex.userData = {
+        linkedTrackCollection: ['Tracks'],
+        linkedTracks: [[0]],
+        color: new Color(0xff0000),
+      };
+      vertices.add(vertex);
+      scene.add(vertices);
+
+      const trackCollection = new Group();
+      trackCollection.name = 'Tracks';
+      const track = new Line(
+        new BufferGeometry(),
+        new LineBasicMaterial({ color: 0x000000 }),
+      );
+      trackCollection.add(track);
+      scene.add(trackCollection);
+
+      const colorManager = new ColorManager({
+        getScene: () => scene,
+      } as unknown as SceneManager);
+
+      const colored = colorManager.colorTracksByVertex('Tracks');
+      expect(colored).toBe(1);
+      expect(getObjectColor(track)?.getHexString()).toBe('ff0000');
+    });
+
+    it('should color tracks by vertex when linkedTracks is a 1D array (JiveXML / legacy)', () => {
+      const scene = new Scene();
+      const vertices = new Group();
+      vertices.name = 'Vertices';
+      const vertex = new Mesh(
+        new BufferGeometry(),
+        new MeshPhongMaterial({ color: 0x00ff00 }),
+      );
+      vertex.name = 'Vertex';
+      vertex.userData = {
+        linkedTrackCollection: 'Tracks',
+        linkedTracks: [0],
+        color: new Color(0x00ff00),
+      };
+      vertices.add(vertex);
+      scene.add(vertices);
+
+      const trackCollection = new Group();
+      trackCollection.name = 'Tracks';
+      const track = new Line(
+        new BufferGeometry(),
+        new LineBasicMaterial({ color: 0x000000 }),
+      );
+      trackCollection.add(track);
+      scene.add(trackCollection);
+
+      const colorManager = new ColorManager({
+        getScene: () => scene,
+      } as unknown as SceneManager);
+
+      const colored = colorManager.colorTracksByVertex('Tracks');
+      expect(colored).toBe(1);
+      expect(getObjectColor(track)?.getHexString()).toBe('00ff00');
+    });
+
+    it('should not color tracks when collectionName does not match', () => {
+      const scene = new Scene();
+      const vertices = new Group();
+      vertices.name = 'Vertices';
+      const vertex = new Mesh(
+        new BufferGeometry(),
+        new MeshPhongMaterial({ color: 0x0000ff }),
+      );
+      vertex.name = 'Vertex';
+      vertex.userData = {
+        linkedTrackCollection: 'Tracks',
+        linkedTracks: [0],
+      };
+      vertices.add(vertex);
+      scene.add(vertices);
+
+      const trackCollection = new Group();
+      trackCollection.name = 'Tracks';
+      const track = new Line(
+        new BufferGeometry(),
+        new LineBasicMaterial({ color: 0x111111 }),
+      );
+      trackCollection.add(track);
+      scene.add(trackCollection);
+
+      const colorManager = new ColorManager({
+        getScene: () => scene,
+      } as unknown as SceneManager);
+
+      const colored = colorManager.colorTracksByVertex('OtherTracks');
+      expect(colored).toBe(0);
+      expect(getObjectColor(track)?.getHexString()).toBe('111111');
+    });
+  });
 });

@@ -141,15 +141,28 @@ export class ColorManager {
     let coloredTracks = 0;
     vertexObjects.forEach((vertexObject, vertexIndex) => {
       const { linkedTrackCollection, linkedTracks } = vertexObject.userData;
-      if (
-        !trackCollection ||
-        !linkedTrackCollection?.includes(collectionName) ||
-        !linkedTracks
-      ) {
+      if (!trackCollection || !linkedTrackCollection || !linkedTracks) {
         return;
       }
 
-      const collectionIndex = linkedTrackCollection.indexOf(collectionName);
+      const collectionIndex = Array.isArray(linkedTrackCollection)
+        ? linkedTrackCollection.indexOf(collectionName)
+        : linkedTrackCollection === collectionName
+          ? 0
+          : -1;
+
+      if (collectionIndex === -1) {
+        return;
+      }
+
+      const tracksToColor: number[] = Array.isArray(
+        linkedTracks[collectionIndex],
+      )
+        ? linkedTracks[collectionIndex]
+        : Array.isArray(linkedTracks) && typeof linkedTracks[0] === 'number'
+          ? (linkedTracks as number[])
+          : [];
+
       // Use explicit vertex color if set in event data, otherwise the current
       // material color (e.g. set by the user via the UI), otherwise deterministic
       // distinct color per vertex (golden ratio hue steps).
@@ -163,7 +176,7 @@ export class ColorManager {
         new Color().setHSL((vertexIndex * 0.618034) % 1, 0.9, 0.55);
 
       setColorForObject(vertexObject, vertexColor);
-      linkedTracks[collectionIndex].forEach((trackIndex: number) => {
+      tracksToColor.forEach((trackIndex: number) => {
         const track =
           tracksByIndex.get(trackIndex) ?? trackCollection.children[trackIndex];
         track?.traverse((trackObject) => {
