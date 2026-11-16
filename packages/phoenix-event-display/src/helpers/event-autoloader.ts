@@ -14,7 +14,9 @@ export type AutoloadSource =
   | { type: 'rest-endpoint'; url: string; intervalMs?: number }
   | { type: 'sse'; url: string };
 
+/** Options for configuring an {@link EventAutoloader}. */
 export interface AutoloadOptions {
+  /** Where to watch for new events and how to fetch them. */
   source: AutoloadSource;
   /** Called with the raw event data object when a new event arrives. */
   onEvent: (eventData: any) => void;
@@ -40,12 +42,21 @@ export interface AutoloadOptions {
  * ```
  */
 export class EventAutoloader {
+  /** Options the autoloader was created with. */
   private options: AutoloadOptions;
+  /** Handle of the polling interval, or `null` when not polling. */
   private intervalId: ReturnType<typeof setInterval> | null = null;
+  /** Open SSE connection, or `null` when not using an SSE source. */
   private eventSource: EventSource | null = null;
+  /** URLs of event files that have already been loaded, so they are not loaded twice. */
   private seenFiles = new Set<string>();
+  /** Whether the autoloader has been started and not yet stopped. */
   private running = false;
 
+  /**
+   * Create an event autoloader. Call {@link start} to begin watching.
+   * @param options Source to watch and callbacks for new events and errors.
+   */
   constructor(options: AutoloadOptions) {
     this.options = options;
   }
@@ -85,6 +96,7 @@ export class EventAutoloader {
     return this.running;
   }
 
+  /** Polls the configured source once and reports any error through `onError`. */
   private async poll() {
     const { source } = this.options;
     try {
