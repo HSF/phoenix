@@ -37,6 +37,14 @@ export interface EventDataLoader {
     indexInCollection: number,
   ): string;
 
+  /** Register a saved label for the exact type, collection and index. */
+  addSavedLabelToEventObject?(
+    label: string,
+    eventDataType: string,
+    collection: string,
+    indexInCollection: number,
+  ): { labelId: string; uuid: string } | undefined;
+
   /** Get the labels object. */
   getLabelsObject(): { [key: string]: any };
 }

@@ -40,7 +40,7 @@ export class PhoenixLoader implements EventDataLoader {
   /** Loading manager for loadable resources */
   protected stateManager: StateManager;
   /** Object containing event object labels. */
-  protected labelsObject: { [key: string]: any } = {};
+  protected labelsObject: { [key: string]: any } = Object.create(null);
 
   /**
    * Create the Phoenix loader.
@@ -581,18 +581,88 @@ export class PhoenixLoader implements EventDataLoader {
     const data = this.eventData as Record<string, any>;
     for (const eventDataType in data) {
       if (data?.[eventDataType]?.[collection]) {
-        this.labelsObject[eventDataType] =
-          this.labelsObject[eventDataType] || {};
-        this.labelsObject[eventDataType][collection] =
-          this.labelsObject[eventDataType][collection] || {};
-
-        this.labelsObject[eventDataType][collection][indexInCollection] = label;
-        const tmp = data[eventDataType][collection][indexInCollection];
-        tmp.labelText = label;
-        return getLabelTitle(eventDataType, collection, indexInCollection);
+        return this.storeLabel(
+          label,
+          eventDataType,
+          collection,
+          indexInCollection,
+          data[eventDataType][collection][indexInCollection],
+        );
       }
     }
     return 'Unknown';
+  }
+
+  /** Register a saved label only if its typed target exists. */
+  public addSavedLabelToEventObject(
+    label: string,
+    eventDataType: string,
+    collection: string,
+    indexInCollection: number,
+  ): { labelId: string; uuid: string } | undefined {
+    const hasLegacyOverrides =
+      this.addLabelToEventObject !==
+        PhoenixLoader.prototype.addLabelToEventObject ||
+      this.getCollection !== PhoenixLoader.prototype.getCollection ||
+      this.getCollections !== PhoenixLoader.prototype.getCollections;
+    if (hasLegacyOverrides) {
+      const matches = Object.entries(this.getCollections()).filter(
+        ([, names]) => names.includes(collection),
+      );
+      if (matches.length !== 1 || matches[0][0] !== eventDataType) {
+        return;
+      }
+      const uuid = this.getCollection(collection)?.[indexInCollection]?.uuid;
+      if (!uuid) {
+        return;
+      }
+      const labelId = this.addLabelToEventObject(
+        label,
+        collection,
+        indexInCollection,
+      );
+      return { labelId, uuid };
+    }
+
+    const data = this.eventData as Record<string, any>;
+    if (!data || !Object.prototype.hasOwnProperty.call(data, eventDataType)) {
+      return;
+    }
+    const collections = data[eventDataType];
+    if (
+      !collections ||
+      !Object.prototype.hasOwnProperty.call(collections, collection)
+    ) {
+      return;
+    }
+    const target = collections[collection]?.[indexInCollection];
+    if (!target?.uuid) {
+      return;
+    }
+    const labelId = this.storeLabel(
+      label,
+      eventDataType,
+      collection,
+      indexInCollection,
+      target,
+    );
+    return { labelId, uuid: target.uuid };
+  }
+
+  /** Update the export registry and the associated event object together. */
+  private storeLabel(
+    label: string,
+    eventDataType: string,
+    collection: string,
+    indexInCollection: number,
+    target: { labelText?: string },
+  ): string {
+    const labelsByCollection = (this.labelsObject[eventDataType] ??=
+      Object.create(null));
+    const labels = (labelsByCollection[collection] ??= {});
+    target.labelText = label;
+    labels[indexInCollection] = label;
+    return getLabelTitle(eventDataType, collection, indexInCollection);
   }
 
   /**
