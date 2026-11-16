@@ -14,6 +14,7 @@
 * [Event data loader](./event-data-loader.md)
 * [Event autoloader](./event-autoloader.md)
 * [Track extension to radius](./track-extension.md)
+* [Track line width](./track-line-width.md)
 * [Using JSROOT](./using-jsroot.md)
 * [Running with XR (AR/VR) support](./running-with-xr-support.md)
 * [Convert GDML/ROOT Geometry to GLTF](./convert-gdml-to-gltf.md)

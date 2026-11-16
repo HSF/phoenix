@@ -445,23 +445,9 @@ export class SceneManager {
       const curve = new CatmullRomCurve3(points);
       const vertices = curve.getPoints(50);
 
-      // Find tube (Mesh) and line (Line) children
-      let tubeObject: Mesh | undefined;
-      let lineObject: Line | undefined;
-      for (const obj of trackGroup.children) {
-        if (
-          (obj as any).type === 'Mesh' &&
-          (obj as any).material &&
-          (obj as any).name !== 'Track'
-        ) {
-          tubeObject = obj as Mesh;
-        }
-        if ((obj as any).type === 'Line') {
-          lineObject = obj as Line;
-        }
-      }
+      const { tubeObject, lineObject } = this.getTrackObjects(trackGroup);
 
-      const linewidth = trackParams.linewidth ? trackParams.linewidth : 2;
+      const linewidth = SceneManager.getTrackTubeRadius(trackParams);
 
       if (tubeObject) {
         try {
@@ -482,6 +468,77 @@ export class SceneManager {
       // Update trackGroup userData to reflect current state
       (trackGroup as any).userData = trackParams;
     }
+  }
+
+  /**
+   * Scale the line width (tube radius) of all the tracks in a named collection.
+   * The `linewidth` of each track from the event data is used as the base width
+   * (or the default width if not given) and is multiplied by the scale.
+   * The scale is stored in the `userData` of each track so it is also applied
+   * when the tracks are rebuilt, e.g. when extending them to a radius.
+   * @param collectionName Name of the track collection group under EventData.
+   * @param scale Factor to multiply the line width of the tracks with. Has to be greater than 0.
+   */
+  public setCollectionLineWidthScale(collectionName: string, scale: number) {
+    if (!Number.isFinite(scale) || scale <= 0) {
+      return;
+    }
+    const collection = this.getEventData()?.getObjectByName(collectionName);
+    if (!collection) return;
+
+    for (const trackGroup of collection.children) {
+      const trackParams = trackGroup.userData;
+      if (!trackParams) continue;
+
+      trackParams.lineWidthScale = scale;
+
+      const { tubeObject } = this.getTrackObjects(trackGroup);
+      const oldGeometry = tubeObject?.geometry as TubeGeometry | undefined;
+      const path = oldGeometry?.parameters?.path;
+      if (!tubeObject || !path) continue;
+
+      const { tubularSegments, radialSegments, closed } =
+        oldGeometry.parameters;
+      tubeObject.geometry = new TubeGeometry(
+        path,
+        tubularSegments,
+        SceneManager.getTrackTubeRadius(trackParams),
+        radialSegments,
+        closed,
+      );
+      oldGeometry.dispose();
+    }
+  }
+
+  /**
+   * Get the radius of the tube of a track from its parameters.
+   * @param trackParams Parameters (`userData`) of the track.
+   * @returns The `linewidth` of the track (or the default one) multiplied by its `lineWidthScale`.
+   */
+  private static getTrackTubeRadius(trackParams: any): number {
+    const linewidth = trackParams.linewidth ? trackParams.linewidth : 2;
+    return linewidth * (trackParams.lineWidthScale ?? 1);
+  }
+
+  /**
+   * Get the tube (mesh) and the line objects of a track group.
+   * @param trackGroup Group of a single track containing its tube and line.
+   * @returns The tube and line objects of the track if they exist.
+   */
+  private getTrackObjects(trackGroup: Object3D): {
+    tubeObject?: Mesh;
+    lineObject?: Line;
+  } {
+    let tubeObject: Mesh | undefined;
+    let lineObject: Line | undefined;
+    for (const obj of trackGroup.children) {
+      if ((obj as Mesh).isMesh) {
+        tubeObject = obj as Mesh;
+      } else if ((obj as Line).isLine) {
+        lineObject = obj as Line;
+      }
+    }
+    return { tubeObject, lineObject };
   }
 
   /**

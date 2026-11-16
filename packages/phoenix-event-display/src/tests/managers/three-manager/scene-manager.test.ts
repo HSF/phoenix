@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import { SceneManager } from '../../../managers/three-manager/scene-manager';
+import { PhoenixObjects } from '../../../loaders/objects/phoenix-objects';
 import {
   Object3D,
   Scene,
@@ -19,6 +20,7 @@ import {
   Group,
   Mesh,
   MeshBasicMaterial,
+  TubeGeometry,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
@@ -508,6 +510,116 @@ describe('SceneManager', () => {
       const disabledParams = (trackGroup as any).userData;
       expect(disabledParams.extendedToRadius).toBe(false);
       expect(disabledParams.extendedPos.length).toBe(0);
+    });
+
+    describe('track line width', () => {
+      const createTrackCollection = (collectionName: string, tracks: any[]) => {
+        const tracksTypeGroup = sceneManager.addEventDataTypeGroup('Tracks');
+        const collection = new Group();
+        collection.name = collectionName;
+        tracksTypeGroup.add(collection);
+        const trackGroups = tracks.map((track) => {
+          const trackGroup = PhoenixObjects.getTrack(track);
+          collection.add(trackGroup);
+          return trackGroup;
+        });
+        return trackGroups;
+      };
+
+      const getTube = (trackGroup: Object3D) =>
+        trackGroup.children.find((child) => (child as Mesh).isMesh) as Mesh;
+
+      const getRadius = (trackGroup: Object3D) =>
+        (getTube(trackGroup).geometry as TubeGeometry).parameters.radius;
+
+      const getTrackParams = (linewidth?: number) => ({
+        pos: [
+          [0, 0, 0],
+          [100, 0, 0],
+          [200, 50, 0],
+        ],
+        dparams: [0, 0, 0, 1.5707963705062866, 0.001],
+        linewidth,
+      });
+
+      it('should scale the line width of all tracks in a collection', () => {
+        const [defaultTrack, thickTrack] = createTrackCollection('Scaled', [
+          getTrackParams(),
+          getTrackParams(10),
+        ]);
+        expect(getRadius(defaultTrack)).toBe(2);
+        expect(getRadius(thickTrack)).toBe(10);
+
+        sceneManager.setCollectionLineWidthScale('Scaled', 3);
+
+        expect(getRadius(defaultTrack)).toBe(6);
+        expect(getRadius(thickTrack)).toBe(30);
+        expect(defaultTrack.userData.lineWidthScale).toBe(3);
+
+        // The scale is relative to the original line width
+        sceneManager.setCollectionLineWidthScale('Scaled', 0.5);
+
+        expect(getRadius(defaultTrack)).toBe(1);
+        expect(getRadius(thickTrack)).toBe(5);
+      });
+
+      it('should keep the shape of the tracks when scaling the line width', () => {
+        const [trackGroup] = createTrackCollection('Shape', [getTrackParams()]);
+        const oldParameters = (getTube(trackGroup).geometry as TubeGeometry)
+          .parameters;
+
+        sceneManager.setCollectionLineWidthScale('Shape', 2);
+
+        const newParameters = (getTube(trackGroup).geometry as TubeGeometry)
+          .parameters;
+        expect(newParameters.path).toBe(oldParameters.path);
+        expect(newParameters.tubularSegments).toBe(
+          oldParameters.tubularSegments,
+        );
+        expect(newParameters.radialSegments).toBe(oldParameters.radialSegments);
+      });
+
+      it('should only scale the tracks of the given collection', () => {
+        const [trackGroup] = createTrackCollection('First', [getTrackParams()]);
+        const [otherTrackGroup] = createTrackCollection('Second', [
+          getTrackParams(),
+        ]);
+
+        sceneManager.setCollectionLineWidthScale('First', 4);
+
+        expect(getRadius(trackGroup)).toBe(8);
+        expect(getRadius(otherTrackGroup)).toBe(2);
+      });
+
+      it('should ignore invalid scales and unknown collections', () => {
+        const [trackGroup] = createTrackCollection('Invalid', [
+          getTrackParams(),
+        ]);
+
+        for (const scale of [0, -1, NaN, Infinity]) {
+          sceneManager.setCollectionLineWidthScale('Invalid', scale);
+          expect(getRadius(trackGroup)).toBe(2);
+        }
+        expect(() =>
+          sceneManager.setCollectionLineWidthScale('Unknown', 2),
+        ).not.toThrow();
+      });
+
+      it('should keep the line width scale when extending tracks to a radius', () => {
+        const [trackGroup] = createTrackCollection('Extended', [
+          getTrackParams(5),
+        ]);
+        sceneManager.setCollectionLineWidthScale('Extended', 2);
+        const oldPath = (getTube(trackGroup).geometry as TubeGeometry)
+          .parameters.path;
+
+        sceneManager.extendCollectionTracks('Extended', 500, true);
+
+        const tubeGeometry = getTube(trackGroup).geometry as TubeGeometry;
+        expect(tubeGeometry.parameters.radius).toBe(10);
+        // The tube is rebuilt from the extended track
+        expect(tubeGeometry.parameters.path).not.toBe(oldPath);
+      });
     });
   });
 });
