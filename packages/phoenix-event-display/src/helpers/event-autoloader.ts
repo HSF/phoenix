@@ -14,7 +14,9 @@ export type AutoloadSource =
   | { type: 'rest-endpoint'; url: string; intervalMs?: number }
   | { type: 'sse'; url: string };
 
+/** Options for configuring an {@link EventAutoloader}. */
 export interface AutoloadOptions {
+  /** Where to watch for new events and how to fetch them. */
   source: AutoloadSource;
   /** Called with the raw event data object when a new event arrives. */
   onEvent: (eventData: any) => void;
@@ -40,12 +42,21 @@ export interface AutoloadOptions {
  * ```
  */
 export class EventAutoloader {
+  /** Options the autoloader was created with. */
   private options: AutoloadOptions;
+  /** Handle of the polling interval, or `null` when not polling. */
   private intervalId: ReturnType<typeof setInterval> | null = null;
+  /** Open SSE connection, or `null` when not using an SSE source. */
   private eventSource: EventSource | null = null;
+  /** URLs of event files that have already been loaded, so they are not loaded twice. */
   private seenFiles = new Set<string>();
+  /** Whether the autoloader has been started and not yet stopped. */
   private running = false;
 
+  /**
+   * Create an event autoloader. Call {@link start} to begin watching.
+   * @param options Source to watch and callbacks for new events and errors.
+   */
   constructor(options: AutoloadOptions) {
     this.options = options;
   }
@@ -85,6 +96,7 @@ export class EventAutoloader {
     return this.running;
   }
 
+  /** Polls the configured source once and reports any error through `onError`. */
   private async poll() {
     const { source } = this.options;
     try {
@@ -113,17 +125,18 @@ export class EventAutoloader {
 
     const newFiles = this.parseApacheListing(html, url);
 
-   for (const fileUrl of newFiles) {
+    for (const fileUrl of newFiles) {
       if (this.seenFiles.has(fileUrl)) continue;
       this.seenFiles.add(fileUrl);
-      
+
       try {
         await this.fetchAndEmit(fileUrl);
       } catch (err: any) {
         // Log it, but let the loop continue to the next file!
-        this.options.onError?.(err instanceof Error ? err : new Error(String(err)));
+        this.options.onError?.(
+          err instanceof Error ? err : new Error(String(err)),
+        );
       }
-    }
     }
   }
 
@@ -132,15 +145,27 @@ export class EventAutoloader {
    * for all .json and .xml files listed.
    */
   private parseApacheListing(html: string, baseUrl: string): string[] {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    const anchors = Array.from(doc.querySelectorAll('a[href]'));
     const base = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
 
-    return anchors
-      .map((a) => (a as HTMLAnchorElement).getAttribute('href') ?? '')
-      .filter((href) => /\.(json|xml)(\.zip)?$/.test(href))
-      .map((href) => (href.startsWith('http') ? href : base + href));
+    if (typeof DOMParser !== 'undefined') {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const anchors = Array.from(doc.querySelectorAll('a[href]'));
+
+      return anchors
+        .map((a) => (a as HTMLAnchorElement).getAttribute('href') ?? '')
+        .filter((href) => /\.(json|xml)(\.zip)?$/.test(href))
+        .map((href) => (href.startsWith('http') ? href : base + href));
+    }
+
+    const matches: string[] = [];
+    const regex = /href=["']([^"']+\.(?:json|xml)(?:\.zip)?)["']/gi;
+    let match: RegExpExecArray | null;
+    while ((match = regex.exec(html)) !== null) {
+      const href = match[1];
+      matches.push(href.startsWith('http') ? href : base + href);
+    }
+    return matches;
   }
 
   /**
