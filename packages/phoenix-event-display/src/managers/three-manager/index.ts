@@ -371,6 +371,9 @@ export class ThreeManager {
 
     if (this.isVisible == null) {
       this.isVisible = (elem) => {
+        if (elem.object?.userData?.clippingEnabled === false) {
+          return true;
+        }
         let visible = false;
         if (this.clipPlanes.length > 0) {
           if (this.clipIntersection) {
@@ -770,6 +773,39 @@ export class ThreeManager {
    */
   public setClipping(clippingEnabled: boolean) {
     this.rendererManager.setLocalClippingEnabled(clippingEnabled);
+  }
+
+  /**
+   * Sets whether a specific geometry object is affected by clipping planes (slicing).
+   * @param object The geometry Object3D to include in or exclude from clipping.
+   * @param clippingEnabled Whether clipping should be enabled (true) or disabled (false) for this geometry.
+   */
+  public setGeometryClipping(object: Object3D, clippingEnabled: boolean) {
+    if (!object) {
+      return;
+    }
+    object.userData = {
+      ...object.userData,
+      clippingEnabled,
+    };
+    object.traverse((child) => {
+      child.userData = {
+        ...child.userData,
+        clippingEnabled,
+      };
+      if (child instanceof Mesh && child.material) {
+        const materials = Array.isArray(child.material)
+          ? child.material
+          : [child.material];
+        for (const material of materials) {
+          if (material instanceof Material) {
+            material.clippingPlanes = clippingEnabled ? this.clipPlanes : [];
+            material.clipIntersection = this.clipIntersection;
+            material.needsUpdate = true;
+          }
+        }
+      }
+    });
   }
 
   /**

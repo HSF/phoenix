@@ -134,6 +134,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     // A new folder for the object is added to the 'Geometry' folder
     this.guiParameters[name] = {
       show: visible,
+      slice: object.userData?.clippingEnabled !== false,
       color: color ?? '#000000',
       x: 0,
       y: 0,
@@ -166,6 +167,15 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .listen();
     showMenu.onChange((value) =>
       this.sceneManager.objectVisibility(object, value),
+    );
+
+    // A boolean toggle for including/excluding the object from slicing (clipping)
+    const sliceMenu = objFolder
+      .add(this.guiParameters[name], 'slice')
+      .name('Slice')
+      .listen();
+    sliceMenu.onChange((value) =>
+      this.three.setGeometryClipping(object, value),
     );
     // Scale slider
     const scaleMenu = objFolder
