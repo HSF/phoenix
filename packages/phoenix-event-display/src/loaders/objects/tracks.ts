@@ -66,6 +66,10 @@ export class TracksMesh extends BufferGeometry {
     color: ColorRepresentation,
     linewidth: number = 1.0,
   ) {
+    if (!points || points.length === 0) {
+      return -1;
+    }
+
     const id = this.next_track_id++;
 
     const col = new Color(color);
@@ -81,7 +85,6 @@ export class TracksMesh extends BufferGeometry {
       this.positions.push(p.x, p.y, p.z);
       this.side.push(1, -1);
       this.track_id.push(id, id);
-      this.colors.push(col.r, col.g, col.b);
       this.colors.push(col.r, col.g, col.b);
       this.colors.push(col.r, col.g, col.b);
       this.linewidths.push(linewidth, linewidth);
@@ -112,7 +115,7 @@ export class TracksMesh extends BufferGeometry {
   process() {
     if (
       !this._attributes ||
-      this._attributes.position.count !== this.positions.length
+      this._attributes.position.count !== this.positions.length / 3
     ) {
       this._attributes = {
         position: new BufferAttribute(new Float32Array(this.positions), 3),
@@ -227,7 +230,7 @@ const tracks_vert = [
   '}',
 ].join('\n');
 
-/** Custom fragment shadre for track. */
+/** Custom fragment shader for track. */
 const tracks_frag = [
   'uniform float progress;',
   'varying vec3 v_color;',
@@ -245,6 +248,10 @@ const tracks_frag = [
 export class TracksMaterial extends ShaderMaterial {
   /** If the material is of track. */
   isTracksMaterial: boolean;
+  /** Resolution for track line rendering. */
+  resolution: Vector2;
+  /** Progress threshold for track animation. */
+  progress: number;
 
   static get type() {
     return 'TracksMaterial';
@@ -265,7 +272,7 @@ export class TracksMaterial extends ShaderMaterial {
         },
       ),
       vertexShader: tracks_vert,
-      fragmentShader: tracks_vert,
+      fragmentShader: tracks_frag,
     });
     this.isTracksMaterial = true;
 
