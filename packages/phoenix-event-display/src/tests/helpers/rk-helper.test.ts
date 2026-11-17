@@ -77,11 +77,25 @@ describe('RKHelper', () => {
 
     const pos = RKHelper.extrapolateTrackPositions(track, inbounds);
 
-    expect(pos).toEqual([
-      [0, 0, 0],
-      [0, 0, 0],
-      [0, 0, 0],
-    ]);
+    // qop is 0: a straight line along the beam axis
+    expect(pos.length).toBe(3);
+    pos.forEach((point: number[], i: number) => {
+      expect(point[0]).toBeCloseTo(0);
+      expect(point[1]).toBeCloseTo(0);
+      expect(point[2]).toBeCloseTo(1000 * i);
+    });
+  });
+
+  it('should extrapolate a straight track from dparams when qop is 0', () => {
+    const pos = RKHelper.extrapolateTrackPositions({
+      dparams: [0, 0, 0, Math.PI / 2, 0],
+    });
+
+    expect(pos.length).toBeGreaterThan(1);
+    const end = pos[pos.length - 1];
+    expect(end[0]).toBeGreaterThan(1000);
+    expect(end[1]).toBeCloseTo(0);
+    expect(end[2]).toBeCloseTo(0);
   });
 
   it('should extrapolate from last measured position to a given radius', () => {
