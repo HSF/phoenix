@@ -174,6 +174,50 @@ describe('Edm4hepJsonLoader', () => {
     expect(track.pos).toEqual([[1, 2, 3]]);
   });
 
+  it('should place track states at their impact parameters', () => {
+    const rawEventData = {
+      event_1: {
+        TracksCollection: {
+          collID: 20,
+          collType: 'edm4hep::TrackCollection',
+          collection: [
+            {
+              chi2: 1.0,
+              ndf: 8,
+              trackStates: [
+                {
+                  location: 1,
+                  D0: 10,
+                  Z0: -50,
+                  phi: 0,
+                  referencePoint: { x: 0, y: 0, z: 0 },
+                },
+                {
+                  location: 2,
+                  D0: 0,
+                  Z0: 0,
+                  phi: 0,
+                  referencePoint: { x: 30, y: 10, z: -40 },
+                },
+              ],
+            },
+          ],
+        },
+      },
+    };
+
+    loader.setRawEventData(rawEventData);
+    loader.processEventData();
+    const track =
+      loader.getEventData()['event_1'].Tracks['TracksCollection | other'][0];
+
+    expect(track.pos).toEqual([
+      [0, 1, -5],
+      [3, 1, -4],
+    ]);
+    expect(PhoenixObjects.getTrack(track).userData.z0).toBe(-5);
+  });
+
   it('should handle tracks with neither tracker hits nor track states gracefully', () => {
     const rawEventData = {
       event_1: {
