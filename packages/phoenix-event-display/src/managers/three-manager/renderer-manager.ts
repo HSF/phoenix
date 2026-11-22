@@ -51,9 +51,9 @@ export class RendererManager {
         const sceneColor = scene.background;
         scene.background = null;
 
-        if (!this.isFixedOverlay()) {
-          this.getOverlayRenderer().render(scene, camera);
-        }
+        // A fixed overlay only freezes the camera (see ThreeManager.fixOverlayView);
+        // the scene is still rendered so that new events show up.
+        this.getOverlayRenderer().render(scene, camera);
         scene.background = sceneColor;
       }
     }
