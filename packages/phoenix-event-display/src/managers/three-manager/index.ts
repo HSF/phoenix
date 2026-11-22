@@ -274,7 +274,10 @@ export class ThreeManager {
     // Update TWEEN animations
     this.tweenGroup.update(now);
 
-    if (this.controlsManager.isOverlayLinked())
+    if (
+      this.controlsManager.isOverlayLinked() &&
+      !this.rendererManager.isFixedOverlay()
+    )
       this.controlsManager.syncOverlayFromMain();
 
     if (this.controlsManager.getOverlayCamera()) {
@@ -1127,6 +1130,10 @@ export class ThreeManager {
    */
   public fixOverlayView(fixed: boolean) {
     this.rendererManager.setFixOverlay(fixed);
+    const overlayControls = this.controlsManager.getOverlayControls();
+    if (overlayControls) {
+      overlayControls.enabled = !fixed;
+    }
   }
 
   /**

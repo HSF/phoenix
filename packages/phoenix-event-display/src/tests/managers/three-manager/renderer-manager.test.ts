@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { RendererManager } from '../../../managers/three-manager/renderer-manager';
-import { WebGLRenderer } from 'three';
+import { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 
 // Mock WebGLRenderer since jsdom doesn't support WebGL
 jest.mock('three', () => {
@@ -26,6 +26,17 @@ describe('RendererManager', () => {
 
   beforeEach(() => {
     rendererManager = new RendererManager();
+  });
+
+  describe('render', () => {
+    it('should keep rendering the overlay when it is fixed', () => {
+      rendererManager.setOverlayRenderer(document.createElement('canvas'));
+      rendererManager.setFixOverlay(true);
+
+      rendererManager.render(new Scene(), new PerspectiveCamera());
+
+      expect(rendererManager.getOverlayRenderer().render).toHaveBeenCalled();
+    });
   });
 
   describe('swapRenderers', () => {
