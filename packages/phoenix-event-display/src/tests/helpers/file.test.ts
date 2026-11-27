@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { saveFile } from '../../helpers/file';
+import { saveFile, loadFile } from '../../helpers/file';
 
 describe('saveFile', () => {
   const OBJECT_URL = 'blob:phoenix/test';
@@ -47,5 +47,134 @@ describe('saveFile', () => {
 
     expect(createObjectURL).toHaveBeenCalledTimes(2);
     expect(revokeObjectURL).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe('loadFile', () => {
+  afterEach(() => {
+    document.body
+      .querySelectorAll('input[type="file"]')
+      .forEach((el) => el.remove());
+  });
+
+  it('should create an input element with the specified content type and append it to body', () => {
+    const onFileRead = jest.fn();
+    loadFile(onFileRead, 'text/plain');
+
+    const input = document.body.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
+    expect(input).not.toBeNull();
+    expect(input.accept).toBe('text/plain');
+  });
+
+  it('should clean up the input element when the dialog is canceled', () => {
+    const onFileRead = jest.fn();
+    loadFile(onFileRead);
+
+    const input = document.body.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
+    expect(input).not.toBeNull();
+
+    input.dispatchEvent(new Event('cancel'));
+
+    expect(document.body.querySelector('input[type="file"]')).toBeNull();
+    expect(onFileRead).not.toHaveBeenCalled();
+  });
+
+  it('should clean up without error when input event fires with no file selected', () => {
+    const onFileRead = jest.fn();
+    loadFile(onFileRead);
+
+    const input = document.body.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
+    expect(input).not.toBeNull();
+
+    Object.defineProperty(input, 'files', {
+      value: [],
+      writable: true,
+    });
+
+    input.dispatchEvent(new Event('input'));
+
+    expect(document.body.querySelector('input[type="file"]')).toBeNull();
+    expect(onFileRead).not.toHaveBeenCalled();
+  });
+
+  it('should read file and call onFileRead callback, then clean up', () => {
+    const onFileRead = jest.fn();
+    loadFile(onFileRead);
+
+    const input = document.body.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
+    expect(input).not.toBeNull();
+
+    const mockFile = new Blob(['{"event": 1}'], { type: 'application/json' });
+    Object.defineProperty(input, 'files', {
+      value: [mockFile],
+      writable: true,
+    });
+
+    const originalFileReader = window.FileReader;
+    let mockReaderInstance: any;
+    class MockFileReader {
+      onload: any;
+      onerror: any;
+      result = '{"event": 1}';
+      readAsText = jest.fn(() => {
+        mockReaderInstance = this;
+      });
+    }
+    (window as any).FileReader = MockFileReader;
+
+    try {
+      input.dispatchEvent(new Event('input'));
+      expect(mockReaderInstance.readAsText).toHaveBeenCalledWith(mockFile);
+
+      mockReaderInstance.onload({ target: { result: '{"event": 1}' } });
+      expect(onFileRead).toHaveBeenCalledWith('{"event": 1}');
+      expect(document.body.querySelector('input[type="file"]')).toBeNull();
+    } finally {
+      window.FileReader = originalFileReader;
+    }
+  });
+
+  it('should clean up the input element if FileReader errors', () => {
+    const onFileRead = jest.fn();
+    loadFile(onFileRead);
+
+    const input = document.body.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
+    expect(input).not.toBeNull();
+
+    const mockFile = new Blob(['corrupted'], { type: 'application/json' });
+    Object.defineProperty(input, 'files', {
+      value: [mockFile],
+      writable: true,
+    });
+
+    const originalFileReader = window.FileReader;
+    let mockReaderInstance: any;
+    class MockFileReader {
+      onload: any;
+      onerror: any;
+      readAsText = jest.fn(() => {
+        mockReaderInstance = this;
+      });
+    }
+    (window as any).FileReader = MockFileReader;
+
+    try {
+      input.dispatchEvent(new Event('input'));
+      mockReaderInstance.onerror();
+      expect(document.body.querySelector('input[type="file"]')).toBeNull();
+      expect(onFileRead).not.toHaveBeenCalled();
+    } finally {
+      window.FileReader = originalFileReader;
+    }
   });
 });
