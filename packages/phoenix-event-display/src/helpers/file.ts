@@ -37,22 +37,36 @@ export const loadFile = (
   document.body.appendChild(inputFile);
   inputFile.type = 'file';
   inputFile.accept = contentType;
+
+  const cleanup = () => {
+    inputFile.remove();
+  };
+
   inputFile.onclick = (e: any) => {
     e.target.value = '';
   };
+
+  inputFile.oncancel = cleanup;
 
   inputFile.addEventListener('invalid', (e) => {
     console.log(JSON.stringify(e));
   });
 
   const fileSelected = (e: any) => {
-    const configFile = e.target?.files[0];
+    const configFile = e.target?.files?.[0];
+    if (!configFile) {
+      cleanup();
+      return;
+    }
     const reader = new FileReader();
     reader.onload = (e) => {
       if (e.target && e.target.result) {
         onFileRead?.(e.target.result.toString());
       }
-      inputFile.remove();
+      cleanup();
+    };
+    reader.onerror = () => {
+      cleanup();
     };
     reader.readAsText(configFile);
   };
